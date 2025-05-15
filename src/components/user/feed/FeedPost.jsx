@@ -79,7 +79,7 @@ const FeedPost = () => {
   }
 
   // Handle no posts case
-  if (!posts.posts.length) {
+  if (!posts?.posts?.length) {
     return (
       <div className="w-full xl:max-w-[547px]">
         <CreatePost />
@@ -114,7 +114,7 @@ const FeedPost = () => {
         )}
 
         {/* Load more button */}
-        {!isFetching && posts.pagination.total > posts.posts.length && (
+        {/* {!isFetching && posts.pagination.total > posts.posts.length && ( */}
           <div className="flex justify-center">
             <button
               className="px-4 py-1 text-center bg-primary text-white rounded"
@@ -123,7 +123,7 @@ const FeedPost = () => {
               Load More
             </button>
           </div>
-        )}
+        {/* )} */}
       </div>
     </>
   );
