@@ -21,10 +21,10 @@ function Network() {
               online={person.online}
               action={
                 <div className="flex gap-2 p-2">
-                  <button className="border-[0.5px] hover:text-white border-[#888DA8] rounded-sm items-center py-1.5 px-1.5 hover:border-red-600 text-[#888DA8] hover:bg-red-600  transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <button className="border-[0.5px] hover:text-white border-grayBlueText rounded-sm items-center py-1.5 px-1.5 hover:border-red-600 text-grayBlueText hover:bg-red-600  transition-all duration-300 hover:scale-105 cursor-pointer">
                     <IoClose className="w-[15px] h-[15px] font-medium" />
                   </button>
-                  <button className="border-[0.5px] text-white border-[#0F8200] bg-[#0F8200] hover:text-black rounded-sm items-center py-1.5 px-1.5 hover:border-[#888DA8] hover:border-[0.5px]   hover:bg-transparent   cursor-pointer">
+                  <button className="border-[0.5px] text-white border-primary bg-primary hover:text-black rounded-sm items-center py-1.5 px-1.5 hover:border-grayBlueText hover:border-[0.5px]   hover:bg-transparent   cursor-pointer">
                     <FaCheck className="w-[15px] h-[15px] font-medium" />
                   </button>
                 </div>

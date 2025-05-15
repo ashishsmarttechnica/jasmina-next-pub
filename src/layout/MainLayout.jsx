@@ -5,20 +5,22 @@ const MainLayout = ({ children, leftComponents = [], rightComponents = [] }) => 
     <div className="container mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left Sidebar */}
-        <aside className="lg:col-span-3 hidden lg:block space-y-4 sticky top-0 ">
-          {leftComponents.map((component, index) => (
-            <React.Fragment key={index}>{component}</React.Fragment>
-          ))}
+        <aside className="lg:col-span-3 hidden lg:block">
+          <div className="sticky top-16 space-y-4">
+            {leftComponents.map((component, index) => (
+              <React.Fragment key={index}>{component}</React.Fragment>
+            ))}
+          </div>
         </aside>
 
         {/* Main Content */}
         <main className="lg:col-span-6 col-span-12">{children}</main>
 
         {/* Right Sidebar */}
-        <aside className="lg:col-span-3 hidden lg:block sticky top-0">
-          <div className="w-full space-y-4">
+        <aside className="lg:col-span-3 hidden lg:block">
+          <div className="sticky top-16 space-y-4">
             {rightComponents.map((component, index) => (
-             <React.Fragment key={index}>{component}</React.Fragment>
+              <React.Fragment key={index}>{component}</React.Fragment>
             ))}
           </div>
         </aside>

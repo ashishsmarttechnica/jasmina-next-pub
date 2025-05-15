@@ -54,7 +54,7 @@ const SkillsSection = ({
             error={errors[`skill-${index}-skill`]}
           />
           <div className="space-y-1">
-            <label className="text-[14px] text-[#888DA8]">
+            <label className="text-[14px] text-grayBlueText">
               {`${t("proficiency")}*`}
             </label>
             <Selecter

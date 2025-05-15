@@ -5,7 +5,6 @@ import CompanyBasicInfo from "./companyUpdateForm/CompanyBasicInfo";
 import CompanyLocationForm from "./companyUpdateForm/CompanyLocationForm";
 import CompanyMediaForm from "./companyUpdateForm/CompanyMediaForm";
 import CompanySizeForm from "./companyUpdateForm/CompanySizeForm";
-import Uploadimg from "@/assets/form/Uploadimg.png";
 import Bannerimg from "@/assets/form/Bannerimg.png";
 import useUpdateCompanyProfile from "@/hooks/company/useUpdateCompanyProfile";
 import { useRouter } from "@/i18n/navigation";
@@ -143,29 +142,7 @@ const CreateCompany = () => {
         setSelectedBannerImageFile={setSelectedBannerImageFile}
       />
       <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
-      {/* <div className="flex items-center space-x-2">
-        <div className="flex items-center gap-2">
-          <input
-            id="default-checkbox"
-            type="checkbox"
-            value=""
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-
-          <label
-            htmlFor="default-checkbox"
-            className="text-[#888DA8] text-[13px] text-sm"
-          >
-            {t("signup")}
-            <span className="text-[#007BFF] underline mx-1">{t("terms")}</span>
-            {t("and")}
-            <span className="text-[#007BFF] underline mx-1">
-              {t("privacy")}
-            </span>
-            .
-          </label>
-        </div>
-      </div> */}
+     
 
       <div className="grid grid-cols-1 gap-2 ">
         <div className="block space-y-4">

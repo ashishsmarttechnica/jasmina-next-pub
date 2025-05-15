@@ -41,12 +41,12 @@ function UserSuggestionCard({ type, title, buttonType }) {
                   className="rounded-full w-full h-full object-cover"
                 />
                 {user.online && (
-                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#0F8200] border-[1.5px] border-white rounded-full" />
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-primary border-[1.5px] border-white rounded-full" />
                 )}
               </div>
               <div className="text-left">
                 <p className="text-[13px] font-medium">{user.name}</p>
-                <p className="text-xs text-[#888DA8] font-normal mt-0.5">
+                <p className="text-xs text-grayBlueText font-normal mt-0.5">
                   {user.title}
                 </p>
               </div>
@@ -56,7 +56,7 @@ function UserSuggestionCard({ type, title, buttonType }) {
             {buttonType === "contact" && (
               <button
                 onClick={() => handleContactClick(user.id)}
-                className="bg-[#CFE6CC] border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-[#0F8200] transition-colors duration-300"
+                className="bg-secondary border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-primary transition-colors duration-300"
               >
                 <Contact />
               </button>
@@ -66,13 +66,13 @@ function UserSuggestionCard({ type, title, buttonType }) {
               <div className="flex gap-2 p-2">
                 <button
                   onClick={() => handleInviteAction(user.id, "reject")}
-                  className="border-[0.5px] hover:text-white border-[#888DA8] rounded-sm items-center py-1.5 px-1.5 hover:border-red-600 text-[#888DA8] hover:bg-red-600 transition-all duration-300 hover:scale-105 cursor-pointer"
+                  className="border-[0.5px] hover:text-white border-grayBlueText rounded-sm items-center py-1.5 px-1.5 hover:border-red-600 text-grayBlueText hover:bg-red-600 transition-all duration-300 hover:scale-105 cursor-pointer"
                 >
                   <IoClose className="w-[15px] h-[15px] font-medium" />
                 </button>
                 <button
                   onClick={() => handleInviteAction(user.id, "accept")}
-                  className="border-[0.5px] text-white border-[#0F8200] bg-[#0F8200] hover:text-black rounded-sm items-center py-1.5 px-1.5 hover:border-[#888DA8] hover:bg-transparent cursor-pointer"
+                  className="border-[0.5px] text-white border-primary bg-primary hover:text-black rounded-sm items-center py-1.5 px-1.5 hover:border-grayBlueText hover:bg-transparent cursor-pointer"
                 >
                   <FaCheck className="w-[15px] h-[15px] font-medium" />
                 </button>

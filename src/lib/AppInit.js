@@ -43,10 +43,6 @@ const AppInit = () => {
           logout();
           router.push("/login");
         }
-      } else {
-        // If no token found, force logout and redirect to login
-        logout();
-        router.push("/login");
       }
     };
 

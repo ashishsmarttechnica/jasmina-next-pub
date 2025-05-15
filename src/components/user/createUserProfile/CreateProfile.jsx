@@ -12,6 +12,7 @@ import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField"; // Import the InputField component
 import { Loader } from "rsuite";
+import getImg from "@/lib/getImg";
 
 const CreateProfile = ({ isLoading, setActiveTab }) => {
   const { user, setUser } = useAuthStore();
@@ -19,6 +20,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
 
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
+  const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const { errors, setErrors, validateForm, clearFieldError } = useProfileForm();
 
   const [formData, setFormData] = useState({
@@ -113,9 +115,10 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     if (formData.LinkedInLink.trim() !== "") {
       submitData.append("profile.linkedin", formData.LinkedInLink);
     }
-    if (selectedImage !== Uploadimg) {
-      submitData.append("profile.photo", selectedImage);
+    if (selectedUserImageFile instanceof File && selectedImage !== Uploadimg) {
+      submitData.append("profile.photo", selectedUserImageFile);
     }
+
     submitData.append("steps", 1);
 
     updateProfile(submitData, {
@@ -140,7 +143,9 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         location: user.profile.location || "",
         LinkedInLink: user.profile.linkedin || "",
       }));
-      setSelectedImage(user.profile.photo || Uploadimg);
+      console.log(getImg(user.profile.photo) , "sdsdsdssd>>>>>>>>>>>>>>>>>>>>>");
+
+      setSelectedImage(getImg(user.profile.photo) || Uploadimg);
     }
   }, [user]);
 
@@ -155,6 +160,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
           <ImageUploader
             selectedImage={selectedImage}
             setSelectedImage={setSelectedImage}
+            setSelectedImageFile={setSelectedUserImageFile}
           />
 
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4">
@@ -238,7 +244,13 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               disabled={isPending}
               className="btn-fill w-full py-3 text-base font-medium hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending ?  <div><Loader inverse  /></div> : `${t("Next")} >`}
+              {isPending ? (
+                <div>
+                  <Loader inverse />
+                </div>
+              ) : (
+                `${t("Next")} >`
+              )}
             </button>
           </div>
 

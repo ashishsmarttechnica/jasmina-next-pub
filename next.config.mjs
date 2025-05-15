@@ -1,13 +1,17 @@
-import createNextIntlPlugin from 'next-intl/plugin';
+import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin({
-  locales: ['en', 'ar', 'fr', 'de'],
-  defaultLocale: 'en',
-});
+// Use the next-intl plugin to handle i18n
+const withNextIntl = createNextIntlPlugin();
 
+// Next.js config
 const nextConfig = {
+  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
   images: {
-    domains: ['logo.clearbit.com'],
+    domains: [
+      "logo.clearbit.com",
+      "jsmapi.smarttechnica.com",
+      "192.168.1.69",
+    ],
   },
 };
 

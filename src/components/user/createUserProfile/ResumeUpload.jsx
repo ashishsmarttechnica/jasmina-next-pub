@@ -85,7 +85,7 @@ const ResumeUpload = ({ setActiveTab }) => {
       <form className="space-y-2 mt-5" onSubmit={handleSubmit}>
         <div className="flex items-center justify-center">
           <div className="shadow-[0px_4px_25px_0px_rgba(136,141,168,0.20)] border border-black/5 bg-white px-14 py-4 rounded-[10px] mt-5">
-            <p className="text-[#888DA8] mt-5">{`${t("description")}*`}</p>
+            <p className="text-grayBlueText mt-5">{`${t("description")}*`}</p>
             <div className="flex flex-col items-center justify-center">
               <input
                 type="file"

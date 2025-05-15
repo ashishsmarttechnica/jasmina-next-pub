@@ -53,6 +53,12 @@ body {
   @apply bg-gray font-ubuntu
 }
 
+.r-modal {
+  border-radius:5px; /* Adjust value as needed */
+}
+.rs-modal-content {
+  padding: 0 20px;
+}
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -67,6 +73,18 @@ li {
   list-style: none;
   margin-bottom: 0px;
 }
+
+input[type="radio"]:checked::before {
+	content: "";
+	display: block;
+	width: 13px;
+	height: 13px;
+	background-color: var(--primary);
+	border-radius: 50%;
+
+	animation: appear 0.8s;
+}
+
 
 .cust-card {
   @apply w-full bg-white rounded-lg shadow-card border border-grayBlueText/20;

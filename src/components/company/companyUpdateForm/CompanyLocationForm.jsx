@@ -16,7 +16,7 @@ const CompanyLocationForm = ({ formData, errors, handleChange }) => {
     <>
       <div className="text-center mb-4">
         <p className="font-medium text-[15px] mt-7">{t("title")}</p>
-        <p className="text-[#888DA8] text-[13px]">{t("subTitle")}</p>
+        <p className="text-grayBlueText text-[13px]">{t("subTitle")}</p>
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
         <Selecter

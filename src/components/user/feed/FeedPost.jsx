@@ -5,7 +5,6 @@ import RecentJobs from "./RecentJobs";
 import user from "@/assets/feed/user-1.png";
 import postImg from "@/assets/feed/post-1.png";
 import Cookies from "js-cookie";
-
 import DynamicPost from "./DynamicPost";
 import { useAllPosts } from "@/hooks/post/usePosts";
 
@@ -80,7 +79,7 @@ const FeedPost = () => {
   }
 
   // Handle no posts case
-  if (!posts.length) {
+  if (!posts.posts.length) {
     return (
       <div className="w-full xl:max-w-[547px]">
         <CreatePost />
@@ -100,11 +99,10 @@ const FeedPost = () => {
     <>
       <CreatePost />
       <div className="w-full xl:max-w-[547px] space-y-6">
-        {posts.map((post, index) => (
-          <React.Fragment key={post._id}>
+        {posts.posts.map((post, index) => (
+          <React.Fragment key={post._id + index}>
             {index === 1 && <RecentJobs post={post} />}
-            {/* <DynamicPost post={post} /> */}
-            data
+            <DynamicPost post={post} />
           </React.Fragment>
         ))}
 
@@ -115,15 +113,17 @@ const FeedPost = () => {
           </div>
         )}
 
-        <div className="text-center mt-4">
-          <button
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-            onClick={loadMorePosts}
-            disabled={isFetching}
-          >
-            {isFetching ? "Loading..." : "Load More"}
-          </button>
-        </div>
+        {/* Load more button */}
+        {!isFetching && posts.pagination.total > posts.posts.length && (
+          <div className="flex justify-center">
+            <button
+              className="px-4 py-1 text-center bg-primary text-white rounded"
+              onClick={loadMorePosts}
+            >
+              Load More
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

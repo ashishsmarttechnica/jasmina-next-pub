@@ -31,7 +31,7 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
     <>
       <div className="text-center my-4">
         <p className="font-medium text-[15px] mt-7">{t("title")}</p>
-        <p className="text-[#888DA8] text-[13px]">
+        <p className="text-grayBlueText text-[13px]">
           {t("subTitle")}
         </p>
       </div>

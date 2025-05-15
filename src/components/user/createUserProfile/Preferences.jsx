@@ -155,7 +155,7 @@ const Preferences = ({ setActiveTab }) => {
           />
 
           <div>
-            <label className="text-[#888DA8] text-[14px] block mb-1">
+            <label className="text-grayBlueText text-[14px] block mb-1">
               {`${t("jobtype")}*`}
             </label>
             <div className="grid grid-cols-3 gap-2">

@@ -74,7 +74,7 @@ function CompanyPeople() {
               title={person.title}
               online={person.online}
               action={
-                <button className="bg-[#CFE6CC] border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-[#0F8200] transition-colors duration-300">
+                <button className="bg-secondary border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-primary transition-colors duration-300">
                   <Contact />
                 </button>
               }

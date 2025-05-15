@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import Bannerimg from "@/assets/form/Bannerimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField";
@@ -18,7 +17,7 @@ const CompanyMediaForm = ({
     <>
       <div className="text-center mb-4">
         <p className="font-medium text-[15px] mt-7">{t("title")}</p>
-        <p className="text-[#888DA8] text-[13px]">{t("subTitle")}</p>
+        <p className="text-grayBlueText text-[13px]">{t("subTitle")}</p>
       </div>
       <InputField
         label={`${t("tagline")}*`}

@@ -21,9 +21,9 @@ const roleBasedRoutes = {
 // Create the internationalization middleware
 const intlMiddleware = createMiddleware(routing);
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   // First handle internationalization
-  const response = intlMiddleware(request);
+  const response = await intlMiddleware(request);
 
   // Get the pathname and locale
   const pathname = request.nextUrl.pathname;

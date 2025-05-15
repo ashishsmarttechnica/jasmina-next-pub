@@ -48,20 +48,20 @@ const RecentJobs = () => {
         <Swiper spaceBetween={10} slidesPerView="auto" className="h-full">
           {jobList.map((job, index) => (
             <SwiperSlide key={index} className="!w-auto ">
-              <div className="px-0 h-auto w-auto  border overflow-hidden border-[#888DA8]/50 rounded-md shadow-sm min-w-[172px]">
+              <div className="px-0 h-auto w-auto  border overflow-hidden border-grayBlueText/50 rounded-md shadow-sm min-w-[172px]">
                 <div className="block   text-left  p-2.5 bg-white  justify-between hover:shadow transition-all">
                   <h3 className="font-bold text-base text-black tracking-normal leading-[21px] max-w-[99px] mb-2.5">
                     {job.title}
                   </h3>
-                  <p className="text-sm text-[#888DA8] gap-2 flex items-center mb-2.5">
+                  <p className="text-sm text-grayBlueText gap-2 flex items-center mb-2.5">
                     <IoClipboardOutline className="w-4 h-4" />
                     {job.experience}
                   </p>
-                  <p className="text-sm text-[#888DA8] gap-2 flex items-center mb-4">
+                  <p className="text-sm text-grayBlueText gap-2 flex items-center mb-4">
                     <HiOutlineLocationMarker className="w-4 h-4" />
                     {job.location}
                   </p>
-                  <p className="text-xs font-normal text-[#888DA8] mt-3">
+                  <p className="text-xs font-normal text-grayBlueText mt-3">
                     Posted {job.posted}
                   </p>
                 </div>

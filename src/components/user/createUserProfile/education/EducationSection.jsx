@@ -40,11 +40,11 @@ const EducationSection = ({
             />
           )}
           {/* <div className="space-y-1">
-            <label className="text-[14px] text-[#888DA8]">{t("degreeName")}</label>
+            <label className="text-[14px] text-grayBlueText">{t("degreeName")}</label>
             <input
               type="text"
               name="degree"
-              className="border border-[#CAB7CC]/[75%] p-2 rounded-md w-full"
+              className="border border-lightGray/[75%] p-2 rounded-md w-full"
               value={edu.degree}
               onChange={(e) =>
                 handleChange("educationList", index, "degree", e.target.value)

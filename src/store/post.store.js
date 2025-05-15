@@ -7,8 +7,16 @@ const usePostStore = create(
     (set) => ({
       posts: [],
       selectedPost: null,
+       pagination: null,
+
       setPosts: (posts) => set({ posts }),
       setSelectedPost: (post) => set({ selectedPost: post }),
+      setPagination: (pagination) => set({ pagination }),
+
+      addPost: (newPost) =>
+        set((state) => ({
+          posts: [newPost, ...state.posts],
+        })),
     }),
     { name: "PostStore" }
   )

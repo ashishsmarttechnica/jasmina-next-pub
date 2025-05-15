@@ -1,10 +1,17 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { GoImage } from "react-icons/go";
 import Image from "next/image";
 import Uploadimg from "@/assets/form/Uploadimg.png";
+import YourPost from "@/modal/YourPost";
 
 const CreatePost = () => {
+  const [postText, setPostText] = useState("");
+
+  const [CompanyPostModalOpen, setCompanyPostModalOpen] = useState(false);
+  const handleCompanyPostJob = () => {
+    setCompanyPostModalOpen(true);
+  };
   return (
     <div className="cust-card mb-4 ">
       <div className="border-b border-grayBlueText/50 py-4.5 pl-12 relative">
@@ -15,7 +22,7 @@ const CreatePost = () => {
       <div className="flex items-center gap-3.5 px-4 pt-[15px]  pb-5 border-b border-grayBlueText/50">
         <div className="relative">
           <Image
-            src={Uploadimg}
+            src={Uploadimg} // Placeholder for user profile image
             alt="user"
             width={40}
             height={40}
@@ -23,13 +30,19 @@ const CreatePost = () => {
           />
           <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-600 rounded-full border-2 border-white"></span>
         </div>
-        <div className="text-grayBlueText text-[13px] font-medium ">
-          Start a Post
-        </div>
+        <input
+          placeholder="Start a Post"
+          value={postText}
+          onChange={(e) => setPostText(e.target.value)}
+          className="text-grayBlueText text-[13px] font-medium p-2 w-full bg-transparent border-grayBlueText/50 rounded-md outline-none"
+        />
       </div>
 
       <div className="flex items-center justify-between py-3.5 ps-7 pe-[17px]">
-        <button className="flex items-center text-grayBlueText text-[13px] font-normal hover:text-green-600 gap-2">
+        <button
+          className="flex items-center text-grayBlueText text-[13px] font-normal hover:text-green-600 gap-2"
+          onClick={handleCompanyPostJob}
+        >
           <GoImage className="w-4 h-4 text-grayBlueText" />
           <span>Media</span>
         </button>
@@ -37,6 +50,12 @@ const CreatePost = () => {
           Post
         </button>
       </div>
+      <YourPost
+        isOpen={CompanyPostModalOpen}
+        onClose={() => setCompanyPostModalOpen(false)}
+        postText={postText}
+        setPostText={setPostText}
+      />
     </div>
   );
 };
