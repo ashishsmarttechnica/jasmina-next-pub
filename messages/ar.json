@@ -1,0 +1,391 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "الوظائف ، الشبكات",
+      "description": "انضم إلى Jasmina للتواصل مع خبراء الصناعة ، والعثور على الوظائف ، وتنمية حياتك المهنية.",
+      "postaJob": "انشر وظيفة",
+      "jobtitle": "عنوان الوظيفة أو الكلمة الرئيسية",
+      "location": "سورات ، غوجارات",
+      "model": {
+        "title": "هل أنت مستعد لنشر وظيفة؟",
+        "description": "إذا كنت تريد نشر وظيفة ، فأنت بحاجة إلى تسجيل الدخول مع حساب الشركة. \nلذلك اختر الخيار من الأسفل.",
+        "SetupCompany": "أنشأت شركة",
+        "Loginascompany": "تسجيل الدخول كشركة"
+      }
+    },
+    "employeStep": {
+      "title": "تمكين خطوتك التالية",
+      "subtitle": "كل ما تحتاجه للاتصال والنمو والنجاح في حياتك المهنية.",
+      "step2": {
+        "title": "ابحث عن وظيفة أحلامك",
+        "description": "استكشاف الآلاف من قوائم الوظائف التي تم التحقق منها مصممة على مهاراتك."
+      },
+      "step3": {
+        "title": "شارك خبرتك",
+        "description": "نشر التحديثات ، وكتابة المقالات ، وبناء علامتك التجارية الاحترافية."
+      },
+      "step4": {
+        "title": "يتعلم",
+        "description": "الوصول إلى رؤى مهنية وتنمية مجموعة المهارات الخاصة بك مع خبراء."
+      },
+      "step1": {
+        "title": "تواصل مع المحترفين",
+        "description": "بناء علاقات ذات مغزى مع المهنيين في جميع أنحاء العالم."
+      }
+    },
+    "connection": {
+      "title": "بناء اتصالات حقيقية",
+      "subtitle": "شارك أفكارك ، مثل المنشورات ، والانضمام إلى المناقشات ، ومحترفي الرسائل مباشرة.",
+      "connect1": {
+        "title": "يخلق",
+        "description": "عرض عملك أو أفكارك أو التحديثات"
+      },
+      "connect2": {
+        "title": "يحب",
+        "description": "نقدر رؤى الآخرين وإنجازاته"
+      },
+      "connect3": {
+        "title": "تعليق",
+        "description": "انضم إلى محادثات مهنية ذات معنى"
+      },
+      "connect4": {
+        "title": "رسالة على الفور",
+        "description": "تحدث مباشرة مع الاتصالات والمتعاونين"
+      }
+    },
+    "popular": {
+      "subtitle": "ابحث عن فرصة وظيفتك القادمة.",
+      "title": "وظائف شعبية",
+      "popular1": {
+        "title": "برلين"
+      },
+      "popular5": {
+        "title": "هانوفر"
+      },
+      "popular4": {
+        "title": "لايبزيغ"
+      },
+      "popular3": {
+        "title": "كولونيا"
+      },
+      "popular2": {
+        "title": "هامبورغ"
+      }
+    }
+  },
+  "Header": {
+    "login": "تسجيل الدخول",
+    "SignUp": "اشتراك",
+    "logout": "تسجيل الخروج",
+    "logoutSuccess": "قام المستخدم بتسجيل الدخول بنجاح"
+  },
+  "footer": {
+    "title": "ربط المهنيين والوظائف والفرص في مكان واحد.",
+    "Explorer": "المستكشف",
+    "explorerMenu": {
+      "connection": "اتصال",
+      "FindJobs": "العثور على الوظائف",
+      "PostJobJob": "انشر وظيفة",
+      "Chat": "محادثة",
+      "Notification": "إشعار",
+      "ShareYourExpertise": "شارك خبرتك"
+    },
+    "SupportHelp": "يدعم",
+    "SupportHelpMenu": {
+      "HelpCenter": "مركز المساعدة",
+      "PrivacyPolicy": "سياسة الخصوصية",
+      "TermsService": "شروط الخدمة",
+      "ContactUs": "اتصل بنا"
+    },
+    "socialMenu": {
+      "LinkedIn": "ينكدين",
+      "twitter": "تغريد",
+      "Facebook": "فيسبوك",
+      "Instagram": "انستغرام"
+    },
+    "copyRightights": "© ٢٠٢٥ ياسمينا. جميع الحقوق محفوظة."
+  },
+  "auth": {
+    "title": "مرحبًا بك مرة أخرى في ياسما!",
+    "subTitle": "فرصتك التالية تبدأ هنا.",
+    "EmailAddress": "عنوان البريد الإلكتروني",
+    "Password": "كلمة المرور",
+    "ForgotPassword": "هل نسيت كلمة السر؟",
+    "Signin": "تسجيل الدخول",
+    "or": "أو",
+    "NewJasmina": "جديد على ياسما؟",
+    "CreateAccount": "إنشاء حساب",
+    "EmailError": "البريد الإلكتروني مطلوب.",
+    "InvalidformatError": "تنسيق بريد إلكتروني غير صالح.",
+    "PasswordError": "كلمة المرور مطلوبة.",
+    "PasswordLengthError": "يجب أن تكون كلمة المرور 6 أحرف على الأقل.",
+    "GoogleIconAltImg": "تسجيل الدخول جوجل",
+    "SingUpTitle": "انضم إلى ياسما",
+    "SingUpSubtitle": "الاتصال ، تنمو",
+    "checkSingUp": "يرجى قبول الشروط والأحكام.",
+    "BySigning": "من خلال الاشتراك ، فأنت توافق على",
+    "TermsService": "شروط الخدمة",
+    "and": "و",
+    "PrivacyPolicy": "سياسة الخصوصية.",
+    "SignUp": "اشتراك",
+    "GoogleIconAltImgSignUp": "جوجل التسجيل",
+    "AlreadyHaveAccount": "هل لديك بالفعل حساب؟",
+    "Login": "تسجيل الدخول",
+    "forgotPassworFormEmail": "أدخل عنوان بريدك الإلكتروني المسجل",
+    "ResetLink": "إرسال رابط إعادة تعيين",
+    "forgotLastText": "لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. \nيرجى التحقق من صندوق الوارد الخاص بك واتباع الإرشادات لإنشاء كلمة مرور جديدة.",
+    "ForgotPasswordTitle": "نسيت كلمة السر؟",
+    "ForgotPasswordSubTitle": "لا شكر على واجب! \nسنرسل لك رابطًا لإعادة تعيينه.",
+    "AccountType": "نوع الحساب",
+    "CompanyAccount": "شركة",
+    "UserAccount": "مستخدم",
+    "SigningUp": "التسجيل",
+    "otpTitle": "دعنا نتحقق من بريدك الإلكتروني",
+    "otpsubTitle": "لقد أرسلنا رمزًا إلى",
+    "DidntgetCode": "لم تحصل على رمز؟",
+    "Resending": "إعادة الإحياء ...",
+    "Resendin": "إعادة الالتحاق في",
+    "ClickToResend": "انقر لإعادة الالتزام",
+    "Verifying": "التحقق ...",
+    "Verify": "يؤكد",
+    "Signingin": "تسجيل الدخول ..."
+  },
+  "UserProfile": {
+    "profile": {
+      "title": "بناء ملف التعريف الخاص بك",
+      "subTitle": "أخبرنا قليلاً عن نفسك.",
+      "uploadImage": "تحميل الصورة",
+      "name": "الاسم الكامل",
+      "username": "اسم المستخدم",
+      "gender": "جنس",
+      "dob": "تاريخ الميلاد",
+      "phone": "هاتف",
+      "location": "موقع",
+      "LinkedInLink": "رابط ملف تعريف LinkedIn",
+      "LinkedInLinkPlaceholder": "https://www.linkedin.com/in/your-profile",
+      "phonePlaceholder": "أدخل رقم هاتفك",
+      "locationPlaceholder": "أدخل مدينتك ، الولاية ، البلد",
+      "dobPlaceholder": "حدد التاريخ",
+      "genderPlaceholder": "حدد الجنس",
+      "Enter": "أدخل الخاص بك",
+      "locationDetect": "يكشف",
+      "locationDetecting": "اكتشاف ...",
+      "Updating": "تحديث ...",
+      "Next": "التالي",
+      "SomethingWentWrong": "حدث خطأ ما!",
+      "NameError": "الاسم مطلوب.",
+      "UsernameError": "اسم المستخدم مطلوب.",
+      "GenderError": "الجنس مطلوب.",
+      "InvalidGenderError": "الرجاء تحديد جنس صالح.",
+      "DobError": "مطلوب تاريخ الميلاد.",
+      "PhoneError": "رقم الهاتف مطلوب.",
+      "PhoneLengthError": "لا يمكن أن يتجاوز رقم الهاتف 15 رقمًا.",
+      "PhoneLength10Error": "لا يمكن أن يتجاوز رقم الهاتف 10 أرقام.",
+      "PhoneLength15Error": "لا يمكن أن يتجاوز رقم الهاتف 15 رقمًا.",
+      "LocationError": "الموقع مطلوب.",
+      "InvalidLinkedInLinkError": "الرجاء إدخال عنوان URL LinkedIn صالح.",
+      "InvalidLinkError": "الرجاء إدخال عنوان URL صالح.",
+      "genderOption": {
+        "male": "ذكر",
+        "female": "أنثى",
+        "other": "آخر"
+      },
+      "locationPermission": "تم رفض إذن الموقع",
+      "LinkedInLinkError": "LinkedInlink مطلوب.",
+      "usernamePlaceholder": "أدخل اسم المستخدم الخاص بك",
+      "namePlaceholder": "أدخل اسمك الكامل"
+    },
+    "userprofilemenu": {
+      "education": "تعليم",
+      "resume": "سيرة ذاتية",
+      "profile": "حساب تعريفي",
+      "preferences": "التفضيلات"
+    },
+    "preferences": {
+      "jobrole": "تفضيلات دور الوظيفة",
+      "SelectJobRole": "حدد الدور",
+      "jobtype": "نوع الوظيفة المفضل*",
+      "salaryrange": "نطاق الراتب المتوقع",
+      "experience": "سنوات من الخبرة",
+      "SelectExperience": "حدد تجربة",
+      "availablefrom": "متاح من / تاريخ الانضمام",
+      "worklocation": "موقع العمل المفضل",
+      "SelectWorkLocation": "حدد الموقع",
+      "industry": "الصناعة المفضلة (اختياري)",
+      "Next": "التالي",
+      "jobroleoption": {
+        "web-designer": "مصمم الويب",
+        "web-developer": "مطور الويب",
+        "game-developer": "مطور اللعبة",
+        "app-developer": "مطور التطبيق",
+        "graphic-designer": "مصمم جرافيك",
+        "ui-ux-designer": "مصمم UI/UX"
+      },
+      "jobtypeoption": {
+        "full-time": "بدوام كامل",
+        "part-time": "دوام جزئى",
+        "internship": "التدريب الداخلي",
+        "freelancer": "مستقل",
+        "remote": "بعيد"
+      },
+      "experienceoption": {
+        "beginner": "مبتدئ",
+        "intermediate": "متوسط",
+        "advanced": "متقدم",
+        "expert": "خبير"
+      },
+      "worklocationoption": {
+        "remote": "بعيد",
+        "onsite": "في الموقع"
+      },
+      "industryoption": {
+        "development": "تطوير",
+        "design": "تصميم"
+      },
+      "SelectIndustry": "حدد الصناعة",
+      "subTitle": "ساعدنا في مطابقة الفرص المناسبة.",
+      "title": "اضبط تفضيلاتك الوظيفية",
+      "RoleError": "الدور مطلوب.",
+      "SalaryRangeError": "SalaryRange مطلوب.",
+      "InvalidSalaryRangeError": "يجب أن يكون نطاق الراتب نطاقًا صالحًا.",
+      "JoinDateError": "Joindate مطلوب.",
+      "JobTypeError": "مطلوب JOBTYPE.",
+      "WorkLocationError": "تحديد الموقع المطلوب.",
+      "ExperienceError": "الخبرة مطلوبة."
+    },
+    "education": {
+      "title": "أضف تعليمك",
+      "subTitle": "ساعدنا في مطابقة الفرص المناسبة.",
+      "Next": "التالي",
+      "educationSection": "قسم التعليم:",
+      "degreeName": "اسم درجة*",
+      "passingyear": "مرور العام*",
+      "schoolname": "اسم المدرسة*",
+      "board": "مجلس/جامعة*",
+      "skills": "مهارات",
+      "skillName": "اسم المهارة*",
+      "proficiency": "الكفاءة",
+      "category": "فئة",
+      "experience": "الخبرة (في سنوات)*",
+      "selectOption": "حدد خيار",
+      "proficiencyOptions": {
+        "intermediate": "متوسط",
+        "advanced": "متقدم",
+        "expert": "خبير",
+        "beginner": "مبتدئ"
+      },
+      "languages": "قسم إتقان اللغة:",
+      "languagesList": "أضف لمستخدم اللغات يتحدث",
+      "degreeError": "مطلوب اسم درجة.",
+      "passingYearError": "مطلوب مرور العام.",
+      "schoolNameError": "مطلوب اسم المدرسة/الكلية.",
+      "boardError": "الجامعة/المجلس مطلوب.",
+      "skillError": "اسم المهارة مطلوب.",
+      "proficiencyError": "الكفاءة مطلوبة.",
+      "experienceError": "التجربة مطلوبة.",
+      "categoryError": "الفئة مطلوبة.",
+      "languageError": "اللغة مطلوبة."
+    },
+    "resume": {
+      "title": "تحميل سيرتك الذاتية",
+      "description": "انقر فوق الزر أدناه لتحميل سيرتك الذاتية كملف PDF أو DOC أو TEX",
+      "Upload": "رفع",
+      "Uploaded": "تم الرفع",
+      "Skip": "يتخطى",
+      "Next": "التالي",
+      "subTitle": "عرض تجربتك ومهاراتك وإنجازاتك.",
+      "resumeError": "يرجى تحميل ملف السيرة الذاتية (PDF ، DOC ، DOCX ، TEX).",
+      "fileError": "تنسيق ملف غير صالح. \nيرجى تحميل ملف استئناف صالح."
+    }
+  },
+  "RoleError": "الدور مطلوب.",
+  "SalaryRangeError": "SalaryRange مطلوب.",
+  "JoinDateError": "Joindate مطلوب.",
+  "CompanyProfile": {
+    "profile": {
+      "title": "قم بإنشاء ملف تعريف شركتك أولاً",
+      "shorttitle": "المعلومات الأساسية",
+      "subTitle": "أخبرنا من أنت - اسم شركتك ، والاتصال ، والشعار.",
+      "companyName": "اسم الشركة",
+      "website": "موقع إلكتروني",
+      "contact": "اتصال",
+      "phoneNumber": "رقم التليفون",
+      "lastName": "اسم العائلة",
+      "firstName": "الاسم الأول",
+      "websiteplaceholder": "https://example.com",
+      "companyNameError": "مطلوب اسم الشركة.",
+      "firstNameError": "الاسم الأول مطلوب.",
+      "lastNameError": "الاسم الأخير مطلوب.",
+      "phoneNumberError": "رقم الهاتف مطلوب."
+    },
+    "location": {
+      "subTitle": "دع المستخدمين والمرشحين يعرفون مكان إقامتك.",
+      "title": "موقع",
+      "fullAddress": "العنوان الكامل",
+      "placeholderCountry": "حدد البلد",
+      "country": "دولة",
+      "city": "مدينة",
+      "countryoption": {
+        "japan": "اليابان",
+        "mexico": "المكسيك",
+        "netherlands": "هولندا",
+        "sweden": "السويد",
+        "norway": "النرويج"
+      },
+      "countryError": "البلد مطلوب.",
+      "cityError": "المدينة مطلوبة.",
+      "fullAddressError": "العنوان الكامل مطلوب."
+    },
+    "media": {
+      "subTitle": "عرض شعار شركتك وموقع الويب وملامح وسائل التواصل الاجتماعي.",
+      "title": "وسائط",
+      "socialLinks": "روابط LinkedIn / الاجتماعية",
+      "description": "وصف",
+      "tagline": "سطر الوصف"
+    },
+    "industry": {
+      "employeesPlaceholder": "اختر عدد الموظفين",
+      "employees": "عدد الموظفين",
+      "companyTypePlaceholder": "حدد نوع الشركة",
+      "companyType": "نوع الشركة",
+      "industryPlaceholder": "حدد نوع الصناعة",
+      "industryType": "نوع الصناعة",
+      "subTitle": "دع المستخدمين والمرشحين يعرفون مكان إقامتك.",
+      "title": "صناعة",
+      "companyTypeOption": {
+        "startup": "بدء",
+        "smallBusiness": "الأعمال الصغيرة",
+        "mediumBusiness": "عمل متوسط",
+        "largeBusiness": "عمل كبير",
+        "enterprise": "مَشرُوع"
+      },
+      "industryOption": {
+        "beginner": "مبتدئ",
+        "intermediate": "متوسط",
+        "advanced": "متقدم",
+        "expert": "خبير"
+      },
+      "employeesOption": {
+        "10000": "10000",
+        "1-10": "1-10",
+        "11-50": "11-50",
+        "51-100": "51-100",
+        "101-500": "101-500",
+        "501-1000": "501-1000",
+        "1001-5000": "1001-5000",
+        "5001-10000": "5001-10000"
+      },
+      "signup": "من خلال الاشتراك ، فأنت توافق على",
+      "terms": "شروط الخدمة",
+      "and": "و",
+      "privacy": "سياسة الخصوصية.",
+      "Next": "التالي",
+      "checkSingUp": "يرجى قبول الشروط والأحكام.",
+      "industryTypeError": "نوع الصناعة مطلوب.",
+      "companyTypeError": "نوع الشركة مطلوب.",
+      "taglineError": "سطر الوصف مطلوب.",
+      "employeesError": "عدد الموظفين مطلوب."
+    }
+  },
+  "Next": ""
+}

@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #0F8200;
+  --secondary: #cfe6cc;
+  --lightGray: #CAB7CC;
+  --gray: #edf2f6;
+  --headerbg: #1D2F38;
+  --footerBorder: #e7e7e7;
+  --custBlack: #333;
+  --grayBlueText: #888DA8;
+  --lightBlue: #007BFF;
+  --lightWhite: #f1f1f1;
+  --shadow-card: 0px 4px 25px 0px rgba(136, 141, 168, 0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+
+@theme inline {
+  --color-background: var(--background);
+  --shadow-card: var(--shadow-card);
+  --color-foreground: var(--foreground);
+  --color-lightGray: var(--lightGray);
+  --color-lightWhite: var(--lightWhite);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-gray: var(--gray);
+  --color-grayBlueText: var(--grayBlueText);
+  --color-headerbg: var(--headerbg);
+  --color-lightBlue: var(--lightBlue);
+  --color-custBlack: var(--custBlack);
+  --color-footerBorder: var(--footerBorder);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-ubuntu: var(--font-ubuntu);
+}
+
+.container {
+  max-width: 1152px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+body {
+  @apply bg-gray font-ubuntu
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+ul,
+li {
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+.cust-card {
+  @apply w-full bg-white rounded-lg shadow-card border border-grayBlueText/20;
+}
+
+.btn {
+  @apply px-5 py-2.5 text-sm font-medium text-white rounded-md;
+}
+
+.btn-fill {
+  @apply w-full mt-3 sm:mt-7 p-1 hover:text-primary sm:p-2 bg-primary transition-all duration-100 ease-in border border-transparent hover:border-primary hover:bg-secondary/50 text-white rounded-md text-[18px] sm:text-[20px];
+}
+
+.btn-white-fill {
+  @apply w-full mt-3 sm:mt-7 p-1 hover:bg-primary hover:text-white sm:p-2 text-primary bg-white border border-primary transition-all duration-75 ease-in hover:border hover:border-white rounded-md text-[18px] sm:text-[20px];
+}
+
+.btn-small {
+  @apply p-2 sm:py-2 sm:px-3 bg-primary hover:bg-secondary hover:text-primary transition-all duration-100 ease-in text-white rounded-sm text-[13px];
+}
+
+.btn-small-light {
+  @apply p-2 sm:px-3 sm:py-2 bg-secondary hover:bg-primary text-primary hover:text-secondary transition-all duration-100 ease-in rounded-sm text-[13px];
+}
+
+.rs-modal-wrapper {
+  @apply flex items-center justify-center;
+}
+
+.rs-modal-body {
+  @apply mt-0
+}
+
+.rs-modal-content {
+  @apply rounded-[10px]
+}
+
+button {
+  @apply cursor-pointer;
+}

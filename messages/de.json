@@ -1,0 +1,390 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "Jobs, Networking",
+      "description": "Schließen Sie sich Jasmina an, um sich mit Branchenexperten zu verbinden, Arbeitsplätze zu finden und Ihre Karriere auszubauen.",
+      "postaJob": "Einen Job veröffentlichen",
+      "jobtitle": "Berufsbezeichnung oder Schlüsselwort",
+      "location": "Surat, Gujarat",
+      "model": {
+        "title": "Bereit, einen Job zu veröffentlichen?",
+        "description": "Wenn Sie einen Job veröffentlichen möchten, müssen Sie sich mit Firmenkonto anmelden. \nWählen Sie also die Option von unten aus.",
+        "SetupCompany": "Unternehmen einrichten",
+        "Loginascompany": "Login als Unternehmen"
+      }
+    },
+    "employeStep": {
+      "title": "Ermöglichen Sie Ihren nächsten Schritt",
+      "subtitle": "Alles, was Sie brauchen, um sich in Ihrer Karriere zu verbinden, zu wachsen und erfolgreich zu sein.",
+      "step2": {
+        "title": "Finden Sie Ihren Traumjob",
+        "description": "Entdecken Sie Tausende von verifizierten Stellenangeboten, die auf Ihre Fähigkeiten zugeschnitten sind."
+      },
+      "step3": {
+        "title": "Teilen Sie Ihr Fachwissen",
+        "description": "Veröffentlichen Sie Updates, schreiben Sie Artikel und erstellen Sie Ihre professionelle Marke."
+      },
+      "step4": {
+        "title": "Lernen",
+        "description": "Greifen Sie auf Karriereerkenntnisse zu und erweitern Sie Ihre Fähigkeiten mit ExpertContent."
+      },
+      "step1": {
+        "title": "Verbinden Sie sich mit Profis",
+        "description": "Bauen Sie sinnvolle Beziehungen zu Fachleuten auf der ganzen Welt auf."
+      }
+    },
+    "connection": {
+      "title": "Bauen Sie echte Verbindungen auf",
+      "subtitle": "Teilen Sie Ihre Gedanken, wie Beiträge, Diskussionen und Nachrichtenfachleute direkt mit.",
+      "connect1": {
+        "title": "Erstellen",
+        "description": "Präsentieren Sie Ihre Arbeit, Ideen oder Updates"
+      },
+      "connect2": {
+        "title": "Wie",
+        "description": "Schätzen die Erkenntnisse und Erfolge anderer"
+      },
+      "connect3": {
+        "title": "Kommentar",
+        "description": "Schließen Sie sich sinnvollen professionellen Gesprächen an"
+      },
+      "connect4": {
+        "title": "Nachricht sofort",
+        "description": "Sprechen Sie direkt mit Verbindungen und Mitarbeitern"
+      }
+    },
+    "popular": {
+      "subtitle": "Finden Sie Ihre nächste Jobmöglichkeit.",
+      "title": "Beliebte Jobs",
+      "popular1": {
+        "title": "Berlin"
+      },
+      "popular5": {
+        "title": "Hannover"
+      },
+      "popular4": {
+        "title": "Leipzig"
+      },
+      "popular3": {
+        "title": "Köln"
+      },
+      "popular2": {
+        "title": "Hamburg"
+      }
+    }
+  },
+  "Header": {
+    "login": "einloggen",
+    "SignUp": "Melden Sie sich an",
+    "logout": "Abmelden",
+    "logoutSuccess": "Benutzer erfolgreich angemeldet"
+  },
+  "footer": {
+    "title": "Verbinden von Fachleuten, Jobs und Möglichkeiten an einem Ort.",
+    "Explorer": "Forscher",
+    "explorerMenu": {
+      "connection": "Verbindung",
+      "FindJobs": "Jobs finden",
+      "PostJobJob": "Einen Job veröffentlichen",
+      "Chat": "Chat",
+      "Notification": "Benachrichtigung",
+      "ShareYourExpertise": "Teilen Sie Ihr Fachwissen"
+    },
+    "SupportHelp": "Unterstützung",
+    "SupportHelpMenu": {
+      "HelpCenter": "Hilfezentrum",
+      "PrivacyPolicy": "Datenschutzrichtlinie",
+      "TermsService": "Nutzungsbedingungen",
+      "ContactUs": "Kontaktieren Sie uns"
+    },
+    "socialMenu": {
+      "LinkedIn": "LinkedIn",
+      "twitter": "Twitter",
+      "Facebook": "Facebook",
+      "Instagram": "Instagram"
+    },
+    "copyRightights": "© 2025 Jasmina. \nAlle Rechte vorbehalten."
+  },
+  "auth": {
+    "title": "Willkommen zurück in Jasmina!",
+    "subTitle": "Ihre nächste Gelegenheit beginnt hier.",
+    "EmailAddress": "E-Mail-Adresse",
+    "Password": "Passwort",
+    "ForgotPassword": "Passwort vergessen?",
+    "Signin": "anmelden",
+    "or": "oder",
+    "NewJasmina": "Neu in Jasmina?",
+    "CreateAccount": "Ein Konto erstellen",
+    "EmailError": "E -Mail ist erforderlich.",
+    "InvalidformatError": "Ungültiges E -Mail -Format.",
+    "PasswordError": "Passwort ist erforderlich.",
+    "PasswordLengthError": "Das Passwort muss mindestens 6 Zeichen betragen.",
+    "GoogleIconAltImg": "Google Anmeldung",
+    "SingUpTitle": "Schließe dich Jasmina an",
+    "SingUpSubtitle": "Verbinden, wachsen",
+    "checkSingUp": "Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen.",
+    "BySigning": "Indem Sie sich anmelden, stimmen Sie unserem zu",
+    "TermsService": "Nutzungsbedingungen",
+    "and": "Und",
+    "PrivacyPolicy": "Datenschutzrichtlinie.",
+    "SignUp": "Melden Sie sich an",
+    "GoogleIconAltImgSignUp": "Google meldet sich an",
+    "AlreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "Login": "Einloggen",
+    "forgotPassworFormEmail": "Geben Sie Ihre registrierte E -Mail -Adresse ein",
+    "ResetLink": "Reset Link senden",
+    "forgotLastText": "Wir haben einen Link zum Zurücksetzen des Passworts an Ihre E -Mail gesendet. \nBitte überprüfen Sie Ihren Posteingang und befolgen Sie die Anweisungen, um ein neues Passwort zu erstellen.",
+    "ForgotPasswordTitle": "Ihr Passwort vergessen?",
+    "ForgotPasswordSubTitle": "Keine Sorge! \nWir senden Ihnen einen Link, um es zurückzusetzen.",
+    "AccountType": "Kontotyp",
+    "CompanyAccount": "Unternehmen",
+    "UserAccount": "Benutzer",
+    "SigningUp": "Anmelden",
+    "otpTitle": "Überprüfen wir Ihre E -Mail",
+    "otpsubTitle": "Wir haben einen Code an gesendet",
+    "DidntgetCode": "Hat keinen Code bekommen?",
+    "Resending": "Wiederverlauf ...",
+    "Resendin": "Wieder in",
+    "ClickToResend": "Klicken Sie hier, um mich wiederzugeben",
+    "Verifying": "Überprüfen ...",
+    "Verify": "Verifizieren"
+  },
+  "UserProfile": {
+    "profile": {
+      "title": "Erstellen Sie Ihr Profil",
+      "subTitle": "Erzählen Sie uns etwas über sich.",
+      "uploadImage": "Foto hochladen",
+      "name": "Vollständiger Name",
+      "username": "Benutzername",
+      "gender": "Geschlecht",
+      "dob": "Geburtsdatum",
+      "phone": "Telefon",
+      "location": "Standort",
+      "LinkedInLink": "LinkedIn -Profil -Link",
+      "LinkedInLinkPlaceholder": "https://www.linkedin.com/in/your-profile",
+      "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein",
+      "locationPlaceholder": "Betreten Sie Ihre Stadt, Ihr Land, Ihre Land",
+      "dobPlaceholder": "Datum auswählen",
+      "genderPlaceholder": "Auswählen von Geschlecht",
+      "Enter": "Geben Sie Ihre ein",
+      "locationDetect": "Erkennen",
+      "locationDetecting": "Erkennen ...",
+      "Updating": "Aktualisierung...",
+      "Next": "Nächste",
+      "SomethingWentWrong": "Etwas lief schief!",
+      "NameError": "Name ist erforderlich.",
+      "UsernameError": "Benutzername ist erforderlich.",
+      "GenderError": "Geschlecht ist erforderlich.",
+      "InvalidGenderError": "Bitte wählen Sie ein gültiges Geschlecht.",
+      "DobError": "Geburtsdatum ist erforderlich.",
+      "PhoneError": "Telefonnummer ist erforderlich.",
+      "PhoneLengthError": "Die Telefonnummer darf 15 Ziffern nicht überschreiten.",
+      "PhoneLength10Error": "Die Telefonnummer darf 10 Ziffern nicht überschreiten.",
+      "PhoneLength15Error": "Die Telefonnummer darf 15 Ziffern nicht überschreiten.",
+      "LocationError": "Ort ist erforderlich.",
+      "InvalidLinkedInLinkError": "Bitte geben Sie eine gültige LinkedIn -URL ein.",
+      "InvalidLinkError": "Bitte geben Sie eine gültige URL ein.",
+      "genderOption": {
+        "male": "Männlich",
+        "female": "Weiblich",
+        "other": "Andere"
+      },
+      "locationPermission": "Standortgenehmigung abgelehnt",
+      "LinkedInLinkError": "LinkedInlink ist erforderlich.",
+      "usernamePlaceholder": "Geben Sie Ihren Benutzernamen ein",
+      "namePlaceholder": "Geben Sie Ihren vollständigen Namen ein"
+    },
+    "userprofilemenu": {
+      "education": "Ausbildung",
+      "resume": "Wieder aufnehmen",
+      "profile": "Profil",
+      "preferences": "Vorlieben"
+    },
+    "preferences": {
+      "jobrole": "Jobs -Vorlieben der Jobrolle",
+      "SelectJobRole": "Rolle auswählen",
+      "jobtype": "Bevorzugter Jobtyp*",
+      "salaryrange": "Erwartete Gehaltsspanne",
+      "experience": "Jahrelange Erfahrung",
+      "SelectExperience": "Erfahrung auswählen",
+      "availablefrom": "Erhältlich vom Datum / Beitrittsdatum",
+      "worklocation": "Bevorzugter Arbeitsort",
+      "SelectWorkLocation": "Lokalisierung auswählen",
+      "industry": "Bevorzugte Branche (optional)",
+      "Next": "Nächste",
+      "jobroleoption": {
+        "web-designer": "Webdesigner",
+        "web-developer": "Webentwickler",
+        "game-developer": "Spieleentwickler",
+        "app-developer": "App -Entwickler",
+        "graphic-designer": "Grafikdesigner",
+        "ui-ux-designer": "UI/UX -Designer"
+      },
+      "jobtypeoption": {
+        "full-time": "Vollzeit",
+        "part-time": "Teilzeit",
+        "internship": "Praktikum",
+        "freelancer": "Freiberufler",
+        "remote": "Fernbedienung"
+      },
+      "experienceoption": {
+        "beginner": "Anfänger",
+        "intermediate": "Dazwischenliegend",
+        "advanced": "Fortschrittlich",
+        "expert": "Experte"
+      },
+      "worklocationoption": {
+        "remote": "Fernbedienung",
+        "onsite": "Vor Ort"
+      },
+      "industryoption": {
+        "development": "Entwicklung",
+        "design": "Design"
+      },
+      "SelectIndustry": "Branche auswählen",
+      "subTitle": "Helfen Sie uns, Ihnen mit den richtigen Möglichkeiten zu passen.",
+      "title": "Stellen Sie Ihre Jobeinstellungen fest",
+      "RoleError": "Rolle ist erforderlich.",
+      "SalaryRangeError": "SalaryRange ist erforderlich.",
+      "InvalidSalaryRangeError": "Der Gehaltsbereich muss ein gültiger Zahlenbereich sein.",
+      "JoinDateError": "Joindate ist erforderlich.",
+      "JobTypeError": "JobType ist erforderlich.",
+      "WorkLocationError": "Arbeitslokation ist erforderlich.",
+      "ExperienceError": "Erfahrung ist erforderlich."
+    },
+    "education": {
+      "title": "Fügen Sie Ihre Ausbildung hinzu",
+      "subTitle": "Helfen Sie uns, Ihnen mit den richtigen Möglichkeiten zu passen.",
+      "Next": "Nächste",
+      "educationSection": "Bildungsabteilung:",
+      "degreeName": "Gradname*",
+      "passingyear": "Verabschiedungsjahr*",
+      "schoolname": "Schulname*",
+      "board": "Vorstand/Universität*",
+      "skills": "Fähigkeiten",
+      "skillName": "Fähigkeitsname*",
+      "proficiency": "Kompetenz",
+      "category": "Kategorie",
+      "experience": "Erfahrung (in Jahren)*",
+      "selectOption": "Wählen Sie eine Option aus",
+      "proficiencyOptions": {
+        "intermediate": "Dazwischenliegend",
+        "advanced": "Fortschrittlich",
+        "expert": "Experte",
+        "beginner": "Anfänger"
+      },
+      "languages": "Abschnitt Sprachkompetenz:",
+      "languagesList": "Fügen Sie Sprachen hinzu, die der Benutzer spricht",
+      "degreeError": "Gradname ist erforderlich.",
+      "passingYearError": "Das Jahr ist erforderlich.",
+      "schoolNameError": "Schul-/College -Name ist erforderlich.",
+      "boardError": "Universität/Vorstand ist erforderlich.",
+      "skillError": "Fähigkeitsname ist erforderlich.",
+      "proficiencyError": "Kenntnisse sind erforderlich.",
+      "experienceError": "Erfahrung ist erforderlich.",
+      "categoryError": "Kategorie ist erforderlich.",
+      "languageError": "Sprache ist erforderlich."
+    },
+    "resume": {
+      "title": "Laden Sie Ihren Lebenslauf hoch",
+      "description": "Klicken Sie auf die Schaltfläche unten, um Ihren Lebenslauf als PDF-, DOC- oder Tex -Datei hochzuladen",
+      "Upload": "Hochladen",
+      "Uploaded": "Hochgeladen",
+      "Skip": "Überspringen",
+      "Next": "Nächste",
+      "subTitle": "Präsentieren Sie Ihre Erfahrungen, Fähigkeiten und Erfolge.",
+      "resumeError": "Bitte laden Sie eine Lebenslaufdatei hoch (PDF, doc, docx, tex).",
+      "fileError": "Ungültiges Dateiformat. \nBitte laden Sie eine gültige Lebenslaufdatei hoch."
+    }
+  },
+  "RoleError": "Rolle ist erforderlich.",
+  "SalaryRangeError": "SalaryRange ist erforderlich.",
+  "JoinDateError": "Joindate ist erforderlich.",
+  "CompanyProfile": {
+    "profile": {
+      "title": "Erstellen Sie zuerst Ihr Unternehmensprofil",
+      "shorttitle": "Grundinformationen",
+      "subTitle": "Sagen Sie uns, wer Sie sind - Ihr Firmenname, Ihren Kontakt und Ihr Logo.",
+      "companyName": "Name der Firma",
+      "website": "Webseite",
+      "contact": "Kontakt",
+      "phoneNumber": "Telefonnummer",
+      "lastName": "Nachname",
+      "firstName": "Vorname",
+      "websiteplaceholder": "https://example.com",
+      "companyNameError": "Firmenname ist erforderlich.",
+      "firstNameError": "Vorname ist erforderlich.",
+      "lastNameError": "Nachname ist erforderlich.",
+      "phoneNumberError": "Telefonnummer ist erforderlich."
+    },
+    "location": {
+      "subTitle": "Lassen Sie Benutzer und Kandidaten wissen, wo Sie sich befinden.",
+      "title": "Standort",
+      "fullAddress": "Vollständige Adresse",
+      "placeholderCountry": "Wählen Sie Land aus",
+      "country": "Land",
+      "city": "Stadt",
+      "countryoption": {
+        "japan": "Japan",
+        "mexico": "Mexiko",
+        "netherlands": "Niederlande",
+        "sweden": "Schweden",
+        "norway": "Norwegen"
+      },
+      "countryError": "Land ist erforderlich.",
+      "cityError": "Stadt ist erforderlich.",
+      "fullAddressError": "Eine vollständige Adresse ist erforderlich."
+    },
+    "media": {
+      "subTitle": "Präsentieren Sie das Logo, die Website und die Social -Media -Profile Ihres Unternehmens.",
+      "title": "Medien",
+      "socialLinks": "LinkedIn / Social Links",
+      "description": "Beschreibung",
+      "tagline": "Slogan"
+    },
+    "industry": {
+      "employeesPlaceholder": "Wählen Sie Anzahl der Mitarbeiter aus",
+      "employees": "Anzahl der Mitarbeiter",
+      "companyTypePlaceholder": "Wählen Sie den Unternehmenstyp",
+      "companyType": "Firmentyp",
+      "industryPlaceholder": "Wählen Sie Branchentyp",
+      "industryType": "Branchenart",
+      "subTitle": "Lassen Sie Benutzer und Kandidaten wissen, wo Sie sich befinden.",
+      "title": "Industrie",
+      "companyTypeOption": {
+        "startup": "Start-up",
+        "smallBusiness": "Kleinunternehmen",
+        "mediumBusiness": "Mittelgeschäft",
+        "largeBusiness": "Großes Geschäft",
+        "enterprise": "Unternehmen"
+      },
+      "industryOption": {
+        "beginner": "Anfänger",
+        "intermediate": "Dazwischenliegend",
+        "advanced": "Fortschrittlich",
+        "expert": "Experte"
+      },
+      "employeesOption": {
+        "10000": "10000",
+        "1-10": "1-10",
+        "11-50": "11-50",
+        "51-100": "51-100",
+        "101-500": "101-500",
+        "501-1000": "501-1000",
+        "1001-5000": "1001-5000",
+        "5001-10000": "5001-10000"
+      },
+      "signup": "Indem Sie sich anmelden, stimmen Sie unserem zu",
+      "terms": "Nutzungsbedingungen",
+      "and": "Und",
+      "privacy": "Datenschutzrichtlinie.",
+      "Next": "Nächste",
+      "checkSingUp": "Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen.",
+      "industryTypeError": "Branchenart ist erforderlich.",
+      "companyTypeError": "Unternehmenstyp ist erforderlich.",
+      "taglineError": "Slogan ist erforderlich.",
+      "employeesError": "Anzahl der Mitarbeiter ist erforderlich."
+    }
+  },
+  "Next": ""
+}
