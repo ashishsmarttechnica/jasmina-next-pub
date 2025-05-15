@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Bannerimg from "@/assets/Form/Bannerimg.png";
+import Bannerimg from "@/assets/form/Bannerimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField";

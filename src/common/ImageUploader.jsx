@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Image from "next/image";
-import Uploadimg from "@/assets/Form/Uploadimg.png";
+import Uploadimg from "@/assets/form/Uploadimg.png";
 import { useTranslations } from "next-intl";
 
 const ImageUploader = ({

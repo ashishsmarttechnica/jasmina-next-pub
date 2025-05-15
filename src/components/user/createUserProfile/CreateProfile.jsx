@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ReusableForm from "../../form/ReusableForm";
 import useProfileForm from "@/hooks/validation/user/useProfileForm";
-import Uploadimg from "@/assets/Form/Uploadimg.png";
+import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import LocationInput from "@/common/LocationInput";
 import CustomDatePicker from "@/common/DatePicker";

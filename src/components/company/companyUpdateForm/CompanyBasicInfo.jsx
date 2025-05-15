@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Uploadimg from "@/assets/Form/Uploadimg.png";
+import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField";
