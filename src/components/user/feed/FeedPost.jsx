@@ -79,16 +79,16 @@ const FeedPost = () => {
   }
 
   // Handle no posts case
-  if (!posts?.posts?.length) {
-    return (
-      <div className="w-full xl:max-w-[547px]">
-        <CreatePost />
-        <div className="text-center py-10 bg-white rounded-lg shadow p-4">
-          No posts found.
-        </div>
-      </div>
-    );
-  }
+  // if (!posts?.posts?.length) {
+  //   return (
+  //     <div className="w-full xl:max-w-[547px]">
+  //       <CreatePost />
+  //       <div className="text-center py-10 bg-white rounded-lg shadow p-4">
+  //         No posts found.
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Load more button handler
   const loadMorePosts = () => {
