@@ -1,4 +1,11 @@
 import UserMainFeed from "@/components/user/feed/UserMainFeed";
+import { getSeoMeta } from "@/lib/seoMetadata";
+
+export const metadata = getSeoMeta({
+  title: "Feed | Jasmina",
+  path: "/",
+});
+
 
 const page = () => {
   return (

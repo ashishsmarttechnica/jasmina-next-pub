@@ -8,7 +8,7 @@ import { getSeoMeta } from "@/lib/seoMetadata";
 import Header from "@/components/header/Header";
 
 export const metadata = getSeoMeta({
-  title: "Jasmina Home",
+  title: "Jasmina | Home",
   path: "/",
 });
 

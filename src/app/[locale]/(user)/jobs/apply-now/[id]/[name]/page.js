@@ -1,6 +1,13 @@
 import ApplyNowForm from "@/components/jobs/ApplyNowForm/ApplyNowForm";
 import SingleJobDetail from "@/components/jobs/SingleJobDetail";
+import { getSeoMeta } from "@/lib/seoMetadata";
 import React from "react";
+
+export const metadata = getSeoMeta({
+  title: "Feed | Jasmina",
+  path: "/",
+});
+
 
 const page = () => {
   return (

@@ -11,7 +11,7 @@ const AccountTypeSelector = ({ value, onChange }) => {
         {t("AccountType")}
       </label>
       <div className="flex gap-4 mt-1 w-[50%]">
-        {["user", "company"].map((type) => (
+        {["User", "Company"].map((type) => (
           <div className="flex-1" key={type}>
             <input
               type="radio"
@@ -30,7 +30,7 @@ const AccountTypeSelector = ({ value, onChange }) => {
             >
               <div className="flex flex-col items-center gap-1">
                 <span className="font-medium capitalize">
-                  {t(type === "user" ? "UserAccount" : "CompanyAccount")}
+                  {t(type === "User" ? "UserAccount" : "CompanyAccount")}
                 </span>
               </div>
             </label>

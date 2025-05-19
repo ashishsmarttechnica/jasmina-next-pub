@@ -14,7 +14,7 @@ const profileCreationRoutes = {
 
 // Define role-specific routes
 const roleBasedRoutes = {
-  user: ['/feed', '/user', '/profile', '/settings', '/jobs', '/notifications', '/messages'],
+  user: ['/feed', '/user', '/profile', '/settings', '/jobs', '/connections', '/notifications', '/messages'],
   company: ['/company/feed', '/company/profile', '/company/settings', '/company/jobs', '/company/applications', '/company/candidates']
 };
 
@@ -85,7 +85,7 @@ export default async function middleware(request: NextRequest) {
     const isUserAllowed = roleBasedRoutes.user.some((route) =>
       currentPath === route || currentPath.startsWith(`${route}/`)
     );
-    console.log(isUserAllowed , "isUserAllowed")
+    console.log(isUserAllowed, "isUserAllowed")
     if (!isUserAllowed) {
       return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
     }

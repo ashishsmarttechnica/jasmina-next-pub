@@ -9,6 +9,8 @@ import ReusableForm from "@/components/form/ReusableForm";
 import { useTranslations } from "next-intl";
 import useResendOtp from "@/hooks/auth/useResendOtp";
 
+
+
 export default function VerifyOtpPage() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");

@@ -4,6 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa6";
 import Colors from "@/assets/svg/jobs/colors";
+import Bar from "@/assets/svg/jobs/Bar";
 
 const JobHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,11 +46,12 @@ const JobHeader = () => {
             className="flex items-center justify-between w-full  bg-uiLight  shadow-job-dropdown rounded-md px-3 py-1"
           >
             <div className="flex items-center gap-2 text-grayBlueText text-[16px]">
-              <Colors className="w-5 h-5" />
+              {selected === "LGBTQ+" && <Colors className="w-5 h-5" />}
+              {selected === "Non-LGBTQ+" && <Bar className="w-5 h-5" />}
               <span>{selected}</span>
             </div>
             <FaChevronDown
-              className={`text-grayBlueText text-base transition-transform duration-200 ${
+              className={`text-grayBlueText text-base transition-transform duration-500 ${
                 isOpen ? "rotate-180" : ""
               }`}
             />
@@ -72,7 +74,6 @@ const JobHeader = () => {
             </ul>
           )}
         </div>
-
         <button className="whitespace-nowrap py-1.5 px-2 text-[13px] font-medium !leading-[15px] bg-[#0F8200] text-white rounded-sm hover:bg-transparent hover:text-[#0F8200] hover:border border-white border hover:border-[#0F8200] transition-all duration-200">
           Find Job
         </button>

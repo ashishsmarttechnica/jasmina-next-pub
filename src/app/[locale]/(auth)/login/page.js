@@ -5,7 +5,7 @@ import { getSeoMeta } from "@/lib/seoMetadata";
 import { useTranslations } from "next-intl";
 
 export const metadata = getSeoMeta({
-  title: "Jasmina Login",
+  title: "Jasmina | Login",
   path: "/login",
 });
 

@@ -18,7 +18,7 @@ const SignUpForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    accountType: "user",
+    accountType: "User",
   });
   const t = useTranslations("auth");
   const { errors, validateForm, clearFieldError } = useSignInValidationForm();

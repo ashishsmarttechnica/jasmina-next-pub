@@ -10,13 +10,30 @@ import {
   FiMessageSquare,
   FiUsers,
 } from "react-icons/fi";
-import { Link } from "@/i18n/navigation";
+import { Link ,useRouter } from "@/i18n/navigation";
+import { useEffect, useRef, useState } from "react";
+import useAuthStore from "@/store/auth.store";
+import { toast } from "react-toastify";
+
 
 const NavItems = () => {
   const pathname = usePathname();
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const isNotificationsActive = pathname === "/notifications";
   const isChatActive = pathname === "/Chat";
+    const router = useRouter();
+  const logout = useAuthStore((state) => state.logout);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -92,7 +109,7 @@ const NavItems = () => {
         </span>
       </Link>
 
-      <Link href="/your-profile" className="no-underline">
+      {/* <Link href="/your-profile" className="no-underline">
         <Image
           src={HeaderLogo}
           alt="User"
@@ -100,7 +117,35 @@ const NavItems = () => {
           height={30}
           className="rounded-full border border-white"
         />
-      </Link>
+      </Link> */}
+      <div className="relative" ref={dropdownRef}>
+        <button
+          onClick={() => setDropdownOpen((prev) => !prev)}
+          className="no-underline focus:outline-none"
+        >
+          <Image
+            src={HeaderLogo}
+            alt="User"
+            width={30}
+            height={30}
+            className="rounded-full border border-white mt-2"
+          />
+        </button>
+        {dropdownOpen && (
+          <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50">
+            <button
+              className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+              onClick={() => {
+                logout();
+                router.push("/login");
+                toast.success("Logout successful!");
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
     </>
   );
 };

@@ -8,7 +8,8 @@ import getImg from "@/lib/getImg";
 
 function Profile() {
   const { user } = useAuthStore();
-
+  console.log(user,"user23");
+  
   return (
     <div className="w-full">
       <Card>

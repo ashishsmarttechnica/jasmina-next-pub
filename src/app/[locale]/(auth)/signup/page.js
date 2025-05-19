@@ -5,7 +5,7 @@ import SingUpForm from "@/components/auth/SingUpForm";
 import { useTranslations } from "next-intl";
 
 export const metadata = getSeoMeta({
-  title: "Jasmina Sign up",
+  title: "Jasmina | Sign up",
   path: "/signup",
 });
 

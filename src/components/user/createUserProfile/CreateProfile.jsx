@@ -102,6 +102,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!validateForm(formData)) return;
 
     const submitData = new FormData();
