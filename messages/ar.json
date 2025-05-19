@@ -148,13 +148,14 @@
     "ClickToResend": "انقر لإعادة الالتزام",
     "Verifying": "التحقق ...",
     "Verify": "يؤكد",
-    "Signingin": "تسجيل الدخول ..."
+    "Signingin": "تسجيل الدخول ...",
+    "PleaseSelectAccountType": ""
   },
   "UserProfile": {
     "profile": {
       "title": "بناء ملف التعريف الخاص بك",
       "subTitle": "أخبرنا قليلاً عن نفسك.",
-      "uploadImage": "تحميل الصورة",
+      "uploadImage": "تحميل شعار",
       "name": "الاسم الكامل",
       "username": "اسم المستخدم",
       "gender": "جنس",
@@ -191,9 +192,10 @@
         "other": "آخر"
       },
       "locationPermission": "تم رفض إذن الموقع",
-      "LinkedInLinkError": "LinkedInlink مطلوب.",
+      "LinkedInLinkError": "الرجاء إدخال رابط ملف تعريف LinkedIn الخاص بك.",
       "usernamePlaceholder": "أدخل اسم المستخدم الخاص بك",
-      "namePlaceholder": "أدخل اسمك الكامل"
+      "namePlaceholder": "أدخل اسمك الكامل",
+      "PhoneLength10to15Error": "\"أدخل رقم الهاتف بين 10 إلى 15 رقمًا\""
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -246,11 +248,11 @@
       "subTitle": "ساعدنا في مطابقة الفرص المناسبة.",
       "title": "اضبط تفضيلاتك الوظيفية",
       "RoleError": "الدور مطلوب.",
-      "SalaryRangeError": "SalaryRange مطلوب.",
+      "SalaryRangeError": "نطاق الراتب مطلوب.",
       "InvalidSalaryRangeError": "يجب أن يكون نطاق الراتب نطاقًا صالحًا.",
-      "JoinDateError": "Joindate مطلوب.",
-      "JobTypeError": "مطلوب JOBTYPE.",
-      "WorkLocationError": "تحديد الموقع المطلوب.",
+      "JoinDateError": "مطلوب تاريخ الانضمام.",
+      "JobTypeError": "نوع الوظيفة مطلوب.",
+      "WorkLocationError": "موقع العمل مطلوب.",
       "ExperienceError": "الخبرة مطلوبة."
     },
     "education": {
@@ -275,7 +277,7 @@
         "beginner": "مبتدئ"
       },
       "languages": "قسم إتقان اللغة:",
-      "languagesList": "أضف لمستخدم اللغات يتحدث",
+      "languagesList": "أضف لغات تتحدث",
       "degreeError": "مطلوب اسم درجة.",
       "passingYearError": "مطلوب مرور العام.",
       "schoolNameError": "مطلوب اسم المدرسة/الكلية.",
@@ -316,7 +318,8 @@
       "companyNameError": "مطلوب اسم الشركة.",
       "firstNameError": "الاسم الأول مطلوب.",
       "lastNameError": "الاسم الأخير مطلوب.",
-      "phoneNumberError": "رقم الهاتف مطلوب."
+      "phoneNumberError": "رقم الهاتف مطلوب.",
+      "PhoneLength10to15Error": "أدخل رقم الهاتف بين 10 إلى 15 رقمًا"
     },
     "location": {
       "subTitle": "دع المستخدمين والمرشحين يعرفون مكان إقامتك.",
@@ -363,7 +366,13 @@
         "beginner": "مبتدئ",
         "intermediate": "متوسط",
         "advanced": "متقدم",
-        "expert": "خبير"
+        "expert": "خبير",
+        "mediaEntertainment": "وسائط",
+        "education": "تعليم",
+        "marketing": "تسويق",
+        "government": "حكومة",
+        "design": "تصميم",
+        "development": "تطوير"
       },
       "employeesOption": {
         "10000": "10000",

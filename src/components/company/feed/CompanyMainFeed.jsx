@@ -1,12 +1,8 @@
-import Contact from "@/assets/svg/feed/Contact";
-import UserSuggestionCard from "@/common/UserSuggestionCard";
 import MainLayout from "@/layout/MainLayout";
 import React from "react";
-import { FaCheck } from "react-icons/fa6";
-import { IoClose } from "react-icons/io5";
-import FeedPost from "./FeedPost";
 import UserCompanyProfile from "@/common/UserCompanyProfile";
 import CompanySuggestionCard from "@/common/CompanySuggestionCard";
+import CompanyFeedPost from "./CompanyFeedPost";
 
 const CompanyMainFeed = () => {
  
@@ -21,11 +17,15 @@ const CompanyMainFeed = () => {
         />,
       ]}
       rightComponents={[
+          
         <CompanySuggestionCard
+
           key="right1"
           title="People you might know"
           type="suggestion"
           buttonType="contact" 
+          postjob="postjob"
+
         />,
         <CompanySuggestionCard
           key="right2"
@@ -35,7 +35,7 @@ const CompanyMainFeed = () => {
         />,
       ]}
     >
-      <FeedPost />
+      <CompanyFeedPost />
     </MainLayout>
   );
 };

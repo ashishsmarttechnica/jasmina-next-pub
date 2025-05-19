@@ -32,12 +32,12 @@ const SignUpForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm(formData)) return;
     if (!isChecked) {
       toast.warning(t("checkSingUp"));
       return;
     }
 
-    if (!validateForm(formData)) return;
 
     if (!formData.accountType) {
       toast.error(t("PleaseSelectAccountType"));

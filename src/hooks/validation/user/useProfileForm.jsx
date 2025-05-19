@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const useProfileForm = () => {
   const [errors, setErrors] = useState({});
-  const t=useTranslations("UserProfile.profile");
+  const t = useTranslations("UserProfile.profile");
 
   const validateForm = (formData) => {
     const newErrors = {};
@@ -34,12 +34,9 @@ const useProfileForm = () => {
     if (!formData.phone) {
       newErrors.phone = t("PhoneError");
     } else {
-      // Remove any non-digit characters for validation
       const phoneDigits = formData.phone.replace(/\D/g, "");
-      if (phoneDigits.length < 10) {
-        newErrors.phone = t("PhoneLength10Error");
-      } else if (phoneDigits.length > 15) {
-        newErrors.phone = t("PhoneLength15Error");
+      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+        newErrors.phone = t("PhoneLength10to15Error"); // Add this key in your translations
       }
     }
 

@@ -192,7 +192,6 @@ const Preferences = ({ setActiveTab }) => {
             name="experience"
             value={formData.experience}
             onChange={handleChange}
-            error={errors.experience}
             type="number"
             max={50}
           />

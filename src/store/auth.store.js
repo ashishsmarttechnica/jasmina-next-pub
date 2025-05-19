@@ -7,8 +7,10 @@ const useAuthStore = create(
     (set) => ({
       token: null,
       user: null,
+      company: null,
       setToken: (token) => set({ token }),
       setUser: (user) => set({ user }),
+      setCompany: (company) => set({ company }),
       logout: () => {
         // Clear cookies
         Cookies.remove("token");
@@ -17,7 +19,7 @@ const useAuthStore = create(
         Cookies.remove("userId");
         Cookies.remove("profileCreated");
         // Clear state
-        set({ token: null, user: null });
+        set({ token: null, user: null, company: null });
       },
     }),
     {

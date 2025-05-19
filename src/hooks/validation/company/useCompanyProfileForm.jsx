@@ -13,8 +13,8 @@ const useCompanyProfileForm = () => {
       newErrors.firstName =t("profile.firstNameError");
     if (!formData.lastName.trim())
       newErrors.lastName = t("profile.lastNameError");
-    if (!formData.phoneNumber.trim())
-      newErrors.phoneNumber = t("profile.phoneNumberError");
+    // if (!formData.phoneNumber.trim())
+    //   newErrors.phoneNumber = t("profile.phoneNumberError");
     if (!formData.country.trim()) newErrors.country = t("location.countryError");
     if (!formData.city.trim()) newErrors.city = t("location.cityError");
     if (!formData.fullAddress.trim())
@@ -31,6 +31,14 @@ const useCompanyProfileForm = () => {
     // if (!formData.description.trim())
     //   newErrors.description = "Description is required.";
 
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = t("profile.phoneNumberError");
+    } else {
+      const phoneDigits = formData.phoneNumber.replace(/\D/g, "");
+      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+        newErrors.phoneNumber = t("profile.PhoneLength10to15Error"); // Add this key in your translations
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

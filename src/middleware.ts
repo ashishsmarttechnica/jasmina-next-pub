@@ -77,7 +77,16 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
     }
     // Check if route is allowed for user
-    if (!roleBasedRoutes.user.includes(pathWithoutLocale)) {
+    // if (!roleBasedRoutes.user.includes(pathWithoutLocale)) {
+    //   return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
+    // }
+
+    // for job appy page
+    const isUserAllowed = roleBasedRoutes.user.some((route) =>
+      currentPath === route || currentPath.startsWith(`${route}/`)
+    );
+    console.log(isUserAllowed , "isUserAllowed")
+    if (!isUserAllowed) {
       return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
     }
   } else if (userRole === 'company') {

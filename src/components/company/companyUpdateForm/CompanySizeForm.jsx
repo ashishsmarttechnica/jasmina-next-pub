@@ -12,10 +12,12 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
     { label: `${t("companyTypeOption.enterprise")}`, value: "enterprise" },
   ];
   const industryTypeOptions = [
-    { label: `${t("industryOption.beginner")}`, value: "beginner" },
-    { label: `${t("industryOption.intermediate")}`, value: "intermediate" },
-    { label: `${t("industryOption.advanced")}`, value: "advanced" },
-    { label: `${t("industryOption.expert")}`, value: "expert" },
+    { label: `${t("industryOption.mediaEntertainment")}`, value: "Media & Entertainment" },
+    { label: `${t("industryOption.education")}`, value: "Education & Training" },
+    { label: `${t("industryOption.marketing")}`, value: "Marketing" },
+    { label: `${t("industryOption.government")}`, value: "Government" },
+    { label: `${t("industryOption.design")}`, value: "design" },
+    { label: `${t("industryOption.development")}`, value: "development" },
   ];
   const employeesOption = [
     { label: `${t("employeesOption.1-10")}`, value: "1-10" },

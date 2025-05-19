@@ -28,9 +28,7 @@ const usePreferencesForm = () => {
     if (!formData.workLocation) {
       newErrors.workLocation = t("WorkLocationError");
     }
-    if (!formData.experience) {
-      newErrors.experience = t("ExperienceError");
-    }
+
 
     setErrors(newErrors);
 

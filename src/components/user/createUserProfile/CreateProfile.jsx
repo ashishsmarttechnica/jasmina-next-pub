@@ -143,7 +143,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         location: user.profile.location || "",
         LinkedInLink: user.profile.linkedin || "",
       }));
-      console.log(getImg(user.profile.photo) , "sdsdsdssd>>>>>>>>>>>>>>>>>>>>>");
+      // console.log(getImg(user.profile.photo) , "sdsdsdssd>>>>>>>>>>>>>>>>>>>>>");
 
       setSelectedImage(getImg(user.profile.photo) || Uploadimg);
     }

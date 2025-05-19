@@ -1,28 +1,69 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoImage } from "react-icons/go";
 import Image from "next/image";
 import Uploadimg from "@/assets/form/Uploadimg.png";
-import YourPost from "@/modal/YourPost";
+import useAuthStore from "@/store/auth.store";
+import { useCreatePost } from "@/hooks/post/usePosts";
+import CreateUserPost from "@/modal/CreateUserPost";
 
 const CreatePost = () => {
   const [postText, setPostText] = useState("");
+  const { user } = useAuthStore();
 
   const [CompanyPostModalOpen, setCompanyPostModalOpen] = useState(false);
-  const handleCompanyPostJob = () => {
-    setCompanyPostModalOpen(true);
+  const handleCompanyPostJob = () => setCompanyPostModalOpen(true);
+
+  const fileInputRef = useRef(null);
+  const { mutate: createPost, isPending } = useCreatePost();
+
+  const [formData, setFormData] = useState({
+    postText: "",
+    previewImage: null,
+    postImg: null,
+    visibility: 1,
+  });
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, postText }));
+  }, [postText]);
+
+  const handleSubmit = () => {
+    if (!postText.trim()) return;
+
+    const data = new FormData();
+    data.append("postDesc", postText);
+    data.append("visible", formData.visibility);
+    if (formData.postImg) {
+      data.append("postImg", formData.postImg);
+    }
+    data.append("userId", user?._id || "");
+
+    createPost(data, {
+      onSuccess: () => {
+        setPostText("");
+        setFormData({
+          postText: "",
+          previewImage: null,
+          postImg: null,
+          visibility: 1,
+        });
+        setCompanyPostModalOpen(false);
+      },
+    });
   };
+
   return (
-    <div className="cust-card mb-4 ">
+    <div className="cust-card mb-4">
       <div className="border-b border-grayBlueText/50 py-4.5 pl-12 relative">
-        <h2 className="text-primary font-medium text-sm b ">Do Your Post</h2>
+        <h2 className="text-primary font-medium text-sm">Do Your Post</h2>
         <div className="absolute -bottom-0 left-0 w-[181px] h-[2px] rounded-full bg-primary"></div>
       </div>
 
-      <div className="flex items-center gap-3.5 px-4 pt-[15px]  pb-5 border-b border-grayBlueText/50">
+      <div className="flex items-center gap-3.5 px-4 pt-[15px] pb-5 border-b border-grayBlueText/50">
         <div className="relative">
           <Image
-            src={Uploadimg} // Placeholder for user profile image
+            src={Uploadimg}
             alt="user"
             width={40}
             height={40}
@@ -46,18 +87,30 @@ const CreatePost = () => {
           <GoImage className="w-4 h-4 text-grayBlueText" />
           <span>Media</span>
         </button>
-        <button className="py-1 min-w-[85px] bg-primary hover:text-primary border border-primary hover:bg-transparent transition-all duration-75 ease-in text-white rounded-sm text-sm">
-          Post
+        <button
+          className="py-1 min-w-[85px] bg-primary hover:text-primary border border-primary hover:bg-transparent transition-all duration-75 ease-in text-white rounded-sm text-sm"
+          onClick={handleSubmit}
+          disabled={isPending}
+        >
+          {isPending ? "Posting..." : "Post"}
         </button>
       </div>
-      <YourPost
+
+      <CreateUserPost
         isOpen={CompanyPostModalOpen}
         onClose={() => setCompanyPostModalOpen(false)}
         postText={postText}
         setPostText={setPostText}
+        userId={user?._id}
+        handleSubmit={handleSubmit}
+        formData={formData}
+        setFormData={setFormData}
+        isPending={isPending}
+        fileInputRef={fileInputRef}
       />
     </div>
   );
 };
+
 
 export default CreatePost;

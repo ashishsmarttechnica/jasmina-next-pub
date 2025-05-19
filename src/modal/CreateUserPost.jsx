@@ -3,27 +3,19 @@ import { Modal } from "rsuite";
 import Image from "next/image";
 import Uploadsmall from "../assets/form/Uploadsmall.png";
 import user1 from "@/assets/feed/user-1.png";
-import { useCreatePost } from "@/hooks/post/usePosts";
 
-const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
-
-  const [formData, setFormData] = useState({
-    postText: postText || "",
-    previewImage: null,
-    postImg: null,
-    visibility: 1,
-  });
-
-  const fileInputRef = useRef(null);
-  const { mutate: createPost, isPending } = useCreatePost();
-
-  useEffect(() => {
-    setFormData((prev) => ({ ...prev, postText }));
-  }, [postText]);
-
-  const handleImageClick = () => {
-    fileInputRef.current.click();
-  };
+const CreateUserPost = ({
+  isOpen,
+  formData,
+  setFormData,
+  isPending,
+  onClose,
+  postText,
+  setPostText,
+  handleSubmit,
+  fileInputRef,
+}) => {
+  const handleImageClick = () => fileInputRef.current.click();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -31,6 +23,7 @@ const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
       ...prev,
       postImg: file,
     }));
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -50,57 +43,44 @@ const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    if (!postText.trim()) return;
-
-    const data = new FormData();
-    data.append("postDesc", postText); 
-    data.append("visible", formData.visibility);
-   data.append("postImg", formData.postImg);
-
-    createPost(data, {
-      onSuccess: () => {
-        setPostText(""); // clear via prop function
-        setFormData({
-          postText: "",
-          previewImage: null,
-          postImg: null,
-          visibility: 1,
-        });
-        onClose();
-      },
-    });
-  };
-
   return (
     <Modal open={isOpen} onClose={onClose} size="547px">
       <Modal.Body className="p-6 bg-white rounded-lg">
-        {/* User Info */}
         <div className="flex items-center mb-4">
-          <Image src={user1} alt="User" width={40} height={40} className="rounded-full" />
-          <div className="ml-3 text-xl font-bold text-gray-800">Gurdeep Osahan</div>
+          <Image
+            src={user1}
+            alt="User"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <div className="ml-3 text-xl font-bold text-gray-800">
+            Gurdeep Osahan
+          </div>
         </div>
         <p className="border border-b border-gray w-full"></p>
 
-        {/* Text Area */}
         <textarea
           placeholder="Share your thoughts…"
           className="w-full h-20 p-3 rounded-md resize-none focus:outline-none focus:ring focus:border-blue-300 placeholder:text-[13px]"
-          value={postText}  // unchanged, still from props
-          onChange={(e) => setPostText(e.target.value)} // unchanged
+          value={postText}
+          onChange={(e) => setPostText(e.target.value)}
         />
 
-        {/* Media Upload */}
         <div
           className="w-full bg-gray h-[328px] flex flex-col items-center justify-center mt-4 rounded-md cursor-pointer"
           onClick={handleImageClick}
         >
           {formData.previewImage ? (
-            <img src={formData.previewImage} alt="Preview" className="object-contain h-full w-full rounded-md" />
+            <img
+              src={formData.previewImage}
+              alt="Preview"
+              className="object-contain h-full w-full rounded-md"
+            />
           ) : (
             <>
               <Image src={Uploadsmall} alt="Upload" width={40} height={40} />
-              <button className="mt-4 px-4 py-2 bg-primary text-[13px] text-white rounded-md">
+              <button className="mt-4 px-4 py-2 bg-primary text-[13px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60">
                 Upload from media
               </button>
             </>
@@ -114,7 +94,9 @@ const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
           />
         </div>
 
-        <div className="mt-8 text-sm text-grayBlueText">Who can see your post?</div>
+        <div className="mt-8 text-sm text-grayBlueText">
+          Who can see your post?
+        </div>
         <div className="mt-2 space-y-2">
           <label className="flex items-center">
             <input
@@ -146,7 +128,7 @@ const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
           <button
             onClick={handleSubmit}
             disabled={isPending}
-            className="px-8 py-2 bg-primary text-[15px] text-white rounded-md hover:bg-green-700 transition disabled:opacity-60"
+            className="px-8 py-2 bg-primary text-[15px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60"
           >
             {isPending ? "Posting..." : "Post a job"}
           </button>
@@ -156,4 +138,4 @@ const YourPost = ({ isOpen, onClose, postText, setPostText }) => {
   );
 };
 
-export default YourPost;
+export default CreateUserPost;

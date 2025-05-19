@@ -5,17 +5,33 @@ import usePostStore from "@/store/post.store";
 export const useAllPosts = (page = 1) => {
   const setPosts = usePostStore((s) => s.setPosts);
   const posts = usePostStore((s) => s.posts);
+  const setPagination = usePostStore((s) => s.setPagination);
 
   return useQuery({
     queryKey: ["posts", page],
     queryFn: async () => {
       const res = await getAllPosts(page);
+
+      // Your API directly returns the structure we need
+      const data = res?.data || {};
+      const newPosts = data?.posts || [];
+      const pagination = data?.pagination || {};
+
       // If it's the first page, replace posts, otherwise append
-      const newPosts = page === 1 ? res.data : [...posts, ...res.data];
-      setPosts(newPosts);
-      return newPosts;
+      const mergedPosts = page === 1 ? newPosts : [...posts, ...newPosts];
+
+      setPagination(pagination);
+      setPosts(mergedPosts);
+
+      // Calculate if we're on the last page based on pagination info
+      const isLastPage = page >= pagination.totalPages;
+
+      return {
+        newPosts: mergedPosts,
+        pagination,
+        isLastPage,
+      };
     },
-    
     retry: 1,
     refetchOnWindowFocus: false,
     keepPreviousData: true, // Keep previous data while fetching new page
@@ -47,14 +63,17 @@ export const useCreatePost = () => {
 
     onSuccess: (data) => {
       if (data?.data) {
-        addPost(data.data); 
+        addPost(data.data);
       }
 
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      // queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
 
     onError: (error) => {
-      console.error("Post creation failed:", error?.response?.data?.message || error.message);
+      console.error(
+        "Post creation failed:",
+        error?.response?.data?.message || error.message
+      );
     },
   });
 };

@@ -147,13 +147,14 @@
     "Resendin": "Wieder in",
     "ClickToResend": "Klicken Sie hier, um mich wiederzugeben",
     "Verifying": "Überprüfen ...",
-    "Verify": "Verifizieren"
+    "Verify": "Verifizieren",
+    "PleaseSelectAccountType": ""
   },
   "UserProfile": {
     "profile": {
       "title": "Erstellen Sie Ihr Profil",
       "subTitle": "Erzählen Sie uns etwas über sich.",
-      "uploadImage": "Foto hochladen",
+      "uploadImage": "Laden Sie Logo hoch",
       "name": "Vollständiger Name",
       "username": "Benutzername",
       "gender": "Geschlecht",
@@ -190,9 +191,10 @@
         "other": "Andere"
       },
       "locationPermission": "Standortgenehmigung abgelehnt",
-      "LinkedInLinkError": "LinkedInlink ist erforderlich.",
+      "LinkedInLinkError": "Bitte geben Sie Ihren LinkedIn -Profil -Link ein.",
       "usernamePlaceholder": "Geben Sie Ihren Benutzernamen ein",
-      "namePlaceholder": "Geben Sie Ihren vollständigen Namen ein"
+      "namePlaceholder": "Geben Sie Ihren vollständigen Namen ein",
+      "PhoneLength10to15Error": "\"Geben Sie die Telefonnummer zwischen 10 und 15 Ziffern ein\""
     },
     "userprofilemenu": {
       "education": "Ausbildung",
@@ -245,11 +247,11 @@
       "subTitle": "Helfen Sie uns, Ihnen mit den richtigen Möglichkeiten zu passen.",
       "title": "Stellen Sie Ihre Jobeinstellungen fest",
       "RoleError": "Rolle ist erforderlich.",
-      "SalaryRangeError": "SalaryRange ist erforderlich.",
+      "SalaryRangeError": "Gehaltsspanne ist erforderlich.",
       "InvalidSalaryRangeError": "Der Gehaltsbereich muss ein gültiger Zahlenbereich sein.",
-      "JoinDateError": "Joindate ist erforderlich.",
-      "JobTypeError": "JobType ist erforderlich.",
-      "WorkLocationError": "Arbeitslokation ist erforderlich.",
+      "JoinDateError": "Das Verbindungsdatum ist erforderlich.",
+      "JobTypeError": "Jobtyp ist erforderlich.",
+      "WorkLocationError": "Arbeitsort ist erforderlich.",
       "ExperienceError": "Erfahrung ist erforderlich."
     },
     "education": {
@@ -274,7 +276,7 @@
         "beginner": "Anfänger"
       },
       "languages": "Abschnitt Sprachkompetenz:",
-      "languagesList": "Fügen Sie Sprachen hinzu, die der Benutzer spricht",
+      "languagesList": "Fügen Sie Sprachen hinzu, die Sie sprechen",
       "degreeError": "Gradname ist erforderlich.",
       "passingYearError": "Das Jahr ist erforderlich.",
       "schoolNameError": "Schul-/College -Name ist erforderlich.",
@@ -315,7 +317,8 @@
       "companyNameError": "Firmenname ist erforderlich.",
       "firstNameError": "Vorname ist erforderlich.",
       "lastNameError": "Nachname ist erforderlich.",
-      "phoneNumberError": "Telefonnummer ist erforderlich."
+      "phoneNumberError": "Telefonnummer ist erforderlich.",
+      "PhoneLength10to15Error": "Geben Sie die Telefonnummer zwischen 10 und 15 Ziffern ein"
     },
     "location": {
       "subTitle": "Lassen Sie Benutzer und Kandidaten wissen, wo Sie sich befinden.",
@@ -362,7 +365,13 @@
         "beginner": "Anfänger",
         "intermediate": "Dazwischenliegend",
         "advanced": "Fortschrittlich",
-        "expert": "Experte"
+        "expert": "Experte",
+        "mediaEntertainment": "Medien",
+        "education": "Ausbildung",
+        "marketing": "Marketing",
+        "government": "Regierung",
+        "design": "Design",
+        "development": "Entwicklung"
       },
       "employeesOption": {
         "10000": "10000",

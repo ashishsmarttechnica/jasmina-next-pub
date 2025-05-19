@@ -2,8 +2,6 @@ import Contact from "@/assets/svg/feed/Contact";
 import UserSuggestionCard from "@/common/UserSuggestionCard";
 import MainLayout from "@/layout/MainLayout";
 import React from "react";
-import { FaCheck } from "react-icons/fa6";
-import { IoClose } from "react-icons/io5";
 import FeedPost from "./FeedPost";
 import Profile from "@/common/Profile";
 

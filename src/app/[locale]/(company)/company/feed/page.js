@@ -1,6 +1,6 @@
 
+import CompanyMainFeed from "@/components/company/feed/CompanyMainFeed";
 import React from "react";
-import CompanyMainFeed from "@/components/user/feed/CompanyMainFeed";
 
 const page = () => {
   return (

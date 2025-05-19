@@ -13,7 +13,10 @@
   --grayBlueText: #888DA8;
   --lightBlue: #007BFF;
   --lightWhite: #f1f1f1;
+  --uiLight: #f2f2f2;
+  --neutralLight2: #EAEAEA;
   --shadow-card: 0px 4px 25px 0px rgba(136, 141, 168, 0.10);
+  --shadow-job-dropdown: 0px 2px 6px 0px rgba(0, 0, 0, 0.18);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +30,7 @@
 @theme inline {
   --color-background: var(--background);
   --shadow-card: var(--shadow-card);
+  --shadow-job-dropdown: var(--shadow-job-dropdown);
   --color-foreground: var(--foreground);
   --color-lightGray: var(--lightGray);
   --color-lightWhite: var(--lightWhite);
@@ -36,6 +40,8 @@
   --color-grayBlueText: var(--grayBlueText);
   --color-headerbg: var(--headerbg);
   --color-lightBlue: var(--lightBlue);
+  --color-uiLight: var(--uiLight);
+  --color-neutralLight2: var(--neutralLight2);
   --color-custBlack: var(--custBlack);
   --color-footerBorder: var(--footerBorder);
   --font-sans: var(--font-geist-sans);
@@ -54,11 +60,14 @@ body {
 }
 
 .r-modal {
-  border-radius:5px; /* Adjust value as needed */
+  border-radius: 5px;
+  /* Adjust value as needed */
 }
+
 .rs-modal-content {
   padding: 0 20px;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -75,14 +84,14 @@ li {
 }
 
 input[type="radio"]:checked::before {
-	content: "";
-	display: block;
-	width: 13px;
-	height: 13px;
-	background-color: var(--primary);
-	border-radius: 50%;
+  content: "";
+  display: block;
+  width: 13px;
+  height: 13px;
+  background-color: var(--primary);
+  border-radius: 50%;
 
-	animation: appear 0.8s;
+  animation: appear 0.8s;
 }
 
 

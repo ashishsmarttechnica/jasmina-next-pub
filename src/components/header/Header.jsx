@@ -10,6 +10,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import HeaderLogoLink from "./HeaderLogoLink";
 import useAuthStore from "@/store/auth.store";
 import { toast } from "react-toastify";
+import { usePathname } from "next/navigation";
 
 const Header = ({ isLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,7 @@ const Header = ({ isLogin }) => {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
   const logoHref = "/";
+  const pathname = usePathname();
 
   // ✅ Disable background scroll when menu is open
   useEffect(() => {
@@ -55,11 +57,11 @@ const Header = ({ isLogin }) => {
                 <ul className="flex gap-2">
                   <li>
                     <button
-                      className="btn-small"
+                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${pathname === "/login" ? "bg-green-300 text-primary" : "bg-secondary text-primary hover:bg-primary hover:text-secondary"}`}
                       onClick={() => {
-                        logout()
-                        router.push("/login")
-                        toast.success(t("logoutSuccess"))
+                        logout();
+                        router.push("/login");
+                        toast.success(t("logoutSuccess"));
                       }}
                     >
                       {t("logout")}
@@ -69,12 +71,23 @@ const Header = ({ isLogin }) => {
               ) : (
                 <ul className="flex gap-2">
                   <li>
-                    <Link href="/login" className="btn-small-light">
+                    <Link
+                      href="/login"
+                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${
+                        pathname === "/en/login"
+                          ? "bg-primary text-white"
+                          : "bg-secondary text-primary hover:bg-primary hover:text-white"
+                      }`}
+                    >
                       {t("login")}
                     </Link>
                   </li>
+
                   <li>
-                    <Link href="/signup" className="btn-small">
+                    <Link
+                      href="/signup"
+                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in  ${pathname === "/en/signup" ? "bg-primary text-white" : "bg-secondary text-primary hover:bg-secondary hover:text-primary"}`}
+                    >
                       {t("SignUp")}
                     </Link>
                   </li>
@@ -102,7 +115,7 @@ const Header = ({ isLogin }) => {
                 <li>
                   <Link
                     href="/login"
-                    className="btn-small-light"
+                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${pathname === "/en/login " ? "bg-green-300 text-primary" : "bg-secondary text-primary hover:bg-primary hover:text-secondary"}`}
                     onClick={() => setIsOpen(false)}
                   >
                     {t("logout")}
@@ -114,8 +127,11 @@ const Header = ({ isLogin }) => {
                 <li>
                   <Link
                     href="/login"
-                    className="btn-small-light"
-                    onClick={() => setIsOpen(false)}
+                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${
+                      pathname === "/en/login"
+                        ? "bg-primary text-white"
+                        : "bg-secondary text-primary hover:bg-primary hover:text-white"
+                    }`}
                   >
                     {t("login")}
                   </Link>
@@ -123,7 +139,7 @@ const Header = ({ isLogin }) => {
                 <li>
                   <Link
                     href="/signup"
-                    className="btn-small"
+                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in  ${pathname === "/en/signup" ? "bg-primary text-white" : "bg-secondary text-primary hover:bg-secondary hover:text-primary"}`}
                     onClick={() => setIsOpen(false)}
                   >
                     {t("SignUp")}

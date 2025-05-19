@@ -183,7 +183,7 @@
       "locationPlaceholder": "Enter your city, state, country",
       "LinkedInLink": "LinkedIn Profile link",
       "LinkedInLinkPlaceholder": "https://www.linkedin.com/in/your-profile",
-      "uploadImage": "Upload Photo",
+      "uploadImage": "Upload Logo",
       "Next": "Next",
       "Updating": "Updating...",
       "SomethingWentWrong": "Something went wrong!",
@@ -198,7 +198,8 @@
       "LocationError": "Location is required.",
       "InvalidLinkedInLinkError": "Please enter a valid LinkedIn URL.",
       "InvalidLinkError": "Please enter a valid URL.",
-      "LinkedInLinkError": "LinkedInLink is required."
+      "LinkedInLinkError": "Please enter your LinkedIn profile link.",
+      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
@@ -247,11 +248,11 @@
       },
       "SelectIndustry": "Select Industry",
       "RoleError": "Role is required.",
-      "SalaryRangeError": "salaryRange is required.",
+      "SalaryRangeError": "salary range is required.",
       "InvalidSalaryRangeError": "Salary range must be a valid number range.",
-      "JoinDateError": "joindate is required.",
-      "JobTypeError": "jobType is required.",
-      "WorkLocationError": "workLocation is required.",
+      "JoinDateError": "join date is required.",
+      "JobTypeError": "job type is required.",
+      "WorkLocationError": "work location is required.",
       "ExperienceError": "experience is required."
     },
     "education": {
@@ -277,7 +278,7 @@
       "experience": "Experience (in years)",
       "category": "Category",
       "languages": "Language Proficiency Section :",
-      "languagesList": "Add languages user speaks",
+      "languagesList": "Add languages you speaks",
       "degreeError": "Degree name is required.",
       "passingYearError": "Passing year is required.",
       "schoolNameError": "School/College name is required.",
@@ -320,7 +321,8 @@
       "companyLocationError": "Company location is required.",
       "firstNameError": "First Name is required.",
       "lastNameError": "Last Name is required.",
-      "phoneNumberError": "Phone Number is required."
+      "phoneNumberError": "Phone Number is required.",
+      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits"
     },
     "location": {
       "title": "Location",
@@ -355,10 +357,13 @@
       "industryType": "Industry Type",
       "industryPlaceholder": "Select Industry Type",
       "industryOption": {
-        "beginner": "Beginner",
-        "intermediate": "Intermediate",
-        "advanced": "Advanced",
-        "expert": "Expert"
+        "mediaEntertainment": "Media & Entertainment",
+        "education": "Education & Training",
+        "marketing": "Marketing & Advertising",
+        "government": "Government & Public Sector",
+        "design": "Design & Creative",
+        "development": "Development & IT"
+        
       },
       "companyType": "Company Type",
       "companyTypePlaceholder": "Select Company Type",

@@ -57,6 +57,7 @@ const CreateCompany = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm(formData)) return;
     if (!isChecked) {
       toast.warning(t("checkSingUp"));
       return;
@@ -64,7 +65,6 @@ const CreateCompany = () => {
 
     console.log(selectedCompanyImageFile, "selectedCompanyImageFile");
     console.log(selectedBannerImageFile, "selectedBannerImageFile");
-    if (!validateForm(formData)) return;
 
     const submitData = new FormData();
 

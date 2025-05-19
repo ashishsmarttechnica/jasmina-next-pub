@@ -5,7 +5,6 @@ import Image from "next/image";
 import HeaderLogo from "@/assets/header/HeaderLogo.png";
 import { FiMenu, FiX } from "react-icons/fi";
 import NavItems from "./NavItems";
-import Link from "next/link";
 import HeaderLogoLink from "./HeaderLogoLink";
 
 export default function UserHeader() {
@@ -13,7 +12,7 @@ export default function UserHeader() {
   const logoHref = "/";
 
   return (
-    
+
     <div className="sticky top-0 z-50">
       <div className="bg-[#1D2F38] py-3 md:px-4 relative">
         <header className="container mx-auto flex items-center justify-between">

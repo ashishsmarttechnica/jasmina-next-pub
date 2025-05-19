@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import HeaderLogo from "@/assets/header/HeaderLogo.png";
@@ -11,6 +10,7 @@ import {
   FiMessageSquare,
   FiUsers,
 } from "react-icons/fi";
+import { Link } from "@/i18n/navigation";
 
 const NavItems = () => {
   const pathname = usePathname();
@@ -29,7 +29,7 @@ const NavItems = () => {
       </Link>
 
       <Link
-        href="/Jobs"
+        href="/jobs"
         className="flex items-center space-x-2.5 mx-1 no-underline border-b border-transparent hover:border-white pb-1 transition-all duration-300 ease-in-out"
       >
         <FiBriefcase className="h-4 w-4 text-white" />

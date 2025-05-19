@@ -16,7 +16,7 @@ const useSingInValidationForm = () => {
 
     if (!formData.password) {
       newErrors.password = t("PasswordError");
-    } else if (formData.password.length < 4) {
+    } else if (formData.password.length < 6) {
       newErrors.password = t("PasswordLengthError");
     }
 
