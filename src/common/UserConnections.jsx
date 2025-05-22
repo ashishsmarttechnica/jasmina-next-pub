@@ -8,18 +8,17 @@ import getImg from "@/lib/getImg";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 import { useConnections } from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
+import ImageFallback from "./shared/ImageFallback";
 
 const UserConnections = ({ title }) => {
   const { connections } = useConnectionsStore();
   const { data, isLoading, isError, error } = useConnections("User", 1);
   const displayData = connections?.length ? connections : data?.connections;
 
-
-  console.log(displayData , "displayData");
-
+  console.log(displayData, "displayData");
 
   if (isLoading || !displayData) {
-    return <UserMightKnowSkeleton  isconnection={true}/>;
+    return <UserMightKnowSkeleton isconnection={true} />;
   }
 
   if (isError) {
@@ -59,18 +58,16 @@ const UserConnections = ({ title }) => {
           >
             <div className="flex items-center gap-2">
               <div className="relative w-10 h-10">
-                <Image
-                  src={user.details?.profile?.photo ? getImg(user.details?.profile?.photo) : noImage2}
+                <ImageFallback
+                  src={
+                    user.details?.profile?.photo &&
+                    getImg(user.details.profile.photo)
+                  }
                   alt={user.details?.profile?.fullName ?? "user"}
                   width={40}
                   height={40}
                   className="rounded-full object-cover w-full h-full"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = noImage2.src;
-                  }}
                 />
-
               </div>
               <div className="text-left">
                 <p className="text-[13px] font-medium">

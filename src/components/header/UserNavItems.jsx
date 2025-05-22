@@ -10,26 +10,25 @@ import {
   FiMessageSquare,
   FiUsers,
 } from "react-icons/fi";
-import profileImg from "@/assets/feed/Profile.png";
-import { Link ,useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useEffect, useRef, useState } from "react";
 import useAuthStore from "@/store/auth.store";
 import { toast } from "react-toastify";
 import getImg from "@/lib/getImg";
 import MultiLanguageDropdown from "./MultiLanguageDropdown";
 import { useTranslations } from "next-intl";
-
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const UserNavItems = () => {
   const pathname = usePathname();
-  const t=useTranslations("UserHeader");
+  const t = useTranslations("UserHeader");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const isNotificationsActive = pathname === "/notifications";
   const isChatActive = pathname === "/Chat";
-    const router = useRouter();
+  const router = useRouter();
   const logout = useAuthStore((state) => state.logout);
-   const { user } = useAuthStore();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -43,7 +42,7 @@ const UserNavItems = () => {
 
   return (
     <>
-     <MultiLanguageDropdown />
+      <MultiLanguageDropdown />
       <Link
         href="/"
         className="flex items-center space-x-2.5 mx-1 no-underline border-b border-transparent hover:border-white pb-1 transition-all duration-300 ease-in-out"
@@ -130,12 +129,12 @@ const UserNavItems = () => {
           onClick={() => setDropdownOpen((prev) => !prev)}
           className="no-underline focus:outline-none"
         >
-          <Image
-            src={getImg(user?.profile?.photo) || profileImg}
-            alt="User"
+          <ImageFallback
+            src={user?.profile?.photo && getImg(user?.profile?.photo)}
+            alt={"user"}
             width={30}
             height={30}
-            className="rounded-full mt-1"
+            className="rounded-full "
           />
         </button>
         {dropdownOpen && (
@@ -148,9 +147,8 @@ const UserNavItems = () => {
                 toast.success("Logout successful!");
               }}
             >
-             {t("logout")}
+              {t("logout")}
             </button>
-            
           </div>
         )}
       </div>

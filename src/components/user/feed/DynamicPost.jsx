@@ -10,7 +10,8 @@ import noImage2 from "@/assets/form/noImage2.webp";
 import FeedComment from "./comment/FeedComment";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatRelativeTime } from "@/lib/commondate";
-
+import ImageFallback from "@/common/shared/ImageFallback";
+import noPostImage from "@/assets/feed/no-post.png";
 const DynamicPost = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
   const [shoeCommentBoxId, setShowCommentBoxId] = useState(null);
@@ -31,20 +32,14 @@ const DynamicPost = ({ post }) => {
     >
       <div className="flex items-center gap-2.5 py-4 px-5 pb-[16px] border-b border-black/10">
         <div className="relative w-10 h-10">
-          <Image
+          <ImageFallback
             src={
-              post.userId?.profile?.photo
-                ? getImg(post.userId.profile.photo)
-                : noImage2
+              post.userId?.profile?.photo && getImg(post.userId.profile.photo)
             }
             alt={fullName}
             width={40}
             height={40}
             className="rounded-full w-10 h-10 object-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = noImage2.src;
-            }}
           />
         </div>
 
@@ -62,8 +57,9 @@ const DynamicPost = ({ post }) => {
 
         {post.postImg && (
           <div className="overflow-hidden mb-4">
-            <Image
+            <ImageFallback
               src={getImg(post.postImg)}
+              fallbackSrc={noPostImage}
               alt="Post"
               width={500}
               height={500}

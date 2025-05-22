@@ -6,6 +6,7 @@ import noImage2 from "@/assets/form/noImage2.webp";
 import { toast } from "react-toastify";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const CompanyCard = ({ company }) => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -47,11 +48,10 @@ const CompanyCard = ({ company }) => {
     >
       {/* Logo and Info */}
       <div className="flex items-center gap-4 min-w-0">
-        <Image
+        <ImageFallback
           src={
-            company.details?.profile?.photo
-              ? getImg(company.details.profile.photo)
-              : noImage2
+            company.details?.profile?.photo &&
+            getImg(company.details.profile.photo)
           }
           width={48}
           height={48}

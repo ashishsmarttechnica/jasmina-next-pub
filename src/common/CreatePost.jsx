@@ -9,6 +9,7 @@ import { useCreatePost } from "@/hooks/post/usePosts";
 import CreateUserPost from "@/modal/CreateUserPost";
 import getImg from "@/lib/getImg";
 import { useTranslations } from "next-intl";
+import ImageFallback from "./shared/ImageFallback";
 
 const CreatePost = () => {
   const [postText, setPostText] = useState("");
@@ -65,12 +66,12 @@ const CreatePost = () => {
 
       <div className="flex items-center gap-3.5 px-4 pt-[15px] pb-5 border-b border-grayBlueText/50">
         <div className="relative">
-          <Image
-            src={getImg(user?.profile?.photo) || profileImg}
+          <ImageFallback
+            src={user?.profile?.photo && getImg(user?.profile?.photo)}
             alt="user"
             width={40}
             height={40}
-            className="w-10 h-10 rounded-full object-cover"
+            className=" rounded-full object-cover"
           />
           <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-600 rounded-full border-2 border-white"></span>
         </div>

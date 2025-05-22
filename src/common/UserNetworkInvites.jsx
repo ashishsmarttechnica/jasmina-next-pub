@@ -93,14 +93,12 @@ const UserNetworkInvites = ({ title }) => {
             >
               <div className="flex items-center gap-2">
                 <div className="relative w-10 h-10">
-                  <Image
+                  <ImageFallback
                     src={
-                      senderDetails.profile?.photo
-                        ? getImg(senderDetails.profile.photo)
-                        : noImage2
+                      senderDetails.profile?.photo &&
+                      getImg(senderDetails.profile.photo)
                     }
                     alt={senderDetails.profile?.fullName ?? "user"}
-                    onError={(e) => (e.target.src = noImage2)}
                     width={40}
                     height={40}
                     className="rounded-full w-full h-full object-cover"

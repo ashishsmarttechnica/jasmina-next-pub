@@ -9,7 +9,6 @@ import {
   FiMessageSquare,
   FiUsers,
 } from "react-icons/fi";
-import profileImg from "@/assets/feed/Profile.png";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useEffect, useRef, useState } from "react";
 import useAuthStore from "@/store/auth.store";
@@ -17,6 +16,7 @@ import { toast } from "react-toastify";
 import getImg from "@/lib/getImg";
 import MultiLanguageDropdown from "./MultiLanguageDropdown";
 import { useTranslations } from "next-intl";
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const CompanyNavItems = () => {
   const pathname = usePathname();
@@ -29,7 +29,7 @@ const CompanyNavItems = () => {
   const logout = useAuthStore((state) => state.logout);
 
   const { user } = useAuthStore();
-  
+
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -128,8 +128,8 @@ const CompanyNavItems = () => {
           onClick={() => setDropdownOpen((prev) => !prev)}
           className="no-underline focus:outline-none"
         >
-          <Image
-            src={getImg(user?.logoUrl) || profileImg}
+          <ImageFallback
+            src={user?.logoUrl && getImg(user?.logoUrl)}
             alt="User"
             width={30}
             height={30}

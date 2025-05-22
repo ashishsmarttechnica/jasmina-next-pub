@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Cookies from "js-cookie";
 import HeaderLogoLink from "./HeaderLogoLink";
@@ -11,13 +11,20 @@ import { useTranslations } from "next-intl";
 
 export default function UserHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-   const userType = capitalize(Cookies.get("userRole"));
-   const t=useTranslations("UserHeader");
- 
-   const logoHref = "/";
+  const [userType, setUserType] = useState("User"); // Default value
+  const t = useTranslations("UserHeader");
+
+  useEffect(() => {
+    // Set user type only on client side
+    const role = Cookies.get("userRole");
+    if (role) {
+      setUserType(capitalize(role));
+    }
+  }, []);
+
+  const logoHref = "/";
 
   return (
-
     <div className="sticky top-0 z-50">
       <div className="bg-[#1D2F38] py-2.5 md:px-4 relative">
         <header className="container mx-auto flex items-center justify-between">
@@ -60,7 +67,6 @@ export default function UserHeader() {
           </div>
           <div className="text-white px-6 space-y-6 text-sm">
             {userType === "User" ? <UserNavItems /> : <CompanyNavItems />}
-            {/* <CompanyNavItems /> */}
           </div>
         </div>
 

@@ -4,6 +4,8 @@ import UserCompanyProfile from "@/common/UserCompanyProfile";
 import CompanySuggestionCard from "@/common/CompanySuggestionCard";
 import CompanyFeedPost from "./CompanyFeedPost";
 import { useTranslations } from "next-intl";
+import UserMightKnow from "@/common/UserMightKnow";
+import UserNetworkInvites from "@/common/UserNetworkInvites";
 
 const CompanyMainFeed = () => {
   const t=useTranslations("CompanyMainFeed");
@@ -18,21 +20,12 @@ const CompanyMainFeed = () => {
         />,
       ]}
       rightComponents={[
-          
-        <CompanySuggestionCard
-
-          key="right1"
-          title={t("mightKnow")}
-          type="suggestion"
-          buttonType="contact" 
-          postjob="postjob"
-
-        />,
-        <CompanySuggestionCard
+        <UserMightKnow key="right1" />,
+        <UserNetworkInvites
           key="right2"
           title={t("networkInvites")}
           type="invites"
-          buttonType="invite" 
+          buttonType="invite"
         />,
       ]}
     >

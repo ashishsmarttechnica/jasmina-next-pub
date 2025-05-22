@@ -2,20 +2,17 @@ import React, { useState } from "react";
 import Like from "@/assets/svg/feed/Like";
 import Comment from "@/assets/svg/feed/Comment";
 import Share from "@/assets/svg/feed/Share";
-import Image from "next/image";
 import getImg from "@/lib/getImg";
-import noImage2 from "@/assets/form/noImage2.webp";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatRelativeTime } from "@/lib/commondate";
 import CompanyFeedComment from "./CompanyFeedComment";
-
+import ImageFallback from "@/common/shared/ImageFallback";
+import noPostImage from "@/assets/feed/no-post.png";
 const CompanyDynamicPost = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
   const [shoeCommentBoxId, setShowCommentBoxId] = useState(null);
-
   const fullName = post?.userId?.profile?.fullName || "Unknown User";
   const title = post?.userId?.preferences?.jobRole || "";
-
   const postTime = formatRelativeTime(post.createdAt);
 
   const handleShowComments = (id) => {
@@ -30,20 +27,14 @@ const CompanyDynamicPost = ({ post }) => {
     >
       <div className="flex items-center gap-2.5 py-4 px-5 pb-[16px] border-b border-black/10">
         <div className="relative w-10 h-10">
-          <Image
+          <ImageFallback
             src={
-              post.userId?.profile?.photo
-                ? getImg(post.userId.profile.photo)
-                : noImage2
+              post.userId?.profile?.photo && getImg(post.userId.profile.photo)
             }
             alt={fullName}
             width={40}
             height={40}
             className="rounded-full w-10 h-10 object-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = noImage2.src;
-            }}
           />
         </div>
 
@@ -61,8 +52,9 @@ const CompanyDynamicPost = ({ post }) => {
 
         {post.postImg && (
           <div className="overflow-hidden mb-4">
-            <Image
+            <ImageFallback
               src={getImg(post.postImg)}
+              fallbackSrc={noPostImage}
               alt="Post"
               width={500}
               height={500}

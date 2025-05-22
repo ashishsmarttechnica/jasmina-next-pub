@@ -6,6 +6,7 @@ import noImage2 from "@/assets/form/noImage2.webp";
 import { toast } from "react-toastify";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const PeopleCard = ({ person }) => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -47,11 +48,9 @@ const PeopleCard = ({ person }) => {
     >
       {/* Avatar and Info */}
       <div className="flex items-center gap-4 min-w-0">
-        <Image
+        <ImageFallback
           src={
-            person.details.profile.photo
-              ? getImg(person.details.profile.photo)
-              : noImage2
+            person.details.profile.photo && getImg(person.details.profile.photo)
           }
           width={48}
           height={48}
