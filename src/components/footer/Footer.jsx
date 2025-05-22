@@ -16,6 +16,7 @@ const Footer = () => {
                 alt="footerLogo"
                 width={225}
                 height={94}
+                className="w-auto h-auto"
               />
               <p className="text-grayBlueText text-base max-w-xs">
                 {t("title")}

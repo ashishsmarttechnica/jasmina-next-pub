@@ -3,6 +3,10 @@ import { Modal } from "rsuite";
 import Image from "next/image";
 import Uploadsmall from "../assets/form/Uploadsmall.png";
 import user1 from "@/assets/feed/user-1.png";
+import useAuthStore from "@/store/auth.store";
+import getImg from "@/lib/getImg";
+import profileImg from "@/assets/feed/Profile.png";
+import { useTranslations } from "next-intl";
 
 const CreateUserPost = ({
   isOpen,
@@ -16,7 +20,8 @@ const CreateUserPost = ({
   fileInputRef,
 }) => {
   const handleImageClick = () => fileInputRef.current.click();
-
+  const t=useTranslations('UserPostModel')
+  const { user } = useAuthStore();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setFormData((prev) => ({
@@ -45,23 +50,25 @@ const CreateUserPost = ({
 
   return (
     <Modal open={isOpen} onClose={onClose} size="547px">
-      <Modal.Body className="p-6 bg-white rounded-lg">
+      <Modal.Body className="sm:p-6 p-2 bg-white rounded-lg">
         <div className="flex items-center mb-4">
           <Image
-            src={user1}
+            src={getImg(user?.profile?.photo) || profileImg}
             alt="User"
-            width={40}
-            height={40}
-            className="rounded-full"
+            width={30}
+            height={30}
+            className="rounded-full mt-1"
           />
           <div className="ml-3 text-xl font-bold text-gray-800">
-            Gurdeep Osahan
-          </div>
+            {user?.profile?.fullName}
+            <br />
+           <p className="text-[13px] font-normal  mx-1 my-1">{user?.preferences?.jobRole}</p>  
+          </div><br />
         </div>
         <p className="border border-b border-gray w-full"></p>
 
         <textarea
-          placeholder="Share your thoughts…"
+          placeholder={t("sharePlaceholder")}
           className="w-full h-20 p-3 rounded-md resize-none focus:outline-none focus:ring focus:border-blue-300 placeholder:text-[13px]"
           value={postText}
           onChange={(e) => setPostText(e.target.value)}
@@ -81,7 +88,7 @@ const CreateUserPost = ({
             <>
               <Image src={Uploadsmall} alt="Upload" width={40} height={40} />
               <button className="mt-4 px-4 py-2 bg-primary text-[13px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60">
-                Upload from media
+                {t("uploadmedia")}
               </button>
             </>
           )}
@@ -95,7 +102,7 @@ const CreateUserPost = ({
         </div>
 
         <div className="mt-8 text-sm text-grayBlueText">
-          Who can see your post?
+          {t("whopost")}
         </div>
         <div className="mt-2 space-y-2">
           <label className="flex items-center">
@@ -107,7 +114,7 @@ const CreateUserPost = ({
               onChange={() => handleVisibilityChange(1)}
               className="mr-2"
             />
-            <span className="text-[14px] font-medium">Anyone</span>
+            <span className="text-[14px] font-medium">{t("Anyone")}</span>
           </label>
           <label className="flex items-center">
             <input
@@ -118,7 +125,7 @@ const CreateUserPost = ({
               onChange={() => handleVisibilityChange(0)}
               className="mr-2"
             />
-            <span className="text-[14px] font-medium">Connections Only</span>
+            <span className="text-[14px] font-medium">{t("connectionsonly")}</span>
           </label>
         </div>
 
@@ -130,7 +137,7 @@ const CreateUserPost = ({
             disabled={isPending}
             className="px-8 py-2 bg-primary text-[15px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60"
           >
-            {isPending ? "Posting..." : "Post a job"}
+            {isPending ? t("posting") : t("post")}
           </button>
         </div>
       </Modal.Body>

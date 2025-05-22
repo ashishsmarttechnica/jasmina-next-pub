@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1,
+        "user": {
+            "name": "Collin Weiland",
+            "title": "Web Developer @Google",
+            "avatar": "/src/assets/CompanyHome/user-6.png",
+            "online": true
+        },
+        "content": "Lorem ipsum dolor sit amet, consectetur 😍😎 adipisicing elit, sed do eiusmod tempo incididunt ut labore et dolore magna aliqua.",
+        "highlight": "laboris consequat",
+        "image": "/src/assets/CompanyHome/post.png",
+        "likes": 16,
+        "comments": 8,
+        "shares": 2,
+        "timeAgo": "5 hours ago",
+        "comment": {
+            "name": "James Spiegel",
+            "text": "Ratione voluptatem sequi unde soluta. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+            "avatar": "/src/assets/CompanyHome/user-7.png"
+        }
+    },
+    {
+        "id": 2,
+        "user": {
+            "name": "Emma Johnson",
+            "title": "UX Designer @Facebook",
+            "avatar": "/src/assets/CompanyHome/user-2.png",
+            "online": false
+        },
+        "content": "Exploring minimal design concepts this week! Simplicity is the ultimate sophistication. 🌿",
+        "highlight": "minimal design",
+        "image": "/src/assets/ActivityPost/post-2.png",
+        "likes": 45,
+        "comments": 12,
+        "shares": 5,
+        "timeAgo": "2 hours ago",
+        "comment": {
+            "name": "Sophia Lee",
+            "text": "Absolutely loving the clean vibes on this!",
+            "avatar": "/src/assets/CompanyHome/user-8.png"
+        }
+    },
+    {
+        "id": 3,
+        "user": {
+            "name": "Liam Smith",
+            "title": "Product Manager @Amazon",
+            "avatar": "/src/assets/CompanyHome/user-3.png",
+            "online": true
+        },
+        "content": "Just wrapped up a major sprint! Proud of the entire team 🚀🔥 Now onto the next challenge.",
+        "highlight": "major sprint",
+        "image": "/src/assets/ActivityPost/post-3.png",
+        "likes": 78,
+        "comments": 24,
+        "shares": 10,
+        "timeAgo": "1 day ago",
+        "comment": {
+            "name": "Olivia Brown",
+            "text": "Congrats! Big fan of your work 🙌",
+            "avatar": "/src/assets/CompanyHome/user-9.png"
+        }
+    },
+    {
+        "id": 4,
+        "user": {
+            "name": "Noah Davis",
+            "title": "Freelance Developer",
+            "avatar": "/src/assets/CompanyHome/user-4.png",
+            "online": false
+        },
+        "content": "Started using Tailwind CSS on my latest project. Game changer! Highly recommend to everyone 😄",
+        "highlight": "Tailwind CSS",
+        "image": "/src/assets/ActivityPost/post-4.png",
+        "likes": 30,
+        "comments": 9,
+        "shares": 4,
+        "timeAgo": "3 days ago",
+        "comment": {
+            "name": "Isabella Wilson",
+            "text": "Tailwind makes everything so much faster! Love it.",
+            "avatar": "/src/assets/CompanyHome/user-10.png"
+        }
+    }
+]

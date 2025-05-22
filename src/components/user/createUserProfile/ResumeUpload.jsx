@@ -31,7 +31,6 @@ const ResumeUpload = ({ setActiveTab }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log("Selected file:", file.name);
       setSelectedFile(file);
       setError("");
     }

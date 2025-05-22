@@ -74,7 +74,7 @@ const LanguagesSection = ({
               }
             />
             {errors[`language-${index}-proficiency`] && (
-              <p className="text-red-500">
+              <p className="text-red-500 text-[12px]">
                 {errors[`language-${index}-proficiency`]}
               </p>
             )}

@@ -1,0 +1,116 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getConnections,
+  createConnection,
+  removeConnection,
+} from "@/api/connection.api";
+import useConnectionsStore from "@/store/connections.store";
+import Cookies from "js-cookie";
+import capitalize from "@/lib/capitalize";
+import { toast } from "react-toastify";
+
+export const useConnections = (userType, page) => {
+  const userId = Cookies.get("userId");
+  const {
+    connections,
+    setConnections,
+    setPagination,
+    setHasMore,
+  } = useConnectionsStore();
+
+  return useQuery({
+    queryKey: ["connections", userId, userType, page],
+    queryFn: async () => {
+      const res = await getConnections({ userId, userType, page, limit: 10 });
+
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+
+        // Append or replace based on page
+        const mergedConnections =
+          page === 1 ? newData : [...connections, ...newData];
+
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useCreateConnection = () => {
+  const queryClient = useQueryClient();
+  const userId = Cookies.get("userId");
+  const userRole = Cookies.get("userRole");
+
+  return useMutation({
+    mutationFn: (data) =>
+      createConnection({
+        senderId: userId, //login user id
+        senderType: capitalize(userRole), //login user role
+        reciverId: data.id, //sender id
+        reciverType: capitalize(data.role), //sender role
+      }),
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast.success("Connection request sent successfully!");
+        // Only invalidate the userSuggestions query with exact match
+        queryClient.invalidateQueries({
+          queryKey: ["userSuggestions"],
+          exact: true,
+        });
+      } else {
+        toast.error(data?.message || "Failed to send connection request");
+      }
+    },
+    onError: (error) => {
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong!";
+      toast.error(`Error: ${errorMessage}`);
+    },
+  });
+};
+
+export const useRemoveConnection = () => {
+  const queryClient = useQueryClient();
+  const userId = Cookies.get("userId");
+  const userRole = Cookies.get("userRole");
+  const { connections, setConnections } = useConnectionsStore();
+
+  return useMutation({
+    mutationFn: (data) =>
+      removeConnection({
+        userId: userId,
+        userType: capitalize(userRole),
+        connectionId: data.id,
+        connectionType: capitalize(data.role),
+      }),
+    onSuccess: (data, variables) => {
+      if (data?.success) {
+        toast.success("Connection removed successfully!");
+        const updatedConnections = connections.filter(
+          (conn) => conn._id !== variables.id
+        );
+        setConnections(updatedConnections);
+      } else {
+        toast.error(data?.message || "Failed to remove connection");
+      }
+    },
+    onError: (error) => {
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong!";
+      toast.error(`Error: ${errorMessage}`);
+    },
+  });
+};

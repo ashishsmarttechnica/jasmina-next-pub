@@ -12,7 +12,6 @@ const ImageUploader = ({
 }) => {
   const t = useTranslations("UserProfile.profile");
   const fileInputRef = useRef(null);
-   console.log(selectedImage, "selectedImage");
 
   const handleImageClick = () => {
     fileInputRef.current.click();

@@ -4,6 +4,7 @@ import user from "@/assets/feed/user-1.png";
 import postImg from "@/assets/feed/post-1.png";
 import { useCommentsByPostId } from "@/hooks/comment/useComments";
 import useCommentStore from "@/store/comments.store";
+import { useTranslations } from "next-intl";
 
 const renderSkeletons = () => {
   return (
@@ -54,9 +55,8 @@ const FeedComment = ({ postId }) => {
   const [page, setPage] = useState(1);
   const comments = useCommentStore((s) => s.comments);
   const pagination = useCommentStore((s) => s.pagination);
+  const t=useTranslations("FeedComment");
 
-
-  console.log(comments);
 
 
   const { data, isLoading, isError, error } = useCommentsByPostId(
@@ -82,7 +82,7 @@ const FeedComment = ({ postId }) => {
   if (comments.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-gray-500">No comments yet.</p>
+        <p className="text-gray-500">{t("nocommit")}</p>
       </div>
     );
   }
@@ -112,7 +112,7 @@ const FeedComment = ({ postId }) => {
       <div className="px-4">
         <input
           type="text"
-          placeholder="Add Comment..."
+          placeholder={t("commentPlaceholder")}
           className="py-4 w-full text-sm focus:outline-none"
         />
       </div>

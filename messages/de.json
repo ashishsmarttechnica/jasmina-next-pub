@@ -395,5 +395,74 @@
       "employeesError": "Anzahl der Mitarbeiter ist erforderlich."
     }
   },
-  "Next": ""
+  "Next": "",
+  "UserHeader": {
+    "searchPlaceholder": "Suchen Sie Leute, Jobs",
+    "home": "Heim",
+    "jobs": "Jobs",
+    "connections": "Verbindungen",
+    "logout": "Abmelden"
+  },
+  "CompanyHeader": {
+    "logout": "Abmelden",
+    "connections": "Verbindungen",
+    "home": "Heim",
+    "jobs": "Jobs"
+  },
+  "UserProfileLeft": {
+    "connections": "Verbindungen",
+    "viewProfile": "Profil anzeigen",
+    "views": "Ansichten"
+  },
+  "UserMainFeed": {
+    "connections": "Verbindungen",
+    "networkInvites": "Netzwerk lädt ein",
+    "mightKnow": "Leute, die Sie vielleicht kennen"
+  },
+  "FeedPost": {
+    "post": "Post",
+    "posting": "Posting ...",
+    "media": "Medien",
+    "doyourpost": "Mach deinen Beitrag",
+    "startpostPlaceholder": "Starten Sie einen Beitrag",
+    "recentjob": "Jüngste Jobs"
+  },
+  "UserFeedPost": {
+    "recentjob": "Jüngste Jobs",
+    "posted": "Gepostet",
+    "doyourpost": "Mach deinen Beitrag",
+    "startpostPlaceholder": "Starten Sie einen Beitrag",
+    "media": "Medien",
+    "posting": "Posting ...",
+    "post": "Post"
+  },
+  "CompanyMainFeed": {
+    "networkInvites": "Netzwerk lädt ein",
+    "mightKnow": "Leute, die Sie vielleicht kennen",
+    "connections": "Verbindungen",
+    "postjob": "Einen Job veröffentlichen"
+  },
+  "FeedProfileLeft": {
+    "connections": "Verbindungen",
+    "views": "Ansichten",
+    "viewProfile": "Sehen Sie sich mein Profil an"
+  },
+  "UserPostModel": {
+    "post": "Post",
+    "posting": "Posting ...",
+    "connectionsonly": "Nur Verbindungen",
+    "Anyone": "Irgendjemand",
+    "whopost": "Wer kann Ihren Beitrag sehen?",
+    "uploadmedia": "Hochladen aus den Medien",
+    "sharePlaceholder": "Teile deine Gedanken…"
+  },
+  "FeedComment": {
+    "commentPlaceholder": "Kommentar hinzufügen ...",
+    "nocommit": "Noch keine Kommentare.",
+    "send": "Schicken",
+    "loadmore": "Laden mehr",
+    "nofound": "Keine Beiträge gefunden.",
+    "tryagain": "Versuchen Sie es erneut",
+    "errorposts": "Fehler laden Posts"
+  }
 }

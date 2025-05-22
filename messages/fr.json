@@ -396,5 +396,74 @@
       "employeesError": "Le nombre d'employés est requis."
     }
   },
-  "Next": ""
+  "Next": "",
+  "UserHeader": {
+    "searchPlaceholder": "Recherchez les gens, les emplois",
+    "home": "Maison",
+    "jobs": "Emplois",
+    "connections": "Relations",
+    "logout": "Déconnexion"
+  },
+  "CompanyHeader": {
+    "logout": "Déconnexion",
+    "connections": "Relations",
+    "home": "Maison",
+    "jobs": "Emplois"
+  },
+  "UserProfileLeft": {
+    "connections": "Relations",
+    "viewProfile": "Afficher le profil",
+    "views": "Vues"
+  },
+  "UserMainFeed": {
+    "connections": "Relations",
+    "networkInvites": "Invitations au réseau",
+    "mightKnow": "Les gens que vous pourriez connaître"
+  },
+  "FeedPost": {
+    "post": "Poste",
+    "posting": "Affectation...",
+    "media": "Médias",
+    "doyourpost": "Faites votre message",
+    "startpostPlaceholder": "Démarrer un message",
+    "recentjob": "Emplois récents"
+  },
+  "UserFeedPost": {
+    "recentjob": "Emplois récents",
+    "posted": "Affiché",
+    "doyourpost": "Faites votre message",
+    "startpostPlaceholder": "Démarrer un message",
+    "media": "Médias",
+    "posting": "Affectation...",
+    "post": "Poste"
+  },
+  "CompanyMainFeed": {
+    "networkInvites": "Invitations au réseau",
+    "mightKnow": "Les gens que vous pourriez connaître",
+    "connections": "Relations",
+    "postjob": "Poster un emploi"
+  },
+  "FeedProfileLeft": {
+    "connections": "Relations",
+    "views": "Vues",
+    "viewProfile": "Afficher mon profil"
+  },
+  "UserPostModel": {
+    "post": "Poste",
+    "posting": "Affectation...",
+    "connectionsonly": "Connexions uniquement",
+    "Anyone": "N'importe qui",
+    "whopost": "Qui peut voir votre message?",
+    "uploadmedia": "Télécharger à partir des médias",
+    "sharePlaceholder": "Partagez vos pensées…"
+  },
+  "FeedComment": {
+    "commentPlaceholder": "Ajouter un commentaire ...",
+    "nocommit": "Aucun commentaire encore.",
+    "send": "Envoyer",
+    "loadmore": "Chargez plus",
+    "nofound": "Aucun message trouvé.",
+    "tryagain": "Essayer à nouveau",
+    "errorposts": "Erreur de chargement des messages"
+  }
 }

@@ -9,11 +9,17 @@ const GoogleSignInButton = () => {
 
   return (
     <div className="flex items-center justify-center bg-gray max-w-65.5 py-[13px] mx-auto rounded-md cursor-pointer">
-      <Image
+      {/* <Image
         src={GoogleIcon}
         alt={t("GoogleIconAltImgSignUp")}
         width={24}
         height={25}
+        style={{ height: "auto" }}
+      /> */}
+      <Image
+        src={GoogleIcon}
+        alt={t("GoogleIconAltImgSignUp")}
+        className="w-6 h-auto" // maintain aspect ratio
       />
     </div>
   );

@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { IoClipboardOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import CardHeading from "@/common/card/CardHeading";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const jobList = [
   {
@@ -38,10 +39,11 @@ const jobList = [
 ];
 
 const RecentJobs = () => {
+  const t=useTranslations('UserFeedPost')
   return (
     <div className=" cust-card ">
       <div className="flex justify-between items-center  ">
-        <CardHeading title={"Recent Jobs"} />
+        <CardHeading title={t('recentjob')} />
       </div>
 
       <div className="p-5 mx-auto  overflow-hidden ">
@@ -62,7 +64,7 @@ const RecentJobs = () => {
                     {job.location}
                   </p>
                   <p className="text-xs font-normal text-grayBlueText mt-3">
-                    Posted {job.posted}
+                    {t('posted')} {job.posted}
                   </p>
                 </div>
                 <div className=" flex items-center gap-1.5 border-t text-left border-black/10  p-2.5 ">

@@ -8,6 +8,7 @@ import Contact from "@/assets/svg/feed/Contact";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { suggestions } from "./Data/Data";
+import { useTranslations } from "next-intl";
 
 function CompanySuggestionCard({ type, title, buttonType, postjob }) {
   const handleContactClick = (id) => {
@@ -17,7 +18,7 @@ function CompanySuggestionCard({ type, title, buttonType, postjob }) {
   const handleInviteAction = (id, action) => {
     console.log(`User ${id} ${action}`);
   };
-
+  const t=useTranslations("CompanyMainFeed");
   return (
     <>
       {postjob === "postjob" && (
@@ -25,7 +26,7 @@ function CompanySuggestionCard({ type, title, buttonType, postjob }) {
           onClick={() => handleInviteAction(user.id, "postjob")}
           className="bg-primary text-white w-full border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-primary transition-colors duration-300 hover:text-black"
         >
-          Post a Job
+          {t("postjob")}
         </button>
       )}
 

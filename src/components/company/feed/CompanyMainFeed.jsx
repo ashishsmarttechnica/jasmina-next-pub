@@ -3,16 +3,17 @@ import React from "react";
 import UserCompanyProfile from "@/common/UserCompanyProfile";
 import CompanySuggestionCard from "@/common/CompanySuggestionCard";
 import CompanyFeedPost from "./CompanyFeedPost";
+import { useTranslations } from "next-intl";
 
 const CompanyMainFeed = () => {
- 
+  const t=useTranslations("CompanyMainFeed");
   return (
     <MainLayout
       leftComponents={[
         <UserCompanyProfile key="left1" />,
         <CompanySuggestionCard
           key="left2"
-          title="Connections"
+          title={t("connections")}
           type="connection"
         />,
       ]}
@@ -21,7 +22,7 @@ const CompanyMainFeed = () => {
         <CompanySuggestionCard
 
           key="right1"
-          title="People you might know"
+          title={t("mightKnow")}
           type="suggestion"
           buttonType="contact" 
           postjob="postjob"
@@ -29,7 +30,7 @@ const CompanyMainFeed = () => {
         />,
         <CompanySuggestionCard
           key="right2"
-          title="Network Invites"
+          title={t("networkInvites")}
           type="invites"
           buttonType="invite" 
         />,

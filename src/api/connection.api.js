@@ -1,0 +1,54 @@
+import axios from "@/lib/axios";
+
+export const createConnection = async (data) => {
+  try {
+    const response = await axios.post("/create/connection", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getConnections = async ({
+  userId,
+  userType,
+  page = 1,
+  limit = 10,
+}) => {
+  const res = await axios.get(`/get/connection`, {
+    params: {
+      userId,
+      userType,
+      page,
+      limit,
+    },
+  });
+  return res.data;
+};
+
+export const acceptConnection = async (data) => {
+  try {
+    const res = await axios.post("accept/connection", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const rejectConnection = async (data) => {
+  try {
+    const res = await axios.post("reject/connection", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeConnection = async (data) => {
+  try {
+    const res = await axios.post("remove/connection", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

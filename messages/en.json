@@ -79,6 +79,63 @@
     "logout": "Logout",
     "logoutSuccess": "User successfully logged out"
   },
+  "UserHeader": {
+    "searchPlaceholder": "Search people, jobs & more...",
+    "home": "Home",
+    "jobs": "Jobs",
+    "connections": "Connections",
+    "logout": "Logout"
+  },
+  "FeedProfileLeft": {
+    "connections": "Connections",
+    "views": "Views",
+    "viewProfile": "View my Profile"
+  },
+  "UserMainFeed": {
+    "connections": "Connections",
+    "networkInvites": "Network Invites",
+    "mightKnow": "People you might know"
+  },
+  "UserFeedPost": {
+    "doyourpost": "Do your post",
+    "media": "Media",
+    "startpostPlaceholder": "Start a post",
+    "post": "Post",
+    "posting": "Posting...",
+    "recentjob": "Recent Jobs",
+    "posted": "Posted"
+  },
+  "CompanyHeader": {
+    "home": "Home",
+    "jobs": "Jobs",
+    "connections": "Connections",
+    "logout": "Logout"
+  },
+  "CompanyMainFeed": {
+    "connections": "Connections",
+    "networkInvites": "Network Invites",
+    "mightKnow": "People you might know",
+    "postjob": "Post a Job"
+  },
+  "UserPostModel": {
+    "sharePlaceholder": "Share your thoughts…",
+    "uploadmedia": "Upload from media",
+    "whopost": " Who can see your post?",
+    "Anyone": "Anyone",
+    "connectionsonly": "Connections only",
+    "post": "Post",
+    "posting": "Posting..."
+  },
+  "FeedComment": {
+    "comment": "Comment",
+    "nocommit": "No comments yet.",
+    "commentPlaceholder": "Add Comment...",
+    "send": "Send",
+    "loadmore": "Load more",
+    "nofound": "No posts found.",
+    "tryagain": "Try again",
+    "errorposts": "Error loading posts"
+  },
   "footer": {
     "title": "Connecting professionals, jobs, and opportunities in one place.",
     "Explorer": "Explorer",
@@ -248,11 +305,11 @@
       },
       "SelectIndustry": "Select Industry",
       "RoleError": "Role is required.",
-      "SalaryRangeError": "salary range is required.",
+      "SalaryRangeError": "Salary range is required.",
       "InvalidSalaryRangeError": "Salary range must be a valid number range.",
-      "JoinDateError": "join date is required.",
-      "JobTypeError": "job type is required.",
-      "WorkLocationError": "work location is required.",
+      "JoinDateError": "Join date is required.",
+      "JobTypeError": "Job type is required.",
+      "WorkLocationError": "Work location is required.",
       "ExperienceError": "experience is required."
     },
     "education": {
@@ -363,7 +420,6 @@
         "government": "Government & Public Sector",
         "design": "Design & Creative",
         "development": "Development & IT"
-        
       },
       "companyType": "Company Type",
       "companyTypePlaceholder": "Select Company Type",
@@ -396,7 +452,7 @@
       "checkSingUp": "Please accept the terms and conditions.",
       "industryTypeError": "Industry Type is required.",
       "companyTypeError": "Company Type is required.",
-      "taglineError": "tagline is required.",
+      "taglineError": "Tagline is required.",
       "employeesError": "Number of Employees is required."
     }
   }

@@ -5,11 +5,11 @@ import Card from "./card/Card";
 import Image from "next/image";
 import useAuthStore from "@/store/auth.store";
 import getImg from "@/lib/getImg";
+import { useTranslations } from "next-intl";
 
 function UserCompanyProfile() {
   const { user } = useAuthStore();
-  console.log(user,"sjkfksgdjf");
-  
+  const t=useTranslations('FeedProfileLeft')
 
   return (
     <div className="w-full">
@@ -30,15 +30,15 @@ function UserCompanyProfile() {
         <div className="flex justify-around w-full  border-y border-black/10">
           <div className="w-1/2 text-center border-r border-black/10 py-2.5">
             <p className="font-bold text-[16px]">{user?.connectionCount}</p>
-            <p className="text-sm">Connections</p>
+            <p className="text-sm">{t('connections')}</p>
           </div>
           <div className="w-1/2 text-center py-2.5">
             <p className="font-bold text-[16px]">{user?.views}</p>
-            <p className="text-sm">Views</p>
+            <p className="text-sm">{t('views')}</p>
           </div>
         </div>
         <button className="text-black cursor-pointer font-medium text-[13px] px-5 py-4 rounded-full">
-          View my profile
+          {t('viewProfile')}
         </button>
       </Card>
     </div>

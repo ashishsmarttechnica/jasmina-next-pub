@@ -63,8 +63,7 @@ const CreateCompany = () => {
       return;
     }
 
-    console.log(selectedCompanyImageFile, "selectedCompanyImageFile");
-    console.log(selectedBannerImageFile, "selectedBannerImageFile");
+
 
     const submitData = new FormData();
 

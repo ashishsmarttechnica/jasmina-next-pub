@@ -66,6 +66,7 @@ body {
 
 .rs-modal-content {
   padding: 0 20px;
+  margin: 10px;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

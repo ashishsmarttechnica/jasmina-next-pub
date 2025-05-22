@@ -1,34 +1,31 @@
-import Contact from "@/assets/svg/feed/Contact";
-import UserSuggestionCard from "@/common/UserSuggestionCard";
 import MainLayout from "@/layout/MainLayout";
 import React from "react";
 import FeedPost from "./FeedPost";
 import Profile from "@/common/Profile";
+import UserMightKnow from "@/common/UserMightKnow";
+import { useTranslations } from "next-intl";
+import UserNetworkInvites from "@/common/UserNetworkInvites";
+import UserConnections from "@/common/UserConnections";
 
 const UserMainFeed = () => {
- 
+  const t=useTranslations("UserMainFeed");
   return (
     <MainLayout
       leftComponents={[
         <Profile key="left1" />,
-        <UserSuggestionCard
+        <UserConnections
           key="left2"
-          title="Connections"
-          type="connection"
+          title={t("connections")}
+
         />,
       ]}
       rightComponents={[
-        <UserSuggestionCard
-          key="right1"
-          title="People you might know"
-          type="suggestion"
-          buttonType="contact" 
-        />,
-        <UserSuggestionCard
+        <UserMightKnow key="right1" />,
+        <UserNetworkInvites
           key="right2"
-          title="Network Invites"
+          title={t("networkInvites")}
           type="invites"
-          buttonType="invite" 
+          buttonType="invite"
         />,
       ]}
     >

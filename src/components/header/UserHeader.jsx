@@ -1,20 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import HeaderLogo from "@/assets/header/HeaderLogo.png";
 import { FiMenu, FiX } from "react-icons/fi";
-import NavItems from "./NavItems";
+import Cookies from "js-cookie";
 import HeaderLogoLink from "./HeaderLogoLink";
+import CompanyNavItems from "./CompanyNavItems";
+import capitalize from "@/lib/capitalize";
+import UserNavItems from "./UserNavItems";
+import { useTranslations } from "next-intl";
 
 export default function UserHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const logoHref = "/";
+   const userType = capitalize(Cookies.get("userRole"));
+   const t=useTranslations("UserHeader");
+ 
+   const logoHref = "/";
 
   return (
 
     <div className="sticky top-0 z-50">
-      <div className="bg-[#1D2F38] py-3 md:px-4 relative">
+      <div className="bg-[#1D2F38] py-2.5 md:px-4 relative">
         <header className="container mx-auto flex items-center justify-between">
           {/* Logo & Search */}
           <div className="flex items-center gap-3 w-full max-w-md">
@@ -22,7 +27,7 @@ export default function UserHeader() {
             <div className="relative text-white max-w-[242px] w-full">
               <input
                 type="text"
-                placeholder="Search people, jobs & more..."
+                placeholder={t("searchPlaceholder")}
                 className="w-full bg-[#132028] text-[13px] font-normal pl-3 py-1.5 rounded focus:outline-none placeholder:text-white"
               />
             </div>
@@ -30,7 +35,7 @@ export default function UserHeader() {
 
           {/* Desktop Navigation */}
           <div className="hidden text-[#D2D5D7] md:flex items-center gap-3 text-sm">
-            <NavItems />
+            {userType === "User" ? <UserNavItems /> : <CompanyNavItems />}
           </div>
 
           {/* Hamburger Icon for Mobile */}
@@ -54,7 +59,8 @@ export default function UserHeader() {
             </button>
           </div>
           <div className="text-white px-6 space-y-6 text-sm">
-            <NavItems />
+            {userType === "User" ? <UserNavItems /> : <CompanyNavItems />}
+            {/* <CompanyNavItems /> */}
           </div>
         </div>
 

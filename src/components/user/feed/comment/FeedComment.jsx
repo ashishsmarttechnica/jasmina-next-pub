@@ -11,6 +11,7 @@ import usePostStore from "@/store/post.store";
 import CommentSkeleton from "@/common/skeleton/CommentSkeleton";
 import CommentList from "./CommentList";
 import CommentInput from "./CommentInput";
+import { useTranslations } from "next-intl";
 
 const FeedComment = ({ postId }) => {
   const [page, setPage] = useState(1);
@@ -18,7 +19,6 @@ const FeedComment = ({ postId }) => {
   const [pagination, setPagination] = useState({ hasNextPage: false });
   const [newComment, setNewComment] = useState("");
   const [loadingMore, setLoadingMore] = useState(false);
-
   const { mutate: createComments } = useCreateComment();
   const setAddCommentCount = usePostStore((s) => s.setAddCommentCount);
 

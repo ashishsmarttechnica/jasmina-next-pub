@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import DynamicPost from "./DynamicPost";
 import { useAllPosts } from "@/hooks/post/usePosts";
 import usePostStore from "@/store/post.store";
+import { useTranslations } from "next-intl";
 
 // Skeleton loader component for posts
 const PostSkeleton = ({ count = 1 }) => {
@@ -17,7 +18,7 @@ const PostSkeleton = ({ count = 1 }) => {
         .fill(0)
         .map((_, index) => (
           <div
-            key={index}
+          key={index}
             className="w-full bg-white rounded-lg shadow p-4 animate-pulse"
           >
             <div className="flex items-center space-x-3 mb-4">
@@ -44,6 +45,7 @@ const PostSkeleton = ({ count = 1 }) => {
 };
 
 const FeedPost = () => {
+  const t=useTranslations("FeedComment")
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
@@ -79,13 +81,13 @@ const FeedPost = () => {
       <div className="w-full xl:max-w-[547px]">
         <CreatePost />
         <div className="text-center py-10 text-red-500 bg-white rounded-lg shadow p-4">
-          <p className="font-bold mb-2">Error loading posts</p>
+          <p className="font-bold mb-2">{t("errorposts")}</p>
           <p>{error.message}</p>
           <button
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
             onClick={() => setPage(1)}
           >
-            Try Again
+           {t("tryagain")}
           </button>
         </div>
       </div>
@@ -98,7 +100,7 @@ const FeedPost = () => {
       <div className="w-full xl:max-w-[547px]">
         <CreatePost />
         <div className="text-center py-10 bg-white rounded-lg shadow p-4">
-          No posts found.
+          {t("nofound")}
         </div>
       </div>
     );
@@ -134,7 +136,7 @@ const FeedPost = () => {
               className="px-4 py-1 text-center bg-primary text-white rounded"
               onClick={loadMorePosts}
             >
-              Load More
+              {t("loadmore")}
             </button>
           </div>
         )}

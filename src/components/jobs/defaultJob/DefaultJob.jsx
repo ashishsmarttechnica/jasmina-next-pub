@@ -7,12 +7,12 @@ const DefaultJob = () => {
   return (
     <div className="w-full ">
       <JobHeader />
-      <div className="flex flex-col gap-4  mt-4 lg:flex-row">
-        <div className="lg:max-w-[233px] lg:w-[233px] xl:max-w-[266px] xl:w-full">
+      <div className="flex flex-col gap-4  mt-4 ">
+        <div className="">
           <JobCards />
         </div>
         <div className="">
-          <SingleJobDetail />
+          {/* <SingleJobDetail /> */}
         </div>
       </div>
     </div>

@@ -396,5 +396,74 @@
       "employeesError": "عدد الموظفين مطلوب."
     }
   },
-  "Next": ""
+  "Next": "",
+  "UserHeader": {
+    "searchPlaceholder": "ابحث عن الناس ، وظائف",
+    "home": "بيت",
+    "jobs": "وظائف",
+    "connections": "الاتصالات",
+    "logout": "تسجيل الخروج"
+  },
+  "CompanyHeader": {
+    "logout": "تسجيل الخروج",
+    "connections": "الاتصالات",
+    "home": "بيت",
+    "jobs": "وظائف"
+  },
+  "UserProfileLeft": {
+    "connections": "الاتصالات",
+    "viewProfile": "عرض الملف الشخصي",
+    "views": "وجهات النظر"
+  },
+  "UserMainFeed": {
+    "connections": "الاتصالات",
+    "networkInvites": "تدعو الشبكة",
+    "mightKnow": "الناس الذين قد تعرفهم"
+  },
+  "FeedPost": {
+    "post": "بريد",
+    "posting": "إرسال...",
+    "media": "وسائط",
+    "doyourpost": "هل تنشرك",
+    "startpostPlaceholder": "ابدأ منشورًا",
+    "recentjob": "الوظائف الأخيرة"
+  },
+  "UserFeedPost": {
+    "recentjob": "الوظائف الأخيرة",
+    "posted": "نشر",
+    "doyourpost": "هل تنشرك",
+    "startpostPlaceholder": "ابدأ منشورًا",
+    "media": "وسائط",
+    "posting": "إرسال...",
+    "post": "بريد"
+  },
+  "CompanyMainFeed": {
+    "networkInvites": "تدعو الشبكة",
+    "mightKnow": "الناس الذين قد تعرفهم",
+    "connections": "الاتصالات",
+    "postjob": "انشر وظيفة"
+  },
+  "FeedProfileLeft": {
+    "connections": "الاتصالات",
+    "views": "وجهات النظر",
+    "viewProfile": "عرض ملف التعريف الخاص بي"
+  },
+  "UserPostModel": {
+    "post": "بريد",
+    "posting": "إرسال...",
+    "connectionsonly": "الاتصالات فقط",
+    "Anyone": "أي شخص",
+    "whopost": "من يستطيع رؤية رسالتك؟",
+    "uploadmedia": "تحميل من الوسائط",
+    "sharePlaceholder": "شارك أفكارك ..."
+  },
+  "FeedComment": {
+    "commentPlaceholder": "أضف تعليقًا ...",
+    "nocommit": "لا توجد تعليقات حتى الآن.",
+    "send": "يرسل",
+    "loadmore": "تحميل أكثر",
+    "nofound": "لم يتم العثور على وظائف.",
+    "tryagain": "حاول ثانية",
+    "errorposts": "خطأ في تحميل المنشورات"
+  }
 }
