@@ -9,11 +9,10 @@ import React from "react";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 import Card from "./card/Card";
 import CardHeading from "./card/CardHeading";
-import Image from "next/image";
-import noImage2 from "@/assets/form/noImage2.webp";
 import getImg from "@/lib/getImg";
 import { IoClose } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const UserNetworkInvites = ({ title }) => {
   const { data: networkInvitesData } = useNetworkInvitesStore();

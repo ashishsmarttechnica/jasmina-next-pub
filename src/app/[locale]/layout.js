@@ -11,7 +11,6 @@ import QueryProvider from "@/providers/QueryProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Add CSS for styling the toast
 import AppInit from "@/lib/AppInit";
-import { Analytics } from "@vercel/analytics/next";
 
 const ubuntu = Ubuntu_Sans({
   variable: "--font-ubuntu",
@@ -37,7 +36,6 @@ export default async function LocaleLayout({ children, params }) {
             <NextIntlClientProvider>
               <AppInit />
               {children}
-              <Analytics />
               <Footer />
             </NextIntlClientProvider>
           </QueryProvider>
