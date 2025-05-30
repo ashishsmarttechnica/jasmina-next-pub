@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Modal } from "rsuite";
 import Image from "next/image";
-import Uploadsmall from "../assets/form/Uploadsmall.png";
+import Uploadsmall from "@/assets/form/Uploadsmall.png";
 import user1 from "@/assets/feed/user-1.png";
 import useAuthStore from "@/store/auth.store";
 import getImg from "@/lib/getImg";
 import profileImg from "@/assets/feed/Profile.png";
 import { useTranslations } from "next-intl";
+import ImageFallback from "@/common/shared/ImageFallback";
 
 const CreateUserPost = ({
   isOpen,
@@ -50,9 +51,9 @@ const CreateUserPost = ({
 
   return (
     <Modal open={isOpen} onClose={onClose} size="547px">
-      <Modal.Body className="sm:p-6 p-2 bg-white rounded-lg">
+      <Modal.Body className="sm:p-2 p-2 bg-white rounded-lg">
         <div className="flex items-center mb-4">
-          <Image
+          <ImageFallback
             src={getImg(user?.profile?.photo) || profileImg}
             alt="User"
             width={30}

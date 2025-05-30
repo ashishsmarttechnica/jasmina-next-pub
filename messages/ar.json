@@ -132,7 +132,7 @@
     "AlreadyHaveAccount": "هل لديك بالفعل حساب؟",
     "Login": "تسجيل الدخول",
     "forgotPassworFormEmail": "أدخل عنوان بريدك الإلكتروني المسجل",
-    "ResetLink": "إرسال رابط إعادة تعيين",
+    "ResetLink": "إرسال OTP",
     "forgotLastText": "لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. \nيرجى التحقق من صندوق الوارد الخاص بك واتباع الإرشادات لإنشاء كلمة مرور جديدة.",
     "ForgotPasswordTitle": "نسيت كلمة السر؟",
     "ForgotPasswordSubTitle": "لا شكر على واجب! \nسنرسل لك رابطًا لإعادة تعيينه.",
@@ -149,13 +149,22 @@
     "Verifying": "التحقق ...",
     "Verify": "يؤكد",
     "Signingin": "تسجيل الدخول ...",
-    "PleaseSelectAccountType": ""
+    "PleaseSelectAccountType": "",
+    "ResendOTP": "إعادة إرسال OTP",
+    "VerifyOTP": "تحقق من OTP",
+    "otpVerifiedSuccess": "تم التحقق من OTP بنجاح",
+    "Next": "التالي",
+    "PleaseEnterNewPassword": "الرجاء إدخال كلمة مرور جديدة",
+    "Continue": "يكمل",
+    "NewPassword": "كلمة المرور الجديدة",
+    "ConfirmPassword": "تأكيد كلمة المرور",
+    "ChangePassword": "تغيير كلمة المرور"
   },
   "UserProfile": {
     "profile": {
       "title": "بناء ملف التعريف الخاص بك",
       "subTitle": "أخبرنا قليلاً عن نفسك.",
-      "uploadImage": "تحميل شعار",
+      "uploadImage": "تحميل الصورة",
       "name": "الاسم الكامل",
       "username": "اسم المستخدم",
       "gender": "جنس",
@@ -195,7 +204,12 @@
       "LinkedInLinkError": "الرجاء إدخال رابط ملف تعريف LinkedIn الخاص بك.",
       "usernamePlaceholder": "أدخل اسم المستخدم الخاص بك",
       "namePlaceholder": "أدخل اسمك الكامل",
-      "PhoneLength10to15Error": "\"أدخل رقم الهاتف بين 10 إلى 15 رقمًا\""
+      "PhoneLength10to15Error": "\"أدخل رقم الهاتف بين 10 إلى 15 رقمًا\"",
+      "enterYourCountry": "أدخل بلدك",
+      "enterYourCity": "أدخل مدينتك",
+      "enterYourState": "أدخل ولايتك",
+      "email": "بريد إلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -286,7 +300,8 @@
       "proficiencyError": "الكفاءة مطلوبة.",
       "experienceError": "التجربة مطلوبة.",
       "categoryError": "الفئة مطلوبة.",
-      "languageError": "اللغة مطلوبة."
+      "languageError": "اللغة مطلوبة.",
+      "success": "تم تحديث الملف الشخصي"
     },
     "resume": {
       "title": "تحميل سيرتك الذاتية",
@@ -465,5 +480,26 @@
     "nofound": "لم يتم العثور على وظائف.",
     "tryagain": "حاول ثانية",
     "errorposts": "خطأ في تحميل المنشورات"
+  },
+  "Common": {
+    "country": "الدولة",
+    "state": "الولاية",
+    "city": "المدينة",
+    "selectCountry": "اختر الدولة",
+    "selectState": "اختر الولاية",
+    "selectCity": "اختر المدينة",
+    "locationError": "الرجاء اختيار موقع صالح",
+    "enterCityManually": "أدخل المدينة يدوياً",
+    "useDropdown": "استخدم القائمة المنسدلة",
+    "search": "بحث...",
+    "noResults": "لم يتم العثور على نتائج",
+    "countryRequired": "البلد مطلوب",
+    "stateRequired": "الدولة مطلوبة",
+    "cityRequired": "المدينة مطلوبة"
+  },
+  "Validation": {
+    "personal": {
+      "phoneInvalid": "تنسيق رقم الهاتف غير صالح (10 أرقام مطلوبة)"
+    }
   }
 }

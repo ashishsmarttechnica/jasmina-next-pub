@@ -1,12 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import PeopleCard from "./PeopleCard";
-import CompanyCard from "./CompanyCard";
-import useConnectionsStore from "@/store/connections.store";
-import { useConnections } from "@/hooks/connections/useConnections";
-import useTabUnderlineAnimation from "@/hooks/connections/animation/useTabUnderlineAnimation";
-import TabsWithUnderline from "./TabsWithUnderline";
 import ConnectionSkeleton from "@/common/skeleton/ConnectionSkeleton";
+import useTabUnderlineAnimation from "@/hooks/connections/animation/useTabUnderlineAnimation";
+import { useConnections } from "@/hooks/connections/useConnections";
+import useConnectionsStore from "@/store/connections.store";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import ConnectionHeader from "./ConnectionHeader";
+import ConnectionsList from "./ConnectionsList";
+import EmptyState from "./EmptyState";
+import ErrorDisplay from "./ErrorDisplay";
+import TabsWithUnderline from "./TabsWithUnderline";
 
 const ConnectionsContent = () => {
   const peopleRef = useRef(null);
@@ -30,12 +33,11 @@ const ConnectionsContent = () => {
     resetConnections: resetCompanyConnections,
   } = useConnectionsStore();
 
-  const {
-    underlineStyle,
-    hoverStyle,
-    handleHover,
-    handleHoverLeave,
-  } = useTabUnderlineAnimation(activeTab, peopleRef, companyRef);
+  const { underlineStyle, hoverStyle, handleHover, handleHoverLeave } = useTabUnderlineAnimation(
+    activeTab,
+    peopleRef,
+    companyRef
+  );
 
   const {
     data: userData,
@@ -44,7 +46,7 @@ const ConnectionsContent = () => {
     error: userError,
     refetch: refetchUser,
     isFetching: isUserFetching,
-  } = useConnections("User", userPage);
+  } = useConnections(userPage, undefined, { enabled: activeTab === "people" }, "User");
 
   const {
     data: companyData,
@@ -53,7 +55,7 @@ const ConnectionsContent = () => {
     error: companyError,
     refetch: refetchCompany,
     isFetching: isCompanyFetching,
-  } = useConnections("Company", companyPage);
+  } = useConnections(companyPage, undefined, { enabled: activeTab === "company" }, "Company");
 
   const currentConnections = activeTab === "people" ? userConnections : companyConnections;
   const currentPagination = activeTab === "people" ? userPagination : companyPagination;
@@ -74,11 +76,9 @@ const ConnectionsContent = () => {
     if (activeTab === "people") {
       setUserPage(1);
       resetUserConnections();
-      refetchUser();
     } else {
       setCompanyPage(1);
       resetCompanyConnections();
-      refetchCompany();
     }
   }, [activeTab]);
 
@@ -94,14 +94,9 @@ const ConnectionsContent = () => {
 
   if (showLoader) {
     return (
-      <div className="bg-white shadow rounded-md">
-        <div className="bg-white z-10 opacity-0 invisible absolute ">
-          <div className="border-b border-black/10">
-            <h2 className="text-xl font-medium py-4 px-4 sm:px-6">
-              Connections
-            </h2>
-          </div>
-
+      <div className="rounded-md bg-white shadow">
+        <div className="invisible absolute z-10 bg-white opacity-0">
+          <ConnectionHeader />
           <TabsWithUnderline
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -121,14 +116,9 @@ const ConnectionsContent = () => {
 
   if (isError) {
     return (
-      <div className="bg-white shadow rounded-md">
-        <div className="bg-white z-10">
-          <div className="border-b border-black/10">
-            <h2 className="text-xl font-medium py-4 px-4 sm:px-6">
-              Connections
-            </h2>
-          </div>
-
+      <div className="rounded-md bg-white shadow">
+        <div className="z-10 bg-white">
+          <ConnectionHeader />
           <TabsWithUnderline
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -141,29 +131,19 @@ const ConnectionsContent = () => {
           />
         </div>
 
-        <div className="p-4 sm:p-6 text-center text-red-500">
-          <p>Error: {error?.message || "Something went wrong"}</p>
-          <button
-            onClick={() => activeTab === "people" ? refetchUser() : refetchCompany()}
-            className="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded hover:bg-primary hover:text-white transition"
-          >
-            Try Again
-          </button>
-        </div>
+        <ErrorDisplay
+          error={error}
+          refetchFn={() => (activeTab === "people" ? refetchUser() : refetchCompany())}
+        />
       </div>
     );
   }
 
   if (noData) {
     return (
-      <div className="bg-white shadow rounded-md">
-        <div className="bg-white z-10">
-          <div className="border-b border-black/10">
-            <h2 className="text-xl font-medium py-4 px-4 sm:px-6">
-              Connections
-            </h2>
-          </div>
-
+      <div className="rounded-md bg-white shadow">
+        <div className="z-10 bg-white">
+          <ConnectionHeader />
           <TabsWithUnderline
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -176,20 +156,15 @@ const ConnectionsContent = () => {
           />
         </div>
 
-        <div className="p-4 sm:p-6 text-center text-grayBlueText">
-          No {activeTab === "people" ? "people" : "companies"} connections found
-        </div>
+        <EmptyState activeTab={activeTab} />
       </div>
     );
   }
 
   return (
-    <div className="bg-white shadow rounded-md">
-      <div className="bg-white z-10">
-        <div className="border-b border-black/10">
-          <h2 className="text-xl font-medium py-4 px-4 sm:px-6">Connections</h2>
-        </div>
-
+    <div className="rounded-md bg-white shadow">
+      <div className="z-10 bg-white">
+        <ConnectionHeader />
         <TabsWithUnderline
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -202,37 +177,24 @@ const ConnectionsContent = () => {
         />
       </div>
 
-      <div className="p-4 sm:p-6 space-y-4">
-        {currentConnections.map((item) =>
-          activeTab === "people" ? (
-            <PeopleCard key={item._id} person={item} />
-          ) : (
-            <CompanyCard key={item._id} company={item} />
-          )
-        )}
-
-        {currentHasMore && (
-          <div className="flex justify-center mt-4">
-            <button
-              onClick={loadMore}
-              disabled={isFetching}
-              className="px-4 py-2 border rounded text-sm text-primary border-primary hover:bg-primary hover:text-white transition flex items-center gap-2"
-            >
-              {isFetching ? (
-                <>
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  <span>Loading</span>
-                </>
-              ) : (
-                "Load More"
-              )}
-            </button>
-          </div>
-        )}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto", minHeight: "500px" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
+        >
+          <ConnectionsList
+            activeTab={activeTab}
+            connections={currentConnections}
+            hasMore={currentHasMore}
+            isFetching={isFetching}
+            loadMore={loadMore}
+          />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };

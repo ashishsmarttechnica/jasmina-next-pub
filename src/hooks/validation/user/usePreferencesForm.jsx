@@ -15,9 +15,10 @@ const usePreferencesForm = () => {
     // }
     if (!formData.salaryRange) {
       newErrors.salaryRange = t("SalaryRangeError");
-    } else if (isNaN(formData.salaryRange) || formData.salaryRange <= 0) {
-      newErrors.salaryRange = t("InvalidSalaryRangeError");
     }
+    // else if (isNaN(formData.salaryRange) || formData.salaryRange <= 0) {
+    //   newErrors.salaryRange = t("InvalidSalaryRangeError");
+    // }
 
     if (!formData.joindate) {
       newErrors.joindate = t("JoinDateError");

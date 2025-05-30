@@ -1,77 +1,66 @@
-import Image from "next/image";
-import React, { use, useEffect, useState } from "react";
-import user from "@/assets/feed/user-1.png";
 import postImg from "@/assets/feed/post-1.png";
-import { useCommentsByPostId } from "@/hooks/comment/useComments";
-import useCommentStore from "@/store/comments.store";
+import user from "@/assets/feed/user-1.png";
+import CommentSkeleton from "@/common/skeleton/CommentSkeleton";
+import CommentInput from "@/components/user/feed/comment/CommentInput";
+import { useCommentsByPostId, useCreateComment } from "@/hooks/comment/useComments";
+import usePostStore from "@/store/post.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+import CompanyCommentList from "./CompanyCommentList";
 
-const renderSkeletons = () => {
-  return (
-    <div className="w-full animate-pulse">
-      {/* Comment Block */}
-      <div className="flex items-start gap-3 px-4 pb-5 border-b border-black/10">
-        <div className="relative">
-          <div className="w-10 h-10 bg-gray-200 rounded-full" />
-          <span className="absolute -bottom-1 right-0 w-3 h-3 bg-gray-300 border-2 border-white rounded-full" />
-        </div>
-        <div className="flex-1 min-w-0 space-y-1">
-          <div className="h-4 bg-gray-200 rounded w-1/3" />
-          <div className="h-3 bg-gray-200 rounded w-2/3" />
-        </div>
-      </div>
-
-      {/* Input Field Skeleton */}
-      <div className="px-4"></div>
-    </div>
-  );
-};
-
-const newpost = {
-  id: 1,
-  user: {
-    name: "Collin Weiland",
-    title: "Web Developer @Google",
-    avatar: user,
-    online: true,
-  },
-  content:
-    "Lorem ipsum dolor sit amet, consectetur 😍😎 adipisicing elit, sed do eiusmod tempo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco  laboris consequat.",
-  highlight: "laboris consequat",
-  image: postImg,
-  likes: 16,
-  comments: 8,
-  shares: 2,
-  timeAgo: "5 hours ago",
-  comment: {
-    name: "James Spiegel",
-    text:
-      "Ratione voluptatem sequi unde soluta.   Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur",
-    avatar: user,
-  },
-};
 
 const FeedComment = ({ postId }) => {
   const [page, setPage] = useState(1);
-  const comments = useCommentStore((s) => s.comments);
-  const pagination = useCommentStore((s) => s.pagination);
-  const t=useTranslations("FeedComment");
+  const [comments, setComments] = useState([]);
+  const [pagination, setPagination] = useState({ hasNextPage: false });
+  const [newComment, setNewComment] = useState("");
+  const [loadingMore, setLoadingMore] = useState(false);
 
+  const { mutate: createComments } = useCreateComment();
+  const setAddCommentCount = usePostStore((s) => s.setAddCommentCount);
+  const t = useTranslations("FeedComment");
+  const { data, isLoading, isError, error } = useCommentsByPostId(postId, true, page);
 
+  const handleCommentSubmit = () => {
+    if (!newComment.trim()) return;
 
-  const { data, isLoading, isError, error } = useCommentsByPostId(
-    postId,
-    true,
-    page
-  );
+    const submittedComment = {
+      userId: Cookies.get("userId"),
+      postId: postId,
+      text: newComment,
+      userType: "Company",
+    };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        {renderSkeletons()}
-      </div>
-    );
+    createComments(submittedComment, {
+      onSuccess: (data) => {
+        setNewComment("");
+        setComments((prev) => [data.data, ...prev]);
+        setAddCommentCount(postId);
+      },
+    });
+  };
+
+  const loadMoreComments = () => {
+    setLoadingMore(true);
+    setPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    if (data) {
+      const hasNext = data.pagination.page < data.pagination.pages;
+
+      setComments(data.newComments);
+
+      setPagination({ hasNextPage: hasNext });
+      setLoadingMore(false);
+    }
+  }, [data]);
+
+  if (isLoading && page === 1) {
+    return <CommentSkeleton />;
   }
+
   if (isError) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -79,6 +68,7 @@ const FeedComment = ({ postId }) => {
       </div>
     );
   }
+
   if (comments.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -87,35 +77,29 @@ const FeedComment = ({ postId }) => {
     );
   }
 
-  const loadMoreComments = () => {
-    setPage((prev) => prev + 1);
-  };
-
   return (
-    <div>
-      <div className="flex items-start gap-3 px-4 pb-5 border-b border-black/10">
-        <div className="relative">
-          <Image
-            src={newpost?.comment.avatar}
-            alt={newpost?.comment.name}
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <span className="absolute -bottom-1 right-0 w-3 h-3 bg-primary border-2 border-white rounded-full" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-medium text-[13px]">{newpost.comment.name}</p>
-          <p className="text-xs font-normal tracking-tight leading-1.3 text-grayBlueText mt-0.5">
-            {newpost.comment.text}
-          </p>
-        </div>
+    <div className="border-t border-black/10">
+      <div className="h-full max-h-[400px] overflow-y-auto no-scrollbar pt-2">
+        <CompanyCommentList comments={comments} />
+
+        {pagination.hasNextPage && (
+          <div className="flex p-4">
+            <button
+              onClick={loadMoreComments}
+              disabled={loadingMore}
+              className="px-4 py-1 text-sm font-medium text-primary hover:text-white bg-secondary border border-primary rounded hover:bg-primary/80 disabled:text-white disabled:bg-primary/60 transition-all duration-200"
+            >
+              {loadingMore ? "Loading..." : "Load More Comments"}
+            </button>
+          </div>
+        )}
       </div>
-      <div className="px-4">
-        <input
-          type="text"
-          placeholder={t("commentPlaceholder")}
-          className="py-4 w-full text-sm focus:outline-none"
-        />
-      </div>
+
+      <CommentInput
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        onSubmit={handleCommentSubmit}
+      />
     </div>
   );
 };

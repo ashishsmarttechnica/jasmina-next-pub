@@ -14,15 +14,12 @@ export const getConnections = async ({
   userType,
   page = 1,
   limit = 10,
+  connectionType = "User",
 }) => {
-  const res = await axios.get(`/get/connection`, {
-    params: {
-      userId,
-      userType,
-      page,
-      limit,
-    },
-  });
+
+  const res = await axios.get(
+    `/get/connection?userId=${userId}&userType=${userType}&page=${page}&limit=${limit}&filterType=${connectionType}`
+  );
   return res.data;
 };
 

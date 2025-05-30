@@ -1,35 +1,26 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getConnections,
-  createConnection,
-  removeConnection,
-} from "@/api/connection.api";
-import useConnectionsStore from "@/store/connections.store";
-import Cookies from "js-cookie";
+import { createConnection, getConnections, removeConnection } from "@/api/connection.api";
 import capitalize from "@/lib/capitalize";
+import useConnectionsStore from "@/store/connections.store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-export const useConnections = (userType, page) => {
+export const useConnections = (connectionType, page, limit, options = {}) => {
   const userId = Cookies.get("userId");
-  const {
-    connections,
-    setConnections,
-    setPagination,
-    setHasMore,
-  } = useConnectionsStore();
+  const userType = capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
 
   return useQuery({
     queryKey: ["connections", userId, userType, page],
     queryFn: async () => {
-      const res = await getConnections({ userId, userType, page, limit: 10 });
+      const res = await getConnections({ userId, userType, page, limit, connectionType });
 
       if (res?.success) {
         const newData = res.data.results || [];
         const pagination = res.data.pagination;
 
         // Append or replace based on page
-        const mergedConnections =
-          page === 1 ? newData : [...connections, ...newData];
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
 
         setConnections(mergedConnections);
         setPagination(pagination);
@@ -46,6 +37,7 @@ export const useConnections = (userType, page) => {
     enabled: !!userId && !!userType && !!page,
     keepPreviousData: true,
     refetchOnWindowFocus: false,
+    ...options,
   });
 };
 
@@ -75,8 +67,7 @@ export const useCreateConnection = () => {
       }
     },
     onError: (error) => {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong!";
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
   });
@@ -99,17 +90,14 @@ export const useRemoveConnection = () => {
     onSuccess: (data, variables) => {
       if (data?.success) {
         toast.success("Connection removed successfully!");
-        const updatedConnections = connections.filter(
-          (conn) => conn._id !== variables.id
-        );
+        const updatedConnections = connections.filter((conn) => conn._id !== variables.id);
         setConnections(updatedConnections);
       } else {
         toast.error(data?.message || "Failed to remove connection");
       }
     },
     onError: (error) => {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong!";
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
   });

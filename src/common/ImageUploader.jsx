@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import Image from "next/image";
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useRef } from "react";
 
 const ImageUploader = ({
   selectedImage,
@@ -9,6 +9,7 @@ const ImageUploader = ({
   setSelectedImageFile,
   isnotCEntered = false,
   isBanner = false,
+  priority = false,
 }) => {
   const t = useTranslations("UserProfile.profile");
   const fileInputRef = useRef(null);
@@ -30,19 +31,8 @@ const ImageUploader = ({
   };
 
   return (
-    <div>
-      <p
-        className={` ${
-          !isnotCEntered ? "text-center" : ""
-        }  text-grayBlueText my-2`}
-      >
-        {t("uploadImage")}
-      </p>
-      <div
-        className={`flex ${
-          !isnotCEntered ? "items-center justify-center" : ""
-        }  my-2`}
-      >
+    <div className={`flex w-full flex-col ${isnotCEntered ? "" : "items-center justify-center"}`}>
+      <div className="group relative">
         <input
           type="file"
           ref={fileInputRef}
@@ -51,20 +41,20 @@ const ImageUploader = ({
           onChange={handleFileChange}
         />
         <div
-          className={`relative ${isBanner ? "w-[432px]" : "w-[128px]"} ${
-            isBanner ? "h-[200px]" : "h-[128px]"
-          }`}
+          className={`border-primary relative flex border-1 ${isBanner ? "h-42 w-1/2 rounded-xl" : "h-32 w-32 rounded-full"} cursor-pointer items-center justify-center overflow-hidden bg-white shadow-lg`}
+          onClick={handleImageClick}
         >
           <Image
             src={selectedImage || Uploadimg}
             alt="Upload Preview"
-            layout="fill"
-            objectFit="cover"
-            className="cursor-pointer mb-1 object-cover border border-secondary "
-            onClick={handleImageClick}
+            fill
+            sizes={isBanner ? "50vw" : "128px"}
+            className="h-full w-full object-cover"
+            priority={priority}
           />
         </div>
       </div>
+      {/* <p className="mt-2 text-sm text-gray-500">{t("uploadImage")}</p> */}
     </div>
   );
 };

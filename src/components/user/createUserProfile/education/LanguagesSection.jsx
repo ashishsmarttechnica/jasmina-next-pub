@@ -18,9 +18,9 @@ const LanguagesSection = ({
   return (
     <div>
       <div className="my-2 flex items-center justify-between">
-        <p className="text-[15px] font-medium text-[#0f0f0f]">
+        <div className="text-[15px] font-medium text-[#0f0f0f]">
           {t("languages")}
-        </p>
+        </div>
         <FiPlusSquare
           onClick={() => addSection("languages")}
           className="w-[19px] h-[19px] cursor-pointer"

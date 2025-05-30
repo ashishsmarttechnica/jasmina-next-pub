@@ -1,9 +1,8 @@
-import React from "react";
-import { FiPlusSquare } from "react-icons/fi";
-import { RxCross2 } from "react-icons/rx";
+import InputField from "@/common/InputField";
 import Selecter from "@/common/Selecter";
 import { useTranslations } from "next-intl";
-import InputField from "@/common/InputField";
+import { FiPlusSquare } from "react-icons/fi";
+import { RxCross2 } from "react-icons/rx";
 
 const SkillsSection = ({
   skillsList,
@@ -18,21 +17,19 @@ const SkillsSection = ({
   return (
     <div>
       <div className="my-2 flex items-center justify-between">
-        <p className="text-[15px] font-semibold text-[#0f0f0f]">
-          {`${t("skills")}*`}
-        </p>
+        <div className="text-[15px] font-medium text-[#0f0f0f]">{`${t("skills")}*`}</div>
         <FiPlusSquare
           onClick={() => addSection("skills")}
-          className="w-[19px] h-[19px] cursor-pointer"
+          className="h-[19px] w-[19px] cursor-pointer"
         />
       </div>
       {skillsList.map((skill, index) => (
         <div
           key={index}
           className={`${
-            index > 0 ? "border border-[#ddd] relative" : ""
-          } grid sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2 ${
-            index > 0 ? "p-4 rounded-md mt-2" : ""
+            index > 0 ? "relative border border-[#ddd]" : ""
+          } grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 ${
+            index > 0 ? "mt-2 rounded-md p-4" : ""
           }`}
         >
           {index > 0 && (
@@ -47,29 +44,18 @@ const SkillsSection = ({
             name={`skill-${index}`}
             type="text"
             value={skill.skill}
-            onChange={(e) =>
-              handleChange("skillsList", index, "skill", e.target.value)
-            }
+            onChange={(e) => handleChange("skillsList", index, "skill", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-skill`)}
             error={errors[`skill-${index}-skill`]}
           />
           <div className="space-y-1">
-            <label className="text-[14px] text-grayBlueText">
-              {`${t("proficiency")}*`}
-            </label>
+            <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}*`}</label>
             <Selecter
               name="proficiency"
               options={proficiencyOptions}
               value={skill.proficiency}
               onChange={(e) =>
-                handleChange(
-                  "skillsList",
-                  index,
-                  "proficiency",
-                  e.target.value,
-                  true,
-                  "skill"
-                )
+                handleChange("skillsList", index, "proficiency", e.target.value, true, "skill")
               }
               error={errors[`skill-${index}-proficiency`]}
             />
@@ -82,9 +68,7 @@ const SkillsSection = ({
             min="0"
             step="0.5"
             value={skill.experience}
-            onChange={(e) =>
-              handleChange("skillsList", index, "experience", e.target.value)
-            }
+            onChange={(e) => handleChange("skillsList", index, "experience", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-experience`)}
             error={errors[`skill-${index}-experience`]}
           />
@@ -95,9 +79,7 @@ const SkillsSection = ({
             name={`category-${index}`}
             type="text"
             value={skill.category}
-            onChange={(e) =>
-              handleChange("skillsList", index, "category", e.target.value)
-            }
+            onChange={(e) => handleChange("skillsList", index, "category", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-category`)}
             error={errors[`skill-${index}-category`]}
           />

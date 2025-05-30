@@ -1,0 +1,30 @@
+import CompanyCard from "./CompanyCard";
+import LoadMoreButton from "./LoadMoreButton";
+import PeopleCard from "./PeopleCard";
+
+const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loadMore }) => {
+  // Ensure connections is always an array
+  const connectionsList = Array.isArray(connections) ? connections : [];
+
+  return (
+    <>
+      {connectionsList.length > 0 ? (
+        <>
+          {connectionsList.map((item) =>
+            activeTab === "people" ? (
+              <PeopleCard key={item._id} person={item} />
+            ) : (
+              <CompanyCard key={item._id} company={item} />
+            )
+          )}
+        </>
+      ) : (
+        <div className="py-4 text-center text-gray-500">No connections available</div>
+      )}
+
+      {hasMore && <LoadMoreButton onClick={loadMore} isLoading={isFetching} />}
+    </>
+  );
+};
+
+export default ConnectionsList;

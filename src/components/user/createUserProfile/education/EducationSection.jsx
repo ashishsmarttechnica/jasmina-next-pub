@@ -16,9 +16,9 @@ const EducationSection = ({
   return (
     <div>
       <div className="my-2 flex items-center justify-between">
-        <p className="text-[15px] font-medium text-[#0f0f0f]">
+        <div className="text-[15px] font-medium text-[#0f0f0f]">
           {t("educationSection")}
-        </p>
+        </div>
         <FiPlusSquare
           onClick={() => addSection("education")}
           className="w-[19px] h-[19px] cursor-pointer"

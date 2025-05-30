@@ -3,19 +3,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #0F8200;
+  --primary: #0f8200;
   --secondary: #cfe6cc;
-  --lightGray: #CAB7CC;
+  --lightGray: #cab7cc;
   --gray: #edf2f6;
-  --headerbg: #1D2F38;
+  --headerbg: #1d2f38;
   --footerBorder: #e7e7e7;
   --custBlack: #333;
-  --grayBlueText: #888DA8;
-  --lightBlue: #007BFF;
+  --grayBlueText: #888da8;
+  --lightBlue: #007bff;
   --lightWhite: #f1f1f1;
   --uiLight: #f2f2f2;
-  --neutralLight2: #EAEAEA;
-  --shadow-card: 0px 4px 25px 0px rgba(136, 141, 168, 0.10);
+  --neutralLight2: #eaeaea;
+  --shadow-card: 0px 4px 25px 0px rgba(136, 141, 168, 0.1);
   --shadow-job-dropdown: 0px 2px 6px 0px rgba(0, 0, 0, 0.18);
 }
 
@@ -25,7 +25,6 @@
     --foreground: #ededed;
   }
 }
-
 
 @theme inline {
   --color-background: var(--background);
@@ -56,7 +55,7 @@
 }
 
 body {
-  @apply bg-gray font-ubuntu
+  @apply bg-gray font-ubuntu;
 }
 
 .r-modal {
@@ -65,7 +64,7 @@ body {
 }
 
 .rs-modal-content {
-  padding: 0 20px;
+  padding: 8px 20px;
   margin: 10px;
 }
 
@@ -95,29 +94,28 @@ input[type="radio"]:checked::before {
   animation: appear 0.8s;
 }
 
-
 .cust-card {
-  @apply w-full bg-white rounded-lg shadow-card border border-grayBlueText/20;
+  @apply shadow-card border-grayBlueText/20 w-full rounded-lg border bg-white;
 }
 
 .btn {
-  @apply px-5 py-2.5 text-sm font-medium text-white rounded-md;
+  @apply rounded-md px-5 py-2.5 text-sm font-medium text-white;
 }
 
 .btn-fill {
-  @apply w-full mt-3 sm:mt-6 p-1 hover:text-primary sm:p-2 bg-primary transition-all duration-100 ease-in border border-transparent hover:border-primary hover:bg-secondary/50 text-white rounded-md text-[18px] sm:text-[20px];
+  @apply hover:text-primary bg-primary hover:border-primary hover:bg-secondary/50 mt-3 w-full rounded-md border border-transparent p-1 text-[18px] text-white transition-all duration-100 ease-in sm:mt-6 sm:p-2 sm:text-[20px];
 }
 
 .btn-white-fill {
-  @apply w-full mt-3 sm:mt-7 p-1 hover:bg-primary hover:text-white sm:p-2 text-primary bg-white border border-primary transition-all duration-75 ease-in hover:border hover:border-white rounded-md text-[18px] sm:text-[20px];
+  @apply hover:bg-primary text-primary border-primary mt-3 w-full rounded-md border bg-white p-1 text-[18px] transition-all duration-75 ease-in hover:border hover:border-white hover:text-white sm:mt-7 sm:p-2 sm:text-[20px];
 }
 
 .btn-small {
-  @apply p-2 sm:py-2 sm:px-3 bg-primary hover:bg-secondary hover:text-primary transition-all duration-100 ease-in text-white rounded-sm text-[13px];
+  @apply bg-primary hover:bg-secondary hover:text-primary rounded-sm p-2 text-[13px] text-white transition-all duration-100 ease-in sm:px-3 sm:py-2;
 }
 
 .btn-small-light {
-  @apply p-2 sm:px-3 sm:py-2 bg-secondary hover:bg-primary text-primary hover:text-secondary transition-all duration-100 ease-in rounded-sm text-[13px];
+  @apply bg-secondary hover:bg-primary text-primary hover:text-secondary rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2;
 }
 
 .rs-modal-wrapper {
@@ -125,13 +123,44 @@ input[type="radio"]:checked::before {
 }
 
 .rs-modal-body {
-  @apply mt-0
+  @apply mt-0;
 }
 
 .rs-modal-content {
-  @apply rounded-[10px]
+  @apply rounded-[10px];
 }
 
 button {
   @apply cursor-pointer;
+}
+
+.profile-btn {
+  @apply border-primary text-primary hover:bg-primary mt-3.5 w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] transition-all duration-200 hover:text-white md:text-sm;
+}
+
+.connect-btn {
+  @apply bg-primary border-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] text-white transition-all duration-200 md:text-sm;
+}
+
+.message-btn {
+  @apply border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] transition-all duration-200 md:text-sm;
+}
+.flag-btn {
+  @apply border-grayBlueText hover:border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-2 py-1 text-[10px] transition-all duration-200 md:text-sm;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.showline-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

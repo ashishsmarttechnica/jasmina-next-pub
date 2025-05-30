@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
-import ReusableForm from "../../form/ReusableForm";
-import usePreferencesForm from "@/hooks/validation/user/usePreferencesForm";
-import Selecter from "@/common/Selecter";
 import CustomDatePicker from "@/common/DatePicker";
-import JobTypeButton from "./JobTypeButton";
+import InputField from "@/common/InputField";
+import Selecter from "@/common/Selecter";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
+import usePreferencesForm from "@/hooks/validation/user/usePreferencesForm";
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
-import InputField from "@/common/InputField";
+import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
+import ReusableForm from "../../form/ReusableForm";
+import JobTypeButton from "./JobTypeButton";
 
 const Preferences = ({ setActiveTab }) => {
   const { user, setUser } = useAuthStore();
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.preferences");
-  const { errors, setErrors, validateForm, clearFieldError } =
-    usePreferencesForm();
+  const { errors, setErrors, validateForm, clearFieldError } = usePreferencesForm();
 
   const [formData, setFormData] = useState({
     role: "",
@@ -137,13 +136,20 @@ const Preferences = ({ setActiveTab }) => {
   }, [user]);
 
   return (
-    <ReusableForm
-      title={t("title")}
-      maxWidth="max-w-[698px]"
-      subtitle={t("subTitle")}
-    >
+    <ReusableForm title={t("title")} maxWidth="max-w-[698px]" subtitle={t("subTitle")}>
+      <style jsx>{`
+        /* Remove arrows/spinners from number input */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
       <form className="w-full rounded-lg" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Selecter
             name="role"
             label={`${t("jobrole")} *`}
@@ -155,9 +161,7 @@ const Preferences = ({ setActiveTab }) => {
           />
 
           <div>
-            <label className="text-grayBlueText text-[14px] block mb-1">
-              {`${t("jobtype")}*`}
-            </label>
+            <label className="text-grayBlueText mb-1 block text-[14px]">{`${t("jobtype")}*`}</label>
             <div className="grid grid-cols-3 gap-2">
               {jobTypeOptions.map((type) => (
                 <JobTypeButton
@@ -170,31 +174,40 @@ const Preferences = ({ setActiveTab }) => {
               ))}
             </div>
             <div className="mt-1">
-              {errors.jobType && (
-                <p className="text-red-500 text-sm">{errors.jobType}</p>
-              )}
+              {errors.jobType && <p className="text-sm text-red-500">{errors.jobType}</p>}
             </div>
           </div>
 
-          <InputField
-            label={`${t("salaryrange")}*`}
-            name="salaryRange"
-            value={formData.salaryRange}
-            onChange={handleChange}
-            error={errors.salaryRange}
-            type="text"
-          />
+          <div className="flex flex-col">
+            <InputField
+              label={`${t("salaryrange")}*`}
+              name="salaryRange"
+              value={formData.salaryRange}
+              onChange={handleChange}
+              error={errors.salaryRange}
+              type="text"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Enter your expected salary range (e.g., 50,000-70,000)
+            </p>
+          </div>
           {/* extra div for spacing */}
           <div className=""></div>
 
-          <InputField
-            label={`${t("experience")} * `}
-            name="experience"
-            value={formData.experience}
-            onChange={handleChange}
-            type="number"
-            max={50}
-          />
+          <div className="flex flex-col">
+            <InputField
+              label={`${t("experience")} * `}
+              name="experience"
+              value={formData.experience}
+              onChange={handleChange}
+              type="number"
+              max={50}
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Enter your total years of professional experience
+            </p>
+          </div>
           {/* <Selecter
             name="experience"
             label={t("experience")}

@@ -1,65 +1,100 @@
-import React from "react";
+import noImage2 from "@/assets/feed/no-img.png";
 import logo from "@/assets/form/Logo.png";
-import Image from "next/image";
-import userImg from "@/assets/feed/user-1.png";
+import Flag from "@/assets/svg/user/Flag";
+import ImageFallback from "@/common/shared/ImageFallback";
+import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
+import getImg from "@/lib/getImg";
+import Cookies from "js-cookie";
+import { useParams } from "next/navigation";
+import EditProfileModal from "../../../modal/editProfile/EditProfileModal";
+const UserBannerProfile = ({
+  userData,
+  isLoading,
+  handleDisc,
+  opens,
+  descriptionData,
+  handleCloses,
+}) => {
+  const params = useParams();
+  const paramsUserId = params?.id;
+  const localUserId = Cookies.get("userId");
+  const isCurrentUser = paramsUserId === localUserId;
 
-const UserBannerProfile = () => {
+  if (isLoading) {
+    return <UserBannerSkeleton />;
+  }
+
   return (
-    <div className=" xl:max-w-[829px] w-full  rounded-md overflow-hidden">
-      <div className="bg-[#CFE6CC]/[50%] px-4 sm:px-8 md:px-16 lg:px-24 py-6 rounded-[5px] flex items-center justify-between h-40 md:h-48 lg:h-56">
+    <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
+      <div className="flex h-40 items-center justify-between rounded-[5px] bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:h-48 md:px-16 lg:h-56 lg:px-24">
         <div className="flex items-center gap-2">
-          <Image
+          <ImageFallback
             src={logo}
             width={150}
             height={50}
             loading="lazy"
             alt="Logo"
-            className="w-[150px] sm:w-[180px] md:w-[200px] h-auto"
+            className="h-auto w-[150px] sm:w-[180px] md:w-[200px]"
           />
         </div>
       </div>
 
-      <div className="bg-white px-4 py-6 md:px-8 md:py-6 relative">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="px-2  w-full flex flex-col gap-0.5">
-            <h2 className="text-lg md:text-xl font-bold text-black">
-              Gurdeep Osahan
+      <div className="relative bg-white px-4 py-6 md:px-8 md:py-6">
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+          <div className="flex w-full flex-col gap-0.5 px-2">
+            <h2 className="text-lg font-bold text-black md:text-xl">
+              {userData?.profile?.fullName || "User Name"}
             </h2>
-            <p className="text-[13px] md:text-[15px] font-normal ">
-              UI / UX Designer
+            <p className="text-[13px] font-normal md:text-[15px]">
+              {userData?.preferences?.jobRole || "Job Role"}
             </p>
             <p className="text-xs font-normal text-[#888DA8]">
-              Lansing, Illinois
+              {userData?.profile?.location || "Location"}
             </p>
-            <button className="mt-3.5 px-4 text-[10px]  py-1 border w-fit  border-[#0F8200] text-[#0F8200] cursor-pointer rounded-[2px] hover:bg-green-100 md:text-sm">
-              Edit Profile
-            </button>
+
+            {isCurrentUser ? (
+              <button className="profile-btn" onClick={() => handleDisc(userData)}>
+                Edit Profile
+              </button>
+            ) : (
+              <div className="mt-3.5 flex gap-2">
+                <button className="connect-btn">Connect</button>
+                <button className="message-btn">Message</button>
+                <button className="flag-btn group">
+                  <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
+                </button>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col  items-end justify-center w-full">
-            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden -mt-56 mr-0 md:mr-4 md:-mt-24  ">
-              <Image
-                src={userImg}
+          <div className="flex w-full flex-col items-end justify-center">
+            <div className="-mt-56 mr-0 h-28 w-28 overflow-hidden rounded-full md:-mt-24 md:mr-4 md:h-32 md:w-32">
+              <ImageFallback
+                src={userData?.profile?.photo && getImg(userData?.profile?.photo)}
                 loading="lazy"
                 width={128}
                 height={128}
+                fallbackSrc={noImage2}
                 alt="Profile"
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
-            <div className="flex border border-black/10  mt-28 sm:mt-5 md:mt-4 w-full sm:max-w-xs xl:max-w-[266px] overflow-hidden">
-              <div className="py-4 px-2 w-1/2 border-r border-black/10 text-center">
-                <p className="text-[#0F8200] font-bold text-[16px]">358</p>
-                <p className="text-black font-normal text-xs">Connections</p>
+            <div className="mt-28 flex w-full overflow-hidden border border-black/10 sm:mt-5 sm:max-w-xs md:mt-4 xl:max-w-[266px]">
+              <div className="w-1/2 border-r border-black/10 px-2 py-4 text-center">
+                <p className="text-primary text-[16px] font-bold">
+                  {userData?.connectionCount || 0}
+                </p>
+                <p className="text-xs font-normal text-black">Connections</p>
               </div>
 
-              <div className="py-4 px-2 w-1/2 text-center">
-                <p className="text-[#0F8200] font-bold text-[16px]">85</p>
-                <p className="text-black font-normal text-xs">Views</p>
+              <div className="w-1/2 px-2 py-4 text-center">
+                <p className="text-primary text-[16px] font-bold">{userData?.views || 0}</p>
+                <p className="text-xs font-normal text-black">Views</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <EditProfileModal open={opens} onClose={handleCloses} descriptionData={descriptionData} />
     </div>
   );
 };

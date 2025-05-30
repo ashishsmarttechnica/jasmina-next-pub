@@ -132,7 +132,7 @@
     "AlreadyHaveAccount": "Vous avez déjà un compte?",
     "Login": "Se connecter",
     "forgotPassworFormEmail": "Entrez votre adresse e-mail enregistrée",
-    "ResetLink": "Envoyer un lien de réinitialisation",
+    "ResetLink": "Envoyer OTP",
     "forgotLastText": "Nous avons envoyé un lien de réinitialisation de mot de passe vers votre e-mail. \nVeuillez vérifier votre boîte de réception et suivre les instructions pour créer un nouveau mot de passe.",
     "ForgotPasswordTitle": "Votre mot de passe oublié?",
     "ForgotPasswordSubTitle": "Pas de soucis! \nNous vous enverrons un lien pour le réinitialiser.",
@@ -149,13 +149,22 @@
     "Verifying": "Vérification ...",
     "Verify": "Vérifier",
     "Signingin": "Signer ...",
-    "PleaseSelectAccountType": ""
+    "PleaseSelectAccountType": "",
+    "ResendOTP": "Revoir OTP",
+    "VerifyOTP": "Vérifiez OTP",
+    "otpVerifiedSuccess": "OTP vérifié avec succès",
+    "Next": "Suivant",
+    "PleaseEnterNewPassword": "Veuillez saisir un nouveau mot de passe",
+    "Continue": "Continuer",
+    "NewPassword": "Nouveau mot de passe",
+    "ConfirmPassword": "Confirmez le mot de passe",
+    "ChangePassword": "Changer le mot de passe"
   },
   "UserProfile": {
     "profile": {
       "title": "Créez votre profil",
       "subTitle": "Parlez-nous un peu de vous.",
-      "uploadImage": "Télécharger le logo",
+      "uploadImage": "Télécharger l'image",
       "name": "Nom et prénom",
       "username": "Nom d'utilisateur",
       "gender": "Genre",
@@ -195,7 +204,12 @@
       "LinkedInLinkError": "Veuillez saisir votre lien de profil LinkedIn.",
       "usernamePlaceholder": "Entrez votre nom d'utilisateur",
       "namePlaceholder": "Entrez votre nom complet",
-      "PhoneLength10to15Error": "\"Entrez le numéro de téléphone entre 10 et 15 chiffres\""
+      "PhoneLength10to15Error": "\"Entrez le numéro de téléphone entre 10 et 15 chiffres\"",
+      "enterYourCountry": "Entrez votre pays",
+      "enterYourCity": "Entrez votre ville",
+      "enterYourState": "Entrez votre état",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez votre e-mail"
     },
     "userprofilemenu": {
       "education": "Éducation",
@@ -286,7 +300,8 @@
       "proficiencyError": "Une compétence est requise.",
       "experienceError": "Une expérience est requise.",
       "categoryError": "Une catégorie est requise.",
-      "languageError": "La langue est requise."
+      "languageError": "La langue est requise.",
+      "success": "Profil mis à jour"
     },
     "resume": {
       "title": "Téléchargez votre CV",
@@ -465,5 +480,26 @@
     "nofound": "Aucun message trouvé.",
     "tryagain": "Essayer à nouveau",
     "errorposts": "Erreur de chargement des messages"
+  },
+  "Common": {
+    "country": "Pays",
+    "state": "État",
+    "city": "Ville",
+    "selectCountry": "Sélectionner un pays",
+    "selectState": "Sélectionner un état",
+    "selectCity": "Sélectionner une ville",
+    "locationError": "Veuillez sélectionner un emplacement valide",
+    "enterCityManually": "Entrer la ville manuellement",
+    "useDropdown": "Utiliser la liste déroulante",
+    "search": "Rechercher...",
+    "noResults": "Aucun résultat trouvé",
+    "countryRequired": "Le pays est requis",
+    "stateRequired": "L'état est requis",
+    "cityRequired": "La ville est requise"
+  },
+  "Validation": {
+    "personal": {
+      "phoneInvalid": "Format de numéro de téléphone non valide (10 chiffres requis)"
+    }
   }
 }

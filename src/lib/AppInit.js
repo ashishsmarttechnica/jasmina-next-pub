@@ -1,20 +1,20 @@
 "use client";
-import React, { useEffect } from "react";
-import axiosInstance from "../lib/axios";
-import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
+import axiosInstance from "@/lib/axios";
 import useAuthStore from "@/store/auth.store";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const AppInit = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
-
+  const setAuthLoading = useAuthStore((state) => state.setAuthLoading);
   useEffect(() => {
     const initApp = async () => {
       const token = Cookies.get("token");
-
+      setAuthLoading(true);
       if (token) {
         try {
           // Call refresh token API
@@ -44,10 +44,11 @@ const AppInit = () => {
           router.push("/login");
         }
       }
+      setAuthLoading(false);
     };
 
     initApp();
-  }, [setToken, setUser, router, logout]);
+  }, [setToken, setUser, router, logout, setAuthLoading]);
 
   return null; // No UI is rendered here
 };

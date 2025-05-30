@@ -1,17 +1,11 @@
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import {
-  useCommentsByPostId,
-  useCreateComment,
-} from "@/hooks/comment/useComments";
-import noImage2 from "@/assets/form/noImage2.webp";
-import getImg from "@/lib/getImg";
-import Cookies from "js-cookie";
-import usePostStore from "@/store/post.store";
 import CommentSkeleton from "@/common/skeleton/CommentSkeleton";
-import CommentList from "./CommentList";
+import { useCommentsByPostId, useCreateComment } from "@/hooks/comment/useComments";
+import capitalize from "@/lib/capitalize";
+import usePostStore from "@/store/post.store";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
 import CommentInput from "./CommentInput";
-import { useTranslations } from "next-intl";
+import CommentList from "./CommentList";
 
 const FeedComment = ({ postId }) => {
   const [page, setPage] = useState(1);
@@ -21,21 +15,16 @@ const FeedComment = ({ postId }) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const { mutate: createComments } = useCreateComment();
   const setAddCommentCount = usePostStore((s) => s.setAddCommentCount);
-
-  const { data, isLoading, isError, error } = useCommentsByPostId(
-    postId,
-    true,
-    page
-  );
+  const userRole = Cookies.get("userRole");
+  const { data, isLoading, isError, error } = useCommentsByPostId(postId, true, page);
 
   const handleCommentSubmit = () => {
     if (!newComment.trim()) return;
-
     const submittedComment = {
       userId: Cookies.get("userId"),
       postId: postId,
       text: newComment,
-      userType: "User",
+      userType: capitalize(userRole),
     };
 
     createComments(submittedComment, {

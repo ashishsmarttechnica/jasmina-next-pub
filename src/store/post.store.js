@@ -6,11 +6,13 @@ const usePostStore = create(
   devtools(
     (set) => ({
       posts: [],
+      singlePost: null,
       selectedPost: null,
       pagination: null,
       hasMore: true,
 
       setPosts: (posts) => set({ posts }),
+      setSinglePost: (post) => set({ singlePost: post }),
       setSelectedPost: (post) => set({ selectedPost: post }),
       setPagination: (pagination) => set({ pagination }),
       setHasMore: (hasMore) => set({ hasMore }),

@@ -1,23 +1,15 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-import HeaderLogo from "@/assets/header/HeaderLogo.png";
-import {
-  FiHome,
-  FiBriefcase,
-  FiBell,
-  FiMessageSquare,
-  FiUsers,
-} from "react-icons/fi";
-import { Link, useRouter } from "@/i18n/navigation";
-import { useEffect, useRef, useState } from "react";
-import useAuthStore from "@/store/auth.store";
-import { toast } from "react-toastify";
-import getImg from "@/lib/getImg";
-import MultiLanguageDropdown from "./MultiLanguageDropdown";
-import { useTranslations } from "next-intl";
 import ImageFallback from "@/common/shared/ImageFallback";
+import { Link, useRouter } from "@/i18n/navigation";
+import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { FiBell, FiBriefcase, FiHome, FiMessageSquare, FiUsers } from "react-icons/fi";
+import { toast } from "react-toastify";
+import MultiLanguageDropdown from "./MultiLanguageDropdown";
 
 const UserNavItems = () => {
   const pathname = usePathname();
@@ -43,74 +35,65 @@ const UserNavItems = () => {
   return (
     <>
       <MultiLanguageDropdown />
+      {/* <div className="space-y-8 mt-10"> */}
       <Link
         href="/"
-        className="flex items-center space-x-2.5 mx-1 no-underline border-b border-transparent hover:border-white pb-1 transition-all duration-300 ease-in-out"
+        className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
       >
-        <FiHome className="h-4 w-4 text-white" />
+        <FiHome className="h-5 w-5 text-white" />
         <span>{t("home")}</span>
       </Link>
 
       <Link
         href="/jobs"
-        className="flex items-center space-x-2.5 mx-1 no-underline border-b border-transparent hover:border-white pb-1 transition-all duration-300 ease-in-out"
+        className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
       >
-        <FiBriefcase className="h-4 w-4 text-white" />
+        <FiBriefcase className="h-5 w-5 text-white" />
         <span>{t("jobs")}</span>
       </Link>
 
       <Link
         href="/connections"
-        className="flex items-center space-x-2.5 mx-1 no-underline border-b border-transparent hover:border-white pb-1 transition-all duration-300 ease-in-out"
+        className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
       >
-        <FiUsers className="h-4 w-4 text-white" />
+        <FiUsers className="h-5 w-5 text-white" />
         <span>{t("connections")}</span>
       </Link>
 
       <Link
         href="/Chat"
-        className={`flex items-center space-x-1 relative no-underline ${
-          isChatActive ? "bg-white text-[#1D2F38] rounded-full" : "text-white"
+        className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${
+          isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
       >
-        <div
-          className={`p-[7px] rounded-full ${
-            isChatActive ? "bg-white" : "bg-transparent"
-          }`}
-        >
+        <div className={`rounded-full p-[5px] ${isChatActive ? "bg-white" : "bg-transparent"}`}>
           <FiMessageSquare
-            className={`h-4 w-4 ${
-              isChatActive ? "text-[#1D2F38]" : "text-white"
-            }`}
+            className={`h-5 w-5 ${isChatActive ? "text-[#1D2F38]" : "text-white"}`}
           />
         </div>
-        {/* <span className="block md:hidden text-[#1D2F38]">Messages</span> */}
-        <span className="absolute top-1 right-1.5 bg-[#DE4437] text-white text-[9px] font-bold w-2.5 h-2.5 flex items-center justify-center rounded-full">
+        <span className="block text-white md:hidden">Messages</span>
+        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#DE4437] p-1 text-[10px] font-bold text-white">
           8
         </span>
       </Link>
 
       <Link
         href="/notifications"
-        className={`flex items-center space-x-1.5 relative no-underline ${
-          isNotificationsActive
-            ? "bg-white text-[#1D2F38] rounded-full"
-            : "text-white"
+        className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${
+          isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
       >
         <div
-          className={`p-[7px] rounded-full ${
+          className={`rounded-full p-[5px] ${
             isNotificationsActive ? "bg-white" : "bg-transparent"
           }`}
         >
           <FiBell
-            className={`h-4 w-4 ${
-              isNotificationsActive ? "text-[#1D2F38]" : "text-white"
-            }`}
+            className={`h-5 w-5 ${isNotificationsActive ? "text-[#1D2F38]" : "text-white"}`}
           />
         </div>
-        {/* <span className="block md:hidden text-[#1D2F38]">Notification</span> */}
-        <span className="absolute top-1 right-1.5 bg-[#00DFFC] text-white text-[9px] font-bold w-2.5 h-2.5 flex items-center justify-center rounded-full">
+        <span className="block text-white md:hidden">Notification</span>
+        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#00DFFC] p-1 text-[10px] font-bold text-white">
           6
         </span>
       </Link>
@@ -124,23 +107,26 @@ const UserNavItems = () => {
           className="rounded-full border border-white"
         />
       </Link> */}
-      <div className="relative" ref={dropdownRef}>
+      <div className="relative px-1" ref={dropdownRef}>
         <button
           onClick={() => setDropdownOpen((prev) => !prev)}
-          className="no-underline focus:outline-none"
+          className="flex no-underline focus:outline-none"
         >
-          <ImageFallback
-            src={user?.profile?.photo && getImg(user?.profile?.photo)}
-            alt={"user"}
-            width={30}
-            height={30}
-            className="rounded-full "
-          />
+          {user?.profile && (
+            <ImageFallback
+              src={user?.profile?.photo && getImg(user?.profile?.photo)}
+              alt={"user"}
+              width={30}
+              height={30}
+              className="h-[30px] w-[30px] rounded-full"
+              priority={true}
+            />
+          )}
         </button>
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50">
+          <div className="absolute right-0 z-50 mt-2 w-40 rounded-md bg-white shadow-lg">
             <button
-              className="block w-full text-left px-4 py-2 text-red-600"
+              className="block w-full px-4 py-2 text-left text-red-600"
               onClick={() => {
                 logout();
                 router.push("/login");
@@ -152,6 +138,7 @@ const UserNavItems = () => {
           </div>
         )}
       </div>
+      {/* </div> */}
     </>
   );
 };

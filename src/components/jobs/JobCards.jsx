@@ -117,7 +117,7 @@ const JobCards = () => {
 
       {/* Right Column: Job Detail */}
       {selectedJob && (
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-[65%]">
           <SingleJobDetail
             job={selectedJob}
             onBack={() => setSelectedJob(null)}

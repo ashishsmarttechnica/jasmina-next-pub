@@ -6,6 +6,7 @@ import CompanyFeedPost from "./CompanyFeedPost";
 import { useTranslations } from "next-intl";
 import UserMightKnow from "@/common/UserMightKnow";
 import UserNetworkInvites from "@/common/UserNetworkInvites";
+import UserConnections from "@/common/UserConnections";
 
 const CompanyMainFeed = () => {
   const t=useTranslations("CompanyMainFeed");
@@ -13,10 +14,9 @@ const CompanyMainFeed = () => {
     <MainLayout
       leftComponents={[
         <UserCompanyProfile key="left1" />,
-        <CompanySuggestionCard
+        <UserConnections
           key="left2"
           title={t("connections")}
-          type="connection"
         />,
       ]}
       rightComponents={[

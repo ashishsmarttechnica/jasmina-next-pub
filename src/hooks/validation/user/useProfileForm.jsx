@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useProfileForm = () => {
   const [errors, setErrors] = useState({});
@@ -43,6 +43,16 @@ const useProfileForm = () => {
     // Location validation
     if (!formData.location) {
       newErrors.location = t("LocationError");
+    } else {
+      const locationParts = formData.location.split(", ");
+      if (locationParts.length !== 3) {
+        newErrors.location = t("LocationError");
+      } else {
+        const [city, state, country] = locationParts;
+        if (!city || !state || !country) {
+          newErrors.location = t("LocationError");
+        }
+      }
     }
 
     if (!formData.LinkedInLink) {

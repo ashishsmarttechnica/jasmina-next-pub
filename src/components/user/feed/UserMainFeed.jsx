@@ -1,23 +1,18 @@
-import MainLayout from "@/layout/MainLayout";
-import React from "react";
-import FeedPost from "./FeedPost";
 import Profile from "@/common/Profile";
-import UserMightKnow from "@/common/UserMightKnow";
-import { useTranslations } from "next-intl";
-import UserNetworkInvites from "@/common/UserNetworkInvites";
 import UserConnections from "@/common/UserConnections";
+import UserMightKnow from "@/common/UserMightKnow";
+import UserNetworkInvites from "@/common/UserNetworkInvites";
+import MainLayout from "@/layout/MainLayout";
+import { useTranslations } from "next-intl";
+import FeedPost from "./FeedPost";
 
 const UserMainFeed = () => {
-  const t=useTranslations("UserMainFeed");
+  const t = useTranslations("UserMainFeed");
   return (
     <MainLayout
       leftComponents={[
         <Profile key="left1" />,
-        <UserConnections
-          key="left2"
-          title={t("connections")}
-
-        />,
+        <UserConnections key="left2" title={t("connections")} />,
       ]}
       rightComponents={[
         <UserMightKnow key="right1" />,

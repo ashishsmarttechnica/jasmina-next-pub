@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import noImage2 from "@/assets/form/noImage2.svg";
 import Image from "next/image";
-import noImage2 from "@/assets/form/noImage2.webp";
+import { useState } from "react";
 
 const ImageFallback = ({
   src,

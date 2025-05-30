@@ -1,65 +1,96 @@
 "use client";
+import ImageFallback from "@/common/shared/ImageFallback";
 import {
   useAcceptConnection,
   useNetworkInvites,
   useRejectConnection,
 } from "@/hooks/user/useNetworkInvites";
+import { useRouter } from "@/i18n/navigation";
+import capitalize from "@/lib/capitalize";
+import getImg from "@/lib/getImg";
 import useNetworkInvitesStore from "@/store/networkInvites.store";
-import React from "react";
-import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
+import { FaBuilding, FaUser } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 import Card from "./card/Card";
 import CardHeading from "./card/CardHeading";
-import getImg from "@/lib/getImg";
-import { IoClose } from "react-icons/io5";
-import { FaCheck } from "react-icons/fa6";
-import ImageFallback from "@/common/shared/ImageFallback";
+import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 
 const UserNetworkInvites = ({ title }) => {
   const { data: networkInvitesData } = useNetworkInvitesStore();
   const { data, isLoading, isError, error, refetch } = useNetworkInvites();
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
-  const {
-    mutate: rejectConnection,
-    isPending: rejectPending,
-  } = useRejectConnection();
+  const { mutate: rejectConnection, isPending: rejectPending } = useRejectConnection();
   const displayData = networkInvitesData || data;
+  const router = useRouter();
+  const getItemConfig = (item) => {
+    const type = item?.senderType;
+    if (!type || (type !== "User" && type !== "Company")) {
+      console.warn("Unknown sender type:", type, item);
+    }
+
+    const configs = {
+      User: {
+        image: item?.senderDetails?.profile?.photo,
+        name: item?.senderDetails?.profile?.fullName,
+        subtitle: item?.senderDetails?.preferences?.jobRole,
+        showOnline: true,
+        online: item?.senderDetails?.online,
+        type: "User",
+        typeColor: "text-blue-600",
+        icon: <FaUser className="h-3 w-3" />,
+      },
+      Company: {
+        image: item?.senderDetails?.logoUrl,
+        name: item?.senderDetails?.companyName,
+        subtitle: item?.senderDetails?.industryType,
+        showOnline: false,
+        online: false,
+        type: "Company",
+        typeColor: "text-green-600",
+        icon: <FaBuilding className="h-3 w-3" />,
+      },
+    };
+
+    return configs[type] || configs.User;
+  };
 
   const handleInviteAction = (user, action) => {
-    console.log(`User ${user} ${action}`);
+    const { _id, role } = user?.senderDetails || {};
+    if (!_id || !role) {
+      console.warn("Invalid senderDetails", user);
+      return;
+    }
 
-    if (action == "accept") {
-      acceptConnection(
-        { id: user.senderDetails._id, role: user.senderDetails.role },
-        {
-          onSuccess: (res) => {
-            if (res.success) {
-              refetch();
-            }
-          },
-        }
-      );
+    const actionFn = action === "accept" ? acceptConnection : rejectConnection;
+
+    actionFn(
+      { id: _id, role },
+      {
+        onSuccess: (res) => {
+          if (res.success) refetch();
+        },
+      }
+    );
+  };
+
+  const handleUserProfile = (user) => {
+    if (capitalize(user?.senderType) === "User") {
+      router.push(`/single-user/${user?.senderDetails?._id}`);
     } else {
-      rejectConnection(
-        { id: user.senderDetails._id, role: user.senderDetails.role },
-        {
-          onSuccess: (res) => {
-            if (res.success) {
-              refetch();
-            }
-          },
-        }
-      );
+      router.push(`/company/single-company/${user?.senderDetails?._id}`);
     }
   };
 
   if (isLoading || !displayData) {
     return <UserMightKnowSkeleton isreq={true} />;
   }
+
   if (isError) {
     return (
-      <Card className="md:max-w-full md:w-full xl:max-w-[266px]">
+      <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={title} />
-        <div className="w-full py-4 px-2">
+        <div className="w-full px-2 py-4">
           <p className="text-center text-red-500">
             {error?.message || "Failed to load suggestions"}
           </p>
@@ -67,75 +98,71 @@ const UserNetworkInvites = ({ title }) => {
       </Card>
     );
   }
+
   if (!displayData.length) {
     return (
-      <Card className="md:max-w-full md:w-full xl:max-w-[266px]">
+      <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={title} />
-        <div className="w-full py-4 px-2">
-          <p className="text-center text-gray-500">
-            No Network Invites available at the moment
-          </p>
+        <div className="w-full px-2 py-4">
+          <p className="text-center text-gray-500">No Network Invites available at the moment</p>
         </div>
       </Card>
     );
   }
+
   return (
-    <Card className="md:max-w-full md:w-full xl:max-w-[266px]">
+    <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
-      <div className={`w-full py-4 flex flex-col gap-4 px-2`}>
-        {displayData?.map((user, index) => {
-          const { senderDetails } = user;
+      <div className="flex w-full flex-col gap-4 px-2 py-4">
+        {displayData.slice(0, 5).map((item) => {
+          const config = getItemConfig(item);
+
           return (
-            <div
-              key={user._id}
-              className="flex items-center justify-between w-full"
-            >
-              <div className="flex items-center gap-2">
-                <div className="relative w-10 h-10">
+            <div key={item._id} className="flex w-full items-center justify-between">
+              <div className="flex min-w-0 items-center gap-2">
+                <div
+                  className="relative h-10 w-10 cursor-pointer"
+                  onClick={() => handleUserProfile(item)}
+                >
                   <ImageFallback
-                    src={
-                      senderDetails.profile?.photo &&
-                      getImg(senderDetails.profile.photo)
-                    }
-                    alt={senderDetails.profile?.fullName ?? "user"}
-                    width={40}
-                    height={40}
-                    className="rounded-full w-full h-full object-cover"
+                    src={config.image && getImg(config.image)}
+                    alt={config.name ?? "user"}
+                    width={32}
+                    height={32}
+                    className="h-full w-full rounded-full object-cover"
                   />
-                  {/* {senderDetails.online && (
-                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-primary border border-white rounded-full" />
-                  )} */}
+                  {config.showOnline && config.online && (
+                    <span className="bg-primary absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full border border-white" />
+                  )}
                 </div>
-                <div className="text-left">
-                  <p className="text-[13px] font-medium">
-                    {senderDetails.profile?.fullName}
-                  </p>
-                  <p className="text-xs text-grayBlueText font-normal mt-0.5">
-                    {senderDetails.preferences?.jobRole}
+                <div className="min-w-0 text-left">
+                  <div className="flex items-center gap-1.5">
+                    <p
+                      className="cursor-pointer truncate text-[13px] font-medium"
+                      onClick={() => handleUserProfile(item)}
+                    >
+                      {config.name}
+                    </p>
+                    <span className={config.typeColor}>{config.icon}</span>
+                  </div>
+                  <p className="text-grayBlueText mt-0.5 truncate text-xs font-normal">
+                    {config.subtitle}
                   </p>
                 </div>
               </div>
 
-              {/* <button
-                onClick={() => handleContactClick(user)}
-                disabled={isPending}
-                className="bg-secondary border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-primary transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Contact />
-              </button> */}
-
               <div className="flex gap-2 p-2">
                 <button
-                  onClick={() => handleInviteAction(user, "reject")}
-                  className="border-[0.5px] hover:text-white border-grayBlueText rounded-sm items-center py-1.5 px-1.5 hover:border-red-600 text-grayBlueText hover:bg-red-600 transition-all duration-300 hover:scale-105 cursor-pointer"
+                  onClick={() => handleInviteAction(item, "reject")}
+                  className="border-grayBlueText text-grayBlueText cursor-pointer items-center rounded-sm border-[0.5px] px-1.5 py-1.5 transition-all duration-300 hover:scale-105 hover:border-red-600 hover:bg-red-600 hover:text-white"
                 >
-                  <IoClose className="w-[15px] h-[15px] font-medium" />
+                  <IoClose className="h-[15px] w-[15px] font-medium" />
                 </button>
                 <button
-                  onClick={() => handleInviteAction(user, "accept")}
-                  className="border-[0.5px] text-white border-primary bg-primary hover:text-black rounded-sm items-center py-1.5 px-1.5 hover:border-grayBlueText hover:bg-transparent cursor-pointer"
+                  onClick={() => handleInviteAction(item, "accept")}
+                  className="border-primary bg-primary hover:border-grayBlueText cursor-pointer items-center rounded-sm border-[0.5px] px-1.5 py-1.5 text-white hover:bg-transparent hover:text-black"
                 >
-                  <FaCheck className="w-[15px] h-[15px] font-medium" />
+                  <FaCheck className="h-[15px] w-[15px] font-medium" />
                 </button>
               </div>
             </div>

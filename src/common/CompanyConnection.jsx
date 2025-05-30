@@ -66,7 +66,7 @@ const CompanyConnection = () => {
                     alt={user.name}
                     width={40}
                     height={40}
-                    className="rounded-full w-full h-full object-cover"
+                    className="rounded-full w-[40px] h-[40px] object-cover"
                   />
                   {user.online && (
                     <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-primary border-[1.5px] border-white rounded-full" />

@@ -1,26 +1,44 @@
 import Activity from "@/assets/svg/user/Activity";
-import React from "react";
+import UserActivitySkeleton from "@/common/skeleton/UserActivitySkeleton";
 import { FaArrowRight } from "react-icons/fa6";
 import PostSlider from "./PostSlider";
 
-const ActivitySection = () => {
+const ActivitySection = ({ userData, isLoading }) => {
+  // Get user posts from userData
+  const userPosts = userData?.userPost || [];
+  // console.log("userPoststotal", userData);
+
+  const hasNoPosts = !isLoading && (!userPosts || userPosts.length === 0);
+
   return (
-    <div className=" bg-gray-50 rounded-[5px] shadow-card ">
-      <div className="flex items-center border-b border-black/10 py-3 px-5 justify-between ">
-        <h2 className="text-xl font-semibold flex items-center  gap-2">
+    <div className="shadow-card rounded-[5px] bg-gray-50">
+      <div className="flex items-center justify-between border-b border-black/10 px-5 py-3">
+        <h2 className="flex items-center gap-2 text-xl font-semibold">
           <Activity /> Activity
         </h2>
-        <h4
-          href="#"
-          className="text-[13px] flex gap-2 font-medium items-center cursor-pointer text-[#888DA8] no-underline "
-        >
-          See All <FaArrowRight className="text-xl font-normal" />
-        </h4>
+        <div className="flex cursor-pointer items-center gap-2 text-[13px] font-medium text-[#888DA8] no-underline">
+          {userData?.totalPost > 5 ? (
+            <>
+              See All <FaArrowRight className="text-xl font-normal" />
+            </>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
 
-
       <div className="m-5 pb-4">
-        <PostSlider />
+        {isLoading ? (
+          <UserActivitySkeleton />
+        ) : hasNoPosts ? (
+          <div className="flex flex-col items-center justify-center py-10">
+            <div className="mb-2 text-lg font-medium text-gray-400">No Activity Found</div>
+            <p className="text-sm text-gray-400">This user hasn't posted any activity yet.</p>
+          </div>
+        ) : (
+          // <PostSlider posts={userPosts} />
+          <PostSlider posts={userPosts} userData={userData} />
+        )}
       </div>
     </div>
   );

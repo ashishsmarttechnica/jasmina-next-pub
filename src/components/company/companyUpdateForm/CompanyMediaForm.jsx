@@ -1,8 +1,8 @@
-import Image from "next/image";
-import React from "react";
 import ImageUploader from "@/common/ImageUploader";
-import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import getImg from "../../../lib/getImg";
 
 const CompanyMediaForm = ({
   formData,
@@ -13,10 +13,17 @@ const CompanyMediaForm = ({
   setSelectedBannerImageFile,
 }) => {
   const t = useTranslations("CompanyProfile.media");
+  console.log(getImg(formData.coverBannerUrl));
+
+  useEffect(() => {
+    if (formData.coverBannerUrl) {
+      setSelectedImage(getImg(formData.coverBannerUrl));
+    }
+  }, [formData.logoUrl]);
   return (
     <>
-      <div className="text-center mb-4">
-        <p className="font-medium text-[15px] mt-7">{t("title")}</p>
+      <div className="mb-4 text-center">
+        <p className="mt-7 text-[15px] font-medium">{t("title")}</p>
         <p className="text-grayBlueText text-[13px]">{t("subTitle")}</p>
       </div>
       <InputField
@@ -45,13 +52,16 @@ const CompanyMediaForm = ({
         value={formData.socialLinks}
         onChange={handleChange}
       />
-      <ImageUploader
-        isBanner={true}
-        isnotCEntered={true}
-        selectedImage={selectedImage}
-        setSelectedImage={setSelectedImage}
-        setSelectedImageFile={setSelectedBannerImageFile}
-      />
+      <div>
+        <p className="mb-1 text-sm text-gray-500">Upload Banner Image</p>
+        <ImageUploader
+          isBanner={true}
+          isnotCEntered={true}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          setSelectedImageFile={setSelectedBannerImageFile}
+        />
+      </div>
     </>
   );
 };

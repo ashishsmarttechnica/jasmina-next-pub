@@ -42,7 +42,7 @@
       },
       "connect2": {
         "title": "Like & Support",
-        "description": "Appreciate others’ insights and achievements"
+        "description": "Appreciate others' insights and achievements"
       },
       "connect3": {
         "title": "Comment & Discuss",
@@ -190,22 +190,31 @@
     "AlreadyHaveAccount": "Already have an account ?",
     "Login": "Log in",
     "forgotPassworFormEmail": "Enter your registered email address",
-    "ResetLink": "Send Reset Link",
-    "forgotLastText": "We’ve sent a password reset link to your email. Please check your inbox and follow the instructions to create a new password.",
+    "ResetLink": "Send Otp",
+    "forgotLastText": "We've sent a password reset link to your email. Please check your inbox and follow the instructions to create a new password.",
     "ForgotPasswordTitle": "Forgot your password?",
-    "ForgotPasswordSubTitle": "No worries! We’ll send you a link to reset it.",
+    "ForgotPasswordSubTitle": "No worries! We'll send you a link to reset it.",
     "UserAccount": "user",
     "CompanyAccount": "company",
     "AccountType": "Account Type",
     "SigningUp": "Signing Up",
-    "otpTitle": "Let’s Verify Your Email",
-    "DidntgetCode": "Didn’t get a code?",
+    "otpTitle": "Let's Verify Your Email",
+    "DidntgetCode": "Didn't get a code?",
     "Resending": "Resending...",
     "Resendin": "Resend in",
     "ClickToResend": "Click to resend",
     "Verifying": "Verifying...",
     "Verify": "Verify",
-    "otpsubTitle": "We’ve sent a code to"
+    "otpsubTitle": "We've sent a code to",
+    "ResendOTP": "Resend OTP",
+    "VerifyOTP": "Verify OTP",
+    "otpVerifiedSuccess": "OTP Verified Successfully",
+    "Next": "Next",
+    "PleaseEnterNewPassword": "Please Enter New Password",
+    "Continue": "Continue",
+    "NewPassword": "New Password",
+    "ConfirmPassword": "Confirm Password",
+    "ChangePassword": "Change Password"
   },
   "UserProfile": {
     "userprofilemenu": {
@@ -240,7 +249,7 @@
       "locationPlaceholder": "Enter your city, state, country",
       "LinkedInLink": "LinkedIn Profile link",
       "LinkedInLinkPlaceholder": "https://www.linkedin.com/in/your-profile",
-      "uploadImage": "Upload Logo",
+      "uploadImage": "Upload Image",
       "Next": "Next",
       "Updating": "Updating...",
       "SomethingWentWrong": "Something went wrong!",
@@ -256,7 +265,12 @@
       "InvalidLinkedInLinkError": "Please enter a valid LinkedIn URL.",
       "InvalidLinkError": "Please enter a valid URL.",
       "LinkedInLinkError": "Please enter your LinkedIn profile link.",
-      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits"
+      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits",
+      "enterYourCountry": "enter your country",
+      "enterYourCity": "enter Your City",
+      "enterYourState": "enter your state",
+      "emailPlaceholder": "Enter your Email",
+      "email": "Email"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
@@ -308,6 +322,7 @@
       "SalaryRangeError": "Salary range is required.",
       "InvalidSalaryRangeError": "Salary range must be a valid number range.",
       "JoinDateError": "Join date is required.",
+      "JoinDateFutureError": "Available from date must be in the future",
       "JobTypeError": "Job type is required.",
       "WorkLocationError": "Work location is required.",
       "ExperienceError": "experience is required."
@@ -336,6 +351,16 @@
       "category": "Category",
       "languages": "Language Proficiency Section :",
       "languagesList": "Add languages you speaks",
+      "Experience": "Professional Experience",
+      "Add": "Add",
+      "Remove": "Remove",
+      "Company Name": "Company Name",
+      "Role": "Role",
+      "Start Date": "Start Date",
+      "End Date": "End Date",
+      "Location": "Location",
+      "Description": "Description",
+      "optional": "optional",
       "degreeError": "Degree name is required.",
       "passingYearError": "Passing year is required.",
       "schoolNameError": "School/College name is required.",
@@ -344,7 +369,14 @@
       "proficiencyError": "Proficiency is required.",
       "experienceError": "Experience is required.",
       "categoryError": "Category is required.",
-      "languageError": "Language is required."
+      "languageError": "Language is required.",
+      "companyNameError": "Company name is required.",
+      "roleError": "Role is required.",
+      "startDateError": "Start date is required.",
+      "endDateError": "End date is required.",
+      "endDateBeforeStartError": "End date cannot be before start date.",
+      "locationError": "Location is required.",
+      "success": "Profile Updated"
     },
     "resume": {
       "title": "Upload Your Resume",
@@ -454,6 +486,75 @@
       "companyTypeError": "Company Type is required.",
       "taglineError": "Tagline is required.",
       "employeesError": "Number of Employees is required."
+    }
+  },
+  "Common": {
+    "country": "Country",
+    "state": "State",
+    "city": "City",
+    "selectCountry": "Select Country",
+    "selectState": "Select State",
+    "selectCity": "Select City",
+    "locationError": "Please select a valid location",
+    "enterCityManually": "Enter city manually",
+    "useDropdown": "Use dropdown list",
+    "search": "Search...",
+    "noResults": "No results found",
+    "countryRequired": "Country is required",
+    "stateRequired": "State is required",
+    "cityRequired": "City is required"
+  },
+  "Validation": {
+    "personal": {
+      "fullNameRequired": "Full name is required",
+      "fullNameMin": "Full name must be at least 3 characters",
+      "userNameRequired": "Username is required",
+      "userNameMin": "Username must be at least 3 characters",
+      "genderRequired": "Gender is required",
+      "dobRequired": "Date of birth is required",
+      "dobMinAge": "You must be at least 16 years old",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Invalid phone number format (10 digits required)",
+      "locationRequired": "Location is required",
+      "linkedinInvalid": "Invalid LinkedIn URL format",
+      "emailInvalid": "Invalid email format"
+    },
+    "job": {
+      "jobRoleRequired": "Job role is required",
+      "jobTypeRequired": "Job type is required",
+      "salaryRangeRequired": "Expected salary range is required",
+      "joindateRequired": "Available from date is required",
+      "joindateFuture": "Available from date must be in the future",
+      "workLocationRequired": "Preferred work location is required",
+      "experienceRequired": "Years of experience is required",
+      "industryRequired": "Industry is required"
+    },
+    "education": {
+      "educationRequired": "At least one education entry is required",
+      "degreeRequired": "Degree name is required",
+      "passingYearRequired": "Passing year is required",
+      "passingYearFuture": "Passing year cannot be in the future",
+      "schoolRequired": "School/College name is required",
+      "boardRequired": "University/Board name is required"
+    },
+    "skills": {
+      "skillsRequired": "At least one skill is required",
+      "skillNameRequired": "Skill name is required",
+      "proficiencyRequired": "Proficiency level is required",
+      "skillExperienceRequired": "Years of experience is required",
+      "skillExperienceExceed": "Skill experience cannot exceed total experience",
+      "categoryRequired": "Skill category is required"
+    },
+    "languages": {
+      "languageNameRequired": "Language name is required",
+      "languageProficiencyRequired": "Language proficiency level is required"
+    },
+    "experience": {
+      "companyNameRequired": "Company name is required",
+      "roleRequired": "Job title is required",
+      "startDateRequired": "Start date is required",
+      "endDateBeforeStart": "End date cannot be before start date",
+      "locationRequired": "Company location is required"
     }
   }
 }

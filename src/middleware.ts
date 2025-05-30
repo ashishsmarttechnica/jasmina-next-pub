@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { routing } from './i18n/routing';
 
 // Define public routes that don't require authentication
@@ -12,9 +12,11 @@ const profileCreationRoutes = {
   company: '/company/create-profile'
 };
 
+// Define shared routes accessible by both user and company
+const sharedRoutes = ['/connections', '/single-user', '/company/single-company','/post'];
 // Define role-specific routes
 const roleBasedRoutes = {
-  user: ['/feed', '/user','/single-user', '/profile', '/settings', '/jobs', '/connections', '/notifications', '/messages'],
+  user: ['/feed', '/user', '/profile', '/settings', '/jobs', '/notifications', '/messages'],
   company: ['/company/feed', '/company/profile', '/company/settings', '/company/jobs', '/company/applications', '/company/candidates']
 };
 
@@ -70,32 +72,48 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
+  // Check if the current path is in shared routes
+  const isSharedRoute = sharedRoutes.some(route =>
+    currentPath === route || currentPath.startsWith(`${route}/`)
+  );
+
+  // If it's a shared route, allow access regardless of role
+  if (isSharedRoute) {
+    return response;
+  }
+
   // Handle role-based access
   if (userRole === 'user') {
     // Check if user is trying to access company routes
     if (pathWithoutLocale.startsWith('/company')) {
       return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
     }
-    // Check if route is allowed for user
-    // if (!roleBasedRoutes.user.includes(pathWithoutLocale)) {
-    //   return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
-    // }
 
-    // for job appy page
+    // for job apply page
     const isUserAllowed = roleBasedRoutes.user.some((route) =>
       currentPath === route || currentPath.startsWith(`${route}/`)
     );
-    // console.log(isUserAllowed, "isUserAllowed")
+
     if (!isUserAllowed) {
       return NextResponse.redirect(new URL(`/${locale}/feed`, request.url));
     }
   } else if (userRole === 'company') {
-    // Check if company is trying to access user routes
-    if (!pathWithoutLocale.startsWith('/company')) {
+    // Check if company is trying to access user routes that are not shared
+    if (!pathWithoutLocale.startsWith('/company') && !pathWithoutLocale.startsWith('/connections')) {
       return NextResponse.redirect(new URL(`/${locale}/company/feed`, request.url));
     }
-    // Check if route is allowed for company
-    if (!roleBasedRoutes.company.includes(pathWithoutLocale)) {
+
+    // Skip permission check for shared routes
+    if (isSharedRoute) {
+      return response;
+    }
+
+    // for job apply page
+    const isCompanyAllowed = roleBasedRoutes.company.some((route) =>
+      currentPath === route || currentPath.startsWith(`${route}/`)
+    );
+
+    if (!isCompanyAllowed) {
       return NextResponse.redirect(new URL(`/${locale}/company/feed`, request.url));
     }
   }

@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import Image from "next/image";
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
-import { useTranslations } from "next-intl";
 import InputField from "@/common/InputField";
+import getImg from "@/lib/getImg";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
-const CompanyBasicInfo = ({
-  formData,
-  errors,
-  handleChange,
-  setSelectedCompanyImageFile,
-}) => {
+const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyImageFile }) => {
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const t = useTranslations("CompanyProfile.profile");
+
+  useEffect(() => {
+    if (formData.logoUrl) {
+      setSelectedImage(getImg(formData.logoUrl));
+    }
+  }, [formData.logoUrl]);
   return (
     <>
       <div className="space-y-2">
@@ -25,7 +26,7 @@ const CompanyBasicInfo = ({
           error={errors.companyName}
         />
       </div>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <InputField
           label={`${t("firstName")} *`}
           type="text"
@@ -73,12 +74,14 @@ const CompanyBasicInfo = ({
           error={errors.website}
         />
       </div>
-      <ImageUploader
-        isnotCEntered={true}
-        selectedImage={selectedImage}
-        setSelectedImage={setSelectedImage}
-        setSelectedImageFile={setSelectedCompanyImageFile}
-      />
+      <div>
+        <p className="mb-1 text-center text-sm text-gray-500">Upload Logo Image</p>
+        <ImageUploader
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          setSelectedImageFile={setSelectedCompanyImageFile}
+        />
+      </div>
     </>
   );
 };

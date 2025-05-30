@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import ReusableForm from "../../form/ReusableForm";
-import useEducationSkillsForm from "@/hooks/validation/user/useEducationSkillsForm";
-import EducationSection from "./education/EducationSection";
-import SkillsSection from "./education/SkillsSection";
-import LanguagesSection from "./education/LanguagesSection";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
+import useEducationSkillsForm from "@/hooks/validation/user/useEducationSkillsForm";
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
+import ReusableForm from "../../form/ReusableForm";
+import EducationSection from "./education/EducationSection";
+import ExperienceSection from "./education/ExperienceSection";
+import LanguagesSection from "./education/LanguagesSection";
+import SkillsSection from "./education/SkillsSection";
 
 const EducationSkills = ({ setActiveTab }) => {
   const { user, setUser } = useAuthStore();
@@ -24,6 +25,7 @@ const EducationSkills = ({ setActiveTab }) => {
     educationList: [{ degree: "", passingyear: "", schoolname: "", board: "" }],
     skillsList: [{ skill: "", proficiency: "", experience: "", category: "" }],
     languagesList: [{ languages: "", proficiency: "" }],
+    experienceList: [{ companyName: "", role: "", startDate: "", endDate: "", location: "" }],
   });
 
   const { errors, validateForm, clearFieldError } = useEducationSkillsForm();
@@ -51,9 +53,15 @@ const EducationSkills = ({ setActiveTab }) => {
       if (type === "languages") {
         return {
           ...prevData,
-          languagesList: [
-            ...prevData.languagesList,
-            { languages: "", proficiency: "" },
+          languagesList: [...prevData.languagesList, { languages: "", proficiency: "" }],
+        };
+      }
+      if (type === "experienceList") {
+        return {
+          ...prevData,
+          experienceList: [
+            ...prevData.experienceList,
+            { companyName: "", role: "", startDate: "", endDate: "", location: "" },
           ],
         };
       }
@@ -81,18 +89,17 @@ const EducationSkills = ({ setActiveTab }) => {
           languagesList: prevData.languagesList.filter((_, i) => i !== index),
         };
       }
+      if (type === "experienceList") {
+        return {
+          ...prevData,
+          experienceList: prevData.experienceList.filter((_, i) => i !== index),
+        };
+      }
       return prevData;
     });
   };
 
-  const handleChange = (
-    type,
-    index,
-    name,
-    value,
-    isSelect = false,
-    selectType
-  ) => {
+  const handleChange = (type, index, name, value, isSelect = false, selectType) => {
     setFormData((prevData) => {
       const updatedList = [...prevData[type]];
       updatedList[index] = { ...updatedList[index], [name]: value };
@@ -119,20 +126,22 @@ const EducationSkills = ({ setActiveTab }) => {
 
     formData.skillsList.forEach((skill, index) => {
       submitData.append(`skills[${index}][name]`, skill.skill);
-      submitData.append(
-        `skills[${index}][proficiencyLevel]`,
-        skill.proficiency
-      );
-      submitData.append(
-        `skills[${index}][yearsOfExperience]`,
-        skill.experience
-      );
+      submitData.append(`skills[${index}][proficiencyLevel]`, skill.proficiency);
+      submitData.append(`skills[${index}][yearsOfExperience]`, skill.experience);
       submitData.append(`skills[${index}][category]`, skill.category);
     });
 
     formData.languagesList.forEach((lang, index) => {
       submitData.append(`languages[${index}][name]`, lang.languages);
       submitData.append(`languages[${index}][proficiency]`, lang.proficiency);
+    });
+
+    formData.experienceList.forEach((exp, index) => {
+      submitData.append(`experience[${index}][companyName]`, exp.companyName);
+      submitData.append(`experience[${index}][jobTitle]`, exp.role);
+      submitData.append(`experience[${index}][startDate]`, exp.startDate);
+      submitData.append(`experience[${index}][endDate]`, exp.endDate);
+      submitData.append(`experience[${index}][location]`, exp.location);
     });
 
     submitData.append("steps", 3);
@@ -148,7 +157,7 @@ const EducationSkills = ({ setActiveTab }) => {
 
   useEffect(() => {
     if (user) {
-      const { education, skills, languages } = user;
+      const { education, skills, languages, experience } = user;
       setFormData((prev) => ({
         ...prev,
         educationList:
@@ -178,20 +187,37 @@ const EducationSkills = ({ setActiveTab }) => {
                 proficiency: lang.proficiency || "",
               }))
             : [{ languages: "", proficiency: "" }],
+
+        experienceList:
+          experience?.length > 0
+            ? experience.map((exp) => ({
+                companyName: exp.companyName || "",
+                role: exp.role || "",
+                startDate: exp.startDate || "",
+                endDate: exp.endDate || "",
+                location: exp.location || "",
+              }))
+            : [{ companyName: "", role: "", startDate: "", endDate: "", location: "" }],
       }));
     }
   }, [user]);
 
   return (
-    <ReusableForm
-      title={t("title")}
-      maxWidth="max-w-[698px]"
-      subtitle={t("subTitle")}
-    >
+    <ReusableForm title={t("title")} maxWidth="max-w-[698px]" subtitle={t("subTitle")}>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Education Section */}
         <EducationSection
           educationList={formData.educationList}
+          addSection={addSection}
+          removeSection={removeSection}
+          handleChange={handleChange}
+          errors={errors}
+          clearFieldError={clearFieldError}
+        />
+
+        {/* Experience Section */}
+        <ExperienceSection
+          experienceList={formData.experienceList}
           addSection={addSection}
           removeSection={removeSection}
           handleChange={handleChange}

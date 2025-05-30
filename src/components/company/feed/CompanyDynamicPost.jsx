@@ -1,75 +1,95 @@
-import React, { useState } from "react";
-import Like from "@/assets/svg/feed/Like";
+import noPostImage from "@/assets/feed/no-post.svg";
 import Comment from "@/assets/svg/feed/Comment";
+import FillLike from "@/assets/svg/feed/FillLike";
+import Like from "@/assets/svg/feed/Like";
+import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
 import Share from "@/assets/svg/feed/Share";
-import getImg from "@/lib/getImg";
-import { motion, AnimatePresence } from "framer-motion";
-import { formatRelativeTime } from "@/lib/commondate";
-import CompanyFeedComment from "./CompanyFeedComment";
 import ImageFallback from "@/common/shared/ImageFallback";
-import noPostImage from "@/assets/feed/no-post.png";
+import FeedComment from "@/components/user/feed/comment/FeedComment";
+import { useLikePost, useUnlikePost } from "@/hooks/post/usePosts";
+import { formatRelativeTime } from "@/lib/commondate";
+import getImg from "@/lib/getImg";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+
 const CompanyDynamicPost = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
   const [shoeCommentBoxId, setShowCommentBoxId] = useState(null);
+
+  const { mutate: likePost, isLoading: isLiking } = useLikePost();
+  const { mutate: unlikePost, isLoading: isUnliking } = useUnlikePost();
+
   const fullName = post?.userId?.profile?.fullName || "Unknown User";
+
   const title = post?.userId?.preferences?.jobRole || "";
-  const postTime = formatRelativeTime(post.createdAt);
+  const postTime = formatRelativeTime(post?.createdAt);
 
   const handleShowComments = (id) => {
     setShowCommentBoxId(id);
     setShowComments((prev) => !prev);
   };
+  const handleLike = (id) => {
+    likePost(id);
+  };
+  const handleUnlike = (id) => {
+    unlikePost(id);
+  };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-md"
-      style={{ boxShadow: "0px 4px 25px 0px #888DA833" }}
-    >
-      <div className="flex items-center gap-2.5 py-4 px-5 pb-[16px] border-b border-black/10">
-        <div className="relative w-10 h-10">
+    <div className="shadow-card rounded-xl bg-white">
+      <div className="flex items-center gap-2.5 border-b border-black/10 px-5 py-4 pb-[16px]">
+        <div className="relative h-10 w-10">
           <ImageFallback
-            src={
-              post.userId?.profile?.photo && getImg(post.userId.profile.photo)
-            }
+            src={post.userId?.profile?.photo && getImg(post.userId.profile.photo)}
             alt={fullName}
             width={40}
             height={40}
-            className="rounded-full w-10 h-10 object-cover"
+            className="h-10 w-10 rounded-full object-cover"
           />
         </div>
 
-        <div className="text-left min-w-0">
-          <p className="text-[13px] font-medium truncate">{fullName}</p>
-          <p className="text-xs text-grayBlueText font-normal mt-0 truncate">
-            {title}
-          </p>
+        <div className="min-w-0 text-left">
+          <p className="truncate text-[13px] font-medium">{fullName}</p>
+          <p className="text-grayBlueText mt-0 truncate text-xs font-normal">{title}</p>
         </div>
       </div>
       <div className="px-6 py-1">
-        <p className="text-[13px] font-normal pt-5  pb-4 leading-[17px] tracking-normal text-grayBlueText">
+        <p className="text-grayBlueText pt-5 pb-4 text-[13px] leading-[17px] font-normal tracking-normal">
           {post.postDesc}{" "}
         </p>
 
         {post.postImg && (
-          <div className="overflow-hidden mb-4">
+          <div className="mb-4 overflow-hidden">
             <ImageFallback
               src={getImg(post.postImg)}
               fallbackSrc={noPostImage}
               alt="Post"
               width={500}
               height={500}
-              className="w-full h-auto object-cover max-h-[514px]"
+              className="h-auto max-h-[514px] w-full object-cover"
             />
           </div>
         )}
       </div>
-      <div className="flex justify-between items-center text-[13px] border-t py-4 px-4 border-black/10 text-gray-500 mb-4">
-        <div className="flex gap-5 items-center flex-wrap">
-          <span className="flex items-center gap-1">
-            <Like /> {post.totalLike}
-          </span>
+      <div className="mb-4 flex items-center justify-between border-t border-black/10 px-4 py-4 text-[13px] text-gray-500">
+        <div className="flex flex-wrap items-center gap-5 select-none">
+          {post.isLiked ? (
+            <span
+              className={`flex items-center gap-1 ${isUnliking ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+              onClick={() => handleUnlike(post._id)}
+            >
+              {isUnliking ? <LoaderIcon /> : <FillLike />} {post.totalLike}
+            </span>
+          ) : (
+            <span
+              className={`flex items-center gap-1 ${isLiking ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+              onClick={() => !isLiking && handleLike(post._id)}
+            >
+              {isLiking ? <LoaderIcon /> : <Like />} {post.totalLike}
+            </span>
+          )}
           <span
-            className="flex items-center gap-1 cursor-pointer"
+            className="flex cursor-pointer items-center gap-1"
             onClick={() => handleShowComments(post._id)}
           >
             <Comment /> {post.totalComment}
@@ -78,9 +98,7 @@ const CompanyDynamicPost = ({ post }) => {
             <Share /> {post.totalShare}
           </span>
         </div>
-        <span className="font-normal text-xs text-grayBlueText whitespace-nowrap">
-          {postTime}
-        </span>
+        <span className="text-grayBlueText text-xs font-normal whitespace-nowrap">{postTime}</span>
       </div>
 
       {/* comment */}
@@ -93,7 +111,7 @@ const CompanyDynamicPost = ({ post }) => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <CompanyFeedComment postId={post._id} />
+            <FeedComment postId={post._id} />
           </motion.div>
         )}
       </AnimatePresence>

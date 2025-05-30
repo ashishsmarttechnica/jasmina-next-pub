@@ -10,10 +10,11 @@ import CreateUserPost from "@/modal/CreateUserPost";
 import getImg from "@/lib/getImg";
 import { useTranslations } from "next-intl";
 import ImageFallback from "./shared/ImageFallback";
+import PostCreationSkeleton from './skeleton/PostCreationSkeleton';
 
 const CreatePost = () => {
   const [postText, setPostText] = useState("");
-  const { user } = useAuthStore();
+  const { user  , isAuthLoading} = useAuthStore();
   const t=useTranslations('UserFeedPost')
   const [CompanyPostModalOpen, setCompanyPostModalOpen] = useState(false);
   const handleCompanyPostJob = () => setCompanyPostModalOpen(true);
@@ -57,6 +58,10 @@ const CreatePost = () => {
     });
   };
 
+   if (isAuthLoading || !user) {
+    return <PostCreationSkeleton />;
+  }
+
   return (
     <div className="cust-card mb-4">
       <div className="border-b border-grayBlueText/50 py-4.5 pl-12 relative">
@@ -66,13 +71,15 @@ const CreatePost = () => {
 
       <div className="flex items-center gap-3.5 px-4 pt-[15px] pb-5 border-b border-grayBlueText/50">
         <div className="relative">
-          <ImageFallback
+          <div className="w-10 h-10">
+            <ImageFallback
             src={user?.profile?.photo && getImg(user?.profile?.photo)}
             alt="user"
             width={40}
             height={40}
-            className=" rounded-full object-cover"
+            className="rounded-full w-[40px] h-[40px] object-cover "
           />
+          </div>
           <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-600 rounded-full border-2 border-white"></span>
         </div>
         <input

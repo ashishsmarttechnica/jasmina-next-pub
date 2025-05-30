@@ -1,14 +1,13 @@
 "use client";
-import React from "react";
-import Image from "next/image";
 import GoogleIcon from "@/assets/form/GoogleIcon.png";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const GoogleSignInButton = () => {
   const t = useTranslations("auth");
 
   return (
-    <div className="flex items-center justify-center bg-gray max-w-65.5 py-[13px] mx-auto rounded-md cursor-pointer">
+    <div className="bg-gray mx-auto flex max-w-65.5 cursor-pointer items-center justify-center rounded-md py-[13px]">
       {/* <Image
         src={GoogleIcon}
         alt={t("GoogleIconAltImgSignUp")}
@@ -19,7 +18,9 @@ const GoogleSignInButton = () => {
       <Image
         src={GoogleIcon}
         alt={t("GoogleIconAltImgSignUp")}
-        className="w-6 h-auto" // maintain aspect ratio
+        width={24}
+        height={24}
+        className="h-auto w-6" // maintain aspect ratio
       />
     </div>
   );

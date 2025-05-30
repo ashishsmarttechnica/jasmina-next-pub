@@ -1,28 +1,28 @@
-import React, { useState, useCallback, useEffect } from "react";
-import ReusableForm from "../../form/ReusableForm";
-import useProfileForm from "@/hooks/validation/user/useProfileForm";
 import Uploadimg from "@/assets/form/Uploadimg.png";
-import ImageUploader from "@/common/ImageUploader";
-import LocationInput from "@/common/LocationInput";
 import CustomDatePicker from "@/common/DatePicker";
-import useAuthStore from "@/store/auth.store";
-import useUser from "@/hooks/auth/useUser";
+import ImageUploader from "@/common/ImageUploader";
+import InputField from "@/common/InputField";
+import LocationSelector from "@/common/LocationSelector";
 import Selecter from "@/common/Selecter";
+import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
-import { useTranslations } from "next-intl";
-import InputField from "@/common/InputField"; // Import the InputField component
-import { Loader } from "rsuite";
+import useProfileForm from "@/hooks/validation/user/useProfileForm";
 import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
+import useLocationStore from "@/store/location.store";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
+import { Loader } from "rsuite";
 
 const CreateProfile = ({ isLoading, setActiveTab }) => {
   const { user, setUser } = useAuthStore();
+  const { resetLocation } = useLocationStore();
   const t = useTranslations("UserProfile.profile");
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
 
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const { errors, setErrors, validateForm, clearFieldError } = useProfileForm();
-
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -39,8 +39,6 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     { label: `${t("genderOption.female")}`, value: "female" },
     { label: `${t("genderOption.other")}`, value: "other" },
   ];
-
-  // Update form data when user data is loaded
 
   const handleChange = useCallback(
     (e) => {
@@ -87,22 +85,17 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
 
   const handleLocationChange = useCallback(
     (val) => {
-      setFormData((prev) => ({ ...prev, location: val }));
-      clearFieldError("location");
-    },
-    [clearFieldError]
-  );
-
-  const handleLocationDetect = useCallback(
-    ({ city, state, country }) => {
-      clearFieldError("location");
+      if (val) {
+        setFormData((prev) => ({ ...prev, location: val }));
+        clearFieldError("location");
+      }
     },
     [clearFieldError]
   );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm(formData)) return;
 
     const submitData = new FormData();
@@ -144,27 +137,27 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         location: user.profile.location || "",
         LinkedInLink: user.profile.linkedin || "",
       }));
-      // console.log(getImg(user.profile.photo) , "sdsdsdssd>>>>>>>>>>>>>>>>>>>>>");
 
       setSelectedImage(getImg(user.profile.photo) || Uploadimg);
     }
-  }, [user]);
+
+    // Reset location selections when component unmounts
+    return () => {
+      resetLocation();
+    };
+  }, [user, resetLocation]);
 
   return (
     <>
-      <ReusableForm
-        title={t("title")}
-        maxWidth="max-w-[698px]"
-        subtitle={t("subTitle")}
-      >
-        <form className="space-y-4 mt-5" onSubmit={handleSubmit}>
+      <ReusableForm title={t("title")} maxWidth="max-w-[698px]" subtitle={t("subTitle")}>
+        <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
           <ImageUploader
             selectedImage={selectedImage}
             setSelectedImage={setSelectedImage}
             setSelectedImageFile={setSelectedUserImageFile}
           />
 
-          <div className="grid sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
             {/* Full Name */}
             <InputField
               label={`${t("name")} *`}
@@ -215,35 +208,34 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               type="tel"
             />
 
-            {/* Location */}
-            <div className="space-y-1">
-              <LocationInput
-                value={formData.location}
-                onChange={handleLocationChange}
-                onLocationDetect={handleLocationDetect}
-                error={errors.location}
-              />
-              {errors.location && (
-                <p className="text-red-500 text-sm mt-1">{errors.location}</p>
-              )}
-            </div>
+            {/* LinkedIn */}
+            <InputField
+              label={`${t("LinkedInLink")} *`}
+              name="LinkedInLink"
+              value={formData.LinkedInLink}
+              onChange={handleLinkedInChange}
+              placeholder={t("LinkedInLinkPlaceholder")}
+              error={errors.LinkedInLink}
+            />
           </div>
 
-          {/* LinkedIn */}
-          <InputField
-            label={`${t("LinkedInLink")} *`}
-            name="LinkedInLink"
-            value={formData.LinkedInLink}
-            onChange={handleLinkedInChange}
-            placeholder={t("LinkedInLinkPlaceholder")}
-            error={errors.LinkedInLink}
-          />
+          {/* Location Selector Component */}
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-700">
+              {`${t("location")} *`}
+            </label>
+            <LocationSelector
+              value={formData.location}
+              onChange={handleLocationChange}
+              error={errors.location}
+            />
+          </div>
 
-          <div className="block space-y-4 mt-6">
+          <div className="mt-6 block space-y-4">
             <button
               type="submit"
               disabled={isPending}
-              className="btn-fill w-full py-3 text-base font-medium hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-fill hover:bg-opacity-90 w-full py-3 text-base font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? (
                 <div>
@@ -256,7 +248,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm text-center">
+            <p className="text-center text-sm text-red-500">
               {error?.response?.data?.message || `${t("SomethingWentWrong")}`}
             </p>
           )}

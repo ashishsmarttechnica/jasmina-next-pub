@@ -6,8 +6,7 @@ export const loginUser = async (data) => {
 };
 
 export const signupUser = async (data) => {
-  const endpoint =
-    data.accountType === "Company" ? "/create/company" : "/create/user";
+  const endpoint = data.accountType === "Company" ? "/create/company" : "/create/user";
   const res = await axios.post(endpoint, data);
   return res.data;
 };

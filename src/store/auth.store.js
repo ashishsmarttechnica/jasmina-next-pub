@@ -8,18 +8,24 @@ const useAuthStore = create(
       token: null,
       user: null,
       company: null,
+      isAuthLoading: true,
       setToken: (token) => set({ token }),
       setUser: (user) => set({ user }),
-   
+      setAuthLoading: (val) => set({ isAuthLoading: val }),
       logout: () => {
-        // Clear cookies
-        Cookies.remove("token");
-        Cookies.remove("userRole");
-        Cookies.remove("isAuthenticated");
-        Cookies.remove("userId");
-        Cookies.remove("profileCreated");
-        // Clear state
-        set({ token: null, user: null });
+        Object.keys(Cookies.get()).forEach((cookieName) => {
+          Cookies.remove(cookieName);
+        });
+        set({}, true);
+        set({
+          token: null,
+          user: null,
+          company: null,
+          setToken: null,
+          setUser: null,
+        });
+        // Clear other stores
+        window.location.reload();
       },
     }),
     {
