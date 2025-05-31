@@ -1,38 +1,62 @@
 "use client";
 
-import noImage2 from "@/assets/feed/no-img.png";
+import noImage2 from "@/assets/feed/no-post.svg";
 import Comment from "@/assets/svg/feed/Comment";
 import Like from "@/assets/svg/feed/Like";
 import Share from "@/assets/svg/feed/Share";
 import ImageFallback from "@/common/shared/ImageFallback";
 import getImg from "@/lib/getImg";
 
+import FillLike from "@/assets/svg/feed/FillLike";
+import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
+import { useLikePost, usePostShare, useUnlikePost } from "@/hooks/post/usePosts";
 import { useRouter } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import "swiper/css";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function PostSlider({ posts, userData }) {
-  // const postData = posts;
-
   return (
     <div className="relative">
       <Swiper
         modules={[Pagination, Navigation]}
-        spaceBetween={20}
+        spaceBetween={10}
         breakpoints={{
-          320: { slidesPerView: "auto" },
-          640: { slidesPerView: "auto" },
-          768: { slidesPerView: "auto" },
-          1024: { slidesPerView: "auto" },
-          1280: { slidesPerView: "auto" },
-          1536: { slidesPerView: "auto" },
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          640: {
+            slidesPerView: 1.2,
+            spaceBetween: 15,
+          },
+          768: {
+            slidesPerView: 1.5,
+            spaceBetween: 15,
+          },
+          1024: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1280: {
+            slidesPerView: 2.5,
+            spaceBetween: 20,
+          },
+          1536: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
         }}
-        className="px-2 !pb-10 sm:px-4"
+        className="px-1 !pb-10 sm:px-2 md:px-4"
       >
         {posts.map((post) => (
-          <SwiperSlide key={post.id} className="shadow-card border-secondary/20 !w-[365px] border">
+          <SwiperSlide
+            key={post._id}
+            className="shadow-card border-secondary/20 !w-full border sm:!w-[300px] md:!w-[365px]"
+          >
             <PostCardSingle post={post} userData={userData} />
           </SwiperSlide>
         ))}
@@ -43,12 +67,112 @@ export default function PostSlider({ posts, userData }) {
     </div>
   );
 }
-//
+
 function PostCardSingle({ post, userData }) {
   const [showMore, setShowMore] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
+  const [localPost, setLocalPost] = useState(post);
+  const { mutate: sharePost, isLoading: isShareLoading } = usePostShare();
+  const { mutate: likePost, isLoading: isLiking } = useLikePost();
+  const { mutate: unlikePost, isLoading: isUnliking } = useUnlikePost();
+  const locale = useLocale();
   const router = useRouter();
   const descRef = useRef(null);
+
+  // Update local post when prop changes
+  useEffect(() => {
+    setLocalPost(post);
+  }, [post]);
+
+  const handleLike = (id) => {
+    if (isLiking) return;
+
+    likePost(id, {
+      onSuccess: (response) => {
+        if (response?.success) {
+          // Update local state
+          setLocalPost((prev) => ({
+            ...prev,
+            isLiked: true,
+            totalLike: (prev.totalLike || 0) + 1,
+            likedBy: [...(prev.likedBy || []), response.data.userId],
+          }));
+          // toast.success(response.message || "Post liked successfully!");
+        } else {
+          // toast.error(response?.message || "Failed to like post");
+        }
+      },
+      onError: (error) => {
+        // toast.error(error?.response?.data?.message || "Failed to like post");
+      },
+    });
+  };
+
+  const handleUnlike = (id) => {
+    if (isUnliking) return;
+
+    unlikePost(id, {
+      onSuccess: (response) => {
+        if (response?.success) {
+          // Update local state
+          setLocalPost((prev) => ({
+            ...prev,
+            isLiked: false,
+            totalLike: Math.max((prev.totalLike || 0) - 1, 0),
+            likedBy: (prev.likedBy || []).filter((id) => id !== response.data.userId),
+          }));
+          // toast.success("Post unliked successfully!");
+        } else {
+          // toast.error(response?.message || "Failed to unlike post");
+        }
+      },
+      onError: (error) => {
+        // toast.error(error?.response?.data?.message || "Failed to unlike post");
+      },
+    });
+  };
+
+  const handleShare = async (id) => {
+    if (isShareLoading) return;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Check out this post!",
+          text: localPost?.postDesc || "Amazing post!",
+          url: `${window.location.origin}/${locale}/post/${id}`,
+        });
+
+        // Call share API and update count on success
+        sharePost(id, {
+          onSuccess: (response) => {
+            if (response?.success) {
+              // Update local state with new share count
+              setLocalPost((prev) => ({
+                ...prev,
+                totalShare: (prev.totalShare || 0) + 1,
+              }));
+              toast.success("Post shared successfully!");
+            } else {
+              toast.error(response?.message || "Failed to share post");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.response?.data?.message || "Failed to share post");
+          },
+        });
+      } catch (error) {
+        // Only show error if it's not a user cancellation
+        if (error.name !== "AbortError") {
+          console.log(error);
+          toast.error("Share cancelled or failed");
+        }
+      }
+    } else {
+      toast.info("Share not supported on this device");
+    }
+  };
+
   useEffect(() => {
     const element = descRef.current;
     if (element) {
@@ -56,6 +180,7 @@ function PostCardSingle({ post, userData }) {
       setIsTruncated(element.scrollHeight > element.clientHeight);
     }
   }, [post?.postDesc]);
+
   return (
     <div className="rounded-[5px] bg-white">
       {/* User Info */}
@@ -81,54 +206,70 @@ function PostCardSingle({ post, userData }) {
       </div>
 
       {/* Post Content */}
-      <div className="p-[17px]">
-        <div className="min-h-[3.5rem]">
+      <div className="p-3 sm:p-[17px]">
+        <div className="min-h-[3rem] sm:min-h-[3.5rem]">
           <p
             ref={descRef}
-            className={`text-grayBlueText text-[13px] leading-[1.4] font-normal ${showMore ? "" : "showline-2"}`}
+            className={`text-grayBlueText text-[12px] leading-[1.4] font-normal sm:text-[13px] ${showMore ? "" : "showline-2"}`}
           >
-            {post?.postDesc}
+            {localPost?.postDesc}
           </p>
           {!showMore && isTruncated && (
             <button
-              className="text-primary mt-1 text-xs underline"
-              onClick={() => router.push(`/post/${post._id}`)}
+              className="text-primary mt-1 text-[11px] underline sm:text-xs"
+              onClick={() => router.push(`/post/${localPost._id}`)}
             >
               more
             </button>
           )}
         </div>
 
-        {/* {postImgSrc && ( */}
-        <div className="overflow-hidden">
+        <div className="relative flex min-h-[250px] w-full items-center justify-center bg-black/50 sm:min-h-[330px]">
           <ImageFallback
-            src={post?.postImg && getImg(post?.postImg)}
+            src={localPost?.postImg && getImg(localPost?.postImg)}
             fallbackSrc={noImage2}
             width={335}
             height={335}
             alt={userData?.profile?.fullName ?? "user"}
             priority={true}
-            className="mb-[25px] h-auto max-h-[335px] w-[335px] object-cover"
+            className="h-auto max-h-[250px] w-auto max-w-full object-contain sm:max-h-[335px]"
           />
         </div>
-        {/* )} */}
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between border-t border-black/10 p-[17px] text-[13px] text-gray-500">
-        <div className="flex flex-wrap gap-4">
-          <span className="flex items-center gap-1">
-            <Like /> {post.totalLike}
-          </span>
-          <span className="flex items-center gap-1">
-            <Comment /> {post.totalComment}
-          </span>
-          <span className="flex items-center gap-1">
-            <Share /> {post.totalShare}
+      <div className="flex items-center justify-between border-t border-black/10 p-3 text-[12px] text-gray-500 sm:p-[17px] sm:text-[13px]">
+        <div className="flex flex-wrap gap-3 sm:gap-4">
+          {localPost.isLiked ? (
+            <span
+              className={`flex items-center gap-1 ${isUnliking ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+              onClick={() => handleUnlike(localPost._id)}
+            >
+              {isUnliking ? <LoaderIcon /> : <FillLike />} {localPost.totalLike || 0}
+            </span>
+          ) : (
+            <span
+              className={`flex items-center gap-1 ${isLiking ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+              onClick={() => handleLike(localPost._id)}
+            >
+              {isLiking ? <LoaderIcon /> : <Like />} {localPost.totalLike || 0}
+            </span>
+          )}
+          <div
+            className="flex cursor-pointer items-center gap-1"
+            onClick={() => router.push(`/post/${localPost._id}`)}
+          >
+            <Comment /> {localPost.totalComment || 0}
+          </div>
+          <span
+            className={`flex items-center gap-1 ${isShareLoading ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+            onClick={() => handleShare(localPost._id)}
+          >
+            {isShareLoading ? <LoaderIcon /> : <Share />} {localPost.totalShare || 0}
           </span>
         </div>
         <span className="text-grayBlueText text-xs font-normal whitespace-nowrap">
-          {post.timeAgo}
+          {localPost.timeAgo}
         </span>
       </div>
     </div>

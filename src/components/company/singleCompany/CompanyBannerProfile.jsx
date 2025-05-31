@@ -6,10 +6,12 @@ import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
 import getImg from "@/lib/getImg";
 import EdicCompanyProfileModal from "@/modal/editCompanyProfile/EdicCompanyProfileModal";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
+  const t=useTranslations('CompanyProfile.singleCompany');
   const params = useParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
@@ -49,12 +51,12 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
 
             {isCurrentUser ? (
               <button className="profile-btn" onClick={() => setOpen(true)}>
-                Edit Profile
+                {t("editProfile")}
               </button>
             ) : (
               <div className="mt-3.5 flex gap-2">
-                <button className="connect-btn">Connect</button>
-                <button className="message-btn">Message</button>
+                <button className="connect-btn">{t("connect")}</button>
+                <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group">
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
@@ -78,12 +80,12 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                 <p className="text-primary text-[16px] font-bold">
                   {userData?.connectionCount || 0}
                 </p>
-                <p className="text-xs font-normal text-black">Connections</p>
+                <p className="text-xs font-normal text-black">{t("connections")}</p>
               </div>
 
               <div className="w-1/2 px-2 py-4 text-center">
                 <p className="text-primary text-[16px] font-bold">{userData?.views || 0}</p>
-                <p className="text-xs font-normal text-black">Views</p>
+                <p className="text-xs font-normal text-black">{t("views")}</p>
               </div>
             </div>
           </div>

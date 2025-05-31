@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { routing } from './i18n/routing';
 
 // Define public routes that don't require authentication
-const publicRoutes = ['/', '/login', '/signup', '/forgot-password', '/verify-otp'];
+const publicRoutes = ['/', '/login', '/signup', '/forgot-password', '/verify-otp', '/post', '/post/:postId'];
 
 // Define profile creation routes
 const profileCreationRoutes = {
@@ -13,7 +13,7 @@ const profileCreationRoutes = {
 };
 
 // Define shared routes accessible by both user and company
-const sharedRoutes = ['/connections', '/single-user', '/company/single-company','/post'];
+const sharedRoutes = ['/connections', '/single-user', '/company/single-company',];
 // Define role-specific routes
 const roleBasedRoutes = {
   user: ['/feed', '/user', '/profile', '/settings', '/jobs', '/notifications', '/messages'],
@@ -33,13 +33,15 @@ export default async function middleware(request: NextRequest) {
   const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
   const defLoc = routing.defaultLocale;
 
-
   // Get user role and authentication status
   const userRole = request.cookies.get('userRole')?.value;
   const isAuthenticated = request.cookies.get('isAuthenticated')?.value === 'true';
-
   const safeLocale = locale || defLoc;
 
+  // Special handling for post/:postId - always allow access
+  if (pathWithoutLocale.startsWith('/post/')) {
+    return response;
+  }
 
   // Handle public routes
   if (publicRoutes.includes(pathWithoutLocale)) {

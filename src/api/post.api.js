@@ -45,3 +45,8 @@ export const SinglePostById = async (id) => {
   });
   return res.data;
 };
+
+export const postShare = async (id) => {
+  const res = await axios.get(`/share/post?postId=${id}`);
+  return res.data;
+};

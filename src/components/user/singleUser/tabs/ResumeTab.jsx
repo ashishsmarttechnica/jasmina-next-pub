@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import getImg from "@/lib/getImg";
+import { useState } from "react";
 
 const ResumeTab = ({ resume }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,9 +9,9 @@ const ResumeTab = ({ resume }) => {
   // If resume is missing or empty
   if (!resume || (typeof resume === "string" && resume.trim() === "")) {
     return (
-      <div className="p-4">
-        <div className="px-[30px]">
-          <p className="text-gray-500">No resume document available.</p>
+      <div className="p-2 sm:p-4">
+        <div className="px-2 sm:px-[30px]">
+          <p className="text-sm text-gray-500 sm:text-base">No resume document available.</p>
         </div>
       </div>
     );
@@ -36,9 +36,7 @@ const ResumeTab = ({ resume }) => {
       }
 
       // Use Google Docs viewer for all document types
-      return `https://docs.google.com/viewer?url=${encodeURIComponent(
-        absoluteUrl
-      )}&embedded=false`;
+      return `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=false`;
     };
 
     const handleView = () => {
@@ -82,19 +80,17 @@ const ResumeTab = ({ resume }) => {
     };
 
     return (
-      <div className="p-4">
-        <div className="px-[30px]">
+      <div className="p-2 sm:p-4">
+        <div className="px-2 sm:px-[30px]">
           <div className="space-y-4">
-            <div className="border border-grayBlueText rounded-lg p-2">
-              <div className="flex items-center justify-between">
+            <div className="border-grayBlueText rounded-lg border p-2 sm:p-3">
+              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center sm:gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">
-                    {getFileTypeLabel()}
-                  </span>
+                  <span className="text-xs text-gray-600 sm:text-sm">{getFileTypeLabel()}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
                   <button
-                    className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50"
+                    className="bg-primary hover:bg-primary/90 w-full rounded px-3 py-1.5 text-xs text-white disabled:opacity-50 sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
                     onClick={handleView}
                     disabled={isLoading}
                   >
@@ -103,7 +99,7 @@ const ResumeTab = ({ resume }) => {
                   <a
                     href={fileUrl}
                     download={fileName}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                    className="w-full rounded bg-gray-200 px-3 py-1.5 text-center text-xs text-gray-700 hover:bg-gray-300 sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
                   >
                     Download
                   </a>

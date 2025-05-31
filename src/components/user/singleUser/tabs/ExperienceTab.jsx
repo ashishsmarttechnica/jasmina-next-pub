@@ -1,14 +1,16 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React from "react";
 
 const ExperienceTab = ({ experience }) => {
+  const t= useTranslations("UserProfile.profile.singleprofileTab");
   // Handle empty or missing experience
   if (!experience || !Array.isArray(experience) || experience.length === 0) {
     return (
       <div className="p-4">
         <div className="px-[30px]">
-          <p className="text-gray-500">No experience information available.</p>
+          <p className="text-gray-500">{t("noexperience")}</p>
         </div>
       </div>
     );

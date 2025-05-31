@@ -53,7 +53,7 @@ const CompanyMediaForm = ({
         onChange={handleChange}
       />
       <div>
-        <p className="mb-1 text-sm text-gray-500">Upload Banner Image</p>
+        <p className="mb-1 text-sm text-gray-500">{t("uploadImage")}</p>
         <ImageUploader
           isBanner={true}
           isnotCEntered={true}

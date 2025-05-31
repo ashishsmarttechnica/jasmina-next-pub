@@ -10,10 +10,11 @@ import CompanyConnectionsLayout from "@/layout/CompanyConnectionsLayout";
 import CompanyBannerProfile from "./CompanyBannerProfile";
 import SingleCompanyTab from "./SingleCompanyTab";
 import { useSingleCompany } from "@/hooks/company/useSingleCompany";
+import { useTranslations } from "next-intl";
 
 const MainSingleCompany = () => {
   const params = useParams();
-
+const t=useTranslations('CompanyProfile.singleCompany');
   const userId = params?.id;
 
   const { data: userData, isLoading, error } = useSingleCompany(userId);
@@ -25,7 +26,7 @@ const MainSingleCompany = () => {
   return (
     <CompanyConnectionsLayout
       RightComponents={[
-        <UserConnections key="right2" title="Connections" />,
+        <UserConnections key="right2" title={t("connections")} />,
         <UserMightKnow key="right1" />,
       ]}
     >

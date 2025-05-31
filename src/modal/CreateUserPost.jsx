@@ -1,13 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Modal } from "rsuite";
-import Image from "next/image";
-import Uploadsmall from "@/assets/form/Uploadsmall.png";
-import user1 from "@/assets/feed/user-1.png";
-import useAuthStore from "@/store/auth.store";
-import getImg from "@/lib/getImg";
 import profileImg from "@/assets/feed/Profile.png";
-import { useTranslations } from "next-intl";
+import Uploadsmall from "@/assets/form/Uploadsmall.png";
 import ImageFallback from "@/common/shared/ImageFallback";
+import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { Modal } from "rsuite";
 
 const CreateUserPost = ({
   isOpen,
@@ -21,7 +19,7 @@ const CreateUserPost = ({
   fileInputRef,
 }) => {
   const handleImageClick = () => fileInputRef.current.click();
-  const t=useTranslations('UserPostModel')
+  const t = useTranslations("UserPostModel");
   const { user } = useAuthStore();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,45 +48,59 @@ const CreateUserPost = ({
   };
 
   return (
-    <Modal open={isOpen} onClose={onClose} size="547px">
-      <Modal.Body className="sm:p-2 p-2 bg-white rounded-lg">
-        <div className="flex items-center mb-4">
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      size="sm"
+      className="!max-h-[90vh] !w-[95%] overflow-hidden !p-0 sm:!max-h-[85vh] sm:!w-[90%] md:!w-[547px]"
+    >
+      <Modal.Body className="no-scrollbar h-full overflow-y-auto rounded-lg bg-white !p-1 sm:p-4 md:p-6">
+        <div className="mb-4 flex items-start gap-3">
           <ImageFallback
             src={getImg(user?.profile?.photo) || profileImg}
             alt="User"
-            width={30}
-            height={30}
-            className="rounded-full mt-1"
+            width={40}
+            height={40}
+            className="h-10 w-10 flex-shrink-0 rounded-full sm:h-12 sm:w-12"
           />
-          <div className="ml-3 text-xl font-bold text-gray-800">
-            {user?.profile?.fullName}
-            <br />
-           <p className="text-[13px] font-normal  mx-1 my-1">{user?.preferences?.jobRole}</p>  
-          </div><br />
+          <div className="min-w-0">
+            <h3 className="truncate text-base font-bold text-gray-800 sm:text-lg">
+              {user?.profile?.fullName}
+            </h3>
+            <p className="mt-0.5 text-xs font-normal text-gray-600 sm:text-[13px]">
+              {user?.preferences?.jobRole}
+            </p>
+          </div>
         </div>
-        <p className="border border-b border-gray w-full"></p>
+        <div className="w-full border-b border-gray-200"></div>
 
         <textarea
           placeholder={t("sharePlaceholder")}
-          className="w-full h-20 p-3 rounded-md resize-none focus:outline-none focus:ring focus:border-blue-300 placeholder:text-[13px]"
+          className="mt-3 h-20 w-full resize-none rounded-md p-2 text-sm placeholder:text-xs focus:border-blue-300 focus:ring focus:outline-none sm:p-3 sm:text-base sm:placeholder:text-[13px]"
           value={postText}
           onChange={(e) => setPostText(e.target.value)}
         />
 
         <div
-          className="w-full bg-gray h-[328px] flex flex-col items-center justify-center mt-4 rounded-md cursor-pointer"
+          className="mt-3 flex h-[150px] w-full cursor-pointer flex-col items-center justify-center rounded-md bg-gray-100 sm:mt-4 sm:h-[250px] md:h-[328px]"
           onClick={handleImageClick}
         >
           {formData.previewImage ? (
             <img
               src={formData.previewImage}
               alt="Preview"
-              className="object-contain h-full w-full rounded-md"
+              className="h-full w-full rounded-md object-contain"
             />
           ) : (
             <>
-              <Image src={Uploadsmall} alt="Upload" width={40} height={40} />
-              <button className="mt-4 px-4 py-2 bg-primary text-[13px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60">
+              <Image
+                src={Uploadsmall}
+                alt="Upload"
+                width={32}
+                height={32}
+                className="sm:h-10 sm:w-10"
+              />
+              <button className="bg-primary hover:bg-secondary hover:text-primary mt-3 rounded-md px-3 py-1.5 text-xs text-white transition disabled:opacity-60 sm:mt-4 sm:px-4 sm:py-2 sm:text-[13px]">
                 {t("uploadmedia")}
               </button>
             </>
@@ -102,41 +114,58 @@ const CreateUserPost = ({
           />
         </div>
 
-        <div className="mt-8 text-sm text-grayBlueText">
-          {t("whopost")}
-        </div>
-        <div className="mt-2 space-y-2">
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="visibility"
-              value={1}
-              checked={formData.visibility === 1}
-              onChange={() => handleVisibilityChange(1)}
-              className="mr-2"
-            />
-            <span className="text-[14px] font-medium">{t("Anyone")}</span>
-          </label>
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="visibility"
-              value={0}
-              checked={formData.visibility === 0}
-              onChange={() => handleVisibilityChange(0)}
-              className="mr-2"
-            />
-            <span className="text-[14px] font-medium">{t("connectionsonly")}</span>
-          </label>
+        <div className="mt-6 sm:mt-8">
+          <h4 className="text-grayBlueText mb-3 text-xs font-medium sm:text-sm">{t("whopost")}</h4>
+          <div className="space-y-1">
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-md p-2 transition-colors hover:bg-gray-50">
+              <div className="relative">
+                <input
+                  type="radio"
+                  name="visibility"
+                  value={1}
+                  checked={formData.visibility === 1}
+                  onChange={() => handleVisibilityChange(1)}
+                  className="peer sr-only"
+                />
+                <div className="peer-checked:border-primary flex h-4 w-4 items-center justify-center rounded-full border-2 border-gray-300">
+                  <div
+                    className={`h-2 w-2 rounded-full ${formData.visibility === 1 ? "bg-primary" : "bg-transparent"} transition-colors`}
+                  ></div>
+                </div>
+              </div>
+              <span className="text-xs font-medium text-gray-800 sm:text-sm">{t("Anyone")}</span>
+            </label>
+
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-md p-2 transition-colors hover:bg-gray-50">
+              <div className="relative">
+                <input
+                  type="radio"
+                  name="visibility"
+                  value={0}
+                  checked={formData.visibility === 0}
+                  onChange={() => handleVisibilityChange(0)}
+                  className="peer sr-only"
+                />
+                <div className="peer-checked:border-primary flex h-4 w-4 items-center justify-center rounded-full border-2 border-gray-300">
+                  <div
+                    className={`h-2 w-2 rounded-full ${formData.visibility === 0 ? "bg-primary" : "bg-transparent"} transition-colors`}
+                  ></div>
+                </div>
+              </div>
+              <span className="text-xs font-medium text-gray-800 sm:text-sm">
+                {t("connectionsonly")}
+              </span>
+            </label>
+          </div>
         </div>
 
-        <p className="border border-b my-4 border-gray w-full"></p>
+        <div className="my-4 w-full border-b border-gray-200"></div>
 
-        <div className="mt-6 text-right">
+        <div className="mt-4 flex justify-end sm:mt-6">
           <button
             onClick={handleSubmit}
             disabled={isPending}
-            className="px-8 py-2 bg-primary text-[15px] text-white rounded-md hover:bg-secondary hover:text-primary transition disabled:opacity-60"
+            className="bg-primary hover:bg-secondary hover:text-primary w-full rounded-md px-6 py-2 text-sm text-white transition disabled:opacity-60 sm:w-auto sm:px-8 sm:text-[15px]"
           >
             {isPending ? t("posting") : t("post")}
           </button>

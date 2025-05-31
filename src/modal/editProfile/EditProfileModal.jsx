@@ -142,11 +142,11 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       size="md"
       className="mx-auto w-full max-w-lg rounded-2xl !p-0"
     >
-      <Modal.Header className="flex items-center justify-between rounded-t-2xl border-b border-gray-200 bg-white px-6 py-4">
-        <Modal.Title className="text-xl font-bold text-gray-800">Edit Profile</Modal.Title>
+      <Modal.Header className="flex items-center justify-between rounded-t-2xl border-b border-gray-200 bg-white px-2 py-2 md:px-6 md:py-4">
+        <Modal.Title className="text-xl font-bold text-gray-800">{t("editProfile")}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="space-y-6 bg-white px-6 py-4">
-        <div className="flex flex-col items-center justify-center gap-2">
+      <Modal.Body className="space-y-6 bg-white px-2 py-2 md:px-6 md:py-4">
+        <div className="mt-2 flex flex-col items-center justify-center gap-2 sm:mt-0">
           <div className="relative">
             <ImageUploader
               selectedImage={selectedImage}
@@ -194,7 +194,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
           />
         </div>
       </Modal.Body>
-      <Modal.Footer className="flex items-center justify-end gap-3 rounded-b-2xl border-t border-gray-200 bg-white px-6 py-4">
+      <Modal.Footer className="flex items-center justify-end gap-3 rounded-b-2xl border-t border-gray-200 bg-white px-2 py-2 md:px-6 md:py-4">
         <Button
           onClick={onClose}
           appearance="subtle"

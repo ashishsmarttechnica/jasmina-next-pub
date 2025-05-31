@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
 
 const EditCompany = ({ userData, onClose }) => {
-  const t = useTranslations("CompanyProfile.industry");
+  const t = useTranslations("CompanyProfile.media");
   const { mutate: updateProfile, isPending, error } = useUpdateCompanyProfile();
   const router = useRouter();
 
@@ -160,7 +160,7 @@ const EditCompany = ({ userData, onClose }) => {
                 <Loader inverse />
               </div>
             ) : (
-              "Update"
+              t("update")
             )}
           </button>
         </div>

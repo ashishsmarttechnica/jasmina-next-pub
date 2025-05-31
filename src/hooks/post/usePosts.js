@@ -1,4 +1,12 @@
-import { createPost, getAllPosts, getPostById, likePost, SinglePostById, unlikePost } from "@/api/post.api";
+import {
+  createPost,
+  getAllPosts,
+  getPostById,
+  likePost,
+  postShare,
+  SinglePostById,
+  unlikePost,
+} from "@/api/post.api";
 import usePostStore from "@/store/post.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -155,7 +163,7 @@ export const useSinglePost = (id) => {
       if (!id) return null; // Handle case where no ID is provided
 
       const res = await SinglePostById(id);
-      setSinglePost(res);
+      setSinglePost(res.data);
 
       // If the post is not in the local store, add it
       if (!posts.some((post) => post._id === id)) {
@@ -164,7 +172,7 @@ export const useSinglePost = (id) => {
 
       return res;
     },
-    enabled: !!id, 
+    enabled: !!id,
     select: (res) => res?.data || null,
     onSuccess: (data) => {
       setSinglePost(data);
@@ -172,4 +180,24 @@ export const useSinglePost = (id) => {
     retry: 1,
     refetchOnWindowFocus: false,
   });
-}
+};
+
+export const usePostShare = () => {
+  const posts = usePostStore((s) => s.posts);
+  const setPosts = usePostStore((s) => s.setPosts);
+
+  return useMutation({
+    mutationFn: postShare,
+    onSuccess: (data, id) => {
+      if (data?.data) {
+        const updatedPosts = posts.map((post) =>
+          post._id === id ? { ...post, totalShare: (post.totalShare || 0) + 1 } : post
+        );
+        setPosts(updatedPosts);
+      }
+    },
+    onError: (error) => {
+      console.error("Post sharing failed:", error?.response?.data?.message || error.message);
+    },
+  });
+};

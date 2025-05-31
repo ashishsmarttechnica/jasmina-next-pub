@@ -208,7 +208,23 @@
       "enterYourCity": "Betreten Sie Ihre Stadt",
       "enterYourState": "Geben Sie Ihren Staat ein",
       "email": "E-Mail",
-      "emailPlaceholder": "Geben Sie Ihre E -Mail ein"
+      "emailPlaceholder": "Geben Sie Ihre E -Mail ein",
+      "singleprofileTab": {
+        "experience": "Erfahrung",
+        "education": "Ausbildung",
+        "skills": "Fähigkeiten",
+        "resume": "Wieder aufnehmen",
+        "noActivityDesc": "Dieser Benutzer hat noch keine Aktivitäten gepostet.",
+        "noActivity": "Keine Aktivität gefunden",
+        "seeAll": "Sehen Sie alle",
+        "activity": "Aktivität",
+        "connecton": "Angeschlossen auf",
+        "remove": "Entfernen",
+        "removing": "Entfernen ...",
+        "message": "Nachricht",
+        "noexperience": "Keine Erfahrungsinformationen verfügbar."
+      },
+      "personalInfo": "Persönliche Informationen"
     },
     "userprofilemenu": {
       "education": "Ausbildung",
@@ -266,7 +282,11 @@
       "JoinDateError": "Das Verbindungsdatum ist erforderlich.",
       "JobTypeError": "Jobtyp ist erforderlich.",
       "WorkLocationError": "Arbeitsort ist erforderlich.",
-      "ExperienceError": "Erfahrung ist erforderlich."
+      "ExperienceError": "Erfahrung ist erforderlich.",
+      "JobPreferences": "Jobvorstellungen",
+      "jobstype": "Jobtyp",
+      "salaryrangeError": "Geben Sie Ihren erwarteten Gehaltsbereich ein (z. B. 50.000-70.000)",
+      "experienceError": "Geben Sie Ihre Gesamtjahre an Berufserfahrung ein"
     },
     "education": {
       "title": "Fügen Sie Ihre Ausbildung hinzu",
@@ -300,7 +320,20 @@
       "experienceError": "Erfahrung ist erforderlich.",
       "categoryError": "Kategorie ist erforderlich.",
       "languageError": "Sprache ist erforderlich.",
-      "success": "Profil aktualisiert"
+      "success": "Profil aktualisiert",
+      "editProfile": "Profil bearbeiten",
+      "Company Name": "Name der Firma",
+      "Role": "Rolle",
+      "Start Date": "Startdatum",
+      "End Date": "Enddatum",
+      "Location": "Standort",
+      "Experience": "Berufserfahrung",
+      "companyNameError": "Firmenname ist erforderlich.",
+      "roleError": "Rolle ist erforderlich.",
+      "startDateError": "Startdatum ist erforderlich.",
+      "endDateError": "Enddatum ist erforderlich.",
+      "locationError": "Ort ist erforderlich.",
+      "endDateBeforeStartError": "Enddatum kann nicht vor dem Startdatum sein."
     },
     "resume": {
       "title": "Laden Sie Ihren Lebenslauf hoch",
@@ -333,7 +366,8 @@
       "firstNameError": "Vorname ist erforderlich.",
       "lastNameError": "Nachname ist erforderlich.",
       "phoneNumberError": "Telefonnummer ist erforderlich.",
-      "PhoneLength10to15Error": "Geben Sie die Telefonnummer zwischen 10 und 15 Ziffern ein"
+      "PhoneLength10to15Error": "Geben Sie die Telefonnummer zwischen 10 und 15 Ziffern ein",
+      "uploadLogoImage": "Laden Sie das Logo -Bild hoch"
     },
     "location": {
       "subTitle": "Lassen Sie Benutzer und Kandidaten wissen, wo Sie sich befinden.",
@@ -358,7 +392,9 @@
       "title": "Medien",
       "socialLinks": "LinkedIn / Social Links",
       "description": "Beschreibung",
-      "tagline": "Slogan"
+      "tagline": "Slogan",
+      "uploadImage": "Laden Sie das Bannerbild hoch",
+      "update": "Aktualisieren"
     },
     "industry": {
       "employeesPlaceholder": "Wählen Sie Anzahl der Mitarbeiter aus",
@@ -408,6 +444,29 @@
       "companyTypeError": "Unternehmenstyp ist erforderlich.",
       "taglineError": "Slogan ist erforderlich.",
       "employeesError": "Anzahl der Mitarbeiter ist erforderlich."
+    },
+    "singleCompany": {
+      "views": "Ansichten",
+      "connections": "Verbindungen",
+      "message": "Nachricht",
+      "connect": "Verbinden",
+      "editProfile": "Profil bearbeiten",
+      "nosuggestion": "Im Moment keine Vorschläge zur Verfügung",
+      "remove": "Entfernen"
+    },
+    "singleCompanyTab": {
+      "about": "Um",
+      "job": "Arbeit",
+      "people": "Menschen",
+      "nosuggestion": "Im Moment keine Vorschläge zur Verfügung",
+      "noconnections": "Keine Verbindungen verfügbar",
+      "removing": "Entfernen ...",
+      "remove": "Entfernen",
+      "message": "Nachricht",
+      "connected10": "Am 10. März 2025 verbunden",
+      "company": "Unternehmen",
+      "no": "NEIN",
+      "connectionfound": "Verbindung gefunden"
     }
   },
   "Next": "",

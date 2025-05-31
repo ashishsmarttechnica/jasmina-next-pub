@@ -50,7 +50,7 @@ const Hero = () => {
             </div>
 
             <div className="mt-2 flex w-full items-center justify-center xl:max-w-[616px]">
-              <div className="mb-5 flex flex-col items-center gap-2 rounded-md bg-white px-3 py-2 shadow-md sm:flex-row xl:m-0 xl:mb-0 2xl:py-3">
+              <div className="mb-5 flex flex-col items-center gap-2 space-y-2 rounded-md bg-white px-3 py-2 shadow-md sm:flex-row sm:space-y-0 xl:m-0 xl:mb-0 2xl:py-3">
                 <div className="mx-2 flex items-center gap-3">
                   <Search />
                   <input

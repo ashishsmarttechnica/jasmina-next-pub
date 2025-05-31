@@ -70,7 +70,7 @@ const PersonalInformationForm = forwardRef(
 
     return (
       <div className="space-y-4">
-        <p className="mb-2 py-1 text-lg font-semibold text-gray-800">Personal Information</p>
+        <p className="mb-2 py-1 text-lg font-semibold text-gray-800">{t("personalInfo")}</p>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <InputField
             name="fullName"

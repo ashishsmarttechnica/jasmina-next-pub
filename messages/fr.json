@@ -209,7 +209,23 @@
       "enterYourCity": "Entrez votre ville",
       "enterYourState": "Entrez votre état",
       "email": "E-mail",
-      "emailPlaceholder": "Entrez votre e-mail"
+      "emailPlaceholder": "Entrez votre e-mail",
+      "singleprofileTab": {
+        "experience": "Expérience",
+        "education": "Éducation",
+        "skills": "Compétences",
+        "resume": "CV",
+        "noActivityDesc": "Cet utilisateur n'a pas encore publié d'activité.",
+        "noActivity": "Aucune activité trouvée",
+        "seeAll": "Voir tout",
+        "activity": "Activité",
+        "connecton": "Connecté sur",
+        "remove": "Retirer",
+        "removing": "Supprimer ...",
+        "message": "Message",
+        "noexperience": "Aucune expérience d'information disponible."
+      },
+      "personalInfo": "Information personnelle"
     },
     "userprofilemenu": {
       "education": "Éducation",
@@ -267,7 +283,11 @@
       "JoinDateError": "La date d'adhésion est requise.",
       "JobTypeError": "le type de travail est requis.",
       "WorkLocationError": "le lieu de travail est requis.",
-      "ExperienceError": "une expérience est requise."
+      "ExperienceError": "une expérience est requise.",
+      "JobPreferences": "Préférences professionnelles",
+      "jobstype": "Type d'emploi",
+      "salaryrangeError": "Entrez votre gamme de salaire attendue (par exemple, 50 000 à 70 000)",
+      "experienceError": "Entrez vos années totales d'expérience professionnelle"
     },
     "education": {
       "title": "Ajoutez votre éducation",
@@ -301,7 +321,20 @@
       "experienceError": "Une expérience est requise.",
       "categoryError": "Une catégorie est requise.",
       "languageError": "La langue est requise.",
-      "success": "Profil mis à jour"
+      "success": "Profil mis à jour",
+      "editProfile": "Modifier le profil",
+      "Company Name": "Nom de l'entreprise",
+      "Role": "Rôle",
+      "Start Date": "Date de début",
+      "End Date": "Date de fin",
+      "Location": "Emplacement",
+      "Experience": "Expérience professionnelle",
+      "companyNameError": "Le nom de l'entreprise est requis.",
+      "roleError": "Un rôle requis.",
+      "startDateError": "La date de début est requise.",
+      "endDateError": "La date de fin est requise.",
+      "locationError": "L'emplacement est requis.",
+      "endDateBeforeStartError": "La date de fin ne peut pas être avant la date de début."
     },
     "resume": {
       "title": "Téléchargez votre CV",
@@ -334,7 +367,8 @@
       "firstNameError": "Le prénom est requis.",
       "lastNameError": "Le nom de famille est requis.",
       "phoneNumberError": "Le numéro de téléphone est requis.",
-      "PhoneLength10to15Error": "Entrez le numéro de téléphone entre 10 et 15 chiffres"
+      "PhoneLength10to15Error": "Entrez le numéro de téléphone entre 10 et 15 chiffres",
+      "uploadLogoImage": "Télécharger l'image du logo"
     },
     "location": {
       "subTitle": "Faites savoir aux utilisateurs et aux candidats où vous êtes basé.",
@@ -359,7 +393,9 @@
       "title": "Médias",
       "socialLinks": "LinkedIn / Liens sociaux",
       "description": "Description",
-      "tagline": "Slogan"
+      "tagline": "Slogan",
+      "uploadImage": "Télécharger l'image de la bannière",
+      "update": "Mise à jour"
     },
     "industry": {
       "employeesPlaceholder": "Sélectionnez le numéro d'employés",
@@ -409,6 +445,29 @@
       "companyTypeError": "Le type d'entreprise est requis.",
       "taglineError": "Le slogan est requis.",
       "employeesError": "Le nombre d'employés est requis."
+    },
+    "singleCompany": {
+      "views": "Vues",
+      "connections": "Relations",
+      "message": "Message",
+      "connect": "Connecter",
+      "editProfile": "Modifier le profil",
+      "nosuggestion": "Aucune suggestion disponible pour le moment",
+      "remove": "Retirer"
+    },
+    "singleCompanyTab": {
+      "about": "À propos",
+      "job": "Emploi",
+      "people": "Personnes",
+      "nosuggestion": "Aucune suggestion disponible pour le moment",
+      "noconnections": "Aucune connexion disponible",
+      "removing": "Supprimer ...",
+      "remove": "Retirer",
+      "message": "Message",
+      "connected10": "Connecté le 10 mars 2025",
+      "company": "Entreprise",
+      "no": "Non",
+      "connectionfound": "Connexion trouvée"
     }
   },
   "Next": "",

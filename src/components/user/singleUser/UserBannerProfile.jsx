@@ -7,6 +7,7 @@ import getImg from "@/lib/getImg";
 import Cookies from "js-cookie";
 import { useParams } from "next/navigation";
 import EditProfileModal from "../../../modal/editProfile/EditProfileModal";
+import { useTranslations } from "next-intl";
 const UserBannerProfile = ({
   userData,
   isLoading,
@@ -15,6 +16,7 @@ const UserBannerProfile = ({
   descriptionData,
   handleCloses,
 }) => {
+  const t=useTranslations('CompanyProfile.singleCompany');
   const params = useParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
@@ -54,12 +56,12 @@ const UserBannerProfile = ({
 
             {isCurrentUser ? (
               <button className="profile-btn" onClick={() => handleDisc(userData)}>
-                Edit Profile
+              {t("editProfile")}
               </button>
             ) : (
               <div className="mt-3.5 flex gap-2">
-                <button className="connect-btn">Connect</button>
-                <button className="message-btn">Message</button>
+                <button className="connect-btn">{t("connect")}</button>
+                <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group">
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
@@ -83,12 +85,12 @@ const UserBannerProfile = ({
                 <p className="text-primary text-[16px] font-bold">
                   {userData?.connectionCount || 0}
                 </p>
-                <p className="text-xs font-normal text-black">Connections</p>
+                <p className="text-xs font-normal text-black">{t("connections")}</p>
               </div>
 
               <div className="w-1/2 px-2 py-4 text-center">
                 <p className="text-primary text-[16px] font-bold">{userData?.views || 0}</p>
-                <p className="text-xs font-normal text-black">Views</p>
+                <p className="text-xs font-normal text-black">{t("views")}</p>
               </div>
             </div>
           </div>

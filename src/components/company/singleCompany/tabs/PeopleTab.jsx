@@ -15,7 +15,7 @@ const PeopleTab = () => {
   const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
   const { data, isLoading, isError, error } = useUserSuggestions();
   const { mutate: createConnection, isPending } = useCreateConnection();
-  const t = useTranslations("UserMainFeed");
+  const t= useTranslations("CompanyProfile.singleCompany");
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
   const getItemConfig = (item) => {
@@ -72,7 +72,7 @@ const PeopleTab = () => {
   if (!displayData.length) {
     return (
       <div className="w-full px-2 py-4">
-        <p className="my-20 text-center text-gray-500">No suggestions available at the moment</p>
+        <p className="my-20 text-center text-gray-500">{t("nosuggestion")}</p>
       </div>
     );
   }
@@ -135,15 +135,15 @@ const PeopleTab = () => {
                       disabled={isPending}
                       className="text-primary border-primary hover:bg-primary mx-2 rounded-xs border px-4 py-1 text-[12px] transition-colors duration-300 hover:text-white sm:text-[14px]"
                     >
-                      Message
+                      {t("connect")}
                     </button>
                     <button className="text-grayBlueText border-grayBlueText rounded-xs border px-4 py-1 text-[12px] transition-colors duration-300 hover:bg-transparent sm:text-[14px]">
-                      Remove
+                      {t("remove")}
                     </button>
                   </>
                 ) : (
                   <button className="bg-primary hover:text-primary hover:border-primary rounded-xs border border-transparent px-4 py-1 text-[12px] text-white transition-colors duration-300 hover:bg-transparent sm:text-[14px]">
-                    Connect
+                     {t("connect")}
                   </button>
                 )}
               </div>

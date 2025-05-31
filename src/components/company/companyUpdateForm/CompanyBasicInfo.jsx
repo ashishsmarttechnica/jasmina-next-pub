@@ -75,7 +75,7 @@ const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyIm
         />
       </div>
       <div>
-        <p className="mb-1 text-center text-sm text-gray-500">Upload Logo Image</p>
+        <p className="mb-1 text-center text-sm text-gray-500">{t("uploadLogoImage")}</p>
         <ImageUploader
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}

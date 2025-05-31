@@ -3,8 +3,9 @@
 import UserMightKnow from "@/common/UserMightKnow";
 import { useSingleUser } from "@/hooks/user/useSingleUser";
 import ConnectionsLayout from "@/layout/ConnectionsLayout";
+import useSingleUserStore from "@/store/singleUser.store";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActivitySection from "./ActivitySection";
 import SingleUserTab from "./SingleUserTab";
 import UserBannerProfile from "./UserBannerProfile";
@@ -15,7 +16,18 @@ const MainSingleUser = () => {
   const [descriptionData, setDescriptionData] = useState(null);
   const userId = params?.id;
 
-  const { data: userData, isLoading, error } = useSingleUser(userId);
+  // Get data from store
+  const { userData, isLoading, error, resetStore } = useSingleUserStore();
+
+  // Fetch user data
+  const { data } = useSingleUser(userId);
+
+  // Reset store when component unmounts
+  useEffect(() => {
+    return () => {
+      resetStore();
+    };
+  }, [resetStore]);
 
   const handleDisc = (data) => {
     setOpens(true);
@@ -26,7 +38,7 @@ const MainSingleUser = () => {
     setOpens(false);
   };
 
-  if (error) return <div>Error loading user data</div>;
+  if (error) return <div>Error loading user data: {error}</div>;
 
   return (
     <ConnectionsLayout RightComponents={[<UserMightKnow key="right1" />]}>
@@ -45,4 +57,5 @@ const MainSingleUser = () => {
     </ConnectionsLayout>
   );
 };
+
 export default MainSingleUser;

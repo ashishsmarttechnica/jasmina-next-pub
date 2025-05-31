@@ -6,11 +6,13 @@ import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
 import Share from "@/assets/svg/feed/Share";
 import ImageFallback from "@/common/shared/ImageFallback";
 import FeedComment from "@/components/user/feed/comment/FeedComment";
-import { useLikePost, useUnlikePost } from "@/hooks/post/usePosts";
+import { useLikePost, usePostShare, useUnlikePost } from "@/hooks/post/usePosts";
 import { formatRelativeTime } from "@/lib/commondate";
 import getImg from "@/lib/getImg";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLocale } from "next-intl";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const CompanyDynamicPost = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
@@ -18,6 +20,8 @@ const CompanyDynamicPost = ({ post }) => {
 
   const { mutate: likePost, isLoading: isLiking } = useLikePost();
   const { mutate: unlikePost, isLoading: isUnliking } = useUnlikePost();
+  const { mutate: sharePost, isLoading: isShareLoading } = usePostShare();
+  const locale = useLocale();
 
   const fullName = post?.userId?.profile?.fullName || "Unknown User";
 
@@ -33,6 +37,25 @@ const CompanyDynamicPost = ({ post }) => {
   };
   const handleUnlike = (id) => {
     unlikePost(id);
+  };
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Check out this post!",
+          text: post?.postDesc || "Amazing post!",
+          url: `${window.location.origin}/${locale}/post/${id}`,
+        });
+
+        sharePost(id);
+      } catch (error) {
+        console.log(error);
+
+        toast.error("Share cancelled or failed");
+      }
+    } else {
+      toast.info("Share not supported on this device");
+    }
   };
 
   return (
@@ -95,7 +118,14 @@ const CompanyDynamicPost = ({ post }) => {
             <Comment /> {post.totalComment}
           </span>
           <span className="flex items-center gap-1">
-            <Share /> {post.totalShare}
+            <button
+              onClick={() => handleShare(post._id)}
+              disabled={isShareLoading}
+              className={`share-btn ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+            >
+              <Share />
+            </button>
+            <div>{isShareLoading ? <LoaderIcon /> : post.totalShare}</div>
           </span>
         </div>
         <span className="text-grayBlueText text-xs font-normal whitespace-nowrap">{postTime}</span>

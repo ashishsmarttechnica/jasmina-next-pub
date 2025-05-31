@@ -237,6 +237,21 @@
         "female": "Female",
         "other": "Other"
       },
+      "singleprofileTab": {
+        "experience": "Experience",
+        "education": "Education",
+        "skills": "Skills",
+        "resume": "Resume",
+        "activity": "Activity",
+        "seeAll": "See All",
+        "noActivity": "No Activity Found",
+        "noActivityDesc": "This user hasn't posted any activity yet.",
+        "noexperience": "No experience information available.",
+        "connecton": "Connected on",
+        "message": "Message",
+        "remove": "Remove",
+        "removing": "Removing..."
+      },
       "genderPlaceholder": "Select Gender",
       "dob": "Date of Birth",
       "dobPlaceholder": "Select date",
@@ -244,6 +259,7 @@
       "phonePlaceholder": "Enter your phone number",
       "location": "Location",
       "locationPermission": "Location permission denied",
+      "personalInfo": "Personal Information",
       "locationDetect": "Detect",
       "locationDetecting": "Detecting...",
       "locationPlaceholder": "Enter your city, state, country",
@@ -275,6 +291,8 @@
     "preferences": {
       "title": "Set Your Job Preferences",
       "subTitle": "Help us match you with the right opportunities.",
+      "jobstype": "Job Type",
+      "JobPreferences":"Job Preferences",
       "Next": "Next",
       "Updating": "Updating...",
       "SomethingWentWrong": "Something went wrong!",
@@ -287,6 +305,8 @@
         "graphic-designer": "Graphic Designer",
         "ui-ux-designer": "UI/UX Designer"
       },
+      "salaryrangeError": "Enter your expected salary range (e.g., 50,000-70,000)",
+      "experienceError": "Enter your total years of professional experience",
       "SelectJobRole": "Select Role",
       "jobtype": "Preferred Job Type",
       "jobtypeoption": {
@@ -346,6 +366,7 @@
         "advanced": "Advanced",
         "expert": "Expert"
       },
+      "editProfile":"Edit Profile",
       "selectOption": "Select an option",
       "experience": "Experience (in years)",
       "category": "Category",
@@ -407,11 +428,35 @@
       "website": "Website",
       "websiteplaceholder": "https://example.com",
       "companyLocation": "Company Location",
+      "uploadLogoImage": "Upload Logo Image",
       "companyLocationError": "Company location is required.",
       "firstNameError": "First Name is required.",
       "lastNameError": "Last Name is required.",
       "phoneNumberError": "Phone Number is required.",
       "PhoneLength10to15Error": "enter phone number between 10 to 15 digits"
+    },
+    "singleCompany": {
+      "editProfile": "Edit Profile",
+      "connect": "Connect",
+      "remove": "Remove",
+      "message": "Message",
+      "connections": "Connections",
+      "views": "Views",
+      "nosuggestion": "No suggestions available at the moment"
+    },
+    "singleCompanyTab": {
+      "about": "About",
+      "job": "Job",
+      "people": "People",
+      "company": "Company",
+      "no": "no",
+      "connectionfound": "Connection found",
+      "nosuggestion": "No suggestions available at the moment",
+      "noconnections": "No connections available",
+      "connected10": "Connected on 10 March 2025",
+      "message": "Message",
+      "remove": "Remove",
+      "removing": "Removing..."
     },
     "location": {
       "title": "Location",
@@ -438,7 +483,10 @@
       "subTitle": "Showcase your company's logo, website, and social media profiles.",
       "tagline": "Tagline",
       "description": "Description",
-      "socialLinks": "LinkedIn / Social Links"
+      "socialLinks": "LinkedIn / Social Links",
+      "uploadImage": "Upload Banner Image",
+
+      "update": "Update"
     },
     "industry": {
       "title": "Industry & Company Size",

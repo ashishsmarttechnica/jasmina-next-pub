@@ -1,18 +1,17 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { FiHome, FiBriefcase, FiBell, FiMessageSquare, FiUsers } from "react-icons/fi";
-import { Link, useRouter } from "@/i18n/navigation";
-import { useEffect, useRef, useState } from "react";
-import useAuthStore from "@/store/auth.store";
-import { toast } from "react-toastify";
-import getImg from "@/lib/getImg";
-import MultiLanguageDropdown from "./MultiLanguageDropdown";
-import { useTranslations } from "next-intl";
 import ImageFallback from "@/common/shared/ImageFallback";
+import { Link, useRouter } from "@/i18n/navigation";
+import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { FiBell, FiBriefcase, FiHome, FiMessageSquare, FiUsers } from "react-icons/fi";
+import { toast } from "react-toastify";
+import MultiLanguageDropdown from "./MultiLanguageDropdown";
 
-const CompanyNavItems = () => {
+const CompanyNavItems = ({ onLinkClick }) => {
   const pathname = usePathname();
   const t = useTranslations("CompanyHeader");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -41,6 +40,7 @@ const CompanyNavItems = () => {
       <Link
         href="/"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiHome className="h-5 w-5 text-white" />
         <span>{t("home")}</span>
@@ -49,6 +49,7 @@ const CompanyNavItems = () => {
       <Link
         href="/jobs"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiBriefcase className="h-5 w-5 text-white" />
         <span>{t("jobs")}</span>
@@ -57,6 +58,7 @@ const CompanyNavItems = () => {
       <Link
         href="/connections"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiUsers className="h-5 w-5 text-white" />
         <span>{t("connections")}</span>
@@ -67,6 +69,7 @@ const CompanyNavItems = () => {
         className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${
           isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
+        onClick={onLinkClick}
       >
         <div className={`rounded-full p-[5px] ${isChatActive ? "bg-white" : "bg-transparent"}`}>
           <FiMessageSquare
@@ -74,7 +77,7 @@ const CompanyNavItems = () => {
           />
         </div>
         <span className="block text-white md:hidden">Messages</span>
-        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#DE4437] p-1 text-[10px] font-bold text-white">
+        <span className="absolute start-1.5 top-0 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#b11c0f] p-1 text-[10px] font-bold text-white">
           8
         </span>
       </Link>
@@ -84,6 +87,7 @@ const CompanyNavItems = () => {
         className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${
           isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
+        onClick={onLinkClick}
       >
         <div
           className={`rounded-full p-[5px] ${
@@ -95,7 +99,7 @@ const CompanyNavItems = () => {
           />
         </div>
         <span className="block text-white md:hidden">Notification</span>
-        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#00DFFC] p-1 text-[10px] font-bold text-white">
+        <span className="absolute start-1.5 top-0 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#0eb3c9] p-1 text-[10px] font-bold text-white">
           6
         </span>
       </Link>

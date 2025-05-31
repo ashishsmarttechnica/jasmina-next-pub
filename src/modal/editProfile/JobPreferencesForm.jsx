@@ -86,7 +86,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
 
   return (
     <div className="space-y-4">
-      <p className="mb-2 py-1 text-lg font-semibold text-gray-800">Job Preferences</p>
+      <p className="mb-2 py-1 text-lg font-semibold text-gray-800">{t("JobPreferences")}</p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Selecter
           name="jobRole"
@@ -99,7 +99,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
           className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
         />
         <div className="col-span-1 md:col-span-2">
-          <label className="mb-1 block text-[14px] font-medium text-gray-700">Job Type *</label>
+          <label className="mb-1 block text-[14px] font-medium text-gray-700">{t("jobstype") }</label>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {jobTypeOptions.map((type) => (
               <JobTypeButton
@@ -124,7 +124,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
           <p className="-mt-2 mb-2 text-xs text-gray-500 md:col-span-2">
-            Enter your expected salary range (e.g., 50,000-70,000)
+            {t("salaryrangeError")}
           </p>
         </div>
         <div>
@@ -140,7 +140,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
           <p className="-mt-2 mb-2 text-xs text-gray-500 md:col-span-2">
-            Enter your total years of professional experience
+           {t("experienceError")}
           </p>
         </div>
         <CustomDatePicker

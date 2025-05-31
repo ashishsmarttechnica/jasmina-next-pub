@@ -1,20 +1,20 @@
 "use client";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import { Link, useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
-import HeaderLogo from "@/assets/header/HeaderLogo.png";
-import MultiLanguageDropdown from "./MultiLanguageDropdown";
-import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
-import HeaderLogoLink from "./HeaderLogoLink";
-import useAuthStore from "@/store/auth.store";
 import { toast } from "react-toastify";
-import { usePathname } from "next/navigation";
+import HeaderLogoLink from "./HeaderLogoLink";
+import MultiLanguageDropdown from "./MultiLanguageDropdown";
 
 const Header = ({ isLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("Header");
+  const locale = useLocale();
+  const isRTL = locale === "ar";
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
   const logoHref = "/";
@@ -35,29 +35,29 @@ const Header = ({ isLogin }) => {
 
   return (
     <>
-      <header className="w-full bg-headerbg py-[7px]">
+      <header className="bg-headerbg w-full py-[7px]">
         <div className="container mx-auto px-2 md:px-0">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <HeaderLogoLink logoHref={logoHref} />
             </div>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-2xl text-white"
+              className="text-2xl text-white md:hidden"
               aria-label="Toggle Menu"
             >
               {isOpen ? <IoClose /> : <GiHamburgerMenu />}
             </button>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex md:items-center md:gap-6 text-white">
+            <nav className="hidden text-white md:flex md:items-center md:gap-6">
               <MultiLanguageDropdown />
               {isLogin ? (
                 <ul className="flex gap-2">
                   <li>
                     <button
-                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${pathname === "/login" ? "bg-green-300 text-primary" : "bg-secondary text-primary hover:bg-primary hover:text-secondary"}`}
+                      className={`rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${pathname === "/login" ? "text-primary bg-green-300" : "bg-secondary text-primary hover:bg-primary hover:text-secondary"}`}
                       onClick={() => {
                         logout();
                         router.push("/login");
@@ -73,7 +73,7 @@ const Header = ({ isLogin }) => {
                   <li>
                     <Link
                       href="/login"
-                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${
+                      className={`rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${
                         pathname === "/en/login"
                           ? "bg-primary text-white"
                           : "bg-secondary text-primary hover:bg-primary hover:text-white"
@@ -86,7 +86,7 @@ const Header = ({ isLogin }) => {
                   <li>
                     <Link
                       href="/signup"
-                      className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in  ${pathname === "/en/signup" ? "bg-primary text-white" : "bg-secondary text-primary hover:bg-secondary hover:text-primary"}`}
+                      className={`rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${pathname === "/en/signup" ? "bg-primary text-white" : "bg-secondary text-primary hover:bg-secondary hover:text-primary"}`}
                     >
                       {t("SignUp")}
                     </Link>
@@ -97,29 +97,38 @@ const Header = ({ isLogin }) => {
           </div>
         </div>
 
-        {/* ✅ Mobile Side Drawer WITHOUT backdrop, but no scroll in bg */}
+        {/* Mobile Side Drawer */}
         <div
-          className={`fixed top-0 right-0 h-screen w-64 bg-headerbg text-white z-50 transform transition-transform duration-300 ease-in-out ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          } md:hidden`}
+          dir={locale}
+          className={`bg-headerbg fixed top-0 z-50 h-screen w-64 transform text-white transition-transform duration-300 ease-in-out md:hidden ${
+            isRTL ? "left-0" : "right-0"
+          } ${isOpen ? "translate-x-0" : isRTL ? "-translate-x-full" : "translate-x-full"}`}
         >
-          <div className="flex justify-end p-4">
-            <button onClick={() => setIsOpen(false)} aria-label="Close Menu">
+          <div className={`flex ${isRTL ? "justify-start" : "justify-end"} p-4`}>
+            <button onClick={() => setIsOpen(false)} aria-label="Close Menu" className="text-white">
               <IoClose className="text-3xl" />
             </button>
           </div>
-          <div className="flex flex-col gap-4 px-6 py-5">
+          <div className={`flex flex-col gap-4  px-2  py-5`}>
             <MultiLanguageDropdown />
             {isLogin ? (
               <ul className="flex flex-col gap-2">
                 <li>
-                  <Link
-                    href="/login"
-                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${pathname === "/en/login " ? "bg-green-300 text-primary" : "bg-secondary text-primary hover:bg-primary hover:text-secondary"}`}
-                    onClick={() => setIsOpen(false)}
+                  <button
+                    className={`w-full rounded-sm p-2 text-left text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${
+                      pathname === "/en/login"
+                        ? "text-primary bg-green-300"
+                        : "bg-secondary text-primary hover:bg-primary hover:text-secondary"
+                    }`}
+                    onClick={() => {
+                      logout();
+                      router.push("/login");
+                      toast.success(t("logoutSuccess"));
+                      setIsOpen(false);
+                    }}
                   >
                     {t("logout")}
-                  </Link>
+                  </button>
                 </li>
               </ul>
             ) : (
@@ -127,11 +136,12 @@ const Header = ({ isLogin }) => {
                 <li>
                   <Link
                     href="/login"
-                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in ${
+                    className={`block w-full rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${
                       pathname === "/en/login"
                         ? "bg-primary text-white"
                         : "bg-secondary text-primary hover:bg-primary hover:text-white"
                     }`}
+                    onClick={() => setIsOpen(false)}
                   >
                     {t("login")}
                   </Link>
@@ -139,7 +149,11 @@ const Header = ({ isLogin }) => {
                 <li>
                   <Link
                     href="/signup"
-                    className={`p-2 sm:px-3 sm:py-2 rounded-sm text-[13px] transition-all duration-100 ease-in  ${pathname === "/en/signup" ? "bg-primary text-white" : "bg-secondary text-primary hover:bg-secondary hover:text-primary"}`}
+                    className={`block w-full rounded-sm p-2 text-[13px] transition-all duration-100 ease-in sm:px-3 sm:py-2 ${
+                      pathname === "/en/signup"
+                        ? "bg-primary text-white"
+                        : "bg-secondary text-primary hover:bg-secondary hover:text-primary"
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {t("SignUp")}
@@ -149,6 +163,15 @@ const Header = ({ isLogin }) => {
             )}
           </div>
         </div>
+
+        {/* Overlay */}
+        {isOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ease-in-out md:hidden"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+        )}
       </header>
     </>
   );

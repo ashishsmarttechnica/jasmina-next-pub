@@ -2,10 +2,12 @@ import Activity from "@/assets/svg/user/Activity";
 import UserActivitySkeleton from "@/common/skeleton/UserActivitySkeleton";
 import { FaArrowRight } from "react-icons/fa6";
 import PostSlider from "./PostSlider";
+import { useTranslations } from "next-intl";
 
 const ActivitySection = ({ userData, isLoading }) => {
   // Get user posts from userData
   const userPosts = userData?.userPost || [];
+  const t=useTranslations('UserProfile.profile.singleprofileTab');
   // console.log("userPoststotal", userData);
 
   const hasNoPosts = !isLoading && (!userPosts || userPosts.length === 0);
@@ -14,12 +16,12 @@ const ActivitySection = ({ userData, isLoading }) => {
     <div className="shadow-card rounded-[5px] bg-gray-50">
       <div className="flex items-center justify-between border-b border-black/10 px-5 py-3">
         <h2 className="flex items-center gap-2 text-xl font-semibold">
-          <Activity /> Activity
+          <Activity /> {t('activity')}
         </h2>
         <div className="flex cursor-pointer items-center gap-2 text-[13px] font-medium text-[#888DA8] no-underline">
           {userData?.totalPost > 5 ? (
             <>
-              See All <FaArrowRight className="text-xl font-normal" />
+              {t('seeAll')} <FaArrowRight className="text-xl font-normal" />
             </>
           ) : (
             ""
@@ -32,8 +34,8 @@ const ActivitySection = ({ userData, isLoading }) => {
           <UserActivitySkeleton />
         ) : hasNoPosts ? (
           <div className="flex flex-col items-center justify-center py-10">
-            <div className="mb-2 text-lg font-medium text-gray-400">No Activity Found</div>
-            <p className="text-sm text-gray-400">This user hasn't posted any activity yet.</p>
+            <div className="mb-2 text-lg font-medium text-gray-400">{t('noActivity')}</div>
+            <p className="text-sm text-gray-400">{t('noActivityDesc')}</p>
           </div>
         ) : (
           // <PostSlider posts={userPosts} />

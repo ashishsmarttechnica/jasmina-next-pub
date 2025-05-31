@@ -209,7 +209,23 @@
       "enterYourCity": "أدخل مدينتك",
       "enterYourState": "أدخل ولايتك",
       "email": "بريد إلكتروني",
-      "emailPlaceholder": "أدخل بريدك الإلكتروني"
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "singleprofileTab": {
+        "experience": "خبرة",
+        "education": "تعليم",
+        "skills": "مهارات",
+        "resume": "سيرة ذاتية",
+        "noActivityDesc": "لم ينشر هذا المستخدم أي نشاط بعد.",
+        "noActivity": "لم يتم العثور على نشاط",
+        "seeAll": "انظر كل شيء",
+        "activity": "نشاط",
+        "connecton": "متصلة على",
+        "remove": "يزيل",
+        "removing": "إزالة ...",
+        "message": "رسالة",
+        "noexperience": "لا توجد معلومات خبرة متاحة."
+      },
+      "personalInfo": "معلومات شخصية"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -267,7 +283,11 @@
       "JoinDateError": "مطلوب تاريخ الانضمام.",
       "JobTypeError": "نوع الوظيفة مطلوب.",
       "WorkLocationError": "موقع العمل مطلوب.",
-      "ExperienceError": "الخبرة مطلوبة."
+      "ExperienceError": "الخبرة مطلوبة.",
+      "JobPreferences": "تفضيلات العمل",
+      "jobstype": "نوع الوظيفة",
+      "salaryrangeError": "أدخل نطاق الرواتب المتوقع الخاص بك (على سبيل المثال ، 50000-70،000)",
+      "experienceError": "أدخل إجمالي سنوات خبرتك المهنية"
     },
     "education": {
       "title": "أضف تعليمك",
@@ -301,7 +321,20 @@
       "experienceError": "التجربة مطلوبة.",
       "categoryError": "الفئة مطلوبة.",
       "languageError": "اللغة مطلوبة.",
-      "success": "تم تحديث الملف الشخصي"
+      "success": "تم تحديث الملف الشخصي",
+      "editProfile": "تحرير الملف الشخصي",
+      "Company Name": "اسم الشركة",
+      "Role": "دور",
+      "Start Date": "تاريخ البدء",
+      "End Date": "تاريخ الانتهاء",
+      "Location": "موقع",
+      "Experience": "خبرة مهنية",
+      "companyNameError": "مطلوب اسم الشركة.",
+      "roleError": "الدور مطلوب.",
+      "startDateError": "تاريخ البدء مطلوب.",
+      "endDateError": "تاريخ الانتهاء مطلوب.",
+      "locationError": "الموقع مطلوب.",
+      "endDateBeforeStartError": "لا يمكن أن يكون تاريخ الانتهاء قبل تاريخ البدء."
     },
     "resume": {
       "title": "تحميل سيرتك الذاتية",
@@ -334,7 +367,8 @@
       "firstNameError": "الاسم الأول مطلوب.",
       "lastNameError": "الاسم الأخير مطلوب.",
       "phoneNumberError": "رقم الهاتف مطلوب.",
-      "PhoneLength10to15Error": "أدخل رقم الهاتف بين 10 إلى 15 رقمًا"
+      "PhoneLength10to15Error": "أدخل رقم الهاتف بين 10 إلى 15 رقمًا",
+      "uploadLogoImage": "تحميل صورة شعار"
     },
     "location": {
       "subTitle": "دع المستخدمين والمرشحين يعرفون مكان إقامتك.",
@@ -359,7 +393,9 @@
       "title": "وسائط",
       "socialLinks": "روابط LinkedIn / الاجتماعية",
       "description": "وصف",
-      "tagline": "سطر الوصف"
+      "tagline": "سطر الوصف",
+      "uploadImage": "تحميل صورة لافتة",
+      "update": "تحديث"
     },
     "industry": {
       "employeesPlaceholder": "اختر عدد الموظفين",
@@ -409,6 +445,29 @@
       "companyTypeError": "نوع الشركة مطلوب.",
       "taglineError": "سطر الوصف مطلوب.",
       "employeesError": "عدد الموظفين مطلوب."
+    },
+    "singleCompany": {
+      "views": "وجهات النظر",
+      "connections": "الاتصالات",
+      "message": "رسالة",
+      "connect": "يتصل",
+      "editProfile": "تحرير الملف الشخصي",
+      "nosuggestion": "لا توجد اقتراحات متاحة في الوقت الحالي",
+      "remove": "يزيل"
+    },
+    "singleCompanyTab": {
+      "about": "عن",
+      "job": "وظيفة",
+      "people": "الناس",
+      "nosuggestion": "لا توجد اقتراحات متاحة في الوقت الحالي",
+      "noconnections": "لا توجد اتصالات متاحة",
+      "removing": "إزالة ...",
+      "remove": "يزيل",
+      "message": "رسالة",
+      "connected10": "متصل في 10 مارس 2025",
+      "company": "شركة",
+      "no": "لا",
+      "connectionfound": "وجدت الاتصال"
     }
   },
   "Next": "",

@@ -11,7 +11,7 @@ import { FiBell, FiBriefcase, FiHome, FiMessageSquare, FiUsers } from "react-ico
 import { toast } from "react-toastify";
 import MultiLanguageDropdown from "./MultiLanguageDropdown";
 
-const UserNavItems = () => {
+const UserNavItems = ({ onLinkClick }) => {
   const pathname = usePathname();
   const t = useTranslations("UserHeader");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,6 +39,7 @@ const UserNavItems = () => {
       <Link
         href="/"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiHome className="h-5 w-5 text-white" />
         <span>{t("home")}</span>
@@ -47,6 +48,7 @@ const UserNavItems = () => {
       <Link
         href="/jobs"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiBriefcase className="h-5 w-5 text-white" />
         <span>{t("jobs")}</span>
@@ -55,6 +57,7 @@ const UserNavItems = () => {
       <Link
         href="/connections"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        onClick={onLinkClick}
       >
         <FiUsers className="h-5 w-5 text-white" />
         <span>{t("connections")}</span>
@@ -65,6 +68,7 @@ const UserNavItems = () => {
         className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${
           isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
+        onClick={onLinkClick}
       >
         <div className={`rounded-full p-[5px] ${isChatActive ? "bg-white" : "bg-transparent"}`}>
           <FiMessageSquare
@@ -72,7 +76,7 @@ const UserNavItems = () => {
           />
         </div>
         <span className="block text-white md:hidden">Messages</span>
-        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#DE4437] p-1 text-[10px] font-bold text-white">
+        <span className="absolute start-1.5 top-0 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#DE4437] p-1 text-[10px] font-bold text-white">
           8
         </span>
       </Link>
@@ -82,6 +86,7 @@ const UserNavItems = () => {
         className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${
           isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
+        onClick={onLinkClick}
       >
         <div
           className={`rounded-full p-[5px] ${
@@ -93,7 +98,7 @@ const UserNavItems = () => {
           />
         </div>
         <span className="block text-white md:hidden">Notification</span>
-        <span className="absolute top-0 left-1.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#00DFFC] p-1 text-[10px] font-bold text-white">
+        <span className="absolute start-1.5 top-0 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#00DFFC] p-1 text-[10px] font-bold text-white">
           6
         </span>
       </Link>

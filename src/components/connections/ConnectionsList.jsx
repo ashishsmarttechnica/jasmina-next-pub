@@ -1,8 +1,10 @@
+import { useTranslations } from "next-intl";
 import CompanyCard from "./CompanyCard";
 import LoadMoreButton from "./LoadMoreButton";
 import PeopleCard from "./PeopleCard";
 
 const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loadMore }) => {
+  const t = useTranslations("CompanyProfile.singleCompanyTab");
   // Ensure connections is always an array
   const connectionsList = Array.isArray(connections) ? connections : [];
 
@@ -19,7 +21,7 @@ const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loa
           )}
         </>
       ) : (
-        <div className="py-4 text-center text-gray-500">No connections available</div>
+        <div className="py-4 text-center text-gray-500">{t("noconnections")}</div>
       )}
 
       {hasMore && <LoadMoreButton onClick={loadMore} isLoading={isFetching} />}
