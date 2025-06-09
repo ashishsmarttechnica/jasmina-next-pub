@@ -1,5 +1,5 @@
-import InputField from "@/common/InputField";
 import Selecter from "@/common/Selecter";
+import { languageOptions } from "@/utils/languageOptions";
 import { useTranslations } from "next-intl";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { FiPlusSquare } from "react-icons/fi";
@@ -68,15 +68,22 @@ const LanguageForm = forwardRef(({ initialData, errors = {}, clearFieldError }, 
             />
           )}
 
-          <InputField
-            label={`${t("languagesList")}*`}
-            name={`languages-${index}`}
-            type="text"
-            value={language.name}
-            onChange={(e) => handleChange(index, "name", e.target.value)}
-            error={errors[`language-${index}-name`]}
-            placeholder="Enter language"
-          />
+          <div className="space-y-1">
+            <label className="text-grayBlueText text-[14px]">{`${t("languagesList")}*`}</label>
+            <Selecter
+              name="language"
+              options={languageOptions}
+              value={language.name}
+              onChange={(e) => handleChange(index, "name", e.target.value)}
+              error={errors[`language-${index}-name`]}
+              isSearchable={true}
+              isOther={true}
+              placeholder="Select a language"
+            />
+            {errors[`language-${index}-name`] && (
+              <p className="text-[12px] text-red-500">{errors[`language-${index}-name`]}</p>
+            )}
+          </div>
 
           <div className="space-y-1">
             <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}*`}</label>
@@ -87,6 +94,9 @@ const LanguageForm = forwardRef(({ initialData, errors = {}, clearFieldError }, 
               onChange={(e) => handleChange(index, "proficiency", e.target.value)}
               error={errors[`language-${index}-proficiency`]}
             />
+            {errors[`language-${index}-proficiency`] && (
+              <p className="text-[12px] text-red-500">{errors[`language-${index}-proficiency`]}</p>
+            )}
           </div>
         </div>
       ))}

@@ -13,7 +13,7 @@ const CompanyCard = ({ company }) => {
   const { mutate: removeConnection, isPending } = useRemoveConnection();
   const { connections, setConnections } = useConnectionsStore();
   const router = useRouter();
-  const t= useTranslations("UserProfile.profile.singleprofileTab");
+  const t = useTranslations("UserProfile.profile.singleprofileTab");
   const handleProfile = (company) => {
     router.push(`/company/single-company/${company._id}`);
   };
@@ -45,9 +45,8 @@ const CompanyCard = ({ company }) => {
 
   return (
     <div
-      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
-        isRemoving ? "translate-x-full transform opacity-0" : ""
-      }`}
+      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
+        }`}
     >
       {/* Logo and Info */}
       <div
@@ -79,22 +78,30 @@ const CompanyCard = ({ company }) => {
         </div>
       </div>
       {/* Actions */}
-      <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
-        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-          <button className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto">
-           {t("message")}
-          </button>
-          <button
-            onClick={() => handleRemove(company)}
-            disabled={isPending}
-            className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-          >
-            {isPending ? t("removing") : t("remove")}
-          </button>
+      <div className="flex flex-col gap-[10px]">
+        <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+            <button className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto">
+              {t("message")}
+            </button>
+            <button
+              onClick={() => handleRemove(company)}
+              disabled={isPending}
+              className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            >
+              {isPending ? t("removing") : t("remove")}
+            </button>
+          </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">
-          {t("connecton")} {new Date(company.createdAt).toLocaleDateString()}
+         {company.details.createdAt &&
+            `${t("connecton")} ${new Date(company.details.createdAt).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}`}
         </div>
+
       </div>
     </div>
   );

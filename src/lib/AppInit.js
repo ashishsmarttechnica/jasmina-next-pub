@@ -11,7 +11,10 @@ const AppInit = () => {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
   const setAuthLoading = useAuthStore((state) => state.setAuthLoading);
+
   useEffect(() => {
+    // Initialize Firebase (app is already imported)
+
     const initApp = async () => {
       const token = Cookies.get("token");
       setAuthLoading(true);

@@ -6,11 +6,11 @@ import Like from "@/assets/svg/feed/Like";
 import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
 import Share from "@/assets/svg/feed/Share";
 import { AnimatePresence, motion } from "framer-motion";
-import ImageFallback from "../../common/shared/ImageFallback";
-import { useLikePost, useUnlikePost } from "../../hooks/post/usePosts";
-import { formatRelativeTime } from "../../lib/commondate";
-import getImg from "../../lib/getImg";
-import FeedComment from "../user/feed/comment/FeedComment";
+import ImageFallback from "@/common/shared/ImageFallback";
+import { useLikePost, useUnlikePost } from "@/hooks/post/usePosts";
+import { formatRelativeTime } from "@/lib/commondate";
+import getImg from "@/lib/getImg";
+import FeedComment from "@/components/user/feed/comment/FeedComment";
 import { useState } from "react";
 
 const SinglePostFeed = ({ post }) => {
@@ -20,11 +20,10 @@ const SinglePostFeed = ({ post }) => {
   const { mutate: likePost, isLoading: isLiking } = useLikePost();
   const { mutate: unlikePost, isLoading: isUnliking } = useUnlikePost();
 
-  console.log("SinglePostFeed post:", post);
   const fullName = post?.userId?.profile?.fullName || "Unknown User";
   const title = post?.userId?.preferences?.jobRole || "";
   const postTime = formatRelativeTime(post.createdAt);
- 
+
   const handleShowComments = (id) => {
     setShowCommentBoxId(id);
     setShowComments((prev) => !prev);

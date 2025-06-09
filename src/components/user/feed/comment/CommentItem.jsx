@@ -26,7 +26,6 @@ const CommentItem = ({ comment }) => {
   const router = useRouter();
 
   const handleUserProfile = (singleComment) => {
-    console.log(singleComment, "singleComment");
     if (singleComment.userType === "Company") {
       if (singleComment.user?._id) {
         router.push(`/company/single-company/${singleComment.user._id}`);

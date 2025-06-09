@@ -1,14 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
-import InputField from "../form/InputField";
-import PasswordField from "../form/PasswordField";
 import GoogleIcon from "@/assets/form/GoogleIcon.png";
+import ButtonLoader from "@/common/ButtonLoader";
+import InputField from "@/common/InputField";
+import useLogin from "@/hooks/auth/useLogin";
+import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import useLogin from "@/hooks/auth/useLogin";
-import ButtonLoader from "@/common/ButtonLoader";
+import Image from "next/image";
+import { useState } from "react";
+import PasswordField from "../form/PasswordField";
 
 const LoginForm = () => {
   const t = useTranslations("auth");
@@ -39,6 +39,7 @@ const LoginForm = () => {
         value={formData.email}
         onChange={handleChange}
         error={errors.email}
+        autoComplete="email"
       />
 
       <PasswordField
@@ -49,38 +50,27 @@ const LoginForm = () => {
         show={showPassword}
         toggle={() => setShowPassword(!showPassword)}
         error={errors.password}
+        autocomplete="current-password"
       />
 
       <div className="flex items-center">
-        <Link
-          href="/forgot-password"
-          className="text-primary text-base leading-[18px] mx-1"
-        >
+        <Link href="/forgot-password" className="text-primary mx-1 text-base leading-[18px]">
           {t("ForgotPassword")}
         </Link>
       </div>
 
       <div className="mt-3 sm:mt-[43px]">
-        <ButtonLoader
-          type="submit"
-          label={t("Signin")}
-          isPending={isPending}
-        />
+        <ButtonLoader type="submit" label={t("Signin")} isPending={isPending} />
 
-        <div className="text-center text-base text-grayBlueText my-[15px] leading-[18px]">
+        <div className="text-grayBlueText my-[15px] text-center text-base leading-[18px]">
           {t("or")}
         </div>
 
-        <div className="flex items-center justify-center bg-gray max-w-65.5 py-[13px] mx-auto rounded-md">
-          <Image
-            src={GoogleIcon}
-            alt={t("GoogleIconAltImg")}
-            width={24}
-            height={25}
-          />
+        <div className="bg-gray mx-auto flex max-w-65.5 items-center justify-center rounded-md py-[13px]">
+          <Image src={GoogleIcon} alt={t("GoogleIconAltImg")} width={24} height={25} />
         </div>
 
-        <div className="text-center mt-7.5">
+        <div className="mt-7.5 text-center">
           <p className="text-grayBlueText text-base leading-[18px]">
             {t("NewJasmina")}
             <Link href="/signup" className="text-lightBlue cursor-pointer">

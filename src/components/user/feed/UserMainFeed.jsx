@@ -24,7 +24,7 @@ const UserMainFeed = () => {
         />,
       ]}
     >
-      <FeedPost />
+      <FeedPost  isUser={true}/>
     </MainLayout>
   );
 };

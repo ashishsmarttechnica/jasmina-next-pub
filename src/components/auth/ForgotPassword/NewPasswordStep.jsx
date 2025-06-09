@@ -1,8 +1,5 @@
 "use client";
-
-import InputField from "../../form/InputField";
-
-// import InputField from "../../../common/InputField";
+import InputField from "@/common/InputField";
 
 const NewPasswordStep = ({
   newPassword,
@@ -19,6 +16,7 @@ const NewPasswordStep = ({
         type="password"
         value={newPassword}
         onChange={onNewPasswordChange}
+        autoComplete="new-password"
       />
       <InputField
         label="Confirm Password"
@@ -26,6 +24,7 @@ const NewPasswordStep = ({
         type="password"
         value={confirmPassword}
         onChange={onConfirmPasswordChange}
+        autoComplete="new-password"
       />
       <button type="submit" className="btn-fill mt-4">
         Submit New Password

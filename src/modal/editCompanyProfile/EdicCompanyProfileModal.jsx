@@ -2,7 +2,6 @@ import { Modal } from "rsuite";
 import EditCompany from "./EditCompany";
 import { useTranslations } from "next-intl";
 const EdicCompanyProfileModal = ({ open, onClose, userData }) => {
-  console.log(userData, "userData");
   const t=useTranslations('CompanyProfile.singleCompany');
 
   return (

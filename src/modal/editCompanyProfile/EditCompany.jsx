@@ -31,7 +31,7 @@ const EditCompany = ({ userData, onClose }) => {
     country: "",
     city: "",
     fullAddress: "",
-    industryType: "",
+    industryType: [],
     companyType: "",
     employees: "",
     tagline: "",
@@ -55,7 +55,7 @@ const EditCompany = ({ userData, onClose }) => {
         country: userData.country || "",
         city: userData.city || "",
         fullAddress: userData.fullAddress || "",
-        industryType: userData.industryType || "",
+        industryType: userData.industryType || [],
         companyType: userData.companyType || "",
         employees: userData.numberOfEmployees || "",
         tagline: userData.tagline || "",
@@ -77,7 +77,11 @@ const EditCompany = ({ userData, onClose }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    if (value.trim() !== "") {
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        clearFieldError(name);
+      }
+    } else if (typeof value === "string" && value.trim() !== "") {
       clearFieldError(name);
     }
   };
@@ -95,7 +99,9 @@ const EditCompany = ({ userData, onClose }) => {
     submitData.append("country", formData.country);
     submitData.append("city", formData.city);
     submitData.append("fullAddress", formData.fullAddress);
-    submitData.append("industryType", formData.industryType);
+    formData.industryType.forEach((value, index) => {
+      submitData.append(`industryType[${index}]`, value);
+    });
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);

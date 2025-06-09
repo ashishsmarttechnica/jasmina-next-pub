@@ -1,6 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Resume from "@/assets/svg/user/Resume";
 import Preference from "@/assets/svg/user/Preference";
@@ -95,9 +94,8 @@ const VerificationBar = () => {
 
             <div className="md:hidden">
               <div
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  isOpen ? "max-h-[500px]" : "max-h-0"
-                }`}
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-[500px]" : "max-h-0"
+                  }`}
               >
                 <ul className="flex flex-col gap-4 py-4">
                   {steps.map((item, index) => {
@@ -109,9 +107,8 @@ const VerificationBar = () => {
                         className="flex items-center gap-3 text-sm text-background"
                       >
                         <div
-                          className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                            isActive ? "bg-primary" : "bg-grayBlueText"
-                          }`}
+                          className={`w-6 h-6 rounded-full flex items-center justify-center ${isActive ? "bg-primary" : "bg-grayBlueText"
+                            }`}
                         >
                           <span className="text-white text-xs">
                             {index + 1}
@@ -120,15 +117,13 @@ const VerificationBar = () => {
                         <button
                           onClick={() => handleTabClick(index)}
                           disabled={index > user?.steps}
-                          className={`flex items-center gap-2 w-full ${
-                            isActive
+                          className={`flex items-center gap-2 w-full ${isActive
                               ? "text-primary font-bold text-sm"
                               : "text-background"
-                          } ${
-                            index > user?.steps
+                            } ${index > user?.steps
                               ? "opacity-50 cursor-not-allowed"
                               : "hover:text-primary"
-                          }`}
+                            }`}
                         >
                           {item.icon(isActive)}
 
@@ -154,15 +149,13 @@ const VerificationBar = () => {
                         <button
                           onClick={() => handleTabClick(index)}
                           disabled={index > user?.steps}
-                          className={`flex items-center gap-2 no-underline w-full md:w-auto ${
-                            isActive
+                          className={`flex items-center gap-2 no-underline w-full md:w-auto ${isActive
                               ? "text-primary font-bold"
                               : "text-background"
-                          } ${
-                            index > user?.steps
+                            } ${index > user?.steps
                               ? "opacity-50 cursor-not-allowed"
                               : "hover:text-primary"
-                          }`}
+                            }`}
                         >
                           {item.icon(isActive)}
                           <span className="block text-sm md:text-sm xl:text-[15px] break-words whitespace-normal md:whitespace-nowrap">

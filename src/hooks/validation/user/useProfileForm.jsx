@@ -21,9 +21,7 @@ const useProfileForm = () => {
     // Gender validation
     if (!formData.gender) {
       newErrors.gender = t("GenderError");
-    } else if (!["male", "female", "other"].includes(formData.gender)) {
-      newErrors.gender = t("InvalidGenderError");
-    }
+    } 
 
     // Date of Birth validation
     if (!formData.dob) {
@@ -55,9 +53,9 @@ const useProfileForm = () => {
       }
     }
 
-    if (!formData.LinkedInLink) {
-      newErrors.LinkedInLink = t("LinkedInLinkError");
-    }
+    // if (!formData.LinkedInLink) {
+    //   newErrors.LinkedInLink = t("LinkedInLinkError");
+    // }
     // LinkedIn URL validation
     if (formData.LinkedInLink?.trim()) {
       try {

@@ -115,7 +115,9 @@
     "connections": "Connections",
     "networkInvites": "Network Invites",
     "mightKnow": "People you might know",
-    "postjob": "Post a Job"
+    "postjob": "Post a Job",
+    "loading": "Loading",
+    "postJob": "Post a job"
   },
   "UserPostModel": {
     "sharePlaceholder": "Share your thoughts…",
@@ -214,14 +216,21 @@
     "Continue": "Continue",
     "NewPassword": "New Password",
     "ConfirmPassword": "Confirm Password",
-    "ChangePassword": "Change Password"
+    "ChangePassword": "Change Password",
+    "ContinueWithGoogle": "Continue with Google",
+    "SelectAccountType": "Select Account Type",
+    "User": "User",
+    "Company": "Company",
+    "Cancel": "Cancel",
+    "PleaseSelectAccountType": "Please select an account type"
   },
   "UserProfile": {
     "userprofilemenu": {
       "profile": "Profile",
       "preferences": "Preferences",
       "education": "Education & Skills",
-      "resume": "Resume"
+      "resume": "Resume",
+      "freetext": "Free-Text"
     },
     "profile": {
       "Enter": "Enter your",
@@ -231,11 +240,21 @@
       "namePlaceholder": "Enter your full name",
       "username": "User Name",
       "usernamePlaceholder": "Enter your username",
-      "gender": "Gender",
+      "gender": "Gender identity",
       "genderOption": {
         "male": "Male",
         "female": "Female",
-        "other": "Other"
+        "other": "Other",
+        "woman": "Woman",
+        "nonbinary": "Non-binary",
+        "transwoman": "Trans Woman",
+        "transman": "Trans Man",
+        "intersex": "Intersex",
+        "Agender": "Agender",
+        "genderqueergenderfluid": "Genderqueer / Genderfluid",
+        "twospirit": "Two-Spirit (for Indigenous communities)",
+        "diverse": "Diverse",
+        "prefersay": "Prefer not to say"
       },
       "singleprofileTab": {
         "experience": "Experience",
@@ -286,13 +305,24 @@
       "enterYourCity": "enter Your City",
       "enterYourState": "enter your state",
       "emailPlaceholder": "Enter your Email",
-      "email": "Email"
+      "email": "Email",
+      "pronoun": "Pronoun",
+      "pronounPlaceholder": "Select Pronoun",
+      "pronounOption": {
+        "sheher": "She/her",
+        "hehim": "He/him",
+        "theythem": "They/them",
+        "shethey": "She/they",
+        "hethey": "He/they",
+        "xe": "Xe/xem"
+      },
+      "isPrivate": "Gender identity information is private ?"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
       "subTitle": "Help us match you with the right opportunities.",
       "jobstype": "Job Type",
-      "JobPreferences":"Job Preferences",
+      "JobPreferences": "Job Preferences",
       "Next": "Next",
       "Updating": "Updating...",
       "SomethingWentWrong": "Something went wrong!",
@@ -303,7 +333,26 @@
         "game-developer": "Game Developer",
         "app-developer": "App Developer",
         "graphic-designer": "Graphic Designer",
-        "ui-ux-designer": "UI/UX Designer"
+        "ui-ux-designer": "UI/UX Designer",
+        "AdministrationHRConsultingCEO": "Administration / HR / Consulting / CEO",
+        "BankingInsurance": "Banking / Insurance",
+        "ConstructionArchitectureEngineering": "Construction / Architecture / Engineering",
+        "SecurityPoliceCustomsEmergencyServices": "Security / Police / Customs / Emergency Services",
+        "ChemistryPharmaceuticalsBiotechnology": "Chemistry / Pharmaceuticals / Biotechnology",
+        "PurchasingLogisticsTrading": "Purchasing / Logistics / Trading",
+        "ElectronicsTechnologyWatches": "Electronics / Technology / Watches",
+        "VehiclesSkilledTradesWarehousingTransportation": "Vehicles / Skilled Trades / Warehousing / Transportation",
+        "FinanceFiduciaryServicesRealEstate": "Finance / Fiduciary Services / Real Estate",
+        "HospitalityFoodTourism": "Hospitality / Food / Tourism",
+        "GraphicDesignTypographyPrinting": "Graphic Design / Typography / Printing",
+        "ITTelecommunications": "IT / Telecommunications",
+        "LawLegal": "Law / Legal",
+        "MarketingCommunicationsEditorial": "Marketing / Communications / Editorial",
+        "MechanicalPlantEngineeringManufacturing": "Mechanical / Plant Engineering / Manufacturing",
+        "MedicineCareTherapy": "Medicine / Care / Therapy",
+        "sportsWellnessCulture": "Sports / Wellness / Culture",
+        "SalesCustomerServiceInternalSales": "Sales / Customer Service / Internal Sales",
+        "PublicAdministrationEducationSocialServices": "Public Administration / Education / Social Services"
       },
       "salaryrangeError": "Enter your expected salary range (e.g., 50,000-70,000)",
       "experienceError": "Enter your total years of professional experience",
@@ -366,7 +415,7 @@
         "advanced": "Advanced",
         "expert": "Expert"
       },
-      "editProfile":"Edit Profile",
+      "editProfile": "Edit Profile",
       "selectOption": "Select an option",
       "experience": "Experience (in years)",
       "category": "Category",
@@ -397,7 +446,32 @@
       "endDateError": "End date is required.",
       "endDateBeforeStartError": "End date cannot be before start date.",
       "locationError": "Location is required.",
-      "success": "Profile Updated"
+      "success": "Profile Updated",
+      "skillCategoryOptions": {
+        "Technology": "Technology",
+        "Finance": "Finance",
+        "Healthcare": "Healthcare",
+        "Education": "Education",
+        "MediaEntertainment": "Media & Entertainment",
+        "RetailEcommerce": "Retail & E-commerce",
+        "HospitalityTourism": "Hospitality & Tourism",
+        "Manufacturing": "Government & Public Sector",
+        "NonprofitSocialImpact": "Non-profit & Social Impact",
+        "GovernmentPublicSector": "Government & Public Sector",
+        "Legal": "Legal",
+        "ConstructionRealEstate": "Construction & Real Estate",
+        "ManufacturingElectronics": "Manufacturing Electronics",
+        "EnergyUtilities": "Energy & Utilities",
+        "TransportationLogistics": "Transportation & Logistics",
+        "ConsultingBusinessServices": "Consulting & Business Services",
+        "ScienceResearch": "Science & Research",
+        "MarketingAdvertising": "Marketing & Advertising",
+        "AgricultureFood": "Agriculture & Food",
+        "GamingInteractiveMedia": "Gaming & Interactive Media",
+        "BeautyWellness": "Beauty & Wellness"
+      },
+      "invalidYearError": "Please enter a valid year",
+      "duplicateLanguageError": "This language has already been selected"
     },
     "resume": {
       "title": "Upload Your Resume",
@@ -456,7 +530,8 @@
       "connected10": "Connected on 10 March 2025",
       "message": "Message",
       "remove": "Remove",
-      "removing": "Removing..."
+      "removing": "Removing...",
+      "connecton": "Connected on\t"
     },
     "location": {
       "title": "Location",
@@ -485,7 +560,6 @@
       "description": "Description",
       "socialLinks": "LinkedIn / Social Links",
       "uploadImage": "Upload Banner Image",
-
       "update": "Update"
     },
     "industry": {
@@ -495,11 +569,29 @@
       "industryPlaceholder": "Select Industry Type",
       "industryOption": {
         "mediaEntertainment": "Media & Entertainment",
-        "education": "Education & Training",
+        "education": "Education",
         "marketing": "Marketing & Advertising",
         "government": "Government & Public Sector",
         "design": "Design & Creative",
-        "development": "Development & IT"
+        "development": "Development & IT",
+        "technology": "Technology",
+        "finance": "Finance",
+        "healthcare": "Healthcare",
+        "retailEcommerce": "Retail & E-commerce",
+        "hospitalityTourism": "Hospitality & Tourism",
+        "governmentPublicSector": "Government & Public Sector",
+        "nonprofitSocialImpact": "Non-profit & Social Impact",
+        "legal": "Legal",
+        "constructionRealEstate": "Construction & Real Estate",
+        "manufacturingElectronics": "Manufacturing Electronics,",
+        "energyUtilities": "Energy & Utilities",
+        "transportationLogistics": "Transportation & Logistics",
+        "consultingBusinessServices": "Consulting & Business Services",
+        "scienceResearch": "Science & Research",
+        "marketingAdvertising": "Marketing & Advertising",
+        "agricultureFood": "Agriculture & Food",
+        "gamingInteractiveMedia": "Gaming & Interactive Media",
+        "beautyWellness": "Beauty & Wellness"
       },
       "companyType": "Company Type",
       "companyTypePlaceholder": "Select Company Type",
@@ -550,7 +642,9 @@
     "noResults": "No results found",
     "countryRequired": "Country is required",
     "stateRequired": "State is required",
-    "cityRequired": "City is required"
+    "cityRequired": "City is required",
+    "enterOtherValue": "Enter Other Value",
+    "other": "other"
   },
   "Validation": {
     "personal": {
@@ -561,6 +655,7 @@
       "genderRequired": "Gender is required",
       "dobRequired": "Date of birth is required",
       "dobMinAge": "You must be at least 16 years old",
+      "JoinDateFutureError": "Date of birth cannot be in the future",
       "phoneRequired": "Phone number is required",
       "phoneInvalid": "Invalid phone number format (10 digits required)",
       "locationRequired": "Location is required",
@@ -604,5 +699,12 @@
       "endDateBeforeStart": "End date cannot be before start date",
       "locationRequired": "Company location is required"
     }
+  },
+  "CreateJob": {
+    "jobDetails": "Job Details",
+    "requirements": "Requirements",
+    "salary": "salary",
+    "preview": "preview",
+    "skills": "skills"
   }
 }

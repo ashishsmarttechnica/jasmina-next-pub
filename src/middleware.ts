@@ -17,7 +17,7 @@ const sharedRoutes = ['/connections', '/single-user', '/company/single-company',
 // Define role-specific routes
 const roleBasedRoutes = {
   user: ['/feed', '/user', '/profile', '/settings', '/jobs', '/notifications', '/messages'],
-  company: ['/company/feed', '/company/profile', '/company/settings', '/company/jobs', '/company/applications', '/company/candidates']
+  company: ['/company/feed', '/company/profile', '/company/settings', '/company/create-job', '/company/applications', '/company/candidates']
 };
 
 // Create the internationalization middleware
@@ -34,7 +34,7 @@ export default async function middleware(request: NextRequest) {
   const defLoc = routing.defaultLocale;
 
   // Get user role and authentication status
-  const userRole = request.cookies.get('userRole')?.value;
+  const userRole = request.cookies.get('userRole')?.value?.toLowerCase();
   const isAuthenticated = request.cookies.get('isAuthenticated')?.value === 'true';
   const safeLocale = locale || defLoc;
 
@@ -110,7 +110,7 @@ export default async function middleware(request: NextRequest) {
       return response;
     }
 
-    // for job apply page
+    // Check if company is allowed to access this route
     const isCompanyAllowed = roleBasedRoutes.company.some((route) =>
       currentPath === route || currentPath.startsWith(`${route}/`)
     );

@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 const SkillsSection = ({
   skillsList,
   proficiencyOptions,
+  categoryOptions,
   addSection,
   removeSection,
   handleChange,
@@ -14,6 +15,7 @@ const SkillsSection = ({
   clearFieldError,
 }) => {
   const t = useTranslations("UserProfile.education");
+  
   return (
     <div>
       <div className="my-2 flex items-center justify-between">
@@ -38,7 +40,7 @@ const SkillsSection = ({
               className="absolute top-2 right-2 cursor-pointer"
             />
           )}
-
+          {/* skill */}
           <InputField
             label={`${t("skillName")} *`}
             name={`skill-${index}`}
@@ -48,10 +50,11 @@ const SkillsSection = ({
             onBlur={() => clearFieldError(`skill-${index}-skill`)}
             error={errors[`skill-${index}-skill`]}
           />
+          {/* proficiency */}
           <div className="space-y-1">
             <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}*`}</label>
             <Selecter
-              name="proficiency"
+              name={`proficiency-${index}`}
               options={proficiencyOptions}
               value={skill.proficiency}
               onChange={(e) =>
@@ -60,7 +63,7 @@ const SkillsSection = ({
               error={errors[`skill-${index}-proficiency`]}
             />
           </div>
-
+          {/* experience */}
           <InputField
             label={`${t("experience")}*`}
             name={`experience-${index}`}
@@ -74,10 +77,10 @@ const SkillsSection = ({
           />
 
           {/* Category */}
-          <InputField
+          <Selecter
             label={`${t("category")}*`}
             name={`category-${index}`}
-            type="text"
+            options={categoryOptions}
             value={skill.category}
             onChange={(e) => handleChange("skillsList", index, "category", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-category`)}

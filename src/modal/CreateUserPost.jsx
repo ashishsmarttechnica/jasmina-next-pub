@@ -1,4 +1,3 @@
-import profileImg from "@/assets/feed/Profile.png";
 import Uploadsmall from "@/assets/form/Uploadsmall.png";
 import ImageFallback from "@/common/shared/ImageFallback";
 import getImg from "@/lib/getImg";
@@ -57,7 +56,7 @@ const CreateUserPost = ({
       <Modal.Body className="no-scrollbar h-full overflow-y-auto rounded-lg bg-white !p-1 sm:p-4 md:p-6">
         <div className="mb-4 flex items-start gap-3">
           <ImageFallback
-            src={getImg(user?.profile?.photo) || profileImg}
+            src={getImg(user?.profile?.photo)}
             alt="User"
             width={40}
             height={40}

@@ -49,7 +49,7 @@ const UserNetworkInvites = ({ title }) => {
         type: "Company",
         typeColor: "text-green-600",
         icon: <FaBuilding className="h-3 w-3" />,
-      },
+      }, 
     };
 
     return configs[type] || configs.User;

@@ -32,16 +32,40 @@ const useEditProfileValidation = () => {
       newErrors.gender = t("personal.genderRequired");
     }
 
+    // if (!data?.dob) {
+    //   newErrors.dob = t("personal.dobRequired");
+    // } else {
+    //   const dobDate = new Date(data.dob);
+    //   const today = new Date();
+    //   const age = today.getFullYear() - dobDate.getFullYear();
+    //   if (age < 16) {
+    //     newErrors.dob = t("personal.dobMinAge");
+    //   }
+    // }
     if (!data?.dob) {
-      newErrors.dob = t("personal.dobRequired");
-    } else {
-      const dobDate = new Date(data.dob);
-      const today = new Date();
-      const age = today.getFullYear() - dobDate.getFullYear();
-      if (age < 16) {
-        newErrors.dob = t("personal.dobMinAge");
-      }
+  newErrors.dob = t("personal.dobRequired");
+} else {
+  const dobDate = new Date(data.dob);
+  const today = new Date();
+
+  if (dobDate > today) {
+    newErrors.dob = t("personal.dobFutureDateNotAllowed");
+  } else {
+    const age = today.getFullYear() - dobDate.getFullYear();
+    const monthDiff = today.getMonth() - dobDate.getMonth();
+    const dayDiff = today.getDate() - dobDate.getDate();
+
+    const isBeforeBirthday = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0);
+    const actualAge = isBeforeBirthday ? age - 1 : age;
+
+    if (actualAge < 16) {
+      newErrors.dob = t("personal.dobMinAge");
     }
+  }
+}
+
+
+
 
     if (!data?.phone?.trim()) {
       newErrors.phone = t("personal.phoneRequired");

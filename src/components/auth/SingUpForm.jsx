@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import ButtonLoader from "@/common/ButtonLoader";
+import InputField from "@/common/InputField";
+import useSignup from "@/hooks/auth/useSignup";
 import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
-import InputField from "../form/InputField";
-import PasswordField from "../form/PasswordField";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import AccountTypeSelector from "./AccountTypeSelector";
-import TermsCheckbox from "./TermsCheckbox";
-import GoogleSignInButton from "./GoogleSignInButton";
-import useSignup from "@/hooks/auth/useSignup";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import ButtonLoader from "@/common/ButtonLoader";
+import PasswordField from "../form/PasswordField";
+import AccountTypeSelector from "./AccountTypeSelector";
+import GoogleSignInButton from "./GoogleSignInButton";
+import TermsCheckbox from "./TermsCheckbox";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +38,6 @@ const SignUpForm = () => {
       return;
     }
 
-
     if (!formData.accountType) {
       toast.error(t("PleaseSelectAccountType"));
       return;
@@ -56,6 +55,7 @@ const SignUpForm = () => {
         value={formData.email}
         onChange={handleChange}
         error={errors.email}
+        autoComplete="email"
       />
 
       <PasswordField
@@ -66,32 +66,26 @@ const SignUpForm = () => {
         show={showPassword}
         toggle={() => setShowPassword(!showPassword)}
         error={errors.password}
+        autocomplete="new-password"
       />
 
       <AccountTypeSelector
         value={formData.accountType}
-        onChange={(val) =>
-          setFormData((prev) => ({ ...prev, accountType: val }))
-        }
+        onChange={(val) => setFormData((prev) => ({ ...prev, accountType: val }))}
       />
 
       <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
 
       <div className="mt-3 sm:mt-[40px]">
-       
-          <ButtonLoader
-          type="submit"
-          label={t("SignUp")}
-          isPending={isPending}
-        />
+        <ButtonLoader type="submit" label={t("SignUp")} isPending={isPending} />
 
-        <div className="text-center text-base text-grayBlueText my-[15px] leading-[18px]">
+        <div className="text-grayBlueText my-[15px] text-center text-base leading-[18px]">
           {t("or")}
         </div>
 
         <GoogleSignInButton />
 
-        <div className="text-center mt-7.5">
+        <div className="mt-7.5 text-center">
           <p className="text-grayBlueText text-base leading-[18px]">
             {t("AlreadyHaveAccount")}
             <Link href="/login" className="text-lightBlue cursor-pointer">

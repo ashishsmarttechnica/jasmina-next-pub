@@ -16,7 +16,14 @@ export const useCommentsByPostId = (postId, enabled = true, page) => {
       const newComments = data?.comments || [];
       const pagination = data?.pagination || {};
       const mergedComments =
-        page === 1 ? newComments : [...comments, ...newComments];
+        page === 1
+          ? newComments
+          : [
+            ...new Map(
+              [...comments, ...newComments].map((c) => [c._id, c])
+            ).values(),
+          ];
+
       setPagination(pagination);
       setComments(mergedComments);
       // Calculate if we're on the last page based on pagination info

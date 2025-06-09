@@ -1,11 +1,11 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import EducationSection from "../../components/user/createUserProfile/education/EducationSection";
-import ExperienceSection from "../../components/user/createUserProfile/education/ExperienceSection";
-import LanguagesSection from "../../components/user/createUserProfile/education/LanguagesSection";
-import SkillsSection from "../../components/user/createUserProfile/education/SkillsSection";
+import EducationSection from "@/components/user/createUserProfile/education/EducationSection";
+import ExperienceSection from "@/components/user/createUserProfile/education/ExperienceSection";
+import LanguagesSection from "@/components/user/createUserProfile/education/LanguagesSection";
+import SkillsSection from "@/components/user/createUserProfile/education/SkillsSection";
 
 const EducationSkillsForm = forwardRef(
-  ({ initialData = {}, errors = {}, clearFieldError, proficiencyOptions = [] }, ref) => {
+  ({ initialData = {}, errors = {}, clearFieldError, categoryOptions = [], proficiencyOptions = [] }, ref) => {
     const [formData, setFormData] = useState({
       educationList: [{ degree: "", passingyear: "", schoolname: "", board: "" }],
       skillsList: [{ skill: "", proficiency: "", experience: "", category: "" }],
@@ -159,6 +159,7 @@ const EducationSkillsForm = forwardRef(
         </div>
         <div>
           <SkillsSection
+            categoryOptions={categoryOptions}
             skillsList={formData.skillsList}
             proficiencyOptions={proficiencyOptions}
             addSection={addSection}

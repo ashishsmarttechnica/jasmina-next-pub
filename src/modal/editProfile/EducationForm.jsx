@@ -1,8 +1,8 @@
+import InputField from "@/common/InputField";
 import { useTranslations } from "next-intl";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { FiPlusSquare } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
-import InputField from "../../components/form/InputField";
 
 const EducationForm = forwardRef(({ initialData, errors = {}, clearFieldError }, ref) => {
   const [educationList, setEducationList] = useState(
@@ -52,11 +52,9 @@ const EducationForm = forwardRef(({ initialData, errors = {}, clearFieldError },
       {educationList.map((edu, index) => (
         <div
           key={index}
-          className={`${
-            index > 0 ? "relative border border-[#ddd]" : ""
-          } grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 ${
-            index > 0 ? "mt-2 rounded-md p-4" : ""
-          }`}
+          className={`${index > 0 ? "relative border border-[#ddd]" : ""
+            } grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 ${index > 0 ? "mt-2 rounded-md p-4" : ""
+            }`}
         >
           {index > 0 && (
             <RxCross2

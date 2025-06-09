@@ -1,8 +1,7 @@
 
-// import CompanyMainFeed from "@/components/company/feed/CompanyMainFeed";
 import { getSeoMeta } from "@/lib/seoMetadata";
 import React from "react";
-import SinglePostLayout from "../../../../../layout/SinglePostLayout";
+import SinglePostLayout from "@/layout/SinglePostLayout";
 
 export const metadata = getSeoMeta({
   title: "Feed | Jasmina",

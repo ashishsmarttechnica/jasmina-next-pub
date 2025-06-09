@@ -4,10 +4,16 @@ import Selecter from "@/common/Selecter";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import usePreferencesForm from "@/hooks/validation/user/usePreferencesForm";
 import useAuthStore from "@/store/auth.store";
+import {
+  useIndustryOptions,
+  useJobTypeOptions,
+  useRoleOptions,
+  useWorkLocationOptions,
+} from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
-import ReusableForm from "../../form/ReusableForm";
+import ReusableForm from "@/components/form/ReusableForm";
 import JobTypeButton from "./JobTypeButton";
 
 const Preferences = ({ setActiveTab }) => {
@@ -15,6 +21,11 @@ const Preferences = ({ setActiveTab }) => {
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.preferences");
   const { errors, setErrors, validateForm, clearFieldError } = usePreferencesForm();
+
+  const roleOptions = useRoleOptions();
+  const jobTypeOptions = useJobTypeOptions();
+  const workLocationOptions = useWorkLocationOptions();
+  const industryOptions = useIndustryOptions();
 
   const [formData, setFormData] = useState({
     role: "",
@@ -74,52 +85,6 @@ const Preferences = ({ setActiveTab }) => {
     });
   };
 
-  const roleOptions = [
-    { label: `${t("jobroleoption.web-designer")}`, value: "web-designer" },
-    { label: `${t("jobroleoption.web-developer")}`, value: "web-developer" },
-    { label: `${t("jobroleoption.game-developer")}`, value: "game-developer" },
-    { label: `${t("jobroleoption.app-developer")}`, value: "app-developer" },
-    {
-      label: `${t("jobroleoption.graphic-designer")}`,
-      value: "graphic-designer",
-    },
-    { label: `${t("jobroleoption.ui-ux-designer")}`, value: "ui-ux-designer" },
-  ];
-
-  const jobTypeOptions = [
-    `${t("jobtypeoption.full-time")}`,
-    `${t("jobtypeoption.part-time")}`,
-    `${t("jobtypeoption.internship")}`,
-    `${t("jobtypeoption.freelancer")}`,
-    `${t("jobtypeoption.remote")}`,
-  ];
-
-  const experienceOptions = [
-    { label: `${t("experienceoption.beginner")}`, value: "beginner" },
-    { label: `${t("experienceoption.intermediate")}`, value: "intermediate" },
-    { label: `${t("experienceoption.advanced")}`, value: "advanced" },
-    { label: `${t("experienceoption.expert")}`, value: "expert" },
-  ];
-
-  // const experienceOptions = [
-  //   { label: "1", value: 1 },
-  //   { label: "2", value: 2 },
-  //   { label: "3", value: 3 },
-  //   { label: "4", value: 4 },
-  //   { label: "5", value: 5 },
-  //   { label: "6", value: 6 },
-  // ];
-
-  const workLocationOptions = [
-    { label: `${t("worklocationoption.remote")}`, value: "remote" },
-    { label: `${t("worklocationoption.onsite")}`, value: "on-site" },
-  ];
-
-  const industryOptions = [
-    { label: `${t("industryoption.design")}`, value: "design" },
-    { label: `${t("industryoption.development")}`, value: "development" },
-  ];
-
   useEffect(() => {
     if (user?.preferences) {
       setFormData((prev) => ({
@@ -137,17 +102,6 @@ const Preferences = ({ setActiveTab }) => {
 
   return (
     <ReusableForm title={t("title")} maxWidth="max-w-[698px]" subtitle={t("subTitle")}>
-      <style jsx>{`
-        /* Remove arrows/spinners from number input */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        input[type="number"] {
-          -moz-appearance: textfield;
-        }
-      `}</style>
       <form className="w-full rounded-lg" onSubmit={handleSubmit}>
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Selecter

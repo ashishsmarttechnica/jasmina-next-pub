@@ -1,5 +1,3 @@
-import React from "react";
-
 const InputField = ({
   label,
   type = "text",
@@ -16,11 +14,14 @@ const InputField = ({
   disabled,
   textarea = false,
   rows = 4,
+  inputClassName,
+  parentClassName,
+  autoComplete,
 }) => {
   return (
-    <div className="space-y-1">
+    <div className={`space-y-1 ${parentClassName}`}>
       {label && (
-        <label className="text-grayBlueText text-[14px] block mb-1" htmlFor={name}>
+        <label className="text-grayBlueText mb-1 block text-[14px]" htmlFor={name}>
           {label}
         </label>
       )}
@@ -36,7 +37,7 @@ const InputField = ({
           onInput={onInput}
           placeholder={placeholder}
           disabled={disabled}
-          className="border border-lightGray/75 p-2 rounded w-full resize-none transition-all duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent hover:border-primary hover:bg-primary/5 active:bg-primary/10"
+          className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 w-full resize-none rounded border p-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
         />
       ) : (
         <input
@@ -46,17 +47,18 @@ const InputField = ({
           min={min}
           step={step}
           name={name}
-          className="border border-lightGray/75 p-2 rounded w-full transition-all duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent hover:border-primary hover:bg-primary/5 active:bg-primary/10"
+          className={`border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 w-full rounded border p-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none ${inputClassName}`}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
           onInput={onInput}
           placeholder={placeholder}
           disabled={disabled}
+          autoComplete={autoComplete}
         />
       )}
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 };

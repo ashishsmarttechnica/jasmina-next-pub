@@ -5,7 +5,6 @@ import { Ubuntu_Sans } from "next/font/google";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import "@/styles/globals.css";
 import { CustomProvider } from "rsuite";
-import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import QueryProvider from "@/providers/QueryProvider";
 import { ToastContainer } from "react-toastify";

@@ -6,10 +6,25 @@ const useEducationSkillsForm = () => {
   const t = useTranslations("UserProfile.education");
   const validateForm = ({ educationList, skillsList, languagesList, experienceList }) => {
     const newErrors = {};
+    const currentYear = new Date().getFullYear();
 
     educationList.forEach((edu, index) => {
       if (!edu.degree) newErrors[`education-${index}-degree`] = t("degreeError");
-      if (!edu.passingyear) newErrors[`education-${index}-passingyear`] = t("passingYearError");
+
+      // Enhanced passing year validation
+      if (!edu.passingyear) {
+        newErrors[`education-${index}-passingyear`] = t("passingYearError");
+      } else {
+        const year = parseInt(edu.passingyear);
+        if (isNaN(year)) {
+          newErrors[`education-${index}-passingyear`] =
+            t("invalidYearError") || "Please enter a valid year";
+        } else if (year < 1950 || year > currentYear + 10) {
+          newErrors[`education-${index}-passingyear`] =
+            t("invalidYearError") || `Year must be between 1950 and ${currentYear + 10}`;
+        }
+      }
+
       if (!edu.schoolname) newErrors[`education-${index}-schoolname`] = t("schoolNameError");
       if (!edu.board) newErrors[`education-${index}-board`] = t("boardError");
     });
@@ -24,6 +39,18 @@ const useEducationSkillsForm = () => {
     languagesList.forEach((lang, index) => {
       if (!lang.languages) newErrors[`language-${index}-languages`] = t("languageError");
       if (!lang.proficiency) newErrors[`language-${index}-proficiency`] = t("proficiencyError");
+
+      // Check for duplicate language selections
+      // Find the first occurrence of this language
+      const firstOccurrenceIndex = languagesList.findIndex(
+        (l) => l.languages === lang.languages && lang.languages
+      );
+
+      // Only show error if this is not the first occurrence
+      if (firstOccurrenceIndex !== index && firstOccurrenceIndex !== -1) {
+        newErrors[`language-${index}-languages`] =
+          t("duplicateLanguageError") || "This language has already been selected";
+      }
     });
 
     experienceList.forEach((exp, index) => {
@@ -46,6 +73,9 @@ const useEducationSkillsForm = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+
+  
 
   const clearFieldError = (fieldKey) => {
     setErrors((prev) => {

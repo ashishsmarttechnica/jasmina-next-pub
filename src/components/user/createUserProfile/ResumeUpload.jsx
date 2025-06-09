@@ -1,10 +1,8 @@
 "use client";
-import React, { use, useRef, useState } from "react";
-import ReusableForm from "../../form/ReusableForm";
-import { toast } from "react-toastify";
+import React, { useRef, useState } from "react";
+import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import useAuthStore from "@/store/auth.store";
-import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Loader } from "rsuite";

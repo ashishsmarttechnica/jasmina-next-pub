@@ -68,6 +68,36 @@ body {
   margin: 10px;
 }
 
+/* Account Type Modal Styles */
+.account-type-modal .rs-modal-content {
+  border-radius: 12px;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.account-type-modal .rs-modal-header {
+  padding: 20px 24px 10px;
+  border-bottom: none;
+}
+
+.account-type-modal .rs-modal-body {
+  padding: 0 24px 20px;
+}
+
+.account-type-modal .rs-modal-footer {
+  padding: 15px 24px;
+  border-top: 1px solid var(--neutralLight2);
+}
+
+.account-type-modal .rs-btn-primary {
+  background-color: var(--primary);
+}
+
+.account-type-modal .rs-btn-primary:hover,
+.account-type-modal .rs-btn-primary:focus {
+  background-color: var(--primary);
+  opacity: 0.9;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -83,15 +113,9 @@ li {
   margin-bottom: 0px;
 }
 
+/* Remove the default radio button styling that was causing issues */
 input[type="radio"]:checked::before {
-  content: "";
-  display: block;
-  width: 13px;
-  height: 13px;
-  background-color: var(--primary);
-  border-radius: 50%;
-
-  animation: appear 0.8s;
+  content: none;
 }
 
 .cust-card {
@@ -103,11 +127,11 @@ input[type="radio"]:checked::before {
 }
 
 .btn-fill {
-  @apply hover:text-primary bg-primary hover:border-primary hover:bg-secondary/50 mt-3 w-full rounded-md border border-transparent p-1 text-[18px] text-white transition-all duration-100 ease-in sm:mt-6 sm:p-2 sm:text-[20px];
+  @apply bg-primary hover:bg-secondary/70 hover:border-primary hover:text-primary mt-3 w-full rounded-[4px] border border-transparent p-1 text-[18px] text-white transition-all duration-200 ease-in sm:mt-6 sm:p-2 sm:text-[20px];
 }
 
 .btn-white-fill {
-  @apply hover:bg-primary text-primary border-primary mt-3 w-full rounded-md border bg-white p-1 text-[18px] transition-all duration-75 ease-in hover:border hover:border-white hover:text-white sm:mt-7 sm:p-2 sm:text-[20px];
+  @apply bg-white text-primary border-primary mt-3 w-full rounded-[4px] border p-1 text-[18px] transition-all duration-200 ease-in hover:bg-primary hover:text-white sm:mt-6 sm:p-2 sm:text-[20px];
 }
 
 .btn-small {
@@ -145,6 +169,7 @@ button {
 .message-btn {
   @apply border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-4 py-1 text-[10px] transition-all duration-200 md:text-sm;
 }
+
 .flag-btn {
   @apply border-grayBlueText hover:border-primary text-primary hover:bg-secondary hover:text-primary w-fit cursor-pointer rounded-[2px] border px-2 py-1 text-[10px] transition-all duration-200 md:text-sm;
 }
@@ -157,6 +182,7 @@ button {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .showline-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

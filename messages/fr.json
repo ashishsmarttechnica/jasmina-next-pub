@@ -149,7 +149,7 @@
     "Verifying": "Vérification ...",
     "Verify": "Vérifier",
     "Signingin": "Signer ...",
-    "PleaseSelectAccountType": "",
+    "PleaseSelectAccountType": "Veuillez sélectionner un type de compte",
     "ResendOTP": "Revoir OTP",
     "VerifyOTP": "Vérifiez OTP",
     "otpVerifiedSuccess": "OTP vérifié avec succès",
@@ -158,7 +158,11 @@
     "Continue": "Continuer",
     "NewPassword": "Nouveau mot de passe",
     "ConfirmPassword": "Confirmez le mot de passe",
-    "ChangePassword": "Changer le mot de passe"
+    "ChangePassword": "Changer le mot de passe",
+    "SelectAccountType": "Sélectionner le type de compte",
+    "Company": "Entreprise",
+    "Cancel": "Annuler",
+    "ContinueWithGoogle": "Continuez avec Google"
   },
   "UserProfile": {
     "profile": {
@@ -167,7 +171,7 @@
       "uploadImage": "Télécharger l'image",
       "name": "Nom et prénom",
       "username": "Nom d'utilisateur",
-      "gender": "Genre",
+      "gender": "Identité de genre",
       "dob": "Date de naissance",
       "phone": "Téléphone",
       "location": "Emplacement",
@@ -198,7 +202,17 @@
       "genderOption": {
         "male": "Mâle",
         "female": "Femelle",
-        "other": "Autre"
+        "other": "Autre",
+        "woman": "Femme",
+        "nonbinary": "Non binaire",
+        "transwoman": "Femme trans",
+        "transman": "Trans trans",
+        "intersex": "Intersexuéré",
+        "Agender": "Agence",
+        "genderqueergenderfluid": "Genderqueer / Genderfluid",
+        "twospirit": "À deux esprits (pour les communautés autochtones)",
+        "diverse": "Divers",
+        "prefersay": "Préfère ne pas dire"
       },
       "locationPermission": "Permission de localisation refusée",
       "LinkedInLinkError": "Veuillez saisir votre lien de profil LinkedIn.",
@@ -225,13 +239,25 @@
         "message": "Message",
         "noexperience": "Aucune expérience d'information disponible."
       },
-      "personalInfo": "Information personnelle"
+      "personalInfo": "Information personnelle",
+      "pronoun": "Pronom",
+      "pronounPlaceholder": "Sélectionner le pronom",
+      "pronounOption": {
+        "sheher": "Elle / elle",
+        "hehim": "Il / lui",
+        "theythem": "Ils / eux",
+        "shethey": "Elle / ils",
+        "hethey": "Il / ils",
+        "xe": "Xe / xem"
+      },
+      "isPrivate": "Les informations sur l'identité de genre sont privées?"
     },
     "userprofilemenu": {
       "education": "Éducation",
       "resume": "CV",
       "profile": "Profil",
-      "preferences": "Préférences"
+      "preferences": "Préférences",
+      "freetext": "Texte libre"
     },
     "preferences": {
       "jobrole": "Préférences de rôle",
@@ -251,7 +277,26 @@
         "game-developer": "Développeur de jeux",
         "app-developer": "Développeur d'applications",
         "graphic-designer": "Graphiste",
-        "ui-ux-designer": "Designer UI / UX"
+        "ui-ux-designer": "Designer UI / UX",
+        "AdministrationHRConsultingCEO": "Administration / HR / Consulting / PDG",
+        "BankingInsurance": "Banque / assurance",
+        "ConstructionArchitectureEngineering": "Construction / Architecture / Ingénierie",
+        "SecurityPoliceCustomsEmergencyServices": "Sécurité / police / douanes / services d'urgence",
+        "ChemistryPharmaceuticalsBiotechnology": "Chimie / pharmaceutique / biotechnologie",
+        "PurchasingLogisticsTrading": "Achat / logistique / trading",
+        "ElectronicsTechnologyWatches": "Électronique / technologie / montres",
+        "VehiclesSkilledTradesWarehousingTransportation": "Véhicules / métiers qualifiés / entreposage / transport",
+        "FinanceFiduciaryServicesRealEstate": "Services financiers / fiduciaires / immobilier",
+        "HospitalityFoodTourism": "Hospitalité / nourriture / tourisme",
+        "GraphicDesignTypographyPrinting": "Design graphique / typographie / impression",
+        "ITTelecommunications": "IT / Télécommunications",
+        "LawLegal": "Droit / juridique",
+        "MarketingCommunicationsEditorial": "Marketing / communications / éditorial",
+        "MechanicalPlantEngineeringManufacturing": "Mécanique / Génie / Fabrication",
+        "MedicineCareTherapy": "Médecine / soins / thérapie",
+        "sportsWellnessCulture": "Sports / bien-être / culture",
+        "SalesCustomerServiceInternalSales": "Ventes / service client / ventes internes",
+        "PublicAdministrationEducationSocialServices": "Administration publique / éducation / services sociaux"
       },
       "jobtypeoption": {
         "full-time": "À temps plein",
@@ -334,7 +379,30 @@
       "startDateError": "La date de début est requise.",
       "endDateError": "La date de fin est requise.",
       "locationError": "L'emplacement est requis.",
-      "endDateBeforeStartError": "La date de fin ne peut pas être avant la date de début."
+      "endDateBeforeStartError": "La date de fin ne peut pas être avant la date de début.",
+      "skillCategoryOptions": {
+        "Technology": "Technologie",
+        "Finance": "Finance",
+        "Healthcare": "Soins de santé",
+        "Education": "Éducation",
+        "MediaEntertainment": "Médias",
+        "RetailEcommerce": "Vente au détail",
+        "HospitalityTourism": "Hospitalité",
+        "GovernmentPublicSector": "Gouvernement",
+        "NonprofitSocialImpact": "À but non lucratif",
+        "Legal": "Légal",
+        "ConstructionRealEstate": "Construction",
+        "ManufacturingElectronics": "Manufacturing Electronics",
+        "EnergyUtilities": "Énergie",
+        "TransportationLogistics": "Transport",
+        "ConsultingBusinessServices": "Consultant",
+        "ScienceResearch": "Science",
+        "MarketingAdvertising": "Commercialisation",
+        "AgricultureFood": "Agriculture",
+        "GamingInteractiveMedia": "Jeu",
+        "BeautyWellness": "Beauté"
+      },
+      "duplicateLanguageError": "Cette langue a déjà été sélectionnée"
     },
     "resume": {
       "title": "Téléchargez votre CV",
@@ -423,7 +491,24 @@
         "marketing": "Commercialisation",
         "government": "Gouvernement",
         "design": "Conception",
-        "development": "Développement"
+        "development": "Développement",
+        "technology": "Technologie",
+        "finance": "Finance",
+        "healthcare": "Soins de santé",
+        "retailEcommerce": "Vente au détail",
+        "nonprofitSocialImpact": "À but non lucratif",
+        "governmentPublicSector": "Gouvernement",
+        "legal": "Légal",
+        "constructionRealEstate": "Construction",
+        "manufacturingElectronics": "Manufacturing Electronics,",
+        "energyUtilities": "Énergie",
+        "transportationLogistics": "Transport",
+        "consultingBusinessServices": "Consultant",
+        "scienceResearch": "Science",
+        "marketingAdvertising": "Commercialisation",
+        "agricultureFood": "Agriculture",
+        "gamingInteractiveMedia": "Jeu",
+        "beautyWellness": "Beauté"
       },
       "employeesOption": {
         "10000": "10000",
@@ -467,7 +552,8 @@
       "connected10": "Connecté le 10 mars 2025",
       "company": "Entreprise",
       "no": "Non",
-      "connectionfound": "Connexion trouvée"
+      "connectionfound": "Connexion trouvée",
+      "connecton": "Connecté sur"
     }
   },
   "Next": "",
@@ -515,7 +601,9 @@
     "networkInvites": "Invitations au réseau",
     "mightKnow": "Les gens que vous pourriez connaître",
     "connections": "Relations",
-    "postjob": "Poster un emploi"
+    "postjob": "Poster un emploi",
+    "loading": "Chargement",
+    "postJob": "Poster un emploi"
   },
   "FeedProfileLeft": {
     "connections": "Relations",
@@ -554,11 +642,20 @@
     "noResults": "Aucun résultat trouvé",
     "countryRequired": "Le pays est requis",
     "stateRequired": "L'état est requis",
-    "cityRequired": "La ville est requise"
+    "cityRequired": "La ville est requise",
+    "enterOtherValue": "Entrez une autre valeur",
+    "other": "autre"
   },
   "Validation": {
     "personal": {
       "phoneInvalid": "Format de numéro de téléphone non valide (10 chiffres requis)"
     }
+  },
+  "CreateJob": {
+    "jobDetails": "Détails du poste",
+    "requirements": "Exigences",
+    "salary": "salaire",
+    "preview": "prévisualisation",
+    "skills": "compétences"
   }
 }

@@ -1,11 +1,12 @@
 "use client";
 
+import InputField from "@/common/InputField";
+import { useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import CustomDatePicker from "../../common/DatePicker";
-import LocationSelector from "../../common/LocationSelector";
-import Selecter from "../../common/Selecter";
-import InputField from "../../components/form/InputField";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
+import CustomDatePicker from "@/common/DatePicker";
+import LocationSelector from "@/common/LocationSelector";
+import Selecter from "@/common/Selecter";
 
 const PersonalInformationForm = forwardRef(
   ({ initialData, errors = {}, clearFieldError, email }, ref) => {
@@ -19,8 +20,11 @@ const PersonalInformationForm = forwardRef(
       location: "",
       linkedin: "",
       email: "",
+      isPrivate: false,
+      pronoun: "",
     });
-
+    const genderOptions = useGenderOptions();
+    const pronounOptions = usePronounOptions();
     useEffect(() => {
       if (initialData || email) {
         setLocalData({
@@ -32,6 +36,8 @@ const PersonalInformationForm = forwardRef(
           location: initialData?.location || "",
           linkedin: initialData?.linkedin || "",
           email: initialData?.email || email || "",
+          pronoun: initialData?.pronoun || "",
+          isPrivate: initialData?.isPrivate || false,
         });
       }
     }, [initialData, email]);
@@ -39,12 +45,6 @@ const PersonalInformationForm = forwardRef(
     useImperativeHandle(ref, () => ({
       getData: () => localData,
     }));
-
-    const genderOptions = [
-      { label: `${t("genderOption.male")}`, value: "male" },
-      { label: `${t("genderOption.female")}`, value: "female" },
-      { label: `${t("genderOption.other")}`, value: "other" },
-    ];
 
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -67,6 +67,10 @@ const PersonalInformationForm = forwardRef(
       setLocalData((prev) => ({ ...prev, location: val }));
       if (clearFieldError) clearFieldError("location");
     };
+    const handleCheckboxChange = useCallback((e) => {
+      const { name, checked } = e.target;
+      setLocalData((prev) => ({ ...prev, [name]: checked }));
+    }, []);
 
     return (
       <div className="space-y-4">
@@ -90,15 +94,7 @@ const PersonalInformationForm = forwardRef(
             placeholder={t("usernamePlaceholder")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
-          <CustomDatePicker
-            name="dob"
-            label={`${t("dob")} *`}
-            value={localData.dob}
-            onChange={handleDateChange}
-            error={errors.dob}
-            placeholder={t("dobPlaceholder")}
-            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
-          />
+
           <Selecter
             label={`${t("gender")} *`}
             value={localData.gender}
@@ -107,6 +103,44 @@ const PersonalInformationForm = forwardRef(
             error={errors.gender}
             options={genderOptions}
             placeholder={t("genderPlaceholder")}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+            isOther={true}
+          />
+          <Selecter
+            name="pronoun"
+            label={`${t("pronoun")}`}
+            placeholder={t("pronounPlaceholder")}
+            value={localData.pronoun}
+            onChange={handleChange}
+            options={pronounOptions}
+            error={errors.pronoun}
+            isOther={true}
+          />
+          <div className="col-span-2 flex items-center gap-2 text-sm text-gray-500">
+            <div className="relative flex items-center">
+              <input
+                type="checkbox"
+                id="isPrivate"
+                name="isPrivate"
+                checked={localData.isPrivate}
+                onChange={handleCheckboxChange}
+                className="text-primary focus:ring-primary border-primary accent-primary h-4 w-4 cursor-pointer rounded"
+              />
+            </div>
+            <label
+              className="hover:text-primary cursor-pointer font-medium transition-colors select-none"
+              htmlFor="isPrivate"
+            >
+              {t("isPrivate")}
+            </label>
+          </div>
+          <CustomDatePicker
+            name="dob"
+            label={`${t("dob")} *`}
+            value={localData.dob}
+            onChange={handleDateChange}
+            error={errors.dob}
+            placeholder={t("dobPlaceholder")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
           <InputField

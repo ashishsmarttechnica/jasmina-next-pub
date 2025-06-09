@@ -1,6 +1,5 @@
 // components/ReusableForm.js
 import React from "react";
-import Logo from "@/assets/form/Logo.png";
 
 const ReusableForm = ({
   title,

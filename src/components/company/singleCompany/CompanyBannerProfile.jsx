@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
-  const t=useTranslations('CompanyProfile.singleCompany');
+  const t = useTranslations('CompanyProfile.singleCompany');
   const params = useParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
@@ -20,21 +20,37 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
-
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
-      <div className="flex h-40 items-center justify-between rounded-[5px] bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:h-48 md:px-16 lg:h-56 lg:px-24">
-        <div className="flex items-center gap-2">
+      <div
+        className={`flex items-center justify-between rounded-[5px]
+    ${userData.coverBannerUrl ? "" : "bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:px-16 lg:px-24"}
+    h-40 md:h-48 lg:h-56`}
+      >
+        {userData?.coverBannerUrl ? (
           <ImageFallback
-            src={logo}
-            width={150}
-            height={50}
+            fallbackSrc={logo}
+            width={1080}
+            height={720}
+            src={userData?.coverBannerUrl && getImg(userData.coverBannerUrl)}
+            alt="Company Banner"
+            className="h-auto w-full object-top  object-contain"
             loading="lazy"
-            alt="Logo"
-            className="h-auto w-[150px] sm:w-[180px] md:w-[200px]"
           />
-        </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <ImageFallback
+              src={logo}
+              width={150}
+              height={50}
+              loading="lazy"
+              alt="Logo"
+              className="h-auto w-[150px] sm:w-[180px] md:w-[200px]"
+            />
+          </div>
+        )}
       </div>
+
 
       <div className="relative bg-white px-4 py-6 md:px-8 md:py-6">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">

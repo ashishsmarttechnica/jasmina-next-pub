@@ -1,6 +1,7 @@
 "use client";
 
-import noImage2 from "@/assets/feed/no-post.svg";
+import noPost from "@/assets/feed/no-post.svg";
+import noImage2 from "@/assets/form/noImage2.svg";
 import Comment from "@/assets/svg/feed/Comment";
 import Like from "@/assets/svg/feed/Like";
 import Share from "@/assets/svg/feed/Share";
@@ -187,7 +188,7 @@ function PostCardSingle({ post, userData }) {
       <div className="flex items-center gap-2.5 border-b border-black/10 px-[17px] py-[17px]">
         <div className="relative h-10 w-10">
           <ImageFallback
-            src={userData?.profile?.photo && getImg(userData?.profile?.photo)}
+            src={userData?.profile?.photo && getImg(userData?.profile?.photo || noImage2)}
             fallbackSrc={noImage2}
             width={40}
             height={40}
@@ -227,7 +228,7 @@ function PostCardSingle({ post, userData }) {
         <div className="relative flex min-h-[250px] w-full items-center justify-center bg-black/50 sm:min-h-[330px]">
           <ImageFallback
             src={localPost?.postImg && getImg(localPost?.postImg)}
-            fallbackSrc={noImage2}
+            fallbackSrc={noPost}
             width={335}
             height={335}
             alt={userData?.profile?.fullName ?? "user"}

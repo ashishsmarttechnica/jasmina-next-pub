@@ -2,7 +2,7 @@ import ImageUploader from "@/common/ImageUploader";
 import InputField from "@/common/InputField";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import getImg from "../../../lib/getImg";
+import getImg from "@/lib/getImg";
 
 const CompanyMediaForm = ({
   formData,
@@ -13,7 +13,6 @@ const CompanyMediaForm = ({
   setSelectedBannerImageFile,
 }) => {
   const t = useTranslations("CompanyProfile.media");
-  console.log(getImg(formData.coverBannerUrl));
 
   useEffect(() => {
     if (formData.coverBannerUrl) {

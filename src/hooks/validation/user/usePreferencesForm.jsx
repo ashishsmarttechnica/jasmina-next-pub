@@ -20,15 +20,26 @@ const usePreferencesForm = () => {
     //   newErrors.salaryRange = t("InvalidSalaryRangeError");
     // }
 
-    if (!formData.joindate) {
-      newErrors.joindate = t("JoinDateError");
-    }
-    if (!formData.jobType) {
-      newErrors.jobType = t("JobTypeError");
-    }
-    if (!formData.workLocation) {
-      newErrors.workLocation = t("WorkLocationError");
-    }
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Normalize time to 00:00 for accurate comparison
+
+if (!formData.joindate) {
+  newErrors.joindate = t("JoinDateError");
+} else {
+  const joinDate = new Date(formData.joindate);
+  if (joinDate < today) {
+    newErrors.joindate = t("JoinDateFutureError"); // Add this key to translations
+  }
+}
+
+if (!formData.jobType) {
+  newErrors.jobType = t("JobTypeError");
+}
+
+if (!formData.workLocation) {
+  newErrors.workLocation = t("WorkLocationError");
+}
+
 
 
     setErrors(newErrors);

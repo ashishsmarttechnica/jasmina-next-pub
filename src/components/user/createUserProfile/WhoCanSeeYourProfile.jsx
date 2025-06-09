@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import ReusableForm from "@/components/form/ReusableForm";
 import useAuthStore from "@/store/auth.store";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
 

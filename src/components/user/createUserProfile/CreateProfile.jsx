@@ -10,6 +10,7 @@ import useProfileForm from "@/hooks/validation/user/useProfileForm";
 import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useLocationStore from "@/store/location.store";
+import { useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { Loader } from "rsuite";
@@ -27,18 +28,18 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     name: "",
     username: "",
     gender: "",
+    pronoun: "",
     dob: "",
     phone: "",
     location: "",
     LinkedInLink: "",
+    isPrivate: false,
   });
 
   // gender options
-  const options = [
-    { label: `${t("genderOption.male")}`, value: "male" },
-    { label: `${t("genderOption.female")}`, value: "female" },
-    { label: `${t("genderOption.other")}`, value: "other" },
-  ];
+  const genderOptions = useGenderOptions();
+  // pronoun options
+  const pronounOptions = usePronounOptions();
 
   const handleChange = useCallback(
     (e) => {
@@ -51,6 +52,11 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     },
     [clearFieldError]
   );
+
+  const handleCheckboxChange = useCallback((e) => {
+    const { name, checked } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: checked }));
+  }, []);
 
   const handlePhoneChange = useCallback(
     (e) => {
@@ -102,9 +108,11 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     submitData.append("profile.fullName", formData.name);
     submitData.append("profile.userName", formData.username);
     submitData.append("profile.gender", formData.gender);
+    submitData.append("profile.pronoun", formData.pronoun);
     submitData.append("profile.dob", formData.dob);
     submitData.append("profile.phone", formData.phone);
     submitData.append("profile.location", formData.location);
+    submitData.append("profile.isPrivate", formData.isPrivate);
 
     if (formData.LinkedInLink.trim() !== "") {
       submitData.append("profile.linkedin", formData.LinkedInLink);
@@ -132,10 +140,12 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         name: user.profile.fullName || "",
         username: user.profile.userName || "",
         gender: user.profile.gender || "",
+        pronoun: user.profile.pronoun || "",
         dob: user.profile.dob || "",
         phone: user.profile.phone || "",
         location: user.profile.location || "",
         LinkedInLink: user.profile.linkedin || "",
+        isPrivate: user.profile.isPrivate || false,
       }));
 
       setSelectedImage(getImg(user.profile.photo) || Uploadimg);
@@ -185,9 +195,40 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               placeholder={t("genderPlaceholder")}
               value={formData.gender}
               onChange={handleChange}
-              options={options}
+              options={genderOptions}
               error={errors.gender}
+              isOther={true}
             />
+
+            {/* Pronoun */}
+            <Selecter
+              name="pronoun"
+              label={`${t("pronoun")}`}
+              placeholder={t("pronounPlaceholder")}
+              value={formData.pronoun}
+              onChange={handleChange}
+              options={pronounOptions}
+              error={errors.pronoun}
+              isOther={true}
+            />
+            <div className="col-span-2 flex items-center gap-2 text-sm text-gray-500">
+              <div className="relative flex items-center">
+                <input
+                  type="checkbox"
+                  id="isPrivate"
+                  name="isPrivate"
+                  checked={formData.isPrivate}
+                  onChange={handleCheckboxChange}
+                  className="text-primary focus:ring-primary border-primary accent-primary h-4 w-4 cursor-pointer rounded"
+                />
+              </div>
+              <label
+                className="hover:text-primary cursor-pointer font-medium transition-colors select-none"
+                htmlFor="isPrivate"
+              >
+                {t("isPrivate")}
+              </label>
+            </div>
 
             {/* DOB */}
             <CustomDatePicker
@@ -195,6 +236,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               onChange={handleDateChange}
               error={errors.dob}
               label={`${t("dob")} *`}
+              maxDate={new Date()}
             />
 
             {/* Phone */}
@@ -210,7 +252,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
 
             {/* LinkedIn */}
             <InputField
-              label={`${t("LinkedInLink")} *`}
+              label={`${t("LinkedInLink")} `}
               name="LinkedInLink"
               value={formData.LinkedInLink}
               onChange={handleLinkedInChange}

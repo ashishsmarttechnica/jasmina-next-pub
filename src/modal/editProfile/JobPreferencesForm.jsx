@@ -1,11 +1,17 @@
 "use client";
 
+import InputField from "@/common/InputField";
+import {
+  useIndustryOptions,
+  useJobTypeOptions,
+  useRoleOptions,
+  useWorkLocationOptions,
+} from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import CustomDatePicker from "../../common/DatePicker";
-import Selecter from "../../common/Selecter";
-import InputField from "../../components/form/InputField";
-import JobTypeButton from "../../components/user/createUserProfile/JobTypeButton";
+import CustomDatePicker from "@/common/DatePicker";
+import Selecter from "@/common/Selecter";
+import JobTypeButton from "@/components/user/createUserProfile/JobTypeButton";
 
 const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldError }, ref) => {
   const [localData, setLocalData] = useState({
@@ -18,6 +24,11 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
     industry: "",
   });
   const t = useTranslations("UserProfile.preferences");
+  const roleOptions = useRoleOptions();
+  const jobTypeOptions = useJobTypeOptions();
+  const workLocationOptions = useWorkLocationOptions();
+  const industryOptions = useIndustryOptions();
+
   useEffect(() => {
     if (initialData) {
       setLocalData({
@@ -38,35 +49,6 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
   useImperativeHandle(ref, () => ({
     getData: () => localData,
   }));
-
-  const roleOptions = [
-    { label: `${t("jobroleoption.web-designer")}`, value: "web-designer" },
-    { label: `${t("jobroleoption.web-developer")}`, value: "web-developer" },
-    { label: `${t("jobroleoption.game-developer")}`, value: "game-developer" },
-    { label: `${t("jobroleoption.app-developer")}`, value: "app-developer" },
-    {
-      label: `${t("jobroleoption.graphic-designer")}`,
-      value: "graphic-designer",
-    },
-    { label: `${t("jobroleoption.ui-ux-designer")}`, value: "ui-ux-designer" },
-  ];
-
-  const jobTypeOptions = [
-    `${t("jobtypeoption.full-time")}`,
-    `${t("jobtypeoption.part-time")}`,
-    `${t("jobtypeoption.internship")}`,
-    `${t("jobtypeoption.freelancer")}`,
-    `${t("jobtypeoption.remote")}`,
-  ];
-  const workLocationOptions = [
-    { label: `${t("worklocationoption.remote")}`, value: "remote" },
-    { label: `${t("worklocationoption.onsite")}`, value: "on-site" },
-  ];
-
-  const industryOptions = [
-    { label: `${t("industryoption.design")}`, value: "design" },
-    { label: `${t("industryoption.development")}`, value: "development" },
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,8 +81,10 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
           className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
         />
         <div className="col-span-1 md:col-span-2">
-          <label className="mb-1 block text-[14px] font-medium text-gray-700">{t("jobstype") }</label>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <label className="mb-1 block text-[14px] font-medium text-gray-700">
+            {t("jobstype")}
+          </label>
+          <div className="flex flex-wrap gap-3">
             {jobTypeOptions.map((type) => (
               <JobTypeButton
                 key={type}
@@ -123,9 +107,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
             placeholder="Enter salary range"
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
-          <p className="-mt-2 mb-2 text-xs text-gray-500 md:col-span-2">
-            {t("salaryrangeError")}
-          </p>
+          <p className="text-xs text-gray-500 md:col-span-2">{t("salaryrangeError")}</p>
         </div>
         <div>
           <InputField
@@ -139,9 +121,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
             placeholder="Enter years of experience"
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
-          <p className="-mt-2 mb-2 text-xs text-gray-500 md:col-span-2">
-           {t("experienceError")}
-          </p>
+          <p className="text-xs text-gray-500 md:col-span-2">{t("experienceError")}</p>
         </div>
         <CustomDatePicker
           name="joindate"

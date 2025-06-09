@@ -19,8 +19,10 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   const [manualCityEntry, setManualCityEntry] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
+  // Flag to prevent value changes from affecting manual entry mode
+  const isUserEditingManually = useRef(false);
+
   // Use a ref to track if we should update the location string
-  const shouldUpdateLocation = useRef(false);
   const prevLocationString = useRef("");
   const initialLoadDone = useRef(false);
 
@@ -50,7 +52,13 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
     }
   }, [error, showErrors]);
 
+  // Handle external value changes
   useEffect(() => {
+    // Skip processing if user is manually editing
+    if (isUserEditingManually.current) {
+      return;
+    }
+
     if (value) {
       try {
         const parts = value.split(",").map((part) => part.trim());
@@ -59,22 +67,31 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
           const [city, state, country] = [parts[0], parts[1], parts[2]];
           setSelectedCountry(country);
           setSelectedState(state);
-          setSelectedCity(city);
-          setCityInput("");
-          setManualCityEntry(false);
+
+          // Only update city-related fields if not in manual mode
+          if (!manualCityEntry) {
+            setSelectedCity(city);
+            setCityInput("");
+          }
         } else if (parts.length === 2) {
           const [state, country] = [parts[0], parts[1]];
           setSelectedCountry(country);
           setSelectedState(state);
-          setSelectedCity("");
-          setCityInput("");
-          setManualCityEntry(false);
+
+          // Only update city-related fields if not in manual mode
+          if (!manualCityEntry) {
+            setSelectedCity("");
+            setCityInput("");
+          }
         } else if (parts.length === 1) {
           setSelectedCountry(parts[0]);
           setSelectedState("");
-          setSelectedCity("");
-          setCityInput("");
-          setManualCityEntry(false);
+
+          // Only update city-related fields if not in manual mode
+          if (!manualCityEntry) {
+            setSelectedCity("");
+            setCityInput("");
+          }
         }
       } catch (err) {
         console.error("Error parsing location:", err);
@@ -82,17 +99,37 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
     } else {
       setSelectedCountry("");
       setSelectedState("");
-      setSelectedCity("");
-      setCityInput("");
-      setManualCityEntry(false);
-    }
-  }, [value, setSelectedCountry, setSelectedState, setSelectedCity]);
 
+      // Only update city-related fields if not in manual mode
+      if (!manualCityEntry) {
+        setSelectedCity("");
+        setCityInput("");
+      }
+    }
+  }, [value, setSelectedCountry, setSelectedState, setSelectedCity, manualCityEntry]);
+
+  // Handle manual city input
+  const handleCityInput = useCallback((e) => {
+    const { value } = e.target;
+    isUserEditingManually.current = true;
+    setCityInput(value);
+  }, []);
+
+  // Update location string and trigger onChange when relevant fields change
   useEffect(() => {
+    // Skip on initial mount
+    if (!initialLoadDone.current) {
+      initialLoadDone.current = true;
+      return;
+    }
+
     let locationString = "";
 
-    if (manualCityEntry && cityInput && selectedState && selectedCountry) {
-      locationString = `${cityInput}, ${selectedState}, ${selectedCountry}`;
+    if (manualCityEntry && selectedState && selectedCountry) {
+      // Always use cityInput for location string when in manual mode
+      locationString = cityInput
+        ? `${cityInput}, ${selectedState}, ${selectedCountry}`
+        : `${selectedState}, ${selectedCountry}`;
     } else if (selectedCity && selectedState && selectedCountry) {
       locationString = `${selectedCity}, ${selectedState}, ${selectedCountry}`;
     } else if (selectedState && selectedCountry) {
@@ -100,10 +137,13 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
     } else if (selectedCountry) {
       locationString = selectedCountry;
     }
-    if (locationString && locationString !== prevLocationString.current) {
+
+    // Always update when the string changes
+    if (locationString !== prevLocationString.current) {
       prevLocationString.current = locationString;
       onChange(locationString);
 
+      // Only trigger onFieldChange when location is fully complete
       if (isLocationComplete && onFieldChange) {
         onFieldChange("location");
       }
@@ -128,6 +168,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       setSelectedCity("");
       setCityInput("");
       setManualCityEntry(false);
+      isUserEditingManually.current = false;
     },
     [setSelectedCountry, setSelectedState, setSelectedCity]
   );
@@ -140,6 +181,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       setSelectedCity("");
       setCityInput("");
       setManualCityEntry(false);
+      isUserEditingManually.current = false;
     },
     [setSelectedState, setSelectedCity]
   );
@@ -151,21 +193,24 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       setSelectedCity(value);
       setCityInput("");
       setManualCityEntry(false);
+      isUserEditingManually.current = false;
     },
     [setSelectedCity]
   );
 
-  // Handle manual city input
-  const handleCityInput = useCallback((e) => {
-    const { value } = e.target;
-    setCityInput(value);
-  }, []);
-
   // Toggle manual city entry
   const toggleManualEntry = useCallback(() => {
+    isUserEditingManually.current = true;
     setManualCityEntry((prev) => !prev);
-    setSelectedCity("");
-  }, [setSelectedCity]);
+
+    if (manualCityEntry) {
+      // Switching back to dropdown
+      setCityInput("");
+    } else {
+      // Switching to manual entry
+      setSelectedCity("");
+    }
+  }, [manualCityEntry]);
 
   // Format options for selectors
   const countryOptions =
@@ -272,22 +317,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
 
         {/* City Selector */}
         <div>
-          {!manualCityEntry ? (
-            <Selecter
-              name="city"
-              label={`${t("city")} *`}
-              placeholder={t("selectCity")}
-              value={selectedCity}
-              onChange={handleCityChange}
-              options={cityOptions}
-              error={getCityError()}
-              isLoading={isLoadingCities && selectedState && selectedCountry}
-              disabled={
-                !selectedState || !selectedCountry || isLoadingCities || cityOptions.length === 0
-              }
-              isSearchable={isCitySearchable}
-            />
-          ) : (
+          {manualCityEntry ? (
             <div className="space-y-1">
               <label className="text-grayBlueText text-[14px]">{`${t("city")} *`}</label>
               <input
@@ -302,6 +332,21 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
               />
               {getCityError() && <p className="mt-1 text-sm text-red-500">{getCityError()}</p>}
             </div>
+          ) : (
+            <Selecter
+              name="city"
+              label={`${t("city")} *`}
+              placeholder={t("selectCity")}
+              value={selectedCity}
+              onChange={handleCityChange}
+              options={cityOptions}
+              error={getCityError()}
+              isLoading={isLoadingCities && selectedState && selectedCountry}
+              disabled={
+                !selectedState || !selectedCountry || isLoadingCities || cityOptions.length === 0
+              }
+              isSearchable={isCitySearchable}
+            />
           )}
         </div>
       </div>

@@ -12,6 +12,8 @@ import { useLikePost, useSinglePost, useUnlikePost } from "../hooks/post/usePost
 import usePostStore from "../store/post.store";
 import MainLayout from "./MainLayout";
 
+
+
 const SinglePostLayout = () => {
   const params = useParams();
   const id = params?.id;

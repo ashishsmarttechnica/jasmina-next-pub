@@ -1,35 +1,31 @@
-import MainLayout from "@/layout/MainLayout";
-import React from "react";
+import CreateJobButton from "@/common/button/CreateJobButton";
 import UserCompanyProfile from "@/common/UserCompanyProfile";
-import CompanySuggestionCard from "@/common/CompanySuggestionCard";
-import CompanyFeedPost from "./CompanyFeedPost";
-import { useTranslations } from "next-intl";
+import UserConnections from "@/common/UserConnections";
 import UserMightKnow from "@/common/UserMightKnow";
 import UserNetworkInvites from "@/common/UserNetworkInvites";
-import UserConnections from "@/common/UserConnections";
-
+import MainLayout from "@/layout/MainLayout";
+import { useTranslations } from "next-intl";
+import FeedPost from "@/components/user/feed/FeedPost";
 const CompanyMainFeed = () => {
-  const t=useTranslations("CompanyMainFeed");
+  const t = useTranslations("CompanyMainFeed");
   return (
     <MainLayout
       leftComponents={[
         <UserCompanyProfile key="left1" />,
-        <UserConnections
-          key="left2"
-          title={t("connections")}
-        />,
+        <UserConnections key="left2" title={t("connections")} />,
       ]}
       rightComponents={[
-        <UserMightKnow key="right1" />,
+        <CreateJobButton key="right1" />,
+        <UserMightKnow key="right2" />,
         <UserNetworkInvites
-          key="right2"
+          key="right3"
           title={t("networkInvites")}
           type="invites"
           buttonType="invite"
         />,
       ]}
     >
-      <CompanyFeedPost />
+      <FeedPost />
     </MainLayout>
   );
 };

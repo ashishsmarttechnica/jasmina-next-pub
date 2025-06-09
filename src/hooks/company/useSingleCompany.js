@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from "@tanstack/react-query";
-import { getCompany } from "../../api/company.api";
+import { getCompany } from "@/api/company.api";
 
 export const useSingleCompany = (userId) => {
   return useQuery({

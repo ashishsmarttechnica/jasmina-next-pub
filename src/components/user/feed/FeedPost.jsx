@@ -2,9 +2,6 @@
 import React, { useState } from "react";
 import CreatePost from "@/common/CreatePost";
 import RecentJobs from "./RecentJobs";
-import user from "@/assets/feed/user-1.png";
-import postImg from "@/assets/feed/post-1.png";
-import Cookies from "js-cookie";
 import DynamicPost from "./DynamicPost";
 import { useAllPosts } from "@/hooks/post/usePosts";
 import usePostStore from "@/store/post.store";
@@ -13,8 +10,8 @@ import PostSkeleton from '@/common/skeleton/PostSkeleton';
 
 
 
-const FeedPost = () => {
-  const t=useTranslations("FeedComment")
+const FeedPost = ({ isUser = false }) => {
+  const t = useTranslations("FeedComment")
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
@@ -38,7 +35,9 @@ const FeedPost = () => {
   if (isLoading) {
     return (
       <div className="w-full xl:max-w-[547px] space-y-6">
-        <CreatePost />
+        {isUser &&
+          <CreatePost />
+        }
         {renderSkeletons()}
       </div>
     );
@@ -48,7 +47,9 @@ const FeedPost = () => {
   if (isError) {
     return (
       <div className="w-full xl:max-w-[547px]">
-        <CreatePost />
+        {isUser &&
+          <CreatePost />
+        }
         <div className="text-center py-10 text-red-500 bg-white rounded-lg shadow p-4">
           <p className="font-bold mb-2">{t("errorposts")}</p>
           <p>{error.message}</p>
@@ -56,7 +57,7 @@ const FeedPost = () => {
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
             onClick={() => setPage(1)}
           >
-           {t("tryagain")}
+            {t("tryagain")}
           </button>
         </div>
       </div>
@@ -67,7 +68,9 @@ const FeedPost = () => {
   if (!posts?.length) {
     return (
       <div className="w-full xl:max-w-[547px]">
-        <CreatePost />
+       {isUser &&
+          <CreatePost />
+        }
         <div className="text-center py-10 bg-white rounded-lg shadow p-4">
           {t("nofound")}
         </div>
@@ -82,7 +85,9 @@ const FeedPost = () => {
 
   return (
     <>
-      <CreatePost />
+       {isUser &&
+          <CreatePost />
+        }
       <div className="w-full xl:max-w-[547px] space-y-6">
         {posts.map((post, index) => (
           <React.Fragment key={post._id + index}>

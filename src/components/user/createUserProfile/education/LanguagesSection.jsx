@@ -1,9 +1,8 @@
-import React from "react";
+import Selecter from "@/common/Selecter";
+import { languageOptions } from "@/utils/languageOptions";
+import { useTranslations } from "next-intl";
 import { FiPlusSquare } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
-import Selecter from "@/common/Selecter";
-import { useTranslations } from "next-intl";
-import InputField from "@/common/InputField";
 
 const LanguagesSection = ({
   languagesList,
@@ -15,24 +14,23 @@ const LanguagesSection = ({
   clearFieldError,
 }) => {
   const t = useTranslations("UserProfile.education");
+
   return (
     <div>
       <div className="my-2 flex items-center justify-between">
-        <div className="text-[15px] font-medium text-[#0f0f0f]">
-          {t("languages")}
-        </div>
+        <div className="text-[15px] font-medium text-[#0f0f0f]">{t("languages")}</div>
         <FiPlusSquare
           onClick={() => addSection("languages")}
-          className="w-[19px] h-[19px] cursor-pointer"
+          className="h-[19px] w-[19px] cursor-pointer"
         />
       </div>
       {languagesList.map((language, index) => (
         <div
           key={index}
           className={`${
-            index > 0 ? "border border-[#ddd] relative" : ""
-          } grid sm:grid-cols-2 grid-cols-1 gap-x-4 gap-y-2 ${
-            index > 0 ? "p-4 rounded-md mt-2" : ""
+            index > 0 ? "relative border border-[#ddd]" : ""
+          } grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 ${
+            index > 0 ? "mt-2 rounded-md p-4" : ""
           }`}
         >
           {index > 0 && (
@@ -42,22 +40,27 @@ const LanguagesSection = ({
             />
           )}
 
-          <InputField
-            label={`${t("languagesList")}*`}
-            name={`languages-${index}`}
-            type="text"
-            value={language.languages}
-            onChange={(e) =>
-              handleChange("languagesList", index, "languages", e.target.value)
-            }
-            onBlur={() => clearFieldError(`language-${index}-languages`)}
-            error={errors[`language-${index}-languages`]}
-          />
+          <div className="space-y-1">
+            <label className="text-grayBlueText text-[14px]">{`${t("languagesList")}*`}</label>
+            <Selecter
+              name="languages"
+              options={languageOptions}
+              value={language.languages}
+              onChange={(e) => {
+                handleChange("languagesList", index, "languages", e.target.value);
+                clearFieldError(`language-${index}-languages`);
+              }}
+              isSearchable={true}
+              isOther={true}
+              placeholder="Select a language"
+            />
+            {errors[`language-${index}-languages`] && (
+              <p className="text-[12px] text-red-500">{errors[`language-${index}-languages`]}</p>
+            )}
+          </div>
 
           <div className="space-y-1">
-            <label className="text-[14px] text-grayBlueText">
-              {`${t("proficiency")}*`}
-            </label>
+            <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}*`}</label>
             <Selecter
               name="proficiency"
               options={proficiencyOptions}
@@ -74,9 +77,7 @@ const LanguagesSection = ({
               }
             />
             {errors[`language-${index}-proficiency`] && (
-              <p className="text-red-500 text-[12px]">
-                {errors[`language-${index}-proficiency`]}
-              </p>
+              <p className="text-[12px] text-red-500">{errors[`language-${index}-proficiency`]}</p>
             )}
           </div>
         </div>

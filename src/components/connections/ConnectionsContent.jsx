@@ -25,7 +25,6 @@ const ConnectionsContent = () => {
     hasMore: userHasMore,
     resetConnections: resetUserConnections,
   } = useConnectionsStore();
-
   const {
     connections: companyConnections,
     pagination: companyPagination,

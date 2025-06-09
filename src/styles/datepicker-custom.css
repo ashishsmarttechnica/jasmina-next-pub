@@ -76,7 +76,8 @@
 .react-datepicker__day--today {
     font-weight: 600 !important;
     position: relative !important;
-    background-color: #f0f0f0 !important;
+    background-color: #0f82007e !important;
+    color: #fff !important;
 }
 
 .react-datepicker__day--today::after {
@@ -204,9 +205,7 @@
 
 /* Selected month */
 .react-datepicker__month-option--selected {
-    background-color: #0f8200 !important;
-    color: white !important;
-    font-weight: 600 !important;
+    display: none !important;
 }
 
 /* The tick mark for selected month */
@@ -250,10 +249,17 @@
 
 /* Selected year option */
 .react-datepicker__year-option--selected {
+    display: none !important;
+}
+
+.react-datepicker__year-option.react-datepicker__year-option--selected_year {
     background-color: #0f8200 !important;
     color: white !important;
-    font-weight: 600 !important;
-    position: relative !important;
+}
+
+.react-datepicker__month-option.react-datepicker__month-option--selected_month {
+    background-color: #0f8200 !important;
+    color: white !important;
 }
 
 /* Fix for the selected year text */

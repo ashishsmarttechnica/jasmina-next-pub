@@ -148,7 +148,7 @@
     "ClickToResend": "Klicken Sie hier, um mich wiederzugeben",
     "Verifying": "Überprüfen ...",
     "Verify": "Verifizieren",
-    "PleaseSelectAccountType": "",
+    "PleaseSelectAccountType": "Bitte wählen Sie einen Kontotyp aus",
     "ResendOTP": "Senden Sie OTP erneut",
     "VerifyOTP": "Überprüfen Sie OTP",
     "otpVerifiedSuccess": "OTP überprüft erfolgreich",
@@ -157,7 +157,11 @@
     "Continue": "Weitermachen",
     "NewPassword": "Neues Passwort",
     "ConfirmPassword": "Passwort bestätigen",
-    "ChangePassword": "Kennwort ändern"
+    "ChangePassword": "Kennwort ändern",
+    "SelectAccountType": "Wählen Sie den Kontotyp",
+    "Company": "Unternehmen",
+    "Cancel": "Stornieren",
+    "ContinueWithGoogle": "Fahren Sie mit Google fort"
   },
   "UserProfile": {
     "profile": {
@@ -166,7 +170,7 @@
       "uploadImage": "Bild hochladen",
       "name": "Vollständiger Name",
       "username": "Benutzername",
-      "gender": "Geschlecht",
+      "gender": "Geschlechtsidentität",
       "dob": "Geburtsdatum",
       "phone": "Telefon",
       "location": "Standort",
@@ -197,7 +201,17 @@
       "genderOption": {
         "male": "Männlich",
         "female": "Weiblich",
-        "other": "Andere"
+        "other": "Andere",
+        "woman": "Frau",
+        "nonbinary": "Nicht-binär",
+        "transwoman": "Transfrau",
+        "transman": "Transmann",
+        "intersex": "Intersexuell",
+        "Agender": "Achender",
+        "genderqueergenderfluid": "Genderqueer / Genderfluid",
+        "twospirit": "Zwei-Spirit (für indigene Gemeinschaften)",
+        "diverse": "Vielfältig",
+        "prefersay": "Lieber nicht sagen"
       },
       "locationPermission": "Standortgenehmigung abgelehnt",
       "LinkedInLinkError": "Bitte geben Sie Ihren LinkedIn -Profil -Link ein.",
@@ -224,13 +238,25 @@
         "message": "Nachricht",
         "noexperience": "Keine Erfahrungsinformationen verfügbar."
       },
-      "personalInfo": "Persönliche Informationen"
+      "personalInfo": "Persönliche Informationen",
+      "pronoun": "Pronomen",
+      "pronounPlaceholder": "Wählen Sie Pronomen",
+      "pronounOption": {
+        "sheher": "Sie/sie",
+        "hehim": "Er/er",
+        "theythem": "Sie/sie",
+        "shethey": "Sie/sie",
+        "hethey": "Er/sie",
+        "xe": "Xe/xem"
+      },
+      "isPrivate": "Informationen zu Geschlechtsidentität sind privat?"
     },
     "userprofilemenu": {
       "education": "Ausbildung",
       "resume": "Wieder aufnehmen",
       "profile": "Profil",
-      "preferences": "Vorlieben"
+      "preferences": "Vorlieben",
+      "freetext": "Freien Text"
     },
     "preferences": {
       "jobrole": "Jobs -Vorlieben der Jobrolle",
@@ -250,7 +276,26 @@
         "game-developer": "Spieleentwickler",
         "app-developer": "App -Entwickler",
         "graphic-designer": "Grafikdesigner",
-        "ui-ux-designer": "UI/UX -Designer"
+        "ui-ux-designer": "UI/UX -Designer",
+        "AdministrationHRConsultingCEO": "Administration / HR / Beratung / CEO",
+        "BankingInsurance": "Banken / Versicherung",
+        "ConstructionArchitectureEngineering": "Bau / Architektur / Ingenieurwesen",
+        "SecurityPoliceCustomsEmergencyServices": "Sicherheits- / Polizei- / Zoll- / Rettungsdienste",
+        "ChemistryPharmaceuticalsBiotechnology": "Chemie / Arzneimittel / Biotechnologie",
+        "PurchasingLogisticsTrading": "Einkauf / Logistik / Handel",
+        "ElectronicsTechnologyWatches": "Elektronik / Technologie / Uhren",
+        "VehiclesSkilledTradesWarehousingTransportation": "Fahrzeuge / qualifizierte Trades / Lagerung / Transportmittel",
+        "FinanceFiduciaryServicesRealEstate": "Finanz- / Treuhanddienste / Immobilien",
+        "HospitalityFoodTourism": "Gastfreundschaft / Essen / Tourismus",
+        "GraphicDesignTypographyPrinting": "Grafikdesign / Typografie / Druck",
+        "ITTelecommunications": "IT / Telekommunikation",
+        "LawLegal": "Gesetz / legal",
+        "MarketingCommunicationsEditorial": "Marketing / Kommunikation / Editorial",
+        "MechanicalPlantEngineeringManufacturing": "Maschinenbau / Werkstechnik / Herstellung",
+        "MedicineCareTherapy": "Medizin / Pflege / Therapie",
+        "sportsWellnessCulture": "Sport / Wellness / Kultur",
+        "SalesCustomerServiceInternalSales": "Verkaufs- / Kundendienst / interne Verkäufe",
+        "PublicAdministrationEducationSocialServices": "Öffentliche Verwaltung / Bildung / soziale Dienste"
       },
       "jobtypeoption": {
         "full-time": "Vollzeit",
@@ -280,6 +325,7 @@
       "SalaryRangeError": "Gehaltsspanne ist erforderlich.",
       "InvalidSalaryRangeError": "Der Gehaltsbereich muss ein gültiger Zahlenbereich sein.",
       "JoinDateError": "Das Verbindungsdatum ist erforderlich.",
+      "JoinDateFutureError": "Das Eintrittsdatum muss in der Zukunft liegen",
       "JobTypeError": "Jobtyp ist erforderlich.",
       "WorkLocationError": "Arbeitsort ist erforderlich.",
       "ExperienceError": "Erfahrung ist erforderlich.",
@@ -333,7 +379,30 @@
       "startDateError": "Startdatum ist erforderlich.",
       "endDateError": "Enddatum ist erforderlich.",
       "locationError": "Ort ist erforderlich.",
-      "endDateBeforeStartError": "Enddatum kann nicht vor dem Startdatum sein."
+      "endDateBeforeStartError": "Enddatum kann nicht vor dem Startdatum sein.",
+      "skillCategoryOptions": {
+        "Technology": "Technologie",
+        "Finance": "Finanzen",
+        "Healthcare": "Gesundheitspflege",
+        "Education": "Ausbildung",
+        "MediaEntertainment": "Medien",
+        "RetailEcommerce": "Einzelhandel",
+        "HospitalityTourism": "Gastfreundschaft",
+        "GovernmentPublicSector": "Regierung",
+        "NonprofitSocialImpact": "Gemeinnützig",
+        "Legal": "Legal",
+        "ConstructionRealEstate": "Konstruktion",
+        "ManufacturingElectronics": "Fertigungselektronik",
+        "EnergyUtilities": "Energie",
+        "TransportationLogistics": "Transport",
+        "ConsultingBusinessServices": "Beratung",
+        "ScienceResearch": "Wissenschaft",
+        "MarketingAdvertising": "Marketing",
+        "AgricultureFood": "Landwirtschaft",
+        "GamingInteractiveMedia": "Spiele",
+        "BeautyWellness": "Schönheit"
+      },
+      "duplicateLanguageError": "Diese Sprache wurde bereits ausgewählt"
     },
     "resume": {
       "title": "Laden Sie Ihren Lebenslauf hoch",
@@ -422,7 +491,24 @@
         "marketing": "Marketing",
         "government": "Regierung",
         "design": "Design",
-        "development": "Entwicklung"
+        "development": "Entwicklung",
+        "technology": "Technologie",
+        "finance": "Finanzen",
+        "healthcare": "Gesundheitspflege",
+        "retailEcommerce": "Einzelhandel",
+        "nonprofitSocialImpact": "Gemeinnützig",
+        "governmentPublicSector": "Regierung",
+        "legal": "Legal",
+        "constructionRealEstate": "Konstruktion",
+        "manufacturingElectronics": "Fertigungselektronik,",
+        "energyUtilities": "Energie",
+        "transportationLogistics": "Transport",
+        "consultingBusinessServices": "Beratung",
+        "scienceResearch": "Wissenschaft",
+        "marketingAdvertising": "Marketing",
+        "agricultureFood": "Landwirtschaft",
+        "gamingInteractiveMedia": "Spiele",
+        "beautyWellness": "Schönheit"
       },
       "employeesOption": {
         "10000": "10000",
@@ -466,7 +552,8 @@
       "connected10": "Am 10. März 2025 verbunden",
       "company": "Unternehmen",
       "no": "NEIN",
-      "connectionfound": "Verbindung gefunden"
+      "connectionfound": "Verbindung gefunden",
+      "connecton": "Angeschlossen auf"
     }
   },
   "Next": "",
@@ -514,7 +601,9 @@
     "networkInvites": "Netzwerk lädt ein",
     "mightKnow": "Leute, die Sie vielleicht kennen",
     "connections": "Verbindungen",
-    "postjob": "Einen Job veröffentlichen"
+    "postjob": "Einen Job veröffentlichen",
+    "loading": "Laden",
+    "postJob": "Einen Job veröffentlichen"
   },
   "FeedProfileLeft": {
     "connections": "Verbindungen",
@@ -553,11 +642,20 @@
     "noResults": "Keine Ergebnisse gefunden",
     "countryRequired": "Land ist erforderlich",
     "stateRequired": "Staat ist erforderlich",
-    "cityRequired": "Stadt ist erforderlich"
+    "cityRequired": "Stadt ist erforderlich",
+    "enterOtherValue": "Einen anderen Wert eingeben",
+    "other": "andere"
   },
   "Validation": {
     "personal": {
       "phoneInvalid": "Ungültiges Telefonnummernformat (10 Ziffern erforderlich)"
     }
+  },
+  "CreateJob": {
+    "jobDetails": "Jobdetails",
+    "requirements": "Anforderungen",
+    "salary": "Gehalt",
+    "preview": "Vorschau",
+    "skills": "Fähigkeiten"
   }
 }

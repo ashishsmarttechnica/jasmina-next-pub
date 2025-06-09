@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import InputField from "../../form/InputField";
+import InputField from "@/common/InputField";
 
 const EmailStep = ({ email, onEmailChange, onSubmit, errors}) => {
       const t = useTranslations("auth");

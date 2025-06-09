@@ -1,10 +1,11 @@
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import useEducationSkillsForm from "@/hooks/validation/user/useEducationSkillsForm";
 import useAuthStore from "@/store/auth.store";
+import { useProficiencyOptions, useSkillCategoryOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
-import ReusableForm from "../../form/ReusableForm";
+import ReusableForm from "@/components/form/ReusableForm";
 import EducationSection from "./education/EducationSection";
 import ExperienceSection from "./education/ExperienceSection";
 import LanguagesSection from "./education/LanguagesSection";
@@ -14,12 +15,9 @@ const EducationSkills = ({ setActiveTab }) => {
   const { user, setUser } = useAuthStore();
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
-  const proficiencyOptions = [
-    { label: `${t("proficiencyOptions.beginner")}`, value: "beginner" },
-    { label: `${t("proficiencyOptions.intermediate")}`, value: "intermediate" },
-    { label: `${t("proficiencyOptions.advanced")}`, value: "advanced" },
-    { label: `${t("proficiencyOptions.expert")}`, value: "expert" },
-  ];
+
+  const proficiencyOptions = useProficiencyOptions();
+  const skillCategoryOptions = useSkillCategoryOptions();
 
   const [formData, setFormData] = useState({
     educationList: [{ degree: "", passingyear: "", schoolname: "", board: "" }],
@@ -192,7 +190,7 @@ const EducationSkills = ({ setActiveTab }) => {
           experience?.length > 0
             ? experience.map((exp) => ({
                 companyName: exp.companyName || "",
-                role: exp.role || "",
+                role: exp.jobTitle || "",
                 startDate: exp.startDate || "",
                 endDate: exp.endDate || "",
                 location: exp.location || "",
@@ -229,6 +227,7 @@ const EducationSkills = ({ setActiveTab }) => {
         <SkillsSection
           skillsList={formData.skillsList}
           proficiencyOptions={proficiencyOptions}
+          skillCategoryOptions={skillCategoryOptions}
           addSection={addSection}
           removeSection={removeSection}
           handleChange={handleChange}

@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "rsuite";
-
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
@@ -11,9 +10,11 @@ import useEditProfileValidation from "@/hooks/validation/user/useEditProfileVali
 import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useLocationStore from "@/store/location.store";
+import { useProficiencyOptions, useSkillCategoryOptions } from "@/utils/selectOptions";
 import EducationSkillsForm from "./EducationSkillsForm";
 import JobPreferencesForm from "./JobPreferencesForm";
 import PersonalInformationForm from "./PersonalInformationForm";
+
 
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
@@ -34,12 +35,8 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
 
   // Proficiency options for skills/languages
-  const proficiencyOptions = [
-    { label: `${t("proficiencyOptions.beginner")}`, value: "beginner" },
-    { label: `${t("proficiencyOptions.intermediate")}`, value: "intermediate" },
-    { label: `${t("proficiencyOptions.advanced")}`, value: "advanced" },
-    { label: `${t("proficiencyOptions.expert")}`, value: "expert" },
-  ];
+  const proficiencyOptions = useProficiencyOptions();
+  const categoryOptions = useSkillCategoryOptions();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -180,6 +177,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
         </div>
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <EducationSkillsForm
+            categoryOptions={categoryOptions}
             ref={educationSkillsRef}
             initialData={{
               education: descriptionData?.education,

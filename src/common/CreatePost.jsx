@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { GoImage } from "react-icons/go";
-import Image from "next/image";
-import profileImg from "@/assets/feed/Profile.png";
-import Uploadimg from "@/assets/form/Uploadimg.png";
 import useAuthStore from "@/store/auth.store";
 import { useCreatePost } from "@/hooks/post/usePosts";
 import CreateUserPost from "@/modal/CreateUserPost";
