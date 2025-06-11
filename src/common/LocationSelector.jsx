@@ -27,6 +27,10 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   const initialLoadDone = useRef(false);
 
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
+
+  // Debug the countries data
+  console.log("Countries data in component:", countries);
+
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);
   const {
     data: cities,
@@ -59,6 +63,11 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       return;
     }
 
+    // Skip processing if value hasn't changed
+    if (value === prevLocationString.current) {
+      return;
+    }
+
     if (value) {
       try {
         const parts = value.split(",").map((part) => part.trim());
@@ -72,24 +81,34 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
           if (!manualCityEntry) {
             setSelectedCity(city);
             setCityInput("");
+          } else if (!cityInput) {
+            // In manual mode but no city input yet, initialize it
+            setCityInput(city);
           }
         } else if (parts.length === 2) {
           const [state, country] = [parts[0], parts[1]];
           setSelectedCountry(country);
           setSelectedState(state);
 
-          // Only update city-related fields if not in manual mode
+          // Reset city fields
           if (!manualCityEntry) {
             setSelectedCity("");
+          }
+          if (manualCityEntry && cityInput) {
+            // Don't reset manually entered city input unless empty
+            // This avoids wiping out user's manual entry
+          } else {
             setCityInput("");
           }
         } else if (parts.length === 1) {
           setSelectedCountry(parts[0]);
           setSelectedState("");
 
-          // Only update city-related fields if not in manual mode
+          // Reset city fields
           if (!manualCityEntry) {
             setSelectedCity("");
+          }
+          if (!manualCityEntry || !cityInput) {
             setCityInput("");
           }
         }
@@ -100,13 +119,15 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       setSelectedCountry("");
       setSelectedState("");
 
-      // Only update city-related fields if not in manual mode
+      // Only update city-related fields if not in manual mode or if city input is empty
       if (!manualCityEntry) {
         setSelectedCity("");
+      }
+      if (!manualCityEntry || !cityInput) {
         setCityInput("");
       }
     }
-  }, [value, setSelectedCountry, setSelectedState, setSelectedCity, manualCityEntry]);
+  }, [value, manualCityEntry]);
 
   // Handle manual city input
   const handleCityInput = useCallback((e) => {
@@ -138,10 +159,14 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
       locationString = selectedCountry;
     }
 
-    // Always update when the string changes
+    // Only update when the string actually changes to avoid loops
     if (locationString !== prevLocationString.current) {
       prevLocationString.current = locationString;
-      onChange(locationString);
+
+      // Don't call onChange if locationString is empty or unchanged
+      if (locationString) {
+        onChange(locationString);
+      }
 
       // Only trigger onFieldChange when location is fully complete
       if (isLocationComplete && onFieldChange) {
@@ -201,9 +226,10 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   // Toggle manual city entry
   const toggleManualEntry = useCallback(() => {
     isUserEditingManually.current = true;
-    setManualCityEntry((prev) => !prev);
+    const newManualEntryState = !manualCityEntry;
+    setManualCityEntry(newManualEntryState);
 
-    if (manualCityEntry) {
+    if (newManualEntryState === false) {
       // Switching back to dropdown
       setCityInput("");
     } else {
@@ -213,17 +239,23 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   }, [manualCityEntry]);
 
   // Format options for selectors
-  const countryOptions =
-    countries?.map((country) => ({
-      label: country,
-      value: country,
-    })) || [];
+  const countryOptions = useMemo(() => {
+    if (!countries || !Array.isArray(countries)) return [];
 
-  const stateOptions =
-    states?.map((state) => ({
+    return countries.map((countryObj) => ({
+      label: countryObj.country,
+      value: countryObj.country,
+    }));
+  }, [countries]);
+
+  const stateOptions = useMemo(() => {
+    if (!states || !Array.isArray(states)) return [];
+
+    return states.map((state) => ({
       label: state,
       value: state,
-    })) || [];
+    }));
+  }, [states]);
 
   // Process cities data and remove duplicates
   const cityOptions = useMemo(() => {
@@ -247,12 +279,12 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   }, [cities]);
 
   // Check if we have city data
-  const hasCityData = cityOptions.length > 0;
+  const hasCityData = useMemo(() => cityOptions.length > 0, [cityOptions]);
 
   // Determine if selectors should be searchable based on number of options
-  const isCountrySearchable = countryOptions.length > 10;
-  const isStateSearchable = stateOptions.length > 10;
-  const isCitySearchable = cityOptions.length > 10;
+  const isCountrySearchable = useMemo(() => countryOptions.length > 10, [countryOptions]);
+  const isStateSearchable = useMemo(() => stateOptions.length > 10, [stateOptions]);
+  const isCitySearchable = useMemo(() => cityOptions.length > 10, [cityOptions]);
 
   // Get error messages based on validation state
   const getCountryError = () => {

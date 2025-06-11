@@ -1,3 +1,4 @@
+import axiosInstance from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -9,10 +10,62 @@ export const useCountries = () => {
   return useQuery({
     queryKey: ["countries"],
     queryFn: async () => {
-      const response = await axios.get(`${API_BASE_URL}`);
-      return response.data.data.map((country) => country.country);
+      try {
+        // Direct API call with debugging
+        console.log("Making countries API request...");
+        const response = await axiosInstance.get(`get/countries`);
+        console.log("Countries API response received:", response);
+
+        // Log the data structure for debugging
+        if (response.data) {
+          console.log("Response data keys:", Object.keys(response.data));
+          console.log(
+            "Response data structure:",
+            JSON.stringify(response.data).slice(0, 200) + "..."
+          );
+        }
+
+        // Handle different possible response formats
+        if (response.data) {
+          // Format 1: {data: [{country: "..."}]}
+          if (Array.isArray(response.data.data)) {
+            return response.data.data.map((country) => ({
+              country: country.country || country.name || "",
+              isLGBTQ: country.isLGBTQ || false,
+            }));
+          }
+          // Format 2: {data: {data: [{country: "..."}]}}
+          else if (response.data.data && Array.isArray(response.data.data.data)) {
+            return response.data.data.data.map((country) => ({
+              country: country.country || country.name || "",
+              isLGBTQ: country.isLGBTQ || false,
+            }));
+          }
+          // Format 3: {data: [...]} where data is an array of strings or objects
+          else if (Array.isArray(response.data)) {
+            return response.data.map((country) => {
+              if (typeof country === "string") {
+                return { country, isLGBTQ: false };
+              } else {
+                return {
+                  country: country.country || country.name || "",
+                  isLGBTQ: country.isLGBTQ || false,
+                };
+              }
+            });
+          }
+        }
+
+        console.error("Could not parse API response format:", response.data);
+        return [];
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        return []; // Return empty array on error
+      }
     },
-    staleTime: Infinity, // Countries rarely change, so we can cache them indefinitely
+    staleTime: 300000, // 5 minutes
+    retry: 2,
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -23,13 +76,23 @@ export const useStates = (country) => {
     queryFn: async () => {
       if (!country) return [];
 
-      const response = await axios.post(`${API_BASE_URL}/states`, {
-        country,
-      });
+      try {
+        const response = await axios.post(`${API_BASE_URL}/states`, {
+          country,
+        });
 
-      return response.data.data.states.map((state) => state.name);
+        if (response.data && response.data.data && response.data.data.states) {
+          return response.data.data.states.map((state) => state.name);
+        }
+        return [];
+      } catch (error) {
+        console.error("Error fetching states:", error);
+        return [];
+      }
     },
     enabled: !!country, // Only run query if country is selected
+    retry: 1, // Limit retries
+    refetchOnWindowFocus: false, // Prevent refetching when window regains focus
   });
 };
 
@@ -77,5 +140,6 @@ export const useCities = (country, state) => {
     },
     enabled: !!country && !!state, // Only run query if both country and state are selected
     retry: 1, // Only retry once to avoid too many failed requests
+    refetchOnWindowFocus: false, // Prevent refetching when window regains focus
   });
 };

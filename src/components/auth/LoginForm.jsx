@@ -1,14 +1,13 @@
 "use client";
-import GoogleIcon from "@/assets/form/GoogleIcon.png";
 import ButtonLoader from "@/common/ButtonLoader";
 import InputField from "@/common/InputField";
 import useLogin from "@/hooks/auth/useLogin";
 import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useState } from "react";
 import PasswordField from "../form/PasswordField";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const LoginForm = () => {
   const t = useTranslations("auth");
@@ -66,9 +65,7 @@ const LoginForm = () => {
           {t("or")}
         </div>
 
-        <div className="bg-gray mx-auto flex max-w-65.5 items-center justify-center rounded-md py-[13px]">
-          <Image src={GoogleIcon} alt={t("GoogleIconAltImg")} width={24} height={25} />
-        </div>
+        <GoogleLoginButton />
 
         <div className="mt-7.5 text-center">
           <p className="text-grayBlueText text-base leading-[18px]">

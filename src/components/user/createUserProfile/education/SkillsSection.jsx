@@ -15,7 +15,7 @@ const SkillsSection = ({
   clearFieldError,
 }) => {
   const t = useTranslations("UserProfile.education");
-  
+
   return (
     <div>
       <div className="my-2 flex items-center justify-between">

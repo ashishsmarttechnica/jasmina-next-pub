@@ -1,21 +1,24 @@
 "use client";
+import GoogleIcon from "@/assets/form/GoogleIcon.png";
 import { useRouter } from "@/i18n/navigation";
 import axios from "@/lib/axios";
 import { auth, googleProvider } from "@/lib/firebase";
 import useAuthStore from "@/store/auth.store";
 import { signInWithPopup } from "firebase/auth";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function useGoogleAuth() {
+const GoogleLoginButton = () => {
+  const t = useTranslations("auth");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
 
-  // Function to handle Google sign-in with account type selection
-  const handleGoogleSignIn = async (accountType) => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -24,13 +27,14 @@ export default function useGoogleAuth() {
       const user = result.user;
 
       try {
-        // Send user data to backend API using axios instance
+        // Send user data to backend API for login verification
         const response = await axios.post("/google", {
           googleId: user.uid,
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-          accountType: accountType,
+          // accountType: "User", // Default to "User" for login
+          isLogin: true, // Flag to indicate this is a login request
         });
 
         // Handle response from API
@@ -65,8 +69,8 @@ export default function useGoogleAuth() {
           toast.error(response.data.message || "Failed to authenticate with Google");
         }
       } catch (apiError) {
-        console.error("Error during Google registration with backend:", apiError);
-        toast.error(apiError?.response?.data?.message || "Failed to register with Google");
+        console.error("Error during Google login:", apiError);
+        toast.error(apiError?.response?.data?.message || "Failed to login with Google");
       }
     } catch (error) {
       console.error("Error during Google sign-in:", error);
@@ -76,5 +80,21 @@ export default function useGoogleAuth() {
     }
   };
 
-  return { handleGoogleSignIn, isLoading };
-}
+  return (
+    <div
+      className="bg-gray mx-auto flex max-w-65.5 cursor-pointer items-center justify-center rounded-md py-[13px]"
+      onClick={handleGoogleLogin}
+    >
+      <Image
+        src={GoogleIcon}
+        alt={t("GoogleIconAltImg")}
+        width={24}
+        height={24}
+        className="mr-2 h-6 w-6"
+      />
+      <span>{t("ContinueWithGoogle")}</span>
+    </div>
+  );
+};
+
+export default GoogleLoginButton;
