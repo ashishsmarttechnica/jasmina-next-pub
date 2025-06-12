@@ -161,7 +161,8 @@
     "SelectAccountType": "Wählen Sie den Kontotyp",
     "Company": "Unternehmen",
     "Cancel": "Stornieren",
-    "ContinueWithGoogle": "Fahren Sie mit Google fort"
+    "ContinueWithGoogle": "Fahren Sie mit Google fort",
+    "SelectAccountTypeWarning": "Bitte wählen Sie einen Kontotyp, um fortzufahren"
   },
   "UserProfile": {
     "profile": {
@@ -312,7 +313,8 @@
       },
       "worklocationoption": {
         "remote": "Fernbedienung",
-        "onsite": "Vor Ort"
+        "onsite": "Vor Ort",
+        "both": "beide"
       },
       "industryoption": {
         "development": "Entwicklung",
@@ -332,7 +334,11 @@
       "JobPreferences": "Jobvorstellungen",
       "jobstype": "Jobtyp",
       "salaryrangeError": "Geben Sie Ihren erwarteten Gehaltsbereich ein (z. B. 50.000-70.000)",
-      "experienceError": "Geben Sie Ihre Gesamtjahre an Berufserfahrung ein"
+      "experienceError": "Geben Sie Ihre Gesamtjahre an Berufserfahrung ein",
+      "currency": "Währung",
+      "description": "Geben Sie Ihren erwarteten Gehaltsbereich ein (z. B. 50.000-70.000)",
+      "CurrencyDescription": "Wählen Sie die Währung für Ihren Gehaltsbereich aus",
+      "experienceDescription": "Geben Sie Ihre Gesamtjahre an Berufserfahrung ein"
     },
     "education": {
       "title": "Fügen Sie Ihre Ausbildung hinzu",
@@ -402,7 +408,19 @@
         "GamingInteractiveMedia": "Spiele",
         "BeautyWellness": "Schönheit"
       },
-      "duplicateLanguageError": "Diese Sprache wurde bereits ausgewählt"
+      "duplicateLanguageError": "Diese Sprache wurde bereits ausgewählt",
+      "Position": "Position",
+      "positionOption": {
+        "senior": "Senior",
+        "mid": "Mitte",
+        "junior": "Junior",
+        "intern": "Praktikum",
+        "volunteer": "Freiwilliger",
+        "freelancer": "Freiberufler",
+        "manager": "Manager",
+        "director": "Direktor"
+      },
+      "positionError": "Position ist erforderlich"
     },
     "resume": {
       "title": "Laden Sie Ihren Lebenslauf hoch",
@@ -414,6 +432,33 @@
       "subTitle": "Präsentieren Sie Ihre Erfahrungen, Fähigkeiten und Erfolge.",
       "resumeError": "Bitte laden Sie eine Lebenslaufdatei hoch (PDF, doc, docx, tex).",
       "fileError": "Ungültiges Dateiformat. \nBitte laden Sie eine gültige Lebenslaufdatei hoch."
+    },
+    "currency": {
+      "usd": "USD",
+      "eur": "Eur",
+      "gbp": "GBP",
+      "inr": "INR",
+      "aed": "AED",
+      "cad": "CAD",
+      "aud": "Aud",
+      "jpy": "Jpy",
+      "chf": "CHF",
+      "nzd": "NZD",
+      "rub": "REIBEN",
+      "zar": "Zar",
+      "mxn": "Mxn",
+      "brl": "Brl",
+      "ars": "Ars",
+      "clp": "Clp",
+      "cop": "POLIZIST",
+      "pen": "STIFT",
+      "uyu": "Uyu",
+      "pyg": "Pyg",
+      "vef": "Vef",
+      "vnd": "Vnd",
+      "zmw": "Zmw",
+      "xof": "Xof",
+      "xaf": "Xaf"
     }
   },
   "RoleError": "Rolle ist erforderlich.",
@@ -454,7 +499,8 @@
       },
       "countryError": "Land ist erforderlich.",
       "cityError": "Stadt ist erforderlich.",
-      "fullAddressError": "Eine vollständige Adresse ist erforderlich."
+      "fullAddressError": "Eine vollständige Adresse ist erforderlich.",
+      "location": "Standort"
     },
     "media": {
       "subTitle": "Präsentieren Sie das Logo, die Website und die Social -Media -Profile Ihres Unternehmens.",
@@ -648,7 +694,8 @@
   },
   "Validation": {
     "personal": {
-      "phoneInvalid": "Ungültiges Telefonnummernformat (10 Ziffern erforderlich)"
+      "phoneInvalid": "Ungültiges Telefonnummernformat (10 Ziffern erforderlich)",
+      "dobFutureDateNotAllowed": "Zukünftiges Datum nicht erlaubt"
     }
   },
   "CreateJob": {

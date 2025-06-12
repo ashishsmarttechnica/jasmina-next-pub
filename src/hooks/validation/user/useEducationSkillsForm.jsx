@@ -59,6 +59,7 @@ const useEducationSkillsForm = () => {
       if (!exp.startDate) newErrors[`experience-${index}-startDate`] = t("startDateError");
       if (!exp.endDate) newErrors[`experience-${index}-endDate`] = t("endDateError");
       if (!exp.location) newErrors[`experience-${index}-location`] = t("locationError");
+      if (!exp.position) newErrors[`experience-${index}-position`] = t("positionError");
 
       // Date validation: Check if end date is before start date
       if (exp.startDate && exp.endDate) {
@@ -75,7 +76,7 @@ const useEducationSkillsForm = () => {
   };
 
 
-  
+
 
   const clearFieldError = (fieldKey) => {
     setErrors((prev) => {

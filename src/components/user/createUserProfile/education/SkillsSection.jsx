@@ -85,6 +85,9 @@ const SkillsSection = ({
             onChange={(e) => handleChange("skillsList", index, "category", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-category`)}
             error={errors[`skill-${index}-category`]}
+            isOther={true}
+            isSearchable={true}
+            // isMulti={true}
           />
         </div>
       ))}

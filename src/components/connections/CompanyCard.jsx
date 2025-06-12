@@ -43,10 +43,13 @@ const CompanyCard = ({ company }) => {
     );
   };
 
+  console.log(company);
+
   return (
     <div
-      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
-        }`}
+      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
+        isRemoving ? "translate-x-full transform opacity-0" : ""
+      }`}
     >
       {/* Logo and Info */}
       <div
@@ -54,25 +57,25 @@ const CompanyCard = ({ company }) => {
         onClick={() => handleProfile(company.details)}
       >
         <ImageFallback
-          src={company.details.logoUrl && getImg(company.details.logoUrl)}
+          src={company?.details?.logoUrl && getImg(company?.details?.logoUrl)}
           width={48}
           height={48}
-          alt={company.details?.companyName || "Company"}
+          alt={company?.details?.companyName || "Company"}
           className="h-12 w-12 rounded-lg object-cover"
         />
         <div className="min-w-0 flex-1">
           <div
             className="text-custBlack cursor-pointer truncate font-semibold"
-            onClick={() => handleProfile(company.details)}
+            onClick={() => handleProfile(company?.details)}
           >
-            {company.details?.companyName}
+            {company?.details?.companyName}
           </div>
-          <div className="text-grayBlueText truncate text-sm">{company.details?.industryType}</div>
+          <div className="text-grayBlueText truncate text-sm">{company?.details?.industryType}</div>
           <div className="text-grayBlueText mt-0.5 flex items-center gap-1 text-xs">
             <FaMapMarkerAlt className="text-primary" />
             <span className="truncate">
               {" "}
-              {company.details?.city}, {company.details?.country}
+              {company?.details?.city}, {company?.details?.country}
             </span>
           </div>
         </div>
@@ -94,14 +97,13 @@ const CompanyCard = ({ company }) => {
           </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">
-         {company.details.createdAt &&
-            `${t("connecton")} ${new Date(company.details.createdAt).toLocaleDateString("en-US", {
+          {company?.details?.createdAt &&
+            `${t("connecton")} ${new Date(company?.details?.createdAt).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
               year: "numeric",
             })}`}
         </div>
-
       </div>
     </div>
   );

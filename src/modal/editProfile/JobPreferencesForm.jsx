@@ -1,7 +1,10 @@
 "use client";
 
 import InputField from "@/common/InputField";
+import Selecter from "@/common/Selecter";
+import JobTypeButton from "@/components/user/createUserProfile/JobTypeButton";
 import {
+  useCurrencyOptions,
   useIndustryOptions,
   useJobTypeOptions,
   useRoleOptions,
@@ -9,15 +12,13 @@ import {
 } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import CustomDatePicker from "@/common/DatePicker";
-import Selecter from "@/common/Selecter";
-import JobTypeButton from "@/components/user/createUserProfile/JobTypeButton";
 
 const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldError }, ref) => {
   const [localData, setLocalData] = useState({
     jobRole: "",
     jobType: "",
     salaryRange: "",
+    currency: "USD",
     joindate: "",
     workLocation: "",
     experience: "",
@@ -28,9 +29,11 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
   const jobTypeOptions = useJobTypeOptions();
   const workLocationOptions = useWorkLocationOptions();
   const industryOptions = useIndustryOptions();
+  const currencyOptions = useCurrencyOptions();
 
   useEffect(() => {
     if (initialData) {
+     
       setLocalData({
         jobRole: initialData.jobRole || "",
         jobType: Array.isArray(initialData.jobType)
@@ -39,6 +42,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
         salaryRange: initialData.expectedSalaryRange || "",
         joindate: initialData.availableFrom || "",
         workLocation: initialData.preferredLocation || "",
+        currency: initialData.currency || "USD",
         experience:
           initialData.yearsOfExperience !== undefined ? String(initialData.yearsOfExperience) : "",
         industry: initialData.preferredIndustry || "",
@@ -109,6 +113,20 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
           />
           <p className="text-xs text-gray-500 md:col-span-2">{t("salaryrangeError")}</p>
         </div>
+
+        <div className="flex flex-col">
+          <Selecter
+            name="currency"
+            label={`${t("currency") || "Currency"} *`}
+            value={localData.currency}
+            onChange={handleChange}
+            options={currencyOptions}
+            placeholder="Select Currency"
+            isSearchable
+          />
+          <p className="mt-1 text-xs text-gray-500">{t("CurrencyDescription")}</p>
+        </div>
+
         <div>
           <InputField
             name="experience"
@@ -123,14 +141,14 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
           />
           <p className="text-xs text-gray-500 md:col-span-2">{t("experienceError")}</p>
         </div>
-        <CustomDatePicker
+        {/* <CustomDatePicker
           name="joindate"
           label={`${t("availablefrom")}`}
           value={localData.joindate}
           onChange={handleDateChange}
           error={errors.joindate}
           className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
-        />
+        /> */}
         <Selecter
           label={`${t("worklocation")}`}
           name="workLocation"

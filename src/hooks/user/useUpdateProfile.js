@@ -1,9 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserProfile } from "@/api/auth.api";
-import { toast } from "react-toastify";
-import useAuthStore from "@/store/auth.store";
 import { useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 export default function useUpdateProfile() {
   const queryClient = useQueryClient();

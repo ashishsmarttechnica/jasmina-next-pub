@@ -13,7 +13,7 @@ const useCompanyProfileForm = () => {
     // if (!formData.phoneNumber.trim())
     //   newErrors.phoneNumber = t("profile.phoneNumberError");
     if (!formData.country.trim()) newErrors.country = t("location.countryError");
-    if (!formData.city.trim()) newErrors.city = t("location.cityError");
+    // if (!formData.city.trim()) newErrors.city = t("location.cityError");
     if (!formData.fullAddress.trim()) newErrors.fullAddress = t("location.fullAddressError");
 
     // Handle industryType as either string or array

@@ -29,8 +29,6 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
 
   // Debug the countries data
-  console.log("Countries data in component:", countries);
-
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);
   const {
     data: cities,

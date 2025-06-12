@@ -1,9 +1,10 @@
 import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
+import { usePositionOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { FiPlusSquare } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
-
+import Selecter from "../../../../common/Selecter";
 const ExperienceSection = ({
   experienceList,
   addSection,
@@ -13,7 +14,7 @@ const ExperienceSection = ({
   clearFieldError,
 }) => {
   const t = useTranslations("UserProfile.education");
-
+  const positionOptions = usePositionOptions();
   const handleDateChange = (date, type, index) => {
     const formattedDate = date ? date.toISOString().split("T")[0] : "";
     handleChange("experienceList", index, type, formattedDate);
@@ -103,6 +104,16 @@ const ExperienceSection = ({
             onChange={(e) => handleChange("experienceList", index, "location", e.target.value)}
             onBlur={() => clearFieldError(`experience-${index}-location`)}
             error={errors[`experience-${index}-location`]}
+          />
+          <Selecter
+            label={`${t("Position")}*`}
+            name={`position-${index}`}
+            value={experience.position}
+            onChange={(e) => handleChange("experienceList", index, "position", e.target.value)}
+            error={errors[`experience-${index}-position`]}
+            options={positionOptions}
+            placeholder={t("Position")}
+            isOther={true}
           />
         </div>
       ))}

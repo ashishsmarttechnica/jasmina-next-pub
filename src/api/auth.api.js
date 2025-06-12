@@ -21,9 +21,10 @@ export const resendOtp = async ({ email }) => {
   return res.data;
 };
 
-export const getUser = async (id) => {
-  const res = await axios.get(`/get/profile/?id=${id}`);
-  // console.log("API response:", res.data); // log the entire response
+export const getUser = async (id, userId) => {
+  const res = await axios.get(
+    `/get/profile/?profileId=${id}${userId ? `&viewerId=${userId}` : ""}`
+  );
   return res.data;
 };
 

@@ -162,7 +162,8 @@
     "SelectAccountType": "Sélectionner le type de compte",
     "Company": "Entreprise",
     "Cancel": "Annuler",
-    "ContinueWithGoogle": "Continuez avec Google"
+    "ContinueWithGoogle": "Continuez avec Google",
+    "SelectAccountTypeWarning": "Veuillez sélectionner un type de compte pour continuer"
   },
   "UserProfile": {
     "profile": {
@@ -313,7 +314,8 @@
       },
       "worklocationoption": {
         "remote": "Télécommande",
-        "onsite": "Sur place"
+        "onsite": "Sur place",
+        "both": "les deux"
       },
       "industryoption": {
         "development": "Développement",
@@ -332,7 +334,11 @@
       "JobPreferences": "Préférences professionnelles",
       "jobstype": "Type d'emploi",
       "salaryrangeError": "Entrez votre gamme de salaire attendue (par exemple, 50 000 à 70 000)",
-      "experienceError": "Entrez vos années totales d'expérience professionnelle"
+      "experienceError": "Entrez vos années totales d'expérience professionnelle",
+      "currency": "Devise",
+      "description": "Entrez votre gamme de salaire attendue (par exemple, 50 000 à 70 000)",
+      "CurrencyDescription": "Sélectionnez la devise pour votre gamme de salaire",
+      "experienceDescription": "Entrez vos années totales d'expérience professionnelle"
     },
     "education": {
       "title": "Ajoutez votre éducation",
@@ -402,7 +408,19 @@
         "GamingInteractiveMedia": "Jeu",
         "BeautyWellness": "Beauté"
       },
-      "duplicateLanguageError": "Cette langue a déjà été sélectionnée"
+      "duplicateLanguageError": "Cette langue a déjà été sélectionnée",
+      "Position": "Position",
+      "positionOption": {
+        "senior": "Senior",
+        "mid": "Milieu",
+        "junior": "Junior",
+        "intern": "Interne",
+        "volunteer": "Bénévole",
+        "freelancer": "Pigiste",
+        "manager": "Directeur",
+        "director": "Directeur"
+      },
+      "positionError": "La position est requise"
     },
     "resume": {
       "title": "Téléchargez votre CV",
@@ -414,6 +432,33 @@
       "subTitle": "Présentez votre expérience, vos compétences et vos réalisations.",
       "fileError": "Format de fichier non valide. \nVeuillez télécharger un fichier de CV valide.",
       "resumeError": "Veuillez télécharger un fichier de CV (PDF, DOC, DOCX, Tex)."
+    },
+    "currency": {
+      "usd": "USD",
+      "eur": "Eur",
+      "gbp": "GBP",
+      "inr": "INR",
+      "aed": "SIE",
+      "cad": "GOUJAT",
+      "aud": "Aud",
+      "jpy": "JPY",
+      "chf": "CHF",
+      "nzd": "NZD",
+      "rub": "FROTTER",
+      "zar": "Zar",
+      "mxn": "Mxn",
+      "brl": "BRL",
+      "ars": "ARS",
+      "clp": "CLP",
+      "cop": "FLIC",
+      "pen": "STYLO",
+      "uyu": "Uyu",
+      "pyg": "Pyg",
+      "vef": "Vef",
+      "vnd": "Vnd",
+      "zmw": "Zmw",
+      "xof": "Xof",
+      "xaf": "Xaf"
     }
   },
   "RoleError": "Un rôle requis.",
@@ -454,7 +499,8 @@
       },
       "countryError": "Le pays est requis.",
       "cityError": "La ville est requise.",
-      "fullAddressError": "Une adresse complète est requise."
+      "fullAddressError": "Une adresse complète est requise.",
+      "location": "Emplacement"
     },
     "media": {
       "subTitle": "Présentez les profils de logo, de site Web et de médias sociaux de votre entreprise.",
@@ -648,7 +694,8 @@
   },
   "Validation": {
     "personal": {
-      "phoneInvalid": "Format de numéro de téléphone non valide (10 chiffres requis)"
+      "phoneInvalid": "Format de numéro de téléphone non valide (10 chiffres requis)",
+      "dobFutureDateNotAllowed": "Date future non autorisée"
     }
   },
   "CreateJob": {

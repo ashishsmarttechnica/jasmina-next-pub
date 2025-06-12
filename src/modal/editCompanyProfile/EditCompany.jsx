@@ -144,7 +144,13 @@ const EditCompany = ({ userData, onClose }) => {
         setSelectedCompanyImageFile={setSelectedCompanyImageFile}
       />
 
-      <CompanyLocationForm formData={formData} errors={errors} handleChange={handleChange} />
+      <CompanyLocationForm
+        formData={formData}
+        errors={errors}
+        handleChange={handleChange}
+        setFormData={setFormData}
+        clearFieldError={clearFieldError}
+      />
 
       <CompanySizeForm formData={formData} errors={errors} handleChange={handleChange} />
 

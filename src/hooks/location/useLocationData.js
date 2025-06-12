@@ -12,18 +12,7 @@ export const useCountries = () => {
     queryFn: async () => {
       try {
         // Direct API call with debugging
-        console.log("Making countries API request...");
-        const response = await axiosInstance.get(`get/countries`);
-        console.log("Countries API response received:", response);
-
-        // Log the data structure for debugging
-        if (response.data) {
-          console.log("Response data keys:", Object.keys(response.data));
-          console.log(
-            "Response data structure:",
-            JSON.stringify(response.data).slice(0, 200) + "..."
-          );
-        }
+        const response = await axiosInstance.get(`get/countries?limit=226`);
 
         // Handle different possible response formats
         if (response.data) {

@@ -222,7 +222,8 @@
     "User": "User",
     "Company": "Company",
     "Cancel": "Cancel",
-    "PleaseSelectAccountType": "Please select an account type"
+    "PleaseSelectAccountType": "Please select an account type",
+    "SelectAccountTypeWarning": "Please select an account type to continue"
   },
   "UserProfile": {
     "userprofilemenu": {
@@ -378,7 +379,8 @@
       "worklocation": "Preferred Work Location",
       "worklocationoption": {
         "remote": "Remote",
-        "onsite": "Onsite"
+        "onsite": "Onsite",
+        "both": "both"
       },
       "SelectWorkLocation": "Select Location",
       "industry": "Preferred Industry (Optional)",
@@ -394,7 +396,11 @@
       "JoinDateFutureError": "Available from date must be in the future",
       "JobTypeError": "Job type is required.",
       "WorkLocationError": "Work location is required.",
-      "ExperienceError": "experience is required."
+      "ExperienceError": "experience is required.",
+      "currency": "Currency",
+      "description": " Enter your expected salary range (e.g., 50,000-70,000)",
+      "CurrencyDescription": "Select the currency for your salary range",
+      "experienceDescription": " Enter your total years of professional experience"
     },
     "education": {
       "title": "Add Your Education & Skills",
@@ -471,7 +477,19 @@
         "BeautyWellness": "Beauty & Wellness"
       },
       "invalidYearError": "Please enter a valid year",
-      "duplicateLanguageError": "This language has already been selected"
+      "duplicateLanguageError": "This language has already been selected",
+      "Position": "Position",
+      "positionOption": {
+        "senior": "Senior",
+        "mid": "Mid",
+        "junior": "Junior",
+        "intern": "Intern",
+        "volunteer": "Volunteer",
+        "freelancer": "Freelancer",
+        "manager": "Manager",
+        "director": "Director"
+      },
+      "positionError": "Position is required"
     },
     "resume": {
       "title": "Upload Your Resume",
@@ -483,6 +501,33 @@
       "Uploaded": "Uploaded",
       "resumeError": "Please upload a resume file (PDF, DOC, DOCX, TEX).",
       "fileError": "Invalid file format. Please upload a valid resume file."
+    },
+    "currency": {
+      "usd": "USD",
+      "eur": "EUR",
+      "gbp": "GBP",
+      "inr": "INR",
+      "aed": "AED",
+      "cad": "CAD",
+      "aud": "AUD",
+      "jpy": "JPY",
+      "chf": "CHF",
+      "nzd": "NZD",
+      "rub": "RUB",
+      "zar": "ZAR",
+      "mxn": "MXN",
+      "brl": "BRL",
+      "ars": "ARS",
+      "clp": "CLP",
+      "cop": "COP",
+      "pen": "PEN",
+      "uyu": "UYU",
+      "pyg": "PYG",
+      "vef": "VEF",
+      "vnd": "VND",
+      "zmw": "ZMW",
+      "xof": "XOF",
+      "xaf": "XAF"
     }
   },
   "CompanyProfile": {
@@ -551,7 +596,8 @@
       "companyLocationError": "Company location is required.",
       "countryError": "Country is required.",
       "cityError": "City is required.",
-      "fullAddressError": "Full Address is required."
+      "fullAddressError": "Full Address is required.",
+      "location": "Location"
     },
     "media": {
       "title": "Media",
@@ -660,7 +706,8 @@
       "phoneInvalid": "Invalid phone number format (10 digits required)",
       "locationRequired": "Location is required",
       "linkedinInvalid": "Invalid LinkedIn URL format",
-      "emailInvalid": "Invalid email format"
+      "emailInvalid": "Invalid email format",
+      "dobFutureDateNotAllowed": "Future Date Not Allowed"
     },
     "job": {
       "jobRoleRequired": "Job role is required",

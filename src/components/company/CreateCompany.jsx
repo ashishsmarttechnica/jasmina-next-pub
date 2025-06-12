@@ -32,6 +32,7 @@ const CreateCompany = () => {
     website: "",
     country: "",
     city: "",
+    location: "",
     fullAddress: "",
     industryType: [],
     companyType: "",
@@ -127,9 +128,21 @@ const CreateCompany = () => {
         setSelectedCompanyImageFile={setSelectedCompanyImageFile}
       />
 
-      <CompanyLocationForm formData={formData} errors={errors} handleChange={handleChange} />
+      <CompanyLocationForm
+        formData={formData}
+        errors={errors}
+        handleChange={handleChange}
+        setFormData={setFormData}
+        clearFieldError={clearFieldError}
+      />
 
-      <CompanySizeForm formData={formData} errors={errors} handleChange={handleChange} />
+      <CompanySizeForm
+        formData={formData}
+        setFormData={setFormData}
+        errors={errors}
+        clearFieldError={clearFieldError}
+        handleChange={handleChange}
+      />
 
       <CompanyMediaForm
         formData={formData}

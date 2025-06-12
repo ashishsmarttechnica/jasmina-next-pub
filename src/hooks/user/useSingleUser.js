@@ -3,15 +3,16 @@
 import { getUser } from "@/api/auth.api";
 import useSingleUserStore from "@/store/singleUser.store";
 import { useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 
 export const useSingleUser = (userId) => {
   const { setUserData, setLoading, setError } = useSingleUserStore();
-
+  const viewUserId = Cookies.get("userId");
   return useQuery({
     queryKey: ["singleUser", userId],
     queryFn: async () => {
       try {
-        const res = await getUser(userId);
+        const res = await getUser(userId , viewUserId );
         if (res?.success) {
           setUserData(res.data);
           return res.data;

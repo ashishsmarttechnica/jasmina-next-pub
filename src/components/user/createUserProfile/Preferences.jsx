@@ -1,10 +1,12 @@
 import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
 import Selecter from "@/common/Selecter";
+import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import usePreferencesForm from "@/hooks/validation/user/usePreferencesForm";
 import useAuthStore from "@/store/auth.store";
 import {
+  useCurrencyOptions,
   useIndustryOptions,
   useJobTypeOptions,
   useRoleOptions,
@@ -13,7 +15,6 @@ import {
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
-import ReusableForm from "@/components/form/ReusableForm";
 import JobTypeButton from "./JobTypeButton";
 
 const Preferences = ({ setActiveTab }) => {
@@ -26,11 +27,13 @@ const Preferences = ({ setActiveTab }) => {
   const jobTypeOptions = useJobTypeOptions();
   const workLocationOptions = useWorkLocationOptions();
   const industryOptions = useIndustryOptions();
+  const currencyOptions = useCurrencyOptions();
 
   const [formData, setFormData] = useState({
     role: "",
     jobType: "",
     salaryRange: "",
+    currency: "USD", // Default currency
     joindate: "",
     workLocation: "",
     experience: "",
@@ -68,6 +71,7 @@ const Preferences = ({ setActiveTab }) => {
     submitData.append("preferences.jobRole", formData.role);
     submitData.append("preferences.jobType", formData.jobType);
     submitData.append("preferences.expectedSalaryRange", formData.salaryRange);
+    submitData.append("preferences.currency", formData.currency);
     submitData.append("preferences.availableFrom", formData.joindate);
     submitData.append("preferences.preferredLocation", formData.workLocation);
     submitData.append("preferences.yearsOfExperience", +formData.experience);
@@ -75,7 +79,6 @@ const Preferences = ({ setActiveTab }) => {
       submitData.append("preferences.preferredIndustry", formData.industry);
     }
     submitData.append("steps", 2);
-
     updateProfile(submitData, {
       onSuccess: (res) => {
         if (res.success) {
@@ -92,6 +95,7 @@ const Preferences = ({ setActiveTab }) => {
         role: user.preferences.jobRole || "",
         jobType: user.preferences.jobType[0] || "",
         salaryRange: user.preferences.expectedSalaryRange || "",
+        currency: user.preferences.currency || "USD",
         joindate: user.preferences.availableFrom || "",
         workLocation: user.preferences.preferredLocation || "",
         experience: user.preferences.yearsOfExperience || "",
@@ -142,11 +146,22 @@ const Preferences = ({ setActiveTab }) => {
               type="text"
             />
             <p className="mt-1 text-xs text-gray-500">
-              Enter your expected salary range (e.g., 50,000-70,000)
+              {t("description")}
             </p>
           </div>
-          {/* extra div for spacing */}
-          <div className=""></div>
+
+          <div className="flex flex-col">
+            <Selecter
+              name="currency"
+              label={`${t("currency") || "Currency"} *`}
+              value={formData.currency}
+              onChange={handleChange}
+              options={currencyOptions}
+              placeholder="Select Currency"
+              isSearchable
+            />
+            <p className="mt-1 text-xs text-gray-500">{t("CurrencyDescription")}</p>
+          </div>
 
           <div className="flex flex-col">
             <InputField
@@ -159,7 +174,7 @@ const Preferences = ({ setActiveTab }) => {
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
             <p className="mt-1 text-xs text-gray-500">
-              Enter your total years of professional experience
+              {t("experienceDescription")}
             </p>
           </div>
           {/* <Selecter

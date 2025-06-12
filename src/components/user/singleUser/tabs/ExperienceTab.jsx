@@ -1,10 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import React from "react";
 
 const ExperienceTab = ({ experience }) => {
-  const t= useTranslations("UserProfile.profile.singleprofileTab");
+  const t = useTranslations("UserProfile.profile.singleprofileTab");
   // Handle empty or missing experience
   if (!experience || !Array.isArray(experience) || experience.length === 0) {
     return (
@@ -25,9 +24,20 @@ const ExperienceTab = ({ experience }) => {
               <h3 className="font-medium">{item.companyName || "N/A"}</h3>
               <h4 className="text-gray-500">{item.position || "N/A"}</h4>
               <p className="text-sm text-gray-500">
-                {item.yearsOfExperience != null && !isNaN(item.yearsOfExperience)
-                  ? `${item.yearsOfExperience} year${item.yearsOfExperience === 1 ? "" : "s"}`
-                  : "0 years"}
+                {item.startDate && item.endDate
+                  ? (() => {
+                      const startDate = new Date(item.startDate);
+                      const endDate =
+                        item.endDate === "Present" ? new Date() : new Date(item.endDate);
+                      const diffYears = Math.floor(
+                        (endDate - startDate) / (1000 * 60 * 60 * 24 * 365)
+                      );
+                      const diffMonths =
+                        Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24 * 30)) % 12;
+
+                      return `${startDate.toLocaleDateString()} - ${item.endDate === "Present" ? "Present" : endDate.toLocaleDateString()} (${diffYears} years ${diffMonths} months)`;
+                    })()
+                  : "Duration not specified"}
               </p>
             </div>
           ))}

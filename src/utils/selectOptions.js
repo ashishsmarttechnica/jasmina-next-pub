@@ -133,6 +133,7 @@ export const useWorkLocationOptions = () => {
   return [
     { label: `${t("worklocationoption.remote")}`, value: "remote" },
     { label: `${t("worklocationoption.onsite")}`, value: "on-site" },
+    { label: `${t("worklocationoption.both")}`, value: "both" },
   ];
 };
 
@@ -209,14 +210,69 @@ export const useIndustryTypeOptions = () => {
     { label: `${t("industryOption.nonprofitSocialImpact")}`, value: "Non-profit & Social Impact" },
     { label: `${t("industryOption.legal")}`, value: "Legal" },
     { label: `${t("industryOption.constructionRealEstate")}`, value: "Construction & Real Estate" },
-    { label: `${t("industryOption.manufacturingElectronics")}`, value: "Manufacturing Electronics" },
+    {
+      label: `${t("industryOption.manufacturingElectronics")}`,
+      value: "Manufacturing Electronics",
+    },
     { label: `${t("industryOption.energyUtilities")}`, value: "Energy & Utilities" },
-    { label: `${t("industryOption.transportationLogistics")}`, value: "Transportation & Logistics" },
-    { label: `${t("industryOption.consultingBusinessServices")}`, value: "Consulting & Business Services" },
+    {
+      label: `${t("industryOption.transportationLogistics")}`,
+      value: "Transportation & Logistics",
+    },
+    {
+      label: `${t("industryOption.consultingBusinessServices")}`,
+      value: "Consulting & Business Services",
+    },
     { label: `${t("industryOption.scienceResearch")}`, value: "Science & Research" },
     { label: `${t("industryOption.marketingAdvertising")}`, value: "Marketing & Advertising" },
     { label: `${t("industryOption.agricultureFood")}`, value: "Agriculture & Food" },
     { label: `${t("industryOption.gamingInteractiveMedia")}`, value: "Gaming & Interactive Media" },
     { label: `${t("industryOption.beautyWellness")}`, value: "Beauty & Wellness" },
+  ];
+};
+
+export const useCurrencyOptions = () => {
+  const t = useTranslations("UserProfile");
+
+  return [
+    { value: "USD", label: `USD ($) ${t("currency.usd") || "USD"}` },
+    { value: "EUR", label: `EUR (€) ${t("currency.eur") || "EUR"}` },
+    { value: "GBP", label: `GBP (£) ${t("currency.gbp") || "GBP"}` },
+    { value: "INR", label: `INR (₹) ${t("currency.inr") || "INR"}` },
+    { value: "AED", label: `AED (د.إ) ${t("currency.aed") || "AED"}` },
+    { value: "CAD", label: `CAD (C$) ${t("currency.cad") || "CAD"}` },
+    { value: "AUD", label: `AUD (A$) ${t("currency.aud") || "AUD"}` },
+    { value: "JPY", label: `JPY (¥) ${t("currency.jpy") || "JPY"}` },
+    { value: "CHF", label: `CHF (₣) ${t("currency.chf") || "CHF"}` },
+    { value: "NZD", label: `NZD (NZ$) ${t("currency.nzd") || "NZD"}` },
+    { value: "RUB", label: `RUB (₽) ${t("currency.rub") || "RUB"}` },
+    { value: "ZAR", label: `ZAR (R) ${t("currency.zar") || "ZAR"}` },
+    { value: "MXN", label: `MXN (MX$) ${t("currency.mxn") || "MXN"}` },
+    { value: "BRL", label: `BRL (R$) ${t("currency.brl") || "BRL"}` },
+    { value: "ARS", label: `ARS ($) ${t("currency.ars") || "ARS"}` },
+    { value: "CLP", label: `CLP ($) ${t("currency.clp") || "CLP"}` },
+    { value: "COP", label: `COP ($) ${t("currency.cop") || "COP"}` },
+    { value: "PEN", label: `PEN (S/) ${t("currency.pen") || "PEN"}` },
+    { value: "UYU", label: `UYU ($) ${t("currency.uyu") || "UYU"}` },
+    { value: "PYG", label: `PYG (₲) ${t("currency.pyg") || "PYG"}` },
+    { value: "VEF", label: `VEF (Bs.S) ${t("currency.vef") || "VEF"}` },
+    { value: "VND", label: `VND (₫) ${t("currency.vnd") || "VND"}` },
+    { value: "ZMW", label: `ZMW (K) ${t("currency.zmw") || "ZMW"}` },
+    { value: "XOF", label: `XOF (CFA) ${t("currency.xof") || "XOF"}` },
+    { value: "XAF", label: `XAF (FCFA) ${t("currency.xaf") || "XAF"}` },
+  ];
+};
+
+export const usePositionOptions = () => {
+  const t = useTranslations("UserProfile.education");
+  return [
+    { label: `${t("positionOption.senior")}`, value: "Senior" },
+    { label: `${t("positionOption.mid")}`, value: "Mid" },
+    { label: `${t("positionOption.junior")}`, value: "Junior" },
+    { label: `${t("positionOption.intern")}`, value: "Intern" },
+    { label: `${t("positionOption.volunteer")}`, value: "Volunteer" },
+    { label: `${t("positionOption.freelancer")}`, value: "Freelancer" },
+    { label: `${t("positionOption.manager")}`, value: "Manager" },
+    { label: `${t("positionOption.director")}`, value: "Director" },
   ];
 };

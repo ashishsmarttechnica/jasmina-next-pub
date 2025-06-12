@@ -44,44 +44,14 @@ const Selecter = ({
       ? normalizedValue.filter((val) => !options.some((opt) => opt.value === val))
       : [];
 
-  // Initialize and handle custom values
+  // Reset internal state when component is unmounted or value changes externally
   useEffect(() => {
-    if (isOther) {
-      if (isMulti) {
-        // For multi-select, handle custom values in localStorage
-        if (actualStorageKey && customValues.length > 0) {
-          localStorage.setItem(actualStorageKey, JSON.stringify(customValues));
-        }
-      } else if (isCustomValue && typeof value === "string") {
-        // Current value is custom for single-select
-        setInternalOtherValue(value);
-
-        // Save to localStorage if enabled
-        if (actualStorageKey) {
-          localStorage.setItem(actualStorageKey, value);
-        }
-      } else if (!value && actualStorageKey) {
-        // Try to restore from localStorage on init
-        const savedValue = localStorage.getItem(actualStorageKey);
-        if (savedValue) {
-          try {
-            // Try to parse as JSON for multi-select
-            const parsedValue = JSON.parse(savedValue);
-            if (isMulti && Array.isArray(parsedValue)) {
-              updateValue(parsedValue);
-            } else if (!isMulti) {
-              setInternalOtherValue(savedValue);
-            }
-          } catch (e) {
-            // If not valid JSON, use as string for single-select
-            if (!isMulti) {
-              setInternalOtherValue(savedValue);
-            }
-          }
-        }
-      }
+    // Reset editing state when dropdown closes
+    if (!isOpen) {
+      setIsEditingOther(false);
+      setInternalOtherValue("");
     }
-  }, [isOther, value, isCustomValue, actualStorageKey, isMulti, customValues]);
+  }, [isOpen]);
 
   // Focus the other input when editing mode is activated
   useEffect(() => {
@@ -97,6 +67,7 @@ const Selecter = ({
         setIsOpen(false);
         setSearchTerm("");
         setIsEditingOther(false);
+        setInternalOtherValue("");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -125,6 +96,8 @@ const Selecter = ({
   const handleSelect = (selectedValue) => {
     // If selecting "Other", enter editing mode
     if (selectedValue === INTERNAL_OTHER_MARKER) {
+      // Always start with a blank input field for new custom values
+      setInternalOtherValue("");
       setIsEditingOther(true);
       return;
     }
@@ -148,11 +121,13 @@ const Selecter = ({
   };
 
   const handleOtherConfirm = () => {
-    if (typeof internalOtherValue === "string" && internalOtherValue.trim()) {
+    const trimmedValue = internalOtherValue.trim();
+
+    if (trimmedValue) {
       if (isMulti) {
         // For multi-select, add the custom value to the array
-        if (!normalizedValue.includes(internalOtherValue)) {
-          const updatedValues = [...normalizedValue, internalOtherValue];
+        if (!normalizedValue.includes(trimmedValue)) {
+          const updatedValues = [...normalizedValue, trimmedValue];
           updateValue(updatedValues);
 
           // Save to localStorage if enabled
@@ -163,22 +138,24 @@ const Selecter = ({
             localStorage.setItem(actualStorageKey, JSON.stringify(customValues));
           }
         }
-
-        // Clear the input but keep dropdown open
-        setInternalOtherValue("");
-        setIsEditingOther(false);
       } else {
         // Update with the custom value directly for single-select
-        updateValue(internalOtherValue);
+        updateValue(trimmedValue);
 
         // Save to localStorage if enabled
         if (actualStorageKey) {
-          localStorage.setItem(actualStorageKey, internalOtherValue);
+          localStorage.setItem(actualStorageKey, trimmedValue);
         }
-
-        setIsOpen(false);
-        setIsEditingOther(false);
       }
+    }
+
+    // Always clear the input and close editing mode
+    setInternalOtherValue("");
+    setIsEditingOther(false);
+
+    // For single select, close the dropdown
+    if (!isMulti) {
+      setIsOpen(false);
     }
   };
 
@@ -206,6 +183,7 @@ const Selecter = ({
     e.stopPropagation();
     updateValue(isMulti ? [] : "");
     setSearchTerm("");
+    setInternalOtherValue("");
 
     // Clear localStorage for custom values
     if (isOther && actualStorageKey) {
@@ -215,8 +193,7 @@ const Selecter = ({
 
   const handleOtherInputChange = (e) => {
     e.stopPropagation();
-    const newValue = e.target.value;
-    setInternalOtherValue(newValue);
+    setInternalOtherValue(e.target.value);
   };
 
   const toggleDropdown = () => {
@@ -225,6 +202,7 @@ const Selecter = ({
       if (isOpen) {
         setSearchTerm("");
         setIsEditingOther(false);
+        setInternalOtherValue("");
       }
     }
   };
@@ -357,6 +335,7 @@ const Selecter = ({
                     onChange={handleOtherInputChange}
                     onKeyPress={handleKeyPress}
                     placeholder="Enter custom value"
+                    autoFocus
                     className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 flex-1 rounded border px-3 py-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
                   />
                   <button

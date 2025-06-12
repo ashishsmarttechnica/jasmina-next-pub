@@ -108,7 +108,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     submitData.append("profile.fullName", formData.name);
     submitData.append("profile.userName", formData.username);
     submitData.append("profile.gender", formData.gender);
-    submitData.append("profile.pronoun", formData.pronoun);
+    submitData.append("profile.pronounce", formData.pronoun);
     submitData.append("profile.dob", formData.dob);
     submitData.append("profile.phone", formData.phone);
     submitData.append("profile.location", formData.location);
@@ -140,7 +140,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         name: user.profile.fullName || "",
         username: user.profile.userName || "",
         gender: user.profile.gender || "",
-        pronoun: user.profile.pronoun || "",
+        pronoun: user.profile.pronounce || "",
         dob: user.profile.dob || "",
         phone: user.profile.phone || "",
         location: user.profile.location || "",

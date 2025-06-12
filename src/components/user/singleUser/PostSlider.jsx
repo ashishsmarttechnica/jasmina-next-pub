@@ -241,7 +241,7 @@ function PostCardSingle({ post, userData }) {
       {/* Footer */}
       <div className="flex items-center justify-between border-t border-black/10 p-3 text-[12px] text-gray-500 sm:p-[17px] sm:text-[13px]">
         <div className="flex flex-wrap gap-3 sm:gap-4">
-          {localPost.isLiked ? (
+          {localPost.isLike ? (
             <span
               className={`flex items-center gap-1 ${isUnliking ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
               onClick={() => handleUnlike(localPost._id)}

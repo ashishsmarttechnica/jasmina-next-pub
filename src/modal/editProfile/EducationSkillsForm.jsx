@@ -10,7 +10,7 @@ const EducationSkillsForm = forwardRef(
       educationList: [{ degree: "", passingyear: "", schoolname: "", board: "" }],
       skillsList: [{ skill: "", proficiency: "", experience: "", category: "" }],
       languagesList: [{ languages: "", proficiency: "" }],
-      experienceList: [{ companyName: "", role: "", startDate: "", endDate: "", location: "" }],
+      experienceList: [{ companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" }],
     });
 
     useEffect(() => {
@@ -45,6 +45,7 @@ const EducationSkillsForm = forwardRef(
                 startDate: exp.startDate || "",
                 endDate: exp.endDate || "",
                 location: exp.location || "",
+                position: exp.position || "",
               }))
             : prev.experienceList,
         }));
@@ -86,7 +87,7 @@ const EducationSkillsForm = forwardRef(
             ...prevData,
             experienceList: [
               ...prevData.experienceList,
-              { companyName: "", role: "", startDate: "", endDate: "", location: "" },
+              { companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" },
             ],
           };
         }

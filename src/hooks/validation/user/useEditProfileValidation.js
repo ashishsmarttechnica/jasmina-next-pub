@@ -42,35 +42,31 @@ const useEditProfileValidation = () => {
     //     newErrors.dob = t("personal.dobMinAge");
     //   }
     // }
-    if (!data?.dob) {
-  newErrors.dob = t("personal.dobRequired");
-} else {
-  const dobDate = new Date(data.dob);
-  const today = new Date();
 
-  if (dobDate > today) {
-    newErrors.dob = t("personal.dobFutureDateNotAllowed");
-  } else {
-    const age = today.getFullYear() - dobDate.getFullYear();
-    const monthDiff = today.getMonth() - dobDate.getMonth();
-    const dayDiff = today.getDate() - dobDate.getDate();
+    // if (!data?.dob) {
+    //   newErrors.dob = t("personal.dobRequired");
+    // } else {
+    //   const dobDate = new Date(data.dob);
+    //   const today = new Date();
 
-    const isBeforeBirthday = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0);
-    const actualAge = isBeforeBirthday ? age - 1 : age;
+    //   if (dobDate > today) {
+    //     newErrors.dob = t("personal.dobFutureDateNotAllowed");
+    //   } else {
+    //     const age = today.getFullYear() - dobDate.getFullYear();
+    //     const monthDiff = today.getMonth() - dobDate.getMonth();
+    //     const dayDiff = today.getDate() - dobDate.getDate();
 
-    if (actualAge < 16) {
-      newErrors.dob = t("personal.dobMinAge");
-    }
-  }
-}
+    //     const isBeforeBirthday = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0);
+    //     const actualAge = isBeforeBirthday ? age - 1 : age;
 
-
-
+    //     if (actualAge < 16) {
+    //       newErrors.dob = t("personal.dobMinAge");
+    //     }
+    //   }
+    // }
 
     if (!data?.phone?.trim()) {
       newErrors.phone = t("personal.phoneRequired");
-    } else if (!/^\d{10}$/.test(data.phone.trim())) {
-      newErrors.phone = t("personal.phoneInvalid");
     }
 
     if (!data?.location?.trim()) {
@@ -104,15 +100,15 @@ const useEditProfileValidation = () => {
       newErrors.salaryRange = t("job.salaryRangeRequired");
     }
 
-    if (!data?.joindate) {
-      newErrors.joindate = t("job.joindateRequired");
-    } else {
-      const joinDate = new Date(data.joindate);
-      const today = new Date();
-      if (joinDate < today) {
-        newErrors.joindate = t("job.joindateFuture");
-      }
-    }
+    // if (!data?.joindate) {
+    //   newErrors.joindate = t("job.joindateRequired");
+    // } else {
+    //   const joinDate = new Date(data.joindate);
+    //   const today = new Date();
+    //   if (joinDate < today) {
+    //     newErrors.joindate = t("job.joindateFuture");
+    //   }
+    // }
 
     if (!data?.workLocation?.trim()) {
       newErrors.workLocation = t("job.workLocationRequired");
@@ -122,9 +118,9 @@ const useEditProfileValidation = () => {
       newErrors.experience = t("job.experienceRequired");
     }
 
-    if (data?.industry?.trim() === "") {
-      newErrors.industry = t("job.industryRequired");
-    }
+    // if (data?.industry?.trim() === "") {
+    //   newErrors.industry = t("job.industryRequired");
+    // }
 
     return newErrors;
   };
@@ -169,9 +165,9 @@ const useEditProfileValidation = () => {
         if (!skill.proficiency) {
           newErrors[`skill-${index}-proficiency`] = t("skills.proficiencyRequired");
         }
-        if (!skill.experience) {
-          newErrors[`skill-${index}-experience`] = t("skills.skillExperienceRequired");
-        }
+        // if (!skill.experience) {
+        //   newErrors[`skill-${index}-experience`] = t("skills.skillExperienceRequired");
+        // }
         if (!skill.category) {
           newErrors[`skill-${index}-category`] = t("skills.categoryRequired");
         }

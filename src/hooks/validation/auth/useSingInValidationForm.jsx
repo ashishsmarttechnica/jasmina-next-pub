@@ -20,8 +20,6 @@ const useSingInValidationForm = () => {
       newErrors.password = t("PasswordLengthError");
     }
 
-
-
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;

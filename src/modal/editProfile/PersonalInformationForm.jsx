@@ -1,12 +1,12 @@
 "use client";
 
+import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
+import LocationSelector from "@/common/LocationSelector";
+import Selecter from "@/common/Selecter";
 import { useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
-import CustomDatePicker from "@/common/DatePicker";
-import LocationSelector from "@/common/LocationSelector";
-import Selecter from "@/common/Selecter";
 
 const PersonalInformationForm = forwardRef(
   ({ initialData, errors = {}, clearFieldError, email }, ref) => {
@@ -23,6 +23,7 @@ const PersonalInformationForm = forwardRef(
       isPrivate: false,
       pronoun: "",
     });
+    
     const genderOptions = useGenderOptions();
     const pronounOptions = usePronounOptions();
     useEffect(() => {
@@ -36,7 +37,7 @@ const PersonalInformationForm = forwardRef(
           location: initialData?.location || "",
           linkedin: initialData?.linkedin || "",
           email: initialData?.email || email || "",
-          pronoun: initialData?.pronoun || "",
+          pronoun: initialData?.pronounce || "",
           isPrivate: initialData?.isPrivate || false,
         });
       }

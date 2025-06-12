@@ -1,3 +1,4 @@
+import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import useEducationSkillsForm from "@/hooks/validation/user/useEducationSkillsForm";
 import useAuthStore from "@/store/auth.store";
@@ -5,7 +6,6 @@ import { useProficiencyOptions, useSkillCategoryOptions } from "@/utils/selectOp
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
-import ReusableForm from "@/components/form/ReusableForm";
 import EducationSection from "./education/EducationSection";
 import ExperienceSection from "./education/ExperienceSection";
 import LanguagesSection from "./education/LanguagesSection";
@@ -23,7 +23,7 @@ const EducationSkills = ({ setActiveTab }) => {
     educationList: [{ degree: "", passingyear: "", schoolname: "", board: "" }],
     skillsList: [{ skill: "", proficiency: "", experience: "", category: "" }],
     languagesList: [{ languages: "", proficiency: "" }],
-    experienceList: [{ companyName: "", role: "", startDate: "", endDate: "", location: "" }],
+    experienceList: [{ companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" }],
   });
 
   const { errors, validateForm, clearFieldError } = useEducationSkillsForm();
@@ -59,7 +59,7 @@ const EducationSkills = ({ setActiveTab }) => {
           ...prevData,
           experienceList: [
             ...prevData.experienceList,
-            { companyName: "", role: "", startDate: "", endDate: "", location: "" },
+            { companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" },
           ],
         };
       }
@@ -140,6 +140,7 @@ const EducationSkills = ({ setActiveTab }) => {
       submitData.append(`experience[${index}][startDate]`, exp.startDate);
       submitData.append(`experience[${index}][endDate]`, exp.endDate);
       submitData.append(`experience[${index}][location]`, exp.location);
+      submitData.append(`experience[${index}][position]`, exp.position);
     });
 
     submitData.append("steps", 3);
@@ -193,9 +194,10 @@ const EducationSkills = ({ setActiveTab }) => {
                 role: exp.jobTitle || "",
                 startDate: exp.startDate || "",
                 endDate: exp.endDate || "",
-                location: exp.location || "",
+                location: exp.location || "", 
+                position: exp.position || "",
               }))
-            : [{ companyName: "", role: "", startDate: "", endDate: "", location: "" }],
+            : [{ companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" }],
       }));
     }
   }, [user]);
@@ -225,9 +227,9 @@ const EducationSkills = ({ setActiveTab }) => {
 
         {/* Skills Section */}
         <SkillsSection
+          categoryOptions={skillCategoryOptions}
           skillsList={formData.skillsList}
           proficiencyOptions={proficiencyOptions}
-          skillCategoryOptions={skillCategoryOptions}
           addSection={addSection}
           removeSection={removeSection}
           handleChange={handleChange}

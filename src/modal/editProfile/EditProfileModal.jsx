@@ -1,8 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
-import { Button, Modal } from "rsuite";
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
@@ -11,10 +8,12 @@ import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useLocationStore from "@/store/location.store";
 import { useProficiencyOptions, useSkillCategoryOptions } from "@/utils/selectOptions";
+import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
+import { Button, Modal } from "rsuite";
 import EducationSkillsForm from "./EducationSkillsForm";
 import JobPreferencesForm from "./JobPreferencesForm";
 import PersonalInformationForm from "./PersonalInformationForm";
-
 
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
@@ -67,6 +66,8 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.dob", personalData.dob);
     formData.append("profile.phone", personalData.phone);
     formData.append("profile.location", personalData.location);
+    formData.append("profile.pronounce", personalData.pronoun);
+    formData.append("profile.isPrivate", personalData.isPrivate);
     if (personalData.linkedin) formData.append("profile.linkedin", personalData.linkedin);
     if (personalData.email) formData.append("profile.email", personalData.email);
 
@@ -74,6 +75,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("preferences.jobRole", preferencesData.jobRole);
     formData.append("preferences.jobType", preferencesData.jobType);
     formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
+    formData.append("preferences.currency", preferencesData.currency);
     formData.append("preferences.availableFrom", preferencesData.joindate);
     formData.append("preferences.preferredLocation", preferencesData.workLocation);
     formData.append("preferences.yearsOfExperience", preferencesData.experience);
@@ -109,6 +111,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       formData.append(`experience[${i}][startDate]`, exp.startDate);
       if (exp.endDate) formData.append(`experience[${i}][endDate]`, exp.endDate);
       formData.append(`experience[${i}][location]`, exp.location);
+      formData.append(`experience[${i}][position]`, exp.position);
     });
 
     // Photo

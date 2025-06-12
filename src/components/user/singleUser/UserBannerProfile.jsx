@@ -1,15 +1,14 @@
-import noImage2 from "@/assets/feed/no-img.png";
 import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
 import getImg from "@/lib/getImg";
+import EditProfileModal from "@/modal/editProfile/EditProfileModal";
+import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import EditProfileModal from "@/modal/editProfile/EditProfileModal";
-import ReportModel from "@/modal/ReportModel";
 const UserBannerProfile = ({
   userData,
   isLoading,
@@ -18,7 +17,7 @@ const UserBannerProfile = ({
   descriptionData,
   handleCloses,
 }) => {
-  const t = useTranslations('CompanyProfile.singleCompany');
+  const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
@@ -64,18 +63,11 @@ const UserBannerProfile = ({
               <div className="mt-3.5 flex gap-2">
                 <button className="connect-btn">{t("connect")}</button>
                 <button className="message-btn">{t("message")}</button>
-                <button
-                  className="flag-btn group"
-                  onClick={() => setIsModalOpen(true)}
-                >
+                <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
 
-                <ReportModel
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-
-                />
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )}
           </div>
@@ -86,7 +78,7 @@ const UserBannerProfile = ({
                 loading="lazy"
                 width={128}
                 height={128}
-                fallbackSrc={noImage2}
+                // fallbackSrc={noImage2}
                 alt="Profile"
                 className="h-full w-full object-cover"
               />

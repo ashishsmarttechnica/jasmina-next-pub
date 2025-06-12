@@ -162,7 +162,8 @@
     "SelectAccountType": "حدد نوع الحساب",
     "Company": "شركة",
     "Cancel": "يلغي",
-    "ContinueWithGoogle": "تابع مع Google"
+    "ContinueWithGoogle": "تابع مع Google",
+    "SelectAccountTypeWarning": "الرجاء تحديد نوع حساب للمتابعة"
   },
   "UserProfile": {
     "profile": {
@@ -313,7 +314,8 @@
       },
       "worklocationoption": {
         "remote": "بعيد",
-        "onsite": "في الموقع"
+        "onsite": "في الموقع",
+        "both": "كلاهما"
       },
       "industryoption": {
         "development": "تطوير",
@@ -333,7 +335,11 @@
       "JobPreferences": "تفضيلات العمل",
       "jobstype": "نوع الوظيفة",
       "salaryrangeError": "أدخل نطاق الرواتب المتوقع الخاص بك (على سبيل المثال ، 50000-70،000)",
-      "experienceError": "أدخل إجمالي سنوات خبرتك المهنية"
+      "experienceError": "أدخل إجمالي سنوات خبرتك المهنية",
+      "currency": "عملة",
+      "description": "أدخل نطاق الرواتب المتوقع الخاص بك (على سبيل المثال ، 50000-70،000)",
+      "CurrencyDescription": "حدد العملة لنطاق الرواتب الخاص بك",
+      "experienceDescription": "أدخل إجمالي سنوات خبرتك المهنية"
     },
     "education": {
       "title": "أضف تعليمك",
@@ -403,7 +409,19 @@
         "GamingInteractiveMedia": "الألعاب",
         "BeautyWellness": "جمال"
       },
-      "duplicateLanguageError": "تم اختيار هذه اللغة بالفعل"
+      "duplicateLanguageError": "تم اختيار هذه اللغة بالفعل",
+      "Position": "موضع",
+      "positionOption": {
+        "senior": "كبير",
+        "mid": "منتصف",
+        "junior": "مبتدئ",
+        "intern": "المتدرب",
+        "volunteer": "متطوع",
+        "freelancer": "مستقل",
+        "manager": "مدير",
+        "director": "مخرج"
+      },
+      "positionError": "الموقف مطلوب"
     },
     "resume": {
       "title": "تحميل سيرتك الذاتية",
@@ -415,6 +433,33 @@
       "subTitle": "عرض تجربتك ومهاراتك وإنجازاتك.",
       "resumeError": "يرجى تحميل ملف السيرة الذاتية (PDF ، DOC ، DOCX ، TEX).",
       "fileError": "تنسيق ملف غير صالح. \nيرجى تحميل ملف استئناف صالح."
+    },
+    "currency": {
+      "usd": "دولار أمريكي",
+      "eur": "يورو",
+      "gbp": "GBP",
+      "inr": "inr",
+      "aed": "درهم",
+      "cad": "CAD",
+      "aud": "Aud",
+      "jpy": "ين يابانى",
+      "chf": "CHF",
+      "nzd": "NZD",
+      "rub": "فرك",
+      "zar": "زار",
+      "mxn": "MXN",
+      "brl": "BRL",
+      "ars": "آرس",
+      "clp": "CLP",
+      "cop": "شرطي",
+      "pen": "قلم",
+      "uyu": "uyu",
+      "pyg": "pyg",
+      "vef": "VEF",
+      "vnd": "vnd",
+      "zmw": "ZMW",
+      "xof": "xof",
+      "xaf": "XAF"
     }
   },
   "RoleError": "الدور مطلوب.",
@@ -455,7 +500,8 @@
       },
       "countryError": "البلد مطلوب.",
       "cityError": "المدينة مطلوبة.",
-      "fullAddressError": "العنوان الكامل مطلوب."
+      "fullAddressError": "العنوان الكامل مطلوب.",
+      "location": "موقع"
     },
     "media": {
       "subTitle": "عرض شعار شركتك وموقع الويب وملامح وسائل التواصل الاجتماعي.",
@@ -649,7 +695,8 @@
   },
   "Validation": {
     "personal": {
-      "phoneInvalid": "تنسيق رقم الهاتف غير صالح (10 أرقام مطلوبة)"
+      "phoneInvalid": "تنسيق رقم الهاتف غير صالح (10 أرقام مطلوبة)",
+      "dobFutureDateNotAllowed": "التاريخ المستقبلي غير مسموح به"
     }
   },
   "CreateJob": {

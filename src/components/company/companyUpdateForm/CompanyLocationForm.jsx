@@ -1,25 +1,37 @@
+"use client";
 import InputField from "@/common/InputField";
-import Selecter from "@/common/Selecter";
+import LocationSelector from "@/common/LocationSelector";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import { useCallback } from "react";
 
-const CompanyLocationForm = ({ formData, errors, handleChange }) => {
+const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clearFieldError }) => {
   const t = useTranslations("CompanyProfile.location");
-  const countries = [
-    { label: `${t("countryoption.japan")}`, value: "japan" },
-    { label: `${t("countryoption.mexico")}`, value: "mexico" },
-    { label: `${t("countryoption.netherlands")}`, value: "netherlands" },
-    { label: `${t("countryoption.sweden")}`, value: "sweden" },
-    { label: `${t("countryoption.norway")}`, value: "norway" },
-  ];
+  // const countries = [
+  //   { label: `${t("countryoption.japan")}`, value: "japan" },
+  //   { label: `${t("countryoption.mexico")}`, value: "mexico" },
+  //   { label: `${t("countryoption.netherlands")}`, value: "netherlands" },
+  //   { label: `${t("countryoption.sweden")}`, value: "sweden" },
+  //   { label: `${t("countryoption.norway")}`, value: "norway" },
+  // ];
+
+  const handleLocationChange = useCallback(
+    (val) => {
+      if (val) {
+        setFormData((prev) => ({ ...prev, country: val }));
+        clearFieldError("location");
+      }
+    },
+    [clearFieldError]
+  );
+
   return (
     <>
-      <div className="text-center mb-4">
-        <p className="font-medium text-[15px] mt-7">{t("title")}</p>
+      <div className="mb-4 text-center">
+        <p className="mt-7 text-[15px] font-medium">{t("title")}</p>
         <p className="text-grayBlueText text-[13px]">{t("subTitle")}</p>
       </div>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-        <Selecter
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {/* <Selecter
           name="country"
           label={`${t("country")}*`}
           placeholder={t("placeholderCountry")}
@@ -27,8 +39,8 @@ const CompanyLocationForm = ({ formData, errors, handleChange }) => {
           onChange={handleChange}
           options={countries}
           error={errors.country}
-        />
-
+        /> */}
+        {/*
         <InputField
           label={`${t("city")} *`}
           type="text"
@@ -36,6 +48,15 @@ const CompanyLocationForm = ({ formData, errors, handleChange }) => {
           value={formData.city}
           onChange={handleChange}
           error={errors.city}
+        /> */}
+
+        {/* Location Selector Component */}
+      </div>
+      <div className="space-y-1">
+        <LocationSelector
+          value={formData.country}
+          onChange={handleLocationChange}
+          error={errors.country}
         />
       </div>
 
