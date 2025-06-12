@@ -4,7 +4,7 @@ import useLocationStore from "@/store/location.store";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
+const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) => {
   const t = useTranslations("Common");
   const {
     selectedCountry,
@@ -27,7 +27,6 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   const initialLoadDone = useRef(false);
 
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
-
   // Debug the countries data
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);
   const {
@@ -163,7 +162,17 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
 
       // Don't call onChange if locationString is empty or unchanged
       if (locationString) {
-        onChange(locationString);
+        // Find the country object that matches the selected country name
+        const countryObj = countries?.find((c) => c.country === selectedCountry) || null;
+
+        // If isLGBTQ prop is provided, pass both location string and isLGBTQ status
+        if (isLGBTQ !== undefined && countryObj) {
+          // For components that expect the enhanced functionality
+          onChange(locationString, { isLGBTQ: countryObj.isLGBTQ });
+        } else {
+          // For backward compatibility with existing components
+          onChange(locationString);
+        }
       }
 
       // Only trigger onFieldChange when location is fully complete
@@ -180,6 +189,8 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
     onChange,
     isLocationComplete,
     onFieldChange,
+    countries,
+    isLGBTQ,
   ]);
 
   // Handle country change
@@ -240,11 +251,17 @@ const LocationSelector = ({ value, onChange, error, onFieldChange }) => {
   const countryOptions = useMemo(() => {
     if (!countries || !Array.isArray(countries)) return [];
 
-    return countries.map((countryObj) => ({
+    // Filter countries based on isLGBTQ prop if provided
+    const filteredCountries =
+      isLGBTQ !== undefined
+        ? countries.filter((countryObj) => countryObj.isLGBTQ === isLGBTQ)
+        : countries;
+
+    return filteredCountries.map((countryObj) => ({
       label: countryObj.country,
       value: countryObj.country,
     }));
-  }, [countries]);
+  }, [countries, isLGBTQ]);
 
   const stateOptions = useMemo(() => {
     if (!states || !Array.isArray(states)) return [];

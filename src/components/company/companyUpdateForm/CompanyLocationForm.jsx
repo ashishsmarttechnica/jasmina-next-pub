@@ -1,11 +1,14 @@
 "use client";
 import InputField from "@/common/InputField";
 import LocationSelector from "@/common/LocationSelector";
+import { useCountries } from "@/hooks/location/useLocationData";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 
 const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clearFieldError }) => {
   const t = useTranslations("CompanyProfile.location");
+  const { data: countries } = useCountries();
+
   // const countries = [
   //   { label: `${t("countryoption.japan")}`, value: "japan" },
   //   { label: `${t("countryoption.mexico")}`, value: "mexico" },
@@ -15,13 +18,19 @@ const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clea
   // ];
 
   const handleLocationChange = useCallback(
-    (val) => {
-      if (val) {
-        setFormData((prev) => ({ ...prev, country: val }));
+    (locationString, countryData) => {
+      if (locationString) {
+        setFormData((prev) => ({
+          ...prev,
+          country: locationString,
+          // If countryData is provided, use its isLGBTQ property
+          ...(countryData && { isLGBTQ: countryData.isLGBTQ }),
+        }));
+
         clearFieldError("location");
       }
     },
-    [clearFieldError]
+    [clearFieldError, setFormData]
   );
 
   return (
@@ -57,6 +66,7 @@ const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clea
           value={formData.country}
           onChange={handleLocationChange}
           error={errors.country}
+          isLGBTQ={true}
         />
       </div>
 

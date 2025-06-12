@@ -30,7 +30,7 @@ export default function useGoogleAuth() {
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-          accountType: accountType,
+          entity: accountType,
         });
 
         // Handle response from API
