@@ -66,13 +66,13 @@ const AccountTypeSelector = ({ value, onChange }) => {
                 </span>
               </div>
 
-              {!value && (
+              {/* {!value && (
                 <div className="absolute top-2 right-2">
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 text-xs">
                     ?
                   </span>
                 </div>
-              )}
+              )} */}
 
 
             </label>
