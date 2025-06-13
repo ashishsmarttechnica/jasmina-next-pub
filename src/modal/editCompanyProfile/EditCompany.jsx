@@ -39,6 +39,7 @@ const EditCompany = ({ userData, onClose }) => {
     socialLinks: "",
     logoUrl: "",
     coverBannerUrl: "",
+    isLGBTQ: false,
   });
 
   const { errors, setErrors, validateForm, clearFieldError } = useCompanyProfileForm();
@@ -63,6 +64,7 @@ const EditCompany = ({ userData, onClose }) => {
         socialLinks: userData.socialLinks || "",
         logoUrl: userData.logoUrl || "",
         coverBannerUrl: userData.coverBannerUrl || "",
+        isLGBTQ: userData.isLGBTQ || false,
       });
       if (userData.coverBannerUrl) {
         setSelectedBannerimgImage(getImg(userData.coverBannerUrl));
@@ -105,7 +107,7 @@ const EditCompany = ({ userData, onClose }) => {
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);
-
+    submitData.append("isLGBTQFriendly", formData.isLGBTQ);
     if (formData.contact.trim() !== "") {
       submitData.append("contact", formData.contact);
     }

@@ -27,6 +27,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
   const initialLoadDone = useRef(false);
 
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
+
   // Debug the countries data
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);
   const {
@@ -251,17 +252,14 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
   const countryOptions = useMemo(() => {
     if (!countries || !Array.isArray(countries)) return [];
 
-    // Filter countries based on isLGBTQ prop if provided
-    const filteredCountries =
-      isLGBTQ !== undefined
-        ? countries.filter((countryObj) => countryObj.isLGBTQ === isLGBTQ)
-        : countries;
-
-    return filteredCountries.map((countryObj) => ({
+    // Return all countries without filtering
+    return countries.map((countryObj) => ({
       label: countryObj.country,
       value: countryObj.country,
     }));
-  }, [countries, isLGBTQ]);
+  }, [countries]);
+
+  // console.log(countryOptions);
 
   const stateOptions = useMemo(() => {
     if (!states || !Array.isArray(states)) return [];

@@ -183,7 +183,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
       </div>
       <div className="flex items-center justify-between border-t border-black/10 px-4 py-4 text-[13px] text-gray-500">
         <div className="flex flex-wrap items-center gap-5 select-none">
-          {post.isLiked ? (
+          {(post.isLiked || post.isLike) ? (
             <span
               className={`flex items-center gap-1 ${(isSinglePost ? isUnliking : isUnlikingMutation) ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
               onClick={() => handleUnlike(post._id)}

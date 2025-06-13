@@ -40,6 +40,7 @@ const CreateCompany = () => {
     tagline: "",
     description: "",
     socialLinks: "",
+    isLGBTQ: false,
   });
 
   const { errors, setErrors, validateForm, clearFieldError } = useCompanyProfileForm();
@@ -86,6 +87,7 @@ const CreateCompany = () => {
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);
+    submitData.append("isLGBTQFriendly", formData.isLGBTQ);
 
     if (typeof formData.contact === "string" && formData.contact.trim() !== "") {
       submitData.append("contact", formData.contact);

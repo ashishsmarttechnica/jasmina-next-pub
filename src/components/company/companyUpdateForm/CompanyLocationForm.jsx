@@ -1,13 +1,13 @@
 "use client";
 import InputField from "@/common/InputField";
 import LocationSelector from "@/common/LocationSelector";
-import { useCountries } from "@/hooks/location/useLocationData";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 
 const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clearFieldError }) => {
   const t = useTranslations("CompanyProfile.location");
-  const { data: countries } = useCountries();
+
+  // console.log(formData.isLGBTQ, "isLGBTQ");
 
   // const countries = [
   //   { label: `${t("countryoption.japan")}`, value: "japan" },
