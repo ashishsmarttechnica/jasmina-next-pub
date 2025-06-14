@@ -251,7 +251,32 @@
         "hethey": "هو/هم",
         "xe": "XE/XEM"
       },
-      "isPrivate": "معلومات الهوية الجنسية خاصة؟"
+      "isPrivate": "معلومات الهوية الجنسية خاصة؟",
+      "instagramLink": "رابط Instagram",
+      "instagramLinkPlaceholder": "أدخل رابط Instagram الخاص بك",
+      "xLinkPlaceholder": "أدخل رابط X الخاص بك",
+      "xLink": "رابط x",
+      "facebookLink": "رابط الفيسبوك",
+      "facebookLinkPlaceholder": "أدخل رابط Facebook الخاص بك",
+      "availabilityPlaceholder": "حدد مدى توفرك",
+      "availability": "توافر",
+      "availabilityOption": {
+        "openToWork": "مفتوح للعمل",
+        "lookingForWork": "تبحث عن عمل",
+        "freelancer": "مستقل",
+        "volunteer": "متطوع",
+        "intern": "المتدرب",
+        "remote": "بعيد",
+        "hybrid": "هجين",
+        "part-time": "دوام جزئى",
+        "full-time": "بدوام كامل"
+      },
+      "short_bioPlaceholder": "أدخل سيرتك الذاتية القصيرة",
+      "short_bio": "السيرة الذاتية القصيرة",
+      "ShortBioLengthError": "يجب أن يكون السيرة الذاتية القصيرة أقل من 100 حرف",
+      "InvalidInstagramLinkError": "رابط Instagram غير صالح",
+      "InvalidXLinkError": "رابط X غير صالح",
+      "InvalidFacebookLinkError": "رابط الفيسبوك غير صالح"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -510,7 +535,10 @@
       "description": "وصف",
       "tagline": "سطر الوصف",
       "uploadImage": "تحميل صورة لافتة",
-      "update": "تحديث"
+      "update": "تحديث",
+      "twitterLink": "رابط x",
+      "instagramLink": "رابط Instagram",
+      "facebookLink": "رابط الفيسبوك"
     },
     "industry": {
       "employeesPlaceholder": "اختر عدد الموظفين",
@@ -601,7 +629,11 @@
       "no": "لا",
       "connectionfound": "وجدت الاتصال",
       "connecton": "متصلة على"
-    }
+    },
+    "InvalidInstagramLinkError": "رابط Instagram غير صالح",
+    "InvalidLinkError": "رابط غير صالح",
+    "InvalidXLinkError": "رابط X غير صالح",
+    "InvalidFacebookLinkError": "رابط الفيسبوك غير صالح"
   },
   "Next": "",
   "UserHeader": {

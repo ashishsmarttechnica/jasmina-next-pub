@@ -251,7 +251,32 @@
         "hethey": "Il / ils",
         "xe": "Xe / xem"
       },
-      "isPrivate": "Les informations sur l'identité de genre sont privées?"
+      "isPrivate": "Les informations sur l'identité de genre sont privées?",
+      "instagramLink": "Lien Instagram",
+      "instagramLinkPlaceholder": "Entrez votre lien Instagram",
+      "xLinkPlaceholder": "Entrez votre lien x",
+      "xLink": "X lien",
+      "facebookLink": "Lien Facebook",
+      "facebookLinkPlaceholder": "Entrez votre lien Facebook",
+      "availabilityPlaceholder": "Sélectionnez votre disponibilité",
+      "availability": "Disponibilité",
+      "availabilityOption": {
+        "openToWork": "Ouvert au travail",
+        "lookingForWork": "Vous cherchez du travail",
+        "freelancer": "Pigiste",
+        "volunteer": "Bénévole",
+        "intern": "Interne",
+        "remote": "Télécommande",
+        "hybrid": "Hybride",
+        "part-time": "À temps partiel",
+        "full-time": "À temps plein"
+      },
+      "short_bioPlaceholder": "Entrez votre courte biographie",
+      "short_bio": "Bio courte",
+      "ShortBioLengthError": "La biographie courte doit être inférieure à 100 caractères",
+      "InvalidInstagramLinkError": "Lien Instagram non valide",
+      "InvalidXLinkError": "Lien x invalide",
+      "InvalidFacebookLinkError": "Lien Facebook non valide"
     },
     "userprofilemenu": {
       "education": "Éducation",
@@ -509,7 +534,10 @@
       "description": "Description",
       "tagline": "Slogan",
       "uploadImage": "Télécharger l'image de la bannière",
-      "update": "Mise à jour"
+      "update": "Mise à jour",
+      "twitterLink": "X lien",
+      "instagramLink": "Lien Instagram",
+      "facebookLink": "Lien Facebook"
     },
     "industry": {
       "employeesPlaceholder": "Sélectionnez le numéro d'employés",
@@ -600,7 +628,11 @@
       "no": "Non",
       "connectionfound": "Connexion trouvée",
       "connecton": "Connecté sur"
-    }
+    },
+    "InvalidInstagramLinkError": "Lien Instagram non valide",
+    "InvalidLinkError": "Lien non valide",
+    "InvalidXLinkError": "Lien x invalide",
+    "InvalidFacebookLinkError": "Lien Facebook non valide"
   },
   "Next": "",
   "UserHeader": {

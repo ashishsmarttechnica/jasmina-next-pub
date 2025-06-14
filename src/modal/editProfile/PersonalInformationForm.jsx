@@ -4,7 +4,7 @@ import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
 import LocationSelector from "@/common/LocationSelector";
 import Selecter from "@/common/Selecter";
-import { useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
+import { useAvailabilityOptions, useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
 
@@ -19,11 +19,18 @@ const PersonalInformationForm = forwardRef(
       phone: "",
       location: "",
       linkedin: "",
+      instagram: "",
+      x: "",
+      facebook: "",
       email: "",
       isPrivate: false,
       pronoun: "",
+      availabilty: "",
+      short_bio: "",
     });
-    
+
+    console.log(initialData, "initialData");
+    const availabilityOptions = useAvailabilityOptions();
     const genderOptions = useGenderOptions();
     const pronounOptions = usePronounOptions();
     useEffect(() => {
@@ -37,8 +44,13 @@ const PersonalInformationForm = forwardRef(
           location: initialData?.location || "",
           linkedin: initialData?.linkedin || "",
           email: initialData?.email || email || "",
+          instagram: initialData?.instagram || "",
+          x: initialData?.x || "",
+          facebook: initialData?.facebook || "",
           pronoun: initialData?.pronounce || "",
           isPrivate: initialData?.isPrivate || false,
+          availabilty: initialData?.availabilty || "",
+          short_bio: initialData?.short_bio || "",
         });
       }
     }, [initialData, email]);
@@ -159,7 +171,35 @@ const PersonalInformationForm = forwardRef(
             value={localData.linkedin}
             onChange={handleChange}
             error={errors.linkedin}
-            placeholder={t("LinkedInLinkPlaceholder")}
+            placeholder={t("LinkedInLinkPlaceholder") || "Enter your LinkedIn Link"}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+          />
+          <InputField
+            name="instagram"
+            label={`${t("instagramLink")} *`}
+            value={localData.instagram}
+            onChange={handleChange}
+            error={errors.instagram}
+            placeholder={t("instagramLinkPlaceholder") || "Enter your Instagram Link"}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+          />
+
+          <InputField
+            name="x"
+            label={`${t("xLink")} *`}
+            value={localData.x}
+            onChange={handleChange}
+            error={errors.x}
+            placeholder={t("xLinkPlaceholder") || "Enter your X Link"}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+          />
+          <InputField
+            name="facebook"
+            label={`${t("facebookLink")} *`}
+            value={localData.facebook}
+            onChange={handleChange}
+            error={errors.facebook}
+            placeholder={t("facebookLinkPlaceholder") || "Enter your Facebook Link"}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
           <InputField
@@ -171,7 +211,25 @@ const PersonalInformationForm = forwardRef(
             placeholder={t("emailPlaceholder")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
           />
+          <Selecter
+            name="availabilty"
+            label={`${t("availability")}`}
+            value={localData.availabilty}
+            onChange={handleChange}
+            options={availabilityOptions}
+            error={errors.availabilty}
+            isOther={true}
+            isClearable={true}
+          />
         </div>
+          <InputField
+            name="short_bio"
+            label={`${t("short_bio")}`}
+            value={localData.short_bio}
+            onChange={handleChange}
+            placeholder={t("short_bioPlaceholder")}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+          />
         <LocationSelector
           value={localData.location}
           onChange={handleLocationChange}

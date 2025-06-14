@@ -37,6 +37,9 @@ const EditCompany = ({ userData, onClose }) => {
     tagline: "",
     description: "",
     socialLinks: "",
+    instagramLink: "",
+    twitterLink: "",
+    facebookLink: "",
     logoUrl: "",
     coverBannerUrl: "",
     isLGBTQ: false,
@@ -65,6 +68,9 @@ const EditCompany = ({ userData, onClose }) => {
         logoUrl: userData.logoUrl || "",
         coverBannerUrl: userData.coverBannerUrl || "",
         isLGBTQ: userData.isLGBTQ || false,
+        instagramLink: userData.instagram || "",
+        twitterLink: userData.x || "",
+        facebookLink: userData.facebook || "",
       });
       if (userData.coverBannerUrl) {
         setSelectedBannerimgImage(getImg(userData.coverBannerUrl));
@@ -117,9 +123,11 @@ const EditCompany = ({ userData, onClose }) => {
     if (formData.description.trim() !== "") {
       submitData.append("description", formData.description);
     }
-    if (formData.socialLinks.trim() !== "") {
-      submitData.append("socialLinks", formData.socialLinks);
-    }
+
+    submitData.append("socialLinks", formData.socialLinks);
+    submitData.append("instagram", formData.instagramLink);
+    submitData.append("x", formData.twitterLink);
+    submitData.append("facebook", formData.facebookLink);
 
     if (selectedCompanyImageFile instanceof File) {
       submitData.append("logoUrl", selectedCompanyImageFile);

@@ -40,6 +40,9 @@ const CreateCompany = () => {
     tagline: "",
     description: "",
     socialLinks: "",
+    instagramLink: "",
+    twitterLink: "",
+    facebookLink: "",
     isLGBTQ: false,
   });
 
@@ -92,15 +95,22 @@ const CreateCompany = () => {
     if (typeof formData.contact === "string" && formData.contact.trim() !== "") {
       submitData.append("contact", formData.contact);
     }
+
     if (typeof formData.website === "string" && formData.website.trim() !== "") {
       submitData.append("website", formData.website);
     }
     if (typeof formData.description === "string" && formData.description.trim() !== "") {
       submitData.append("description", formData.description);
     }
-    if (typeof formData.socialLinks === "string" && formData.socialLinks.trim() !== "") {
-      submitData.append("socialLinks", formData.socialLinks);
-    }
+
+    // if (typeof formData.socialLinks === "string" && formData.socialLinks.trim() !== "") {
+    // }
+
+    submitData.append("socialLinks", formData.socialLinks);
+    submitData.append("instagram", formData.instagramLink);
+    submitData.append("x", formData.twitterLink);
+    submitData.append("facebook", formData.facebookLink);
+
 
     if (selectedCompanyImageFile instanceof File) {
       submitData.append("logoUrl", selectedCompanyImageFile);

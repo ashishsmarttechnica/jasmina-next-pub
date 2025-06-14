@@ -36,6 +36,39 @@ const useCompanyProfileForm = () => {
     // if (!formData.description.trim())
     //   newErrors.description = "Description is required.";
 
+    if (formData.instagramLink?.trim() !== "") {
+      try {
+        const url = new URL(formData.instagramLink);
+        if (!url.hostname.includes("instagram.com")) {
+          newErrors.instagramLink = t("InvalidInstagramLinkError") || "Invalid Instagram Link";
+        }
+      } catch {
+        newErrors.instagramLink = t("InvalidLinkError") || "Invalid Link";
+      }
+    }
+    // x link validation
+    if (formData.twitterLink?.trim() !== "") {
+      try {
+        const url = new URL(formData.twitterLink);
+        if (!url.hostname.includes("x.com")) {
+          newErrors.twitterLink = t("InvalidXLinkError") || "Invalid X Link";
+        }
+      } catch {
+        newErrors.twitterLink = t("InvalidLinkError") || "Invalid Link";
+      }
+    }
+    // facebook link validation
+    if (formData.facebookLink?.trim() !== "") {
+      try {
+        const url = new URL(formData.facebookLink);
+        if (!url.hostname.includes("facebook.com")) {
+          newErrors.facebookLink = t("InvalidFacebookLinkError") || "Invalid Facebook Link";
+        }
+      } catch {
+        newErrors.facebookLink = t("InvalidLinkError");
+      }
+    }
+
     if (!formData.phoneNumber) {
       newErrors.phoneNumber = t("profile.phoneNumberError");
     } else {

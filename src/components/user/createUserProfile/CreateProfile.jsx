@@ -10,7 +10,7 @@ import useProfileForm from "@/hooks/validation/user/useProfileForm";
 import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useLocationStore from "@/store/location.store";
-import { useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
+import { useAvailabilityOptions, useGenderOptions, usePronounOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { Loader } from "rsuite";
@@ -24,15 +24,21 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const { errors, setErrors, validateForm, clearFieldError } = useProfileForm();
+
   const [formData, setFormData] = useState({
     name: "",
     username: "",
     gender: "",
     pronoun: "",
+    availabilty: "",
     dob: "",
     phone: "",
     location: "",
     LinkedInLink: "",
+    instagramLink: "",
+    xLink: "",
+    facebookLink: "",
+    short_bio: "",
     isPrivate: false,
   });
 
@@ -40,6 +46,9 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
   const genderOptions = useGenderOptions();
   // pronoun options
   const pronounOptions = usePronounOptions();
+
+  // availabilty options
+  const availabilityOptions = useAvailabilityOptions();
 
   const handleChange = useCallback(
     (e) => {
@@ -81,6 +90,17 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     [clearFieldError]
   );
 
+  const handleLinkChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      if (value.trim() !== "") {
+        clearFieldError(name);
+      }
+    },
+    [clearFieldError]
+  );
+
   const handleDateChange = useCallback(
     (date) => {
       setFormData((prev) => ({ ...prev, dob: date }));
@@ -117,12 +137,22 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
     if (formData.LinkedInLink.trim() !== "") {
       submitData.append("profile.linkedin", formData.LinkedInLink);
     }
+    if (formData.instagramLink.trim() !== "") {
+      submitData.append("profile.instagram", formData.instagramLink);
+    }
+    if (formData.xLink.trim() !== "") {
+      submitData.append("profile.x", formData.xLink);
+    }
+    if (formData.facebookLink.trim() !== "") {
+      submitData.append("profile.facebook", formData.facebookLink);
+    }
+
+    submitData.append("profile.availabilty", formData.availabilty);
     if (selectedUserImageFile instanceof File && selectedImage !== Uploadimg) {
       submitData.append("profile.photo", selectedUserImageFile);
     }
-
+    submitData.append("profile.short_bio", formData.short_bio);
     submitData.append("steps", 1);
-
     updateProfile(submitData, {
       onSuccess: (res) => {
         if (res.success) {
@@ -141,10 +171,15 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
         username: user.profile.userName || "",
         gender: user.profile.gender || "",
         pronoun: user.profile.pronounce || "",
+        availabilty: user.profile.availabilty || "",
         dob: user.profile.dob || "",
         phone: user.profile.phone || "",
         location: user.profile.location || "",
         LinkedInLink: user.profile.linkedin || "",
+        instagramLink: user.profile.instagram || "",
+        xLink: user.profile.x || "",
+        facebookLink: user.profile.facebook || "",
+        short_bio: user.profile.short_bio || "",
         isPrivate: user.profile.isPrivate || false,
       }));
 
@@ -256,10 +291,63 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               name="LinkedInLink"
               value={formData.LinkedInLink}
               onChange={handleLinkedInChange}
-              placeholder={t("LinkedInLinkPlaceholder")}
+              placeholder={t("LinkedInLinkPlaceholder") || "Enter your LinkedIn Link"}
               error={errors.LinkedInLink}
             />
+
+            {/* Instagram */}
+            <InputField
+              label={`${t("instagramLink") || "Instagram Link"} `}
+              name="instagramLink"
+              value={formData.instagramLink}
+              onChange={handleLinkChange}
+              placeholder={t("instagramLinkPlaceholder") || "Enter your Instagram Link"}
+              error={errors.instagramLink}
+            />
+
+            {/* X */}
+            <InputField
+              label={`${t("xLink") || "X Link"} `}
+              name="xLink"
+              value={formData.xLink}
+              onChange={handleLinkChange}
+              placeholder={t("xLinkPlaceholder") || "Enter your X Link"}
+              error={errors.xLink}
+            />
+
+            {/* Facebook */}
+            <InputField
+              label={`${t("facebookLink") || "Facebook Link"} `}
+              name="facebookLink"
+              value={formData.facebookLink}
+              onChange={handleLinkChange}
+              placeholder={t("facebookLinkPlaceholder") || "Enter your Facebook Link"}
+              error={errors.facebookLink}
+            />
+
+            {/* Availability */}
+            <Selecter
+              name="availabilty"
+              label={`${t("availability")} `}
+              placeholder={t("availabilityPlaceholder") || "Select your availabilty"}
+              value={formData.availabilty}
+              onChange={handleChange}
+              options={availabilityOptions}
+              error={errors.availabilty}
+              isOther={true}
+              isClearable={true}
+            />
+
+            {/* Short Bio */}
           </div>
+          <InputField
+            label={`${t("short_bio")}`}
+            name="short_bio"
+            value={formData.short_bio}
+            onChange={handleChange}
+            placeholder={t("short_bioPlaceholder") || "Enter your short bio"}
+            error={errors.short_bio}
+          />
 
           {/* Location Selector Component */}
           <div className="space-y-1">

@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
-  const t = useTranslations('CompanyProfile.singleCompany');
+  const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
@@ -23,9 +23,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div
-        className={`flex items-center justify-between rounded-[5px]
-    ${userData.coverBannerUrl ? "" : "bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:px-16 lg:px-24"}
-    h-40 md:h-48 lg:h-56`}
+        className={`flex items-center justify-between rounded-[5px] ${userData.coverBannerUrl ? "" : "bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:px-16 lg:px-24"} h-40 md:h-48 lg:h-56`}
       >
         {userData?.coverBannerUrl ? (
           <ImageFallback
@@ -34,7 +32,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             height={720}
             src={userData?.coverBannerUrl && getImg(userData.coverBannerUrl)}
             alt="Company Banner"
-            className="h-auto w-full object-top  object-contain"
+            className="h-auto w-full object-contain object-top"
             loading="lazy"
           />
         ) : (
@@ -51,7 +49,6 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
         )}
       </div>
 
-
       <div className="relative bg-white px-4 py-6 md:px-8 md:py-6">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
@@ -61,9 +58,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.tagline || "Company Tagline"}
             </p>
-            <p className="text-xs font-normal text-[#888DA8]">
-              {userData?.city || "City"}, {userData?.country || "Country"}
-            </p>
+            <p className="text-xs font-normal text-[#888DA8]">{userData?.country || "Country"}</p>
 
             {isCurrentUser ? (
               <button className="profile-btn" onClick={() => setOpen(true)}>

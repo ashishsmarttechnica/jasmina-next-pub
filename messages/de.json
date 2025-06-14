@@ -250,7 +250,32 @@
         "hethey": "Er/sie",
         "xe": "Xe/xem"
       },
-      "isPrivate": "Informationen zu Geschlechtsidentität sind privat?"
+      "isPrivate": "Informationen zu Geschlechtsidentität sind privat?",
+      "instagramLink": "Instagram -Link",
+      "instagramLinkPlaceholder": "Geben Sie Ihren Instagram -Link ein",
+      "xLinkPlaceholder": "Geben Sie Ihren X -Link ein",
+      "xLink": "X Link",
+      "facebookLink": "Facebook -Link",
+      "facebookLinkPlaceholder": "Geben Sie Ihren Facebook -Link ein",
+      "availabilityPlaceholder": "Wählen Sie Ihre Verfügbarkeit aus",
+      "availability": "Verfügbarkeit",
+      "availabilityOption": {
+        "openToWork": "Offen für die Arbeit",
+        "lookingForWork": "Auf der Suche nach Arbeit",
+        "freelancer": "Freiberufler",
+        "volunteer": "Freiwilliger",
+        "intern": "Praktikum",
+        "remote": "Fernbedienung",
+        "hybrid": "Hybrid",
+        "part-time": "Teilzeit",
+        "full-time": "Vollzeit"
+      },
+      "short_bioPlaceholder": "Geben Sie Ihre kurze Biografie ein",
+      "short_bio": "Kurze Biografie",
+      "ShortBioLengthError": "Die kurze Biografie muss weniger als 100 Zeichen betragen",
+      "InvalidInstagramLinkError": "Ungültiger Instagram -Link",
+      "InvalidXLinkError": "Ungültiger X -Link",
+      "InvalidFacebookLinkError": "Ungültiger Facebook -Link"
     },
     "userprofilemenu": {
       "education": "Ausbildung",
@@ -509,7 +534,10 @@
       "description": "Beschreibung",
       "tagline": "Slogan",
       "uploadImage": "Laden Sie das Bannerbild hoch",
-      "update": "Aktualisieren"
+      "update": "Aktualisieren",
+      "twitterLink": "X Link",
+      "instagramLink": "Instagram -Link",
+      "facebookLink": "Facebook -Link"
     },
     "industry": {
       "employeesPlaceholder": "Wählen Sie Anzahl der Mitarbeiter aus",
@@ -600,7 +628,11 @@
       "no": "NEIN",
       "connectionfound": "Verbindung gefunden",
       "connecton": "Angeschlossen auf"
-    }
+    },
+    "InvalidInstagramLinkError": "Ungültiger Instagram -Link",
+    "InvalidLinkError": "Ungültiger Link",
+    "InvalidXLinkError": "Ungültiger X -Link",
+    "InvalidFacebookLinkError": "Ungültiger Facebook -Link"
   },
   "Next": "",
   "UserHeader": {

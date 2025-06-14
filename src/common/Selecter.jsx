@@ -20,6 +20,7 @@ const Selecter = ({
   isOther = false,
   isMulti = false,
   storageKey = null,
+  isClearable = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -189,6 +190,11 @@ const Selecter = ({
     if (isOther && actualStorageKey) {
       localStorage.removeItem(actualStorageKey);
     }
+
+    // Close dropdown for single-select
+    if (!isMulti) {
+      setIsOpen(false);
+    }
   };
 
   const handleOtherInputChange = (e) => {
@@ -290,11 +296,22 @@ const Selecter = ({
         {isLoading ? (
           <div className="border-primary h-4 w-4 animate-spin rounded-full border-b-2"></div>
         ) : (
-          <FiChevronDown
-            className={`transition-transform duration-200 ${
-              isOpen ? "rotate-180" : "rotate-0"
-            } ${isMulti ? (normalizedValue.length > 0 ? "text-black" : "text-gray-400") : value ? "text-black" : "text-gray-400"} ml-2 flex-shrink-0`}
-          />
+          <>
+            {isClearable && !isMulti && value && (
+              <FiX
+                className="mr-1 cursor-pointer text-red-500 hover:text-red-700"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateValue("");
+                }}
+              />
+            )}
+            <FiChevronDown
+              className={`transition-transform duration-200 ${
+                isOpen ? "rotate-180" : "rotate-0"
+              } ${isMulti ? (normalizedValue.length > 0 ? "text-black" : "text-gray-400") : value ? "text-black" : "text-gray-400"} ml-2 flex-shrink-0`}
+            />
+          </>
         )}
       </div>
 
@@ -385,7 +402,8 @@ const Selecter = ({
                   </div>
                 )}
 
-                {isMulti && normalizedValue.length > 0 && (
+                {((isMulti && normalizedValue.length > 0) ||
+                  (!isMulti && isClearable && value)) && (
                   <div className="mt-1 border-t pt-1">
                     <button
                       onClick={handleClearAll}

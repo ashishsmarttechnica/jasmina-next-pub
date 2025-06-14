@@ -68,8 +68,12 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.location", personalData.location);
     formData.append("profile.pronounce", personalData.pronoun);
     formData.append("profile.isPrivate", personalData.isPrivate);
-    if (personalData.linkedin) formData.append("profile.linkedin", personalData.linkedin);
-    if (personalData.email) formData.append("profile.email", personalData.email);
+    formData.append("profile.availabilty", personalData.availabilty);
+    formData.append("profile.linkedin", personalData.linkedin);
+    formData.append("profile.instagram", personalData.instagram);
+    formData.append("profile.x", personalData.x);
+    formData.append("profile.facebook", personalData.facebook);
+    formData.append("profile.email", personalData.email);
 
     // Preferences fields
     formData.append("preferences.jobRole", preferencesData.jobRole);

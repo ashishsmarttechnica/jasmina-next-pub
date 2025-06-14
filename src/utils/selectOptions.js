@@ -276,3 +276,19 @@ export const usePositionOptions = () => {
     { label: `${t("positionOption.director")}`, value: "Director" },
   ];
 };
+
+export const useAvailabilityOptions = () => {
+  const t = useTranslations("UserProfile.profile");
+  return [
+    { label: `${t("availabilityOption.openToWork")}`, value: "Open to Work" },
+    { label: `${t("availabilityOption.lookingForWork")}`, value: "Looking for Work" },
+    { label: `${t("availabilityOption.freelancer")}`, value: "Freelancer" },
+    { label: `${t("availabilityOption.volunteer")}`, value: "Volunteer" },
+    { label: `${t("availabilityOption.intern")}`, value: "Intern" },
+    { label: `${t("availabilityOption.remote")}`, value: "Remote" },
+    { label: `${t("availabilityOption.hybrid")}`, value: "Hybrid" },
+    { label: `${t("availabilityOption.part-time")}`, value: "Part-time" },
+    { label: `${t("availabilityOption.full-time")}`, value: "Full-time" },
+    
+  ];
+};

@@ -317,7 +317,32 @@
         "hethey": "He/they",
         "xe": "Xe/xem"
       },
-      "isPrivate": "Gender identity information is private ?"
+      "isPrivate": "Gender identity information is private ?",
+      "instagramLink": "Instagram Link",
+      "instagramLinkPlaceholder": "Enter your Instagram Link",
+      "xLink": "X Link",
+      "xLinkPlaceholder": "Enter your X Link",
+      "facebookLink": "Facebook Link",
+      "facebookLinkPlaceholder": "Enter your Facebook Link",
+      "availability": "Availability",
+      "availabilityPlaceholder": "Select your availability",
+      "availabilityOption": {
+        "openToWork": "Open to Work",
+        "lookingForWork": "Looking for Work",
+        "freelancer": "Freelancer",
+        "volunteer": "Volunteer",
+        "intern": "Intern",
+        "remote": "Remote",
+        "hybrid": "Hybrid",
+        "part-time": "Part-time",
+        "full-time": "Full-time"
+      },
+      "short_bioPlaceholder": "Enter your short bio",
+      "short_bio": "short bio",
+      "ShortBioLengthError": "Short bio must be less than 100 characters",
+      "InvalidInstagramLinkError": "Invalid Instagram Link",
+      "InvalidXLinkError": "Invalid X Link",
+      "InvalidFacebookLinkError": "Invalid Facebook Link"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
@@ -606,7 +631,10 @@
       "description": "Description",
       "socialLinks": "LinkedIn / Social Links",
       "uploadImage": "Upload Banner Image",
-      "update": "Update"
+      "update": "Update",
+      "instagramLink": "Instagram Link",
+      "twitterLink": "X Link",
+      "facebookLink": "Facebook Link"
     },
     "industry": {
       "title": "Industry & Company Size",
@@ -672,7 +700,11 @@
       "companyTypeError": "Company Type is required.",
       "taglineError": "Tagline is required.",
       "employeesError": "Number of Employees is required."
-    }
+    },
+    "InvalidInstagramLinkError": "Invalid Instagram Link",
+    "InvalidLinkError": "Invalid Link",
+    "InvalidXLinkError": "Invalid X Link",
+    "InvalidFacebookLinkError": "Invalid Facebook Link"
   },
   "Common": {
     "country": "Country",

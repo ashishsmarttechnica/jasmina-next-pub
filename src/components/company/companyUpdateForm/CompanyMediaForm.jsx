@@ -50,7 +50,36 @@ const CompanyMediaForm = ({
         name="socialLinks"
         value={formData.socialLinks}
         onChange={handleChange}
+        error={errors.socialLinks}
       />
+      <InputField
+        label={t("instagramLink") || "Instagram Link"}
+        type="url"
+        placeholder="https://example.com"
+        name="instagramLink"
+        value={formData.instagramLink}
+        onChange={handleChange}
+        error={errors.instagramLink}
+      />
+      <InputField
+        label={t("twitterLink") || "X Link"}
+        type="url"
+        placeholder="https://example.com"
+        name="twitterLink"
+        value={formData.twitterLink}
+        onChange={handleChange}
+        error={errors.twitterLink}
+      />
+      <InputField
+        label={t("facebookLink") || "Facebook Link"}
+        type="url"
+        placeholder="https://example.com"
+        name="facebookLink"
+        value={formData.facebookLink}
+        onChange={handleChange}
+        error={errors.facebookLink}
+      />
+
       <div>
         <p className="mb-1 text-sm text-gray-500">{t("uploadImage")}</p>
         <ImageUploader
