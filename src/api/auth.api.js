@@ -32,3 +32,22 @@ export const updateUserProfile = async ({ data, userId }) => {
   const res = await axios.put(`/update/user/?id=${userId}`, data);
   return res.data;
 };
+
+export const forgotPassword = async ({ email, newPassword }) => {
+  const res = await axios.post("/forgot/password", {
+    email,
+    password: newPassword,
+    cpassword: newPassword,
+  });
+  return res.data;
+};
+
+export const resetPassword = async ({ id, currentPassword, newPassword }) => {
+  const res = await axios.post("/reset/password", {
+    id,
+    currentPassword,
+    password: newPassword,
+    cpassword: newPassword,
+  });
+  return res.data;
+};

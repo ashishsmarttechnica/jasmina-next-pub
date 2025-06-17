@@ -29,7 +29,6 @@ const PersonalInformationForm = forwardRef(
       short_bio: "",
     });
 
-    console.log(initialData, "initialData");
     const availabilityOptions = useAvailabilityOptions();
     const genderOptions = useGenderOptions();
     const pronounOptions = usePronounOptions();
@@ -222,14 +221,14 @@ const PersonalInformationForm = forwardRef(
             isClearable={true}
           />
         </div>
-          <InputField
-            name="short_bio"
-            label={`${t("short_bio")}`}
-            value={localData.short_bio}
-            onChange={handleChange}
-            placeholder={t("short_bioPlaceholder")}
-            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
-          />
+        <InputField
+          name="short_bio"
+          label={`${t("short_bio")}`}
+          value={localData.short_bio}
+          onChange={handleChange}
+          placeholder={t("short_bioPlaceholder")}
+          className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+        />
         <LocationSelector
           value={localData.location}
           onChange={handleLocationChange}

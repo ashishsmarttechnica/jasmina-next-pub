@@ -89,6 +89,7 @@ export default function VerifyOtpPage() {
       }
     );
   };
+  
   useEffect(() => {
     let timer;
 

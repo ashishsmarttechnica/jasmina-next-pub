@@ -1,13 +1,15 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useTranslations } from "next-intl";
 
+import useResendOtp from "@/hooks/auth/useResendOtp";
+import useUserResetAndForgotPass from "@/hooks/auth/userResetAndForgotPass";
+import { useForgotPasswordVerifyOtp } from "@/hooks/auth/useVerifyOtp";
 import useForgotPassValidationForm from "@/hooks/validation/auth/useForgotPassValidationForm";
 import EmailStep from "./EmailStep";
-import OtpStep from "./OtpStep";
 import NewPasswordStep from "./NewPasswordStep";
-
+import OtpStep from "./OtpStep";
 
 const ForgotPasswordForm = () => {
   const t = useTranslations("auth");
@@ -18,8 +20,10 @@ const ForgotPasswordForm = () => {
   const [step, setStep] = useState(1);
   const [cooldown, setCooldown] = useState(0);
   const [isResending, setIsResending] = useState(false);
-  const [isPending, setIsPending] = useState(false);
   const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
+  const { mutate: resendOtp, isPending: isResendingOtp } = useResendOtp();
+  const { mutate: verifyOtp, isPending: isVerifyingOtp } = useForgotPasswordVerifyOtp();
+  const { mutate: resetPassword, isPending: isResettingPassword } = useUserResetAndForgotPass();
 
   useEffect(() => {
     let timer;
@@ -35,7 +39,16 @@ const ForgotPasswordForm = () => {
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (!validateForm({ email: formData.email })) return;
-    setStep(2);
+    resendOtp(
+      { email: formData.email },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setStep(2);
+          }
+        },
+      }
+    );
   };
 
   // OTP handlers
@@ -52,7 +65,7 @@ const ForgotPasswordForm = () => {
       nextInput?.focus();
     }
   };
-
+  // Handle backspace key
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       const prevInput = document.querySelectorAll("input")[index - 1];
@@ -83,24 +96,33 @@ const ForgotPasswordForm = () => {
       return;
     }
 
-    setIsPending(true);
-    setTimeout(() => {
-      setIsPending(false);
-      toast.success("OTP Verified Successfully!");
-      setShowNewPasswordForm(true);
-      setStep(3);
-    }, 1000);
+    verifyOtp(
+      { otp: fullOtp, email: formData.email },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowNewPasswordForm(true);
+            setStep(3);
+          }
+        },
+      }
+    );
   };
 
   const handleResendOtp = () => {
     if (!formData.email || cooldown > 0) return;
     setIsResending(true);
-
-    setTimeout(() => {
-      setCooldown(120);
-      setIsResending(false);
-      toast.success("OTP Resent!");
-    }, 1000);
+    resendOtp(
+      { email: formData.email },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setCooldown(120);
+            setIsResending(false);
+          }
+        },
+      }
+    );
   };
 
   // Step 3: New password submit
@@ -114,9 +136,11 @@ const ForgotPasswordForm = () => {
       toast.error("Passwords do not match.");
       return;
     }
-
-    toast.success("Password changed successfully!");
-    // Reset form or redirect here if needed
+    if (formData.newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+    resetPassword({ email: formData.email, newPassword: formData.newPassword });
   };
 
   return (
@@ -126,6 +150,7 @@ const ForgotPasswordForm = () => {
           email={formData.email}
           onEmailChange={(e) => setFormData({ ...formData, email: e.target.value })}
           onSubmit={handleEmailSubmit}
+          isPending={isResendingOtp}
           errors={errors}
           t={t}
         />
@@ -141,7 +166,7 @@ const ForgotPasswordForm = () => {
           onResendOtp={handleResendOtp}
           isResending={isResending}
           cooldown={cooldown}
-          isPending={isPending}
+          isPending={isVerifyingOtp}
           t={t}
         />
       )}
@@ -151,8 +176,11 @@ const ForgotPasswordForm = () => {
           newPassword={formData.newPassword}
           confirmPassword={formData.confirmPassword}
           onNewPasswordChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-          onConfirmPasswordChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+          onConfirmPasswordChange={(e) =>
+            setFormData({ ...formData, confirmPassword: e.target.value })
+          }
           onSubmit={handleNewPasswordSubmit}
+          isPending={isResettingPassword}
         />
       )}
     </>

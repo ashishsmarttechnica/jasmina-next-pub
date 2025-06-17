@@ -59,7 +59,7 @@ const SignUpForm = () => {
       />
 
       <PasswordField
-        label={t("Password")}
+        label={t("Password") }
         name="password"
         value={formData.password}
         onChange={handleChange}

@@ -43,7 +43,7 @@ const OtpStep = ({
             type="button"
             onClick={onResendOtp}
             disabled={isResending || cooldown > 0}
-            className="text-lightBlue ml-1 underline"
+            className={`${isResending || cooldown > 0 ? "cursor-not-allowed text-gray-500" : "text-lightBlue hover:text-primary"} ml-1 underline`}
           >
             {isResending
               ? t("Resending")

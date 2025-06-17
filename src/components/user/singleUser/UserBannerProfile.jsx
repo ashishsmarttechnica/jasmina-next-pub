@@ -4,6 +4,7 @@ import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
 import getImg from "@/lib/getImg";
 import EditProfileModal from "@/modal/editProfile/EditProfileModal";
+import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -73,6 +74,12 @@ const UserBannerProfile = ({
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  const handleResentPassword = () => {
+    setIsPasswordModalOpen(true);
+  };
+
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
@@ -160,9 +167,14 @@ const UserBannerProfile = ({
             </div>
 
             {isCurrentUser ? (
-              <button className="profile-btn" onClick={() => handleDisc(userData)}>
-                {t("editProfile")}
-              </button>
+              <div className="flex gap-2">
+                <button className="profile-btn" onClick={() => handleDisc(userData)}>
+                  {t("editProfile")}
+                </button>
+                <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
+                  Resent Password
+                </button>
+              </div>
             ) : (
               <div className="mt-3.5 flex gap-2">
                 <button className="connect-btn">{t("connect")}</button>
@@ -204,6 +216,11 @@ const UserBannerProfile = ({
         </div>
       </div>
       <EditProfileModal open={opens} onClose={handleCloses} descriptionData={descriptionData} />
+      <PasswordResetModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        userData={userData}
+      />
     </div>
   );
 };

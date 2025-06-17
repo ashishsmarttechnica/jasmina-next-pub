@@ -8,11 +8,8 @@ const AccountTypeSelector = ({ value, onChange }) => {
     <div className="mb-6">
       <div className="mb-1 flex items-center gap-1">
         <label className="text-grayBlueText text-[16px] font-medium">{t("AccountType")}</label>
-        <span className="text-red-500">*</span>
       </div>
-      {/* <p className="text-grayBlueText/80 mb-3 text-sm">
-        {t("PleaseSelectAccountType") || "Please select your account type below"}
-      </p> */}
+
       <div className="flex w-full flex-col gap-3 sm:flex-row">
         {["User", "Company"].map((type) => (
           <div className="flex-1" key={type}>
@@ -73,8 +70,6 @@ const AccountTypeSelector = ({ value, onChange }) => {
                   </span>
                 </div>
               )} */}
-
-
             </label>
           </div>
         ))}

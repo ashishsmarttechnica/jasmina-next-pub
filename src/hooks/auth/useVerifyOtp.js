@@ -1,10 +1,10 @@
 // hooks/useVerifyOtp.js
-import { useMutation } from "@tanstack/react-query";
 import { verifyOtp } from "@/api/auth.api";
-import { toast } from "react-toastify";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/store/auth.store";
+import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 export default function useVerifyOtp() {
   const router = useRouter();
@@ -40,9 +40,30 @@ export default function useVerifyOtp() {
       }
     },
     onError: (error) => {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong!";
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
   });
 }
+
+export const useForgotPasswordVerifyOtp = () => {
+  return useMutation({
+    mutationFn: verifyOtp,
+    onSuccess: (data) => {
+      if (data?.success === true) {
+        const token = data.data.token;
+        const role = data.data.role;
+        const profileComplete = data.data.profileComplete;
+
+        toast.success(data.message || "OTP verified successfully!");
+
+      } else {
+        toast.error(data?.message || "OTP verification failed!");
+      }
+    },
+    onError: (error) => {
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
+      toast.error(`Error: ${errorMessage}`);
+    },
+  });
+};
