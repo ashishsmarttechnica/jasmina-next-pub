@@ -12,7 +12,7 @@ const useJobDetailsValidation = () => {
     }
 
     if (!formData.jobType?.trim()) {
-      newErrors.jobType = "Job type is required";
+      newErrors.jobType = "Employment type is required";
     }
 
     if (!formData.department?.trim()) {

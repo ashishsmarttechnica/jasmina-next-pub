@@ -6,6 +6,7 @@ import ReusableForm from "@/components/form/ReusableForm";
 import useJobDetailsValidation from "@/hooks/validation/job/useJobDetailsValidation";
 import useLocationStore from "@/store/location.store";
 import { useCallback, useEffect, useState } from "react";
+import { useDepartmentOptions, useEmployeTypeOptions } from "@/utils/selectOptions";
 
 const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => {
   const { errors, setErrors, validateForm, clearError, clearLocationErrors } =
@@ -60,17 +61,9 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
     }
   };
 
-  const jobTypeOptions = [
-    { label: "Full Time", value: "fullTime" },
-    { label: "Part Time", value: "partTime" },
-    { label: "Contract", value: "contract" },
-  ];
-
-  const departmentOptions = [
-    { label: "IT", value: "it" },
-    { label: "HR", value: "hr" },
-    { label: "Marketing", value: "marketing" },
-  ];
+  // Get the options for the employment type and department
+  const employetypeOptions = useEmployeTypeOptions();
+  const departmentOptions = useDepartmentOptions();
 
   const handleLocationChange = useCallback(
     (val) => {
@@ -141,11 +134,11 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
           <Selecter
             name="jobType"
-            label={`Job Type *`}
-            placeholder={"Select job type"}
+            label={`Employment Type *`}
+            placeholder={"Select Employment Type"}
             value={formData.jobType}
             onChange={handleChange}
-            options={jobTypeOptions}
+            options={employetypeOptions}
             error={errors.jobType}
           />
           <Selecter

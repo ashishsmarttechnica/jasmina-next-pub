@@ -737,5 +737,34 @@
     "salary": "مرتب",
     "preview": "معاينة",
     "skills": "مهارات"
+  },
+  "CreateCompanyJob": {
+    "employeetype": {
+      "fullTime": "بدوام كامل",
+      "freelance": "مستقل",
+      "internship": "التدريب الداخلي",
+      "volunteer": "متطوع",
+      "temporary": "مؤقت",
+      "contract": "عقد",
+      "partTime": "دوام جزئى"
+    },
+    "department": {
+      "it": "تكنولوجيا المعلومات (تكنولوجيا المعلومات)",
+      "productManagement": "إدارة المنتج",
+      "marketingCommunications": "تسويق",
+      "salesBusinessDevelopment": "مبيعات",
+      "customerSupport": "دعم العملاء",
+      "hr": "الموارد البشرية (HR)",
+      "financeAccounting": "تمويل",
+      "legalCompliance": "قانوني",
+      "designUx": "التصميم / UX",
+      "operationsLogistics": "العمليات / الخدمات اللوجستية",
+      "healthcareServices": "خدمات الرعاية الصحية",
+      "researchDevelopment": "بحث",
+      "educationTraining": "تعليم",
+      "securityRiskManagement": "إدارة الأمن / المخاطر",
+      "executiveLeadership": "التنفيذي / القيادة",
+      "engineering": "هندسة"
+    }
   }
 }

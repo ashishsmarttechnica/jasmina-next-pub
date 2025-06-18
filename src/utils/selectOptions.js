@@ -289,6 +289,45 @@ export const useAvailabilityOptions = () => {
     { label: `${t("availabilityOption.hybrid")}`, value: "Hybrid" },
     { label: `${t("availabilityOption.part-time")}`, value: "Part-time" },
     { label: `${t("availabilityOption.full-time")}`, value: "Full-time" },
-    
+  ];
+};
+export const useEmployeTypeOptions = () => {
+  const t = useTranslations("CreateCompanyJob.employeetype");
+  return [
+    { label: `${t("fullTime")}`, value: "fullTime" },
+    { label: `${t("partTime")}`, value: "partTime" },
+    { label: `${t("temporary")}`, value: "temporary" },
+    { label: `${t("contract")}`, value: "contract" },
+    // { label: `${t("volunteer")}`, value: "volunteer" },
+    { label: `${t("internship")}`, value: "internship" },
+    { label: `${t("freelance")}`, value: "freelance" },
+  ];
+};
+
+export const useDepartmentOptions = () => {
+  const t = useTranslations("CreateCompanyJob.department");
+  return [
+    { label: `${t("engineering")}`, value: "Engineering" },
+    { label: `${t("it")}`, value: "it" },
+    {
+      label: `${t("marketingCommunications")}`,
+      value: "marketing_communications",
+    },
+    {
+      label: `${t("salesBusinessDevelopment")}`,
+      value: "sales_business_development",
+    },
+    { label: `${t("productManagement")}`, value: "product_management" },
+    { label: `${t("customerSupport")}`, value: "customer_support" },
+    { label: `${t("hr")}`, value: "hr" },
+    { label: `${t("financeAccounting")}`, value: "finance_accounting" },
+    { label: `${t("legalCompliance")}`, value: "legal_compliance" },
+    { label: `${t("designUx")}`, value: "design_ux" },
+    { label: `${t("operationsLogistics")}`, value: "operations_logistics" },
+    { label: `${t("healthcareServices")}`, value: "healthcare_services" },
+    { label: `${t("researchDevelopment")}`, value: "research_development" },
+    { label: `${t("educationTraining")}`, value: "education_training" },
+    { label: `${t("securityRiskManagement")}`, value: "security_risk_management" },
+    { label: `${t("executiveLeadership")}`, value: "executive_leadership" },
   ];
 };

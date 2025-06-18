@@ -736,5 +736,34 @@
     "salary": "Gehalt",
     "preview": "Vorschau",
     "skills": "Fähigkeiten"
+  },
+  "CreateCompanyJob": {
+    "employeetype": {
+      "fullTime": "Vollzeit",
+      "freelance": "Freiberuflich",
+      "internship": "Praktikum",
+      "volunteer": "Freiwilliger",
+      "temporary": "Vorübergehend",
+      "contract": "Vertrag",
+      "partTime": "Teilzeit"
+    },
+    "department": {
+      "it": "Informationstechnologie (IT)",
+      "productManagement": "Produktmanagement",
+      "marketingCommunications": "Marketing",
+      "salesBusinessDevelopment": "Verkäufe",
+      "customerSupport": "Kundenbetreuung",
+      "hr": "Humanressourcen (HR)",
+      "financeAccounting": "Finanzen",
+      "legalCompliance": "Legal",
+      "designUx": "Design / UX",
+      "operationsLogistics": "Operationen / Logistik",
+      "healthcareServices": "Gesundheitsdienste",
+      "researchDevelopment": "Forschung",
+      "educationTraining": "Ausbildung",
+      "securityRiskManagement": "Sicherheits- / Risikomanagement",
+      "executiveLeadership": "Exekutive / Führung",
+      "engineering": "Maschinenbau"
+    }
   }
 }

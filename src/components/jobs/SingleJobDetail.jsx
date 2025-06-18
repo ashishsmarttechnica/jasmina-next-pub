@@ -27,12 +27,12 @@ const SingleJobDetail = ({ job, onBack }) => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-sm p-5">
-      <button
+      {/* <button
         className="text-sm text-blue-600 underline mb-3"
         onClick={onBack}
       >
         ← Back to job list
-      </button>
+      </button> */}
 
       <h3 className="flex justify-between font-semibold text-lg text-black mb-2">
         {job?.title}

@@ -736,5 +736,34 @@
     "salary": "salaire",
     "preview": "prévisualisation",
     "skills": "compétences"
+  },
+  "CreateCompanyJob": {
+    "employeetype": {
+      "fullTime": "À temps plein",
+      "freelance": "Free-lance",
+      "internship": "Stage",
+      "volunteer": "Bénévole",
+      "temporary": "Temporaire",
+      "contract": "Contracter",
+      "partTime": "À temps partiel"
+    },
+    "department": {
+      "productManagement": "Gestion des produits",
+      "marketingCommunications": "Commercialisation",
+      "it": "Technologies de l'information (TI)",
+      "salesBusinessDevelopment": "Ventes",
+      "customerSupport": "Support client",
+      "hr": "Ressources humaines (RH)",
+      "financeAccounting": "Finance",
+      "legalCompliance": "Légal",
+      "designUx": "Conception / ux",
+      "operationsLogistics": "Opérations / logistique",
+      "healthcareServices": "Services de santé",
+      "researchDevelopment": "Recherche",
+      "educationTraining": "Éducation",
+      "securityRiskManagement": "Gestion de la sécurité / des risques",
+      "executiveLeadership": "Exécutif / leadership",
+      "engineering": "Ingénierie"
+    }
   }
 }

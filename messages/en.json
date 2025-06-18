@@ -785,5 +785,34 @@
     "salary": "salary",
     "preview": "preview",
     "skills": "skills"
+  },
+  "CreateCompanyJob": {
+    "employeetype": {
+      "fullTime": "Full Time",
+      "partTime": "Part Time",
+      "temporary": "Temporary",
+      "contract": "Contract",
+      "volunteer": "Volunteer",
+      "internship": "Internship",
+      "freelance": "Freelance"
+    },
+    "department": {
+      "engineering": "Engineering",
+      "it": "Information Technology (IT)",
+      "marketingCommunications": "Marketing & Communications",
+      "salesBusinessDevelopment": "Sales & Business Development",
+      "productManagement": "Product Management",
+      "customerSupport": "Customer Support",
+      "hr": "Human Resources (HR)",
+      "financeAccounting": "Finance & Accounting",
+      "legalCompliance": "Legal & Compliance",
+      "designUx": "Design / UX",
+      "operationsLogistics": "Operations / Logistics",
+      "healthcareServices": "Healthcare Services",
+      "researchDevelopment": "Research & Development (R&D)",
+      "educationTraining": "Education & Training",
+      "securityRiskManagement": "Security / Risk Management",
+      "executiveLeadership": "Executive / Leadership"
+    }
   }
 }

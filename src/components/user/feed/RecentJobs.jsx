@@ -1,12 +1,13 @@
 "use client";
-import React, { use } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import { IoClipboardOutline } from "react-icons/io5";
-import { HiOutlineLocationMarker } from "react-icons/hi";
 import CardHeading from "@/common/card/CardHeading";
-import Image from "next/image";
+import useGetResentJob from "@/hooks/job/useGetResentJob";
+import useResentJobStore from "@/store/resentjob.store";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { IoClipboardOutline } from "react-icons/io5";
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const jobList = [
   {
@@ -39,51 +40,53 @@ const jobList = [
 ];
 
 const RecentJobs = () => {
-  const t=useTranslations('UserFeedPost')
+  const t = useTranslations("UserFeedPost");
+  const { data, isLoading, error } = useGetResentJob();
+  const { resentJobs } = useResentJobStore();
+  console.log(data, isLoading, error, "recent/job");
+
   return (
-    <div className=" cust-card ">
-      <div className="flex justify-between items-center  ">
-        <CardHeading title={t('recentjob')} />
+    <div className="cust-card">
+      <div className="flex items-center justify-between">
+        <CardHeading title={t("recentjob")} />
       </div>
 
-      <div className="p-5 mx-auto  overflow-hidden ">
+      <div className="mx-auto overflow-hidden p-5">
         <Swiper spaceBetween={10} slidesPerView="auto" className="h-full">
           {jobList.map((job, index) => (
-            <SwiperSlide key={index} className="!w-auto ">
-              <div className="px-0 h-auto w-auto  border overflow-hidden border-grayBlueText/50 rounded-md shadow-sm min-w-[172px]">
-                <div className="block   text-left  p-2.5 bg-white  justify-between hover:shadow transition-all">
-                  <h3 className="font-bold text-base text-black tracking-normal leading-[21px] max-w-[99px] mb-2.5">
+            <SwiperSlide key={index} className="!w-auto">
+              <div className="border-grayBlueText/50 h-auto w-auto min-w-[172px] overflow-hidden rounded-md border px-0 shadow-sm">
+                <div className="block justify-between bg-white p-2.5 text-left transition-all hover:shadow">
+                  <h3 className="mb-2.5 max-w-[99px] text-base leading-[21px] font-bold tracking-normal text-black">
                     {job.title}
                   </h3>
-                  <p className="text-sm text-grayBlueText gap-2 flex items-center mb-2.5">
-                    <IoClipboardOutline className="w-4 h-4" />
+                  <p className="text-grayBlueText mb-2.5 flex items-center gap-2 text-sm">
+                    <IoClipboardOutline className="h-4 w-4" />
                     {job.experience}
                   </p>
-                  <p className="text-sm text-grayBlueText gap-2 flex items-center mb-4">
-                    <HiOutlineLocationMarker className="w-4 h-4" />
+                  <p className="text-grayBlueText mb-4 flex items-center gap-2 text-sm">
+                    <HiOutlineLocationMarker className="h-4 w-4" />
                     {job.location}
                   </p>
-                  <p className="text-xs font-normal text-grayBlueText mt-3">
-                    {t('posted')} {job.posted}
+                  <p className="text-grayBlueText mt-3 text-xs font-normal">
+                    {t("posted")} {job.posted}
                   </p>
                 </div>
-                <div className=" flex items-center gap-1.5 border-t text-left border-black/10  p-2.5 ">
+                <div className="flex items-center gap-1.5 border-t border-black/10 p-2.5 text-left">
                   <Image
                     src={job.logo}
                     alt={job.company}
                     width={24}
                     height={24}
-                    className="rounded-full border border-gray-400 h-6 w-6 object-cover"
+                    className="h-6 w-6 rounded-full border border-gray-400 object-cover"
                   />
-                  <div className="flex flex-col ">
-                    <h2 className="text-black font-medium text-xs">
-                      {job.company}
-                    </h2>
+                  <div className="flex flex-col">
+                    <h2 className="text-xs font-medium text-black">{job.company}</h2>
                     <a
                       href={job.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#007BFF] text-xs"
+                      className="text-xs text-[#007BFF]"
                     >
                       {job.url}
                     </a>

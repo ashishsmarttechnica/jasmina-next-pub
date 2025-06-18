@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import Card from "@/common/card/Card";
 import Image from "next/image";
+import { useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import SingleJobDetail from "./SingleJobDetail";
-import Card from "@/common/card/Card";
 
 const jobList = [
   {
@@ -21,8 +21,7 @@ const jobList = [
     salary: "₹6–10 LPA",
     seniority: "Mid-Level",
     applicants: 2,
-    description:
-      "We are looking for a creative and detail-oriented UI/UX Designer...",
+    description: "We are looking for a creative and detail-oriented UI/UX Designer...",
     responsibilities: [
       "Design wireframes and prototypes.",
       "Collaborate with developers and stakeholders.",
@@ -43,8 +42,7 @@ const jobList = [
     salary: "₹6–10 LPA",
     seniority: "Mid-Level",
     applicants: 2,
-    description:
-      "We are looking for a creative and detail-oriented UI/UX Designer...",
+    description: "We are looking for a creative and detail-oriented UI/UX Designer...",
     responsibilities: [
       "Design wireframes and prototypes.",
       "Collaborate with developers and stakeholders.",
@@ -65,8 +63,7 @@ const jobList = [
     salary: "₹6–10 LPA",
     seniority: "Mid-Level",
     applicants: 2,
-    description:
-      "We are looking for a creative and detail-oriented UI/UX Designer...",
+    description: "We are looking for a creative and detail-oriented UI/UX Designer...",
     responsibilities: [
       "Design wireframes and prototypes.",
       "Collaborate with developers and stakeholders.",
@@ -76,31 +73,31 @@ const jobList = [
 ];
 
 const JobCards = () => {
-  const [selectedJob, setSelectedJob] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(jobList[0]);
 
   return (
-    <div className="flex flex-col md:flex-row w-full gap-6">
+    <div className="flex w-full flex-col gap-6 md:flex-row">
       {/* Left Column: Job List */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1">
         {jobList.map((job, index) => (
           <Card
             key={index}
-            className="w-full border border-gray-300 hover:border-green-700 hover:bg-green-50 transition-all duration-200 cursor-pointer"
-           onClick={() => setSelectedJob(job)}
+            className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
+              selectedJob?.title === job.title ? "border-green-700 bg-green-200" : "border-gray-300"
+            }`}
+            onClick={() => setSelectedJob(job)}
           >
             <div className="p-4">
-              <h3 className="font-semibold text-lg text-gray-800 mb-2">
-                {job.title}
-              </h3>
-              <p className="text-sm text-gray-600 flex items-center gap-2 mb-1">
-                <IoClipboardOutline className="w-4 h-4" />
+              <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+              <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                <IoClipboardOutline className="h-4 w-4" />
                 {job.experience}
               </p>
-              <p className="text-sm text-gray-600 flex items-center gap-2 mb-1">
-                <HiOutlineLocationMarker className="w-4 h-4" />
+              <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                <HiOutlineLocationMarker className="h-4 w-4" />
                 {job.location}
               </p>
-              <div className="flex items-center gap-2 border-t pt-3 mt-3">
+              <div className="mt-3 flex items-center gap-2 border-t pt-3">
                 <Image
                   src={job.logo}
                   alt={`${job.company} logo`}
@@ -118,10 +115,7 @@ const JobCards = () => {
       {/* Right Column: Job Detail */}
       {selectedJob && (
         <div className="w-full md:w-[65%]">
-          <SingleJobDetail
-            job={selectedJob}
-            onBack={() => setSelectedJob(null)}
-          />
+          <SingleJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
         </div>
       )}
     </div>
