@@ -6,42 +6,41 @@ import Experience from "@/assets/svg/jobs/Experience";
 import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import useJobStore from "@/store/job.store";
-import Cookies from "js-cookie";
 import { useState } from "react";
+import { FaBookmark } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
 import { MdBookmark } from "react-icons/md";
-import { toast } from "react-toastify";
 
-const SingleJobDetail = ({ job, onBack }) => {
+const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
   // console.log(job, "job");
   const [bookmarked, setBookmarked] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
 
-  const toggleBookmark = () => {
-    if (!bookmarked) {
-      const userId = Cookies.get("userId");
-      if (!userId) {
-        toast.error("User not logged in");
-        return;
+    const toggleBookmark = () => {
+      if (!bookmarked) {
+        const userId = Cookies.get("userId");
+        if (!userId) {
+          toast.error("User not logged in");
+          return;
+        }
+        saveJob({
+          jobId: job?._id,
+          userId,
+          onSuccess: () => {
+            toast.success("Job saved!");
+            setBookmarked(true);
+          },
+          onError: (error) => {
+            toast.error(error?.response?.data?.message || "Failed to save job.");
+          },
+        });
+      } else {
+        setBookmarked(false);
       }
-      saveJob({
-        jobId: job?._id,
-        userId,
-        onSuccess: () => {
-          toast.success("Job saved!");
-          setBookmarked(true);
-        },
-        onError: (error) => {
-          toast.error(error?.response?.data?.message || "Failed to save job.");
-        },
-      });
-    } else {
-      setBookmarked(false);
-    }
-  };
+    };
 
   const handleApplyNow = () => {
     alert("Apply now clicked!");
@@ -58,12 +57,13 @@ const SingleJobDetail = ({ job, onBack }) => {
 
       <h3 className="mb-2 flex justify-between text-lg font-semibold text-black">
         {job?.title}
-        <span onClick={toggleBookmark} className="cursor-pointer">
-          {bookmarked ? (
+        <span className="cursor-pointer">
+          {/* {bookmarked ? (
             <MdBookmark className="text-xl text-[#888DA8]" />
           ) : (
             <LuBookmark className="text-xl text-[#888DA8]" />
-          )}
+          )} */}
+          <FaBookmark className="text-xl text-[#888DA8]" />
         </span>
       </h3>
 
@@ -146,4 +146,4 @@ const SingleJobDetail = ({ job, onBack }) => {
   );
 };
 
-export default SingleJobDetail;
+export default SingleSaveJobDetail;

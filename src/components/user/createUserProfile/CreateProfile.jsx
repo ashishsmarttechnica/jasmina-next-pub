@@ -226,12 +226,12 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
             {/* Gender */}
             <Selecter
               name="gender"
-              label={`${t("gender")} *`}
+              label={`${t("gender")} `}
               placeholder={t("genderPlaceholder")}
               value={formData.gender}
               onChange={handleChange}
               options={genderOptions}
-              error={errors.gender}
+              // error={errors.gender}
               isOther={true}
             />
 
@@ -243,7 +243,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               value={formData.pronoun}
               onChange={handleChange}
               options={pronounOptions}
-              error={errors.pronoun}
+              // error={errors.pronoun}
               isOther={true}
             />
             <div className="col-span-2 flex items-center gap-2 text-sm text-gray-500">
@@ -276,12 +276,12 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
 
             {/* Phone */}
             <InputField
-              label={`${t("phone")} *`}
+              label={`${t("phone")} `}
               name="phone"
               value={formData.phone}
               onChange={handlePhoneChange}
               placeholder={t("phonePlaceholder")}
-              error={errors.phone}
+              // error={errors.phone}
               type="tel"
             />
 
@@ -292,7 +292,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               value={formData.LinkedInLink}
               onChange={handleLinkedInChange}
               placeholder={t("LinkedInLinkPlaceholder") || "Enter your LinkedIn Link"}
-              error={errors.LinkedInLink}
+              // error={errors.LinkedInLink}
             />
 
             {/* Instagram */}
@@ -302,7 +302,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               value={formData.instagramLink}
               onChange={handleLinkChange}
               placeholder={t("instagramLinkPlaceholder") || "Enter your Instagram Link"}
-              error={errors.instagramLink}
+              // error={errors.instagramLink}
             />
 
             {/* X */}
@@ -312,7 +312,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               value={formData.xLink}
               onChange={handleLinkChange}
               placeholder={t("xLinkPlaceholder") || "Enter your X Link"}
-              error={errors.xLink}
+              // error={errors.xLink}
             />
 
             {/* Facebook */}
@@ -322,7 +322,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               value={formData.facebookLink}
               onChange={handleLinkChange}
               placeholder={t("facebookLinkPlaceholder") || "Enter your Facebook Link"}
-              error={errors.facebookLink}
+              // error={errors.facebookLink}
             />
 
             {/* Availability */}
@@ -334,7 +334,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               onChange={handleChange}
               options={availabilityOptions}
               error={errors.availabilty}
-              isOther={true}
+              // isOther={true}
               isClearable={true}
             />
 
@@ -346,7 +346,7 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
             value={formData.short_bio}
             onChange={handleChange}
             placeholder={t("short_bioPlaceholder") || "Enter your short bio"}
-            error={errors.short_bio}
+            // error={errors.short_bio}
           />
 
           {/* Location Selector Component */}

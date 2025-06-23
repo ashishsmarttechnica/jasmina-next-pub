@@ -1,8 +1,8 @@
 import ImageUploader from "@/common/ImageUploader";
 import InputField from "@/common/InputField";
+import getImg from "@/lib/getImg";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import getImg from "@/lib/getImg";
 
 const CompanyMediaForm = ({
   formData,
@@ -26,15 +26,15 @@ const CompanyMediaForm = ({
         <p className="text-grayBlueText text-[13px]">{t("subTitle")}</p>
       </div>
       <InputField
-        label={`${t("tagline")}*`}
+        label={`${t("tagline")}`}
         type="text"
         name="tagline"
         value={formData.tagline}
         onChange={handleChange}
-        error={errors.tagline}
+        // error={errors.tagline}
       />
       <InputField
-        label={t("description")}
+        label={`${t("description")} *`}
         name="description"
         value={formData.description}
         onChange={handleChange}

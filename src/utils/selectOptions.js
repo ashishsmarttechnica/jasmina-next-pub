@@ -124,7 +124,7 @@ export const useJobTypeOptions = () => {
     `${t("jobtypeoption.part-time")}`,
     `${t("jobtypeoption.internship")}`,
     `${t("jobtypeoption.freelancer")}`,
-    `${t("jobtypeoption.remote")}`,
+    `${t("jobtypeoption.remotejob")}`,
   ];
 };
 
@@ -281,15 +281,11 @@ export const useAvailabilityOptions = () => {
   const t = useTranslations("UserProfile.profile");
   return [
     { label: `${t("availabilityOption.openToWork")}`, value: "Open to Work" },
-    { label: `${t("availabilityOption.lookingForWork")}`, value: "Looking for Work" },
-    { label: `${t("availabilityOption.freelancer")}`, value: "Freelancer" },
-    { label: `${t("availabilityOption.volunteer")}`, value: "Volunteer" },
-    { label: `${t("availabilityOption.intern")}`, value: "Intern" },
-    { label: `${t("availabilityOption.remote")}`, value: "Remote" },
-    { label: `${t("availabilityOption.hybrid")}`, value: "Hybrid" },
-    { label: `${t("availabilityOption.part-time")}`, value: "Part-time" },
-    { label: `${t("availabilityOption.full-time")}`, value: "Full-time" },
-  ];
+   
+    { label: `${t("availabilityOption.freelance")}`, value: "Available for Freelance" },
+      { label: `${t("availabilityOption.notavailable")}`, value: "Not Available" },
+      { label: `${t("availabilityOption.worldwide")}`, value: " Open for Remote Worldwide" },
+    ];
 };
 export const useEmployeTypeOptions = () => {
   const t = useTranslations("CreateCompanyJob.employeetype");

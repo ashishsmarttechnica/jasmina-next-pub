@@ -10,6 +10,7 @@ const ImageUploader = ({
   isnotCEntered = false,
   isBanner = false,
   priority = false,
+  error,
 }) => {
   const t = useTranslations("UserProfile.profile");
   const fileInputRef = useRef(null);
@@ -54,7 +55,7 @@ const ImageUploader = ({
           />
         </div>
       </div>
-      {/* <p className="mt-2 text-sm text-gray-500">{t("uploadImage")}</p> */}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 };

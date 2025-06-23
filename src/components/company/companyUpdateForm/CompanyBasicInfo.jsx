@@ -5,7 +5,13 @@ import getImg from "@/lib/getImg";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyImageFile }) => {
+const CompanyBasicInfo = ({
+  formData,
+  errors,
+  handleChange,
+  setSelectedCompanyImageFile,
+  clearFieldError,
+}) => {
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const t = useTranslations("CompanyProfile.profile");
 
@@ -14,6 +20,22 @@ const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyIm
       setSelectedImage(getImg(formData.logoUrl));
     }
   }, [formData.logoUrl]);
+
+  const handleImageUpload = (file) => {
+    setSelectedCompanyImageFile(file);
+    // Update formData.logoUrl with a temporary value to pass validation
+    // This will automatically clear the error since handleChange in the parent component
+    // checks if the value is not empty and clears the corresponding error
+    handleChange({ target: { name: "logoUrl", value: file.name } });
+
+    // Create a local URL for the file to display immediately
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       <div className="space-y-2">
@@ -65,7 +87,7 @@ const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyIm
       </div>
       <div className="space-y-2">
         <InputField
-          label={t("website")}
+          label={`${t("website")}*`}
           type="url"
           name="website"
           placeholder={t("websiteplaceholder")}
@@ -75,11 +97,12 @@ const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyIm
         />
       </div>
       <div>
-        <p className="mb-1 text-center text-sm text-gray-500">{t("uploadLogoImage")}</p>
+        <p className="mb-1 text-center text-sm text-gray-500">{`${t("uploadLogoImage")}*`}</p>
         <ImageUploader
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
-          setSelectedImageFile={setSelectedCompanyImageFile}
+          setSelectedImageFile={handleImageUpload}
+          error={errors.logoUrl}
         />
       </div>
     </>
@@ -87,3 +110,4 @@ const CompanyBasicInfo = ({ formData, errors, handleChange, setSelectedCompanyIm
 };
 
 export default CompanyBasicInfo;
+//

@@ -1,4 +1,4 @@
-import { createJob } from "@/api/job.api";
+import { createJob, saveJob } from "@/api/job.api";
 import { useRouter } from "@/i18n/navigation";
 import { useMutation } from "@tanstack/react-query";
 
@@ -17,5 +17,11 @@ export const useCreateJob = () => {
     onError: (error) => {
       toast.error(error.response?.data?.message || "Something went wrong");
     },
+  });
+};
+
+export const useSaveJob = () => {
+  return useMutation({
+    mutationFn: saveJob,
   });
 };

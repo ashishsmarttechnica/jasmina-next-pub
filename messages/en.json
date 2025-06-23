@@ -327,15 +327,10 @@
       "availability": "Availability",
       "availabilityPlaceholder": "Select your availability",
       "availabilityOption": {
+        "freelance": "Available for Freelance",
         "openToWork": "Open to Work",
-        "lookingForWork": "Looking for Work",
-        "freelancer": "Freelancer",
-        "volunteer": "Volunteer",
-        "intern": "Intern",
-        "remote": "Remote",
-        "hybrid": "Hybrid",
-        "part-time": "Part-time",
-        "full-time": "Full-time"
+        "notavailable": "Not Available",
+        "worldwide": "Open for Remote Worldwide"
       },
       "short_bioPlaceholder": "Enter your short bio",
       "short_bio": "short bio",
@@ -389,7 +384,7 @@
         "part-time": "Part-Time",
         "internship": "Internship",
         "freelancer": "Freelancer",
-        "remote": "Remote"
+        "remotejob": "Remote Job"
       },
       "salaryrange": " Expected Salary Range",
       "experience": "Years of Experience",
@@ -577,7 +572,9 @@
       "firstNameError": "First Name is required.",
       "lastNameError": "Last Name is required.",
       "phoneNumberError": "Phone Number is required.",
-      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits"
+      "PhoneLength10to15Error": "enter phone number between 10 to 15 digits",
+      "websiteError": "Website is required.",
+      "logoUrlError": "Logo Image is required."
     },
     "singleCompany": {
       "editProfile": "Edit Profile",
@@ -739,7 +736,8 @@
       "locationRequired": "Location is required",
       "linkedinInvalid": "Invalid LinkedIn URL format",
       "emailInvalid": "Invalid email format",
-      "dobFutureDateNotAllowed": "Future Date Not Allowed"
+      "dobFutureDateNotAllowed": "Future Date Not Allowed",
+      "emailRequired": "email is required"
     },
     "job": {
       "jobRoleRequired": "Job role is required",

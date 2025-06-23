@@ -60,8 +60,6 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
       clearError(name);
     }
   };
-
-  // Get the options for the employment type and department
   const employetypeOptions = useEmployeTypeOptions();
   const departmentOptions = useDepartmentOptions();
 

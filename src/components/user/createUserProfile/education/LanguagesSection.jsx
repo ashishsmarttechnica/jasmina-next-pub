@@ -41,7 +41,7 @@ const LanguagesSection = ({
           )}
 
           <div className="space-y-1">
-            <label className="text-grayBlueText text-[14px]">{`${t("languagesList")}*`}</label>
+            <label className="text-grayBlueText text-[14px]">{`${t("languagesList")}`}</label>
             <Selecter
               name="languages"
               options={languageOptions}
@@ -54,13 +54,13 @@ const LanguagesSection = ({
               isOther={true}
               placeholder="Select a language"
             />
-            {errors[`language-${index}-languages`] && (
+            {/* {errors[`language-${index}-languages`] && (
               <p className="text-[12px] text-red-500">{errors[`language-${index}-languages`]}</p>
-            )}
+            )} */}
           </div>
 
           <div className="space-y-1">
-            <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}*`}</label>
+            <label className="text-grayBlueText text-[14px]">{`${t("proficiency")}`}</label>
             <Selecter
               name="proficiency"
               options={proficiencyOptions}
@@ -76,9 +76,9 @@ const LanguagesSection = ({
                 )
               }
             />
-            {errors[`language-${index}-proficiency`] && (
-              <p className="text-[12px] text-red-500">{errors[`language-${index}-proficiency`]}</p>
-            )}
+            {/* {errors[`language-${index}-proficiency`] && (
+                  <p className="text-[12px] text-red-500">{errors[`language-${index}-proficiency`]}</p>
+                )} */}
           </div>
         </div>
       ))}

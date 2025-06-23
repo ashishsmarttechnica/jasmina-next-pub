@@ -37,19 +37,21 @@ const useEducationSkillsForm = () => {
     });
 
     languagesList.forEach((lang, index) => {
-      if (!lang.languages) newErrors[`language-${index}-languages`] = t("languageError");
-      if (!lang.proficiency) newErrors[`language-${index}-proficiency`] = t("proficiencyError");
-
-      // Check for duplicate language selections
-      // Find the first occurrence of this language
-      const firstOccurrenceIndex = languagesList.findIndex(
-        (l) => l.languages === lang.languages && lang.languages
-      );
-
-      // Only show error if this is not the first occurrence
-      if (firstOccurrenceIndex !== index && firstOccurrenceIndex !== -1) {
-        newErrors[`language-${index}-languages`] =
-          t("duplicateLanguageError") || "This language has already been selected";
+      // Make both fields optional: only check for duplicate if language is selected
+      if (lang.languages) {
+        // Check for duplicate language selections
+        const firstOccurrenceIndex = languagesList.findIndex(
+          (l) => l.languages === lang.languages && lang.languages
+        );
+        if (firstOccurrenceIndex !== index && firstOccurrenceIndex !== -1) {
+          newErrors[`language-${index}-languages`] =
+            t("duplicateLanguageError") || "This language has already been selected";
+        }
+        // Proficiency is only required if language is selected
+        if (!lang.proficiency) newErrors[`language-${index}-proficiency`] = t("proficiencyError");
+      } else if (lang.proficiency) {
+        // If proficiency is filled but language is not, show error for language
+        newErrors[`language-${index}-languages`] = t("languageError");
       }
     });
 
@@ -74,9 +76,6 @@ const useEducationSkillsForm = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
-
 
   const clearFieldError = (fieldKey) => {
     setErrors((prev) => {

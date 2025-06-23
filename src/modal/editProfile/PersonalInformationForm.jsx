@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
 
 const PersonalInformationForm = forwardRef(
-  ({ initialData, errors = {}, clearFieldError, email }, ref) => {
+  ({ initialData, errors = {}, clearFieldError, email, onAvailabilityChange }, ref) => {
     const t = useTranslations("UserProfile.profile");
     const [localData, setLocalData] = useState({
       fullName: "",
@@ -62,6 +62,11 @@ const PersonalInformationForm = forwardRef(
       const { name, value } = e.target;
       setLocalData((prev) => ({ ...prev, [name]: value }));
       if (clearFieldError) clearFieldError(name);
+
+      // Notify parent when availability changes
+      if (name === "availabilty" && onAvailabilityChange) {
+        onAvailabilityChange(value);
+      }
     };
 
     const handleDateChange = (val) => {
@@ -108,11 +113,11 @@ const PersonalInformationForm = forwardRef(
           />
 
           <Selecter
-            label={`${t("gender")} *`}
+            label={`${t("gender")}`}
             value={localData.gender}
             onChange={handleGenderChange}
             name="gender"
-            error={errors.gender}
+            // error={errors.gender}
             options={genderOptions}
             placeholder={t("genderPlaceholder")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
@@ -166,7 +171,7 @@ const PersonalInformationForm = forwardRef(
           />
           <InputField
             name="linkedin"
-            label={`${t("LinkedInLink")} *`}
+            label={`${t("LinkedInLink")} `}
             value={localData.linkedin}
             onChange={handleChange}
             error={errors.linkedin}
@@ -175,7 +180,7 @@ const PersonalInformationForm = forwardRef(
           />
           <InputField
             name="instagram"
-            label={`${t("instagramLink")} *`}
+            label={`${t("instagramLink")} `}
             value={localData.instagram}
             onChange={handleChange}
             error={errors.instagram}
@@ -185,7 +190,7 @@ const PersonalInformationForm = forwardRef(
 
           <InputField
             name="x"
-            label={`${t("xLink")} *`}
+            label={`${t("xLink")} `}
             value={localData.x}
             onChange={handleChange}
             error={errors.x}
@@ -194,7 +199,7 @@ const PersonalInformationForm = forwardRef(
           />
           <InputField
             name="facebook"
-            label={`${t("facebookLink")} *`}
+            label={`${t("facebookLink")} `}
             value={localData.facebook}
             onChange={handleChange}
             error={errors.facebook}
@@ -203,7 +208,7 @@ const PersonalInformationForm = forwardRef(
           />
           <InputField
             name="email"
-            label={`${t("email")}`}
+            label={`${t("email")} *`}
             value={localData.email}
             onChange={handleChange}
             error={errors.email}
@@ -217,25 +222,25 @@ const PersonalInformationForm = forwardRef(
             onChange={handleChange}
             options={availabilityOptions}
             error={errors.availabilty}
-            isOther={true}
-            isClearable={true}
+            // isOther={true}
+            // isClearable={true}
           />
         </div>
-        <InputField
-          name="short_bio"
-          label={`${t("short_bio")}`}
-          value={localData.short_bio}
-          onChange={handleChange}
-          placeholder={t("short_bioPlaceholder")}
-          className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
-        />
-        <LocationSelector
-          value={localData.location}
-          onChange={handleLocationChange}
-          error={errors.location}
-          className="focus:border-primary-500 focus:ring-primary-500 w-full rounded-lg border-gray-300"
-        />
-      </div>
+          <InputField
+            name="short_bio"
+            label={`${t("short_bio")}`}
+            value={localData.short_bio}
+            onChange={handleChange}
+            placeholder={t("short_bioPlaceholder")}
+            className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
+          />
+          <LocationSelector
+            value={localData.location}
+            onChange={handleLocationChange}
+            error={errors.location}
+            className="focus:border-primary-500 focus:ring-primary-500 w-full rounded-lg border-gray-300"
+          />
+        </div>
     );
   }
 );

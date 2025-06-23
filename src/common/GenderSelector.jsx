@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 
 const GenderSelector = ({ value, onChange, error }) => {
@@ -18,21 +18,17 @@ const GenderSelector = ({ value, onChange, error }) => {
   };
 
   return (
-    <div className=" relative">
-      <label className="text-[14px] text-grayBlueText">Gender*</label>
+    <div className="relative">
+      <label className="text-grayBlueText text-[14px]">Gender</label>
 
       <div
-        className="w-full border border-lightGray/[75%] p-2 bg-white cursor-pointer rounded-md flex items-center justify-between"
+        className="border-lightGray/[75%] flex w-full cursor-pointer items-center justify-between rounded-md border bg-white p-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {value
-          ? options.find((o) => o.value === value)?.label
-          : "Select Gender"}
+        {value ? options.find((o) => o.value === value)?.label : "Select Gender"}
 
         <FiChevronDown
-          className={`transition-transform duration-200 ${
-            isOpen ? "rotate-180" : "rotate-0"
-          }`}
+          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`}
         />
       </div>
 
@@ -44,13 +40,13 @@ const GenderSelector = ({ value, onChange, error }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute z-10 w-full mt-1 bg-white border border-lightGray/50 rounded-md shadow-lg "
+            className="border-lightGray/50 absolute z-10 mt-1 w-full rounded-md border bg-white shadow-lg"
           >
             {options.map((option) => (
               <div
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
-                className={`px-4 py-2 hover:bg-lightGray/20 cursor-pointer  ${
+                className={`hover:bg-lightGray/20 cursor-pointer px-4 py-2 ${
                   value === option.value ? "bg-lightGray/30 font-medium" : ""
                 }`}
               >
@@ -61,7 +57,7 @@ const GenderSelector = ({ value, onChange, error }) => {
         )}
       </AnimatePresence>
 
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );
 };

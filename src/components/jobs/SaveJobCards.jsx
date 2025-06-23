@@ -1,26 +1,50 @@
 "use client";
 import Card from "@/common/card/Card";
 import useGetJobs from "@/hooks/job/useGetJobs";
+import useGetSavedJobs from "@/hooks/job/useGetSavedJobs";
 import useJobStore from "@/store/job.store";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
-import SingleJobDetail from "./SingleJobDetail";
+import SingleSaveJobDetail from "./SingleSaveJobDetail";
 
-const JobCards = ({ filters }) => {
+const SaveJobCards = ({ filters, isSavedJobs = false }) => {
+  const searchParams = useSearchParams();
+  const jobId = searchParams.get("id");
+
   const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
-
-  // Pass a large limit to fetch all records
-  const searchParams = isDefaultFilters
-    ? { limit: 1000 } // Large limit to get all records
-    : { ...filters, limit: 1000 }; // Include filters with large limit
-
-  useGetJobs(searchParams);
-
-  const { jobs, isLoading, error } = useJobStore();
+  const { jobs, isLoading, error, getSavedJob } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
+
+  // Calculate params for useGetJobs hook
+  const jobParams = isDefaultFilters ? { limit: 1000 } : { ...filters, limit: 1000 };
+
+  // Use different hooks based on the type of job listing
+  if (isSavedJobs) {
+    // For saved jobs page
+    useGetSavedJobs();
+  } else {
+    // For regular jobs page
+    useGetJobs(jobParams);
+  }
+
+  // If jobId is present in the URL, fetch that specific job
+  useEffect(() => {
+    if (jobId) {
+      getSavedJob({
+        id: jobId,
+        onSuccess: (res) => {
+          console.log("Saved job fetched successfully");
+        },
+        onError: (error) => {
+          console.error("Error fetching saved job:", error);
+        },
+      });
+    }
+  }, [jobId, getSavedJob]);
 
   // When jobs are filtered, if the selected job is not in the new list, clear the selection.
   useEffect(() => {
@@ -32,6 +56,7 @@ const JobCards = ({ filters }) => {
   // Map API job data to UI job shape
   const mappedJobs = jobs.map((job) => ({
     _id: job._id,
+    savedId: job.savedId || null,
     title: job.jobTitle || job.title || "-",
     experience: job.experience ? `${job.experience} years` : "-",
     location: job.jobLocation || job.location || "-",
@@ -75,6 +100,16 @@ const JobCards = ({ filters }) => {
     }
   }, [mappedJobs, selectedJob]);
 
+  // If jobId is provided, auto-select that job
+  useEffect(() => {
+    if (jobId && mappedJobs.length > 0) {
+      const job = mappedJobs.find((job) => job._id === jobId);
+      if (job) {
+        setSelectedJob(job);
+      }
+    }
+  }, [jobId, mappedJobs]);
+
   if (isLoading) return <div>Loading jobs...</div>;
   if (error) return <div>Error loading jobs.</div>;
 
@@ -85,7 +120,7 @@ const JobCards = ({ filters }) => {
           {mappedJobs.length > 0 ? (
             mappedJobs.slice(0, visibleCount).map((job) => (
               <Card
-                key={job._id}
+                key={job.savedId || job._id}
                 className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
                   selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
                 }`}
@@ -118,7 +153,7 @@ const JobCards = ({ filters }) => {
               </Card>
             ))
           ) : (
-            <div>No jobs found.</div>
+            <div>No Saved jobs found.</div>
           )}
 
           {visibleCount < mappedJobs.length && (
@@ -135,7 +170,7 @@ const JobCards = ({ filters }) => {
       {selectedJob && (
         <div className="w-full md:w-[65%]">
           <div className="sticky top-12 px-2">
-            <SingleJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
+            <SingleSaveJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
           </div>
         </div>
       )}
@@ -143,4 +178,4 @@ const JobCards = ({ filters }) => {
   );
 };
 
-export default JobCards;
+export default SaveJobCards;

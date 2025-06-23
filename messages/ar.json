@@ -269,7 +269,10 @@
         "remote": "بعيد",
         "hybrid": "هجين",
         "part-time": "دوام جزئى",
-        "full-time": "بدوام كامل"
+        "full-time": "بدوام كامل",
+        "freelance": "متاح لحسابهم الخاص",
+        "notavailable": "غير متوفر",
+        "worldwide": "مفتوح لجهاز بعيد في جميع أنحاء العالم"
       },
       "short_bioPlaceholder": "أدخل سيرتك الذاتية القصيرة",
       "short_bio": "السيرة الذاتية القصيرة",
@@ -329,7 +332,8 @@
         "part-time": "دوام جزئى",
         "internship": "التدريب الداخلي",
         "freelancer": "مستقل",
-        "remote": "بعيد"
+        "remote": "بعيد",
+        "remotejob": "وظيفة عن بعد"
       },
       "experienceoption": {
         "beginner": "مبتدئ",
@@ -507,7 +511,9 @@
       "lastNameError": "الاسم الأخير مطلوب.",
       "phoneNumberError": "رقم الهاتف مطلوب.",
       "PhoneLength10to15Error": "أدخل رقم الهاتف بين 10 إلى 15 رقمًا",
-      "uploadLogoImage": "تحميل صورة شعار"
+      "uploadLogoImage": "تحميل صورة شعار",
+      "websiteError": "موقع الويب مطلوب.",
+      "logoUrlError": "صورة الشعار مطلوبة."
     },
     "location": {
       "subTitle": "دع المستخدمين والمرشحين يعرفون مكان إقامتك.",
@@ -728,7 +734,8 @@
   "Validation": {
     "personal": {
       "phoneInvalid": "تنسيق رقم الهاتف غير صالح (10 أرقام مطلوبة)",
-      "dobFutureDateNotAllowed": "التاريخ المستقبلي غير مسموح به"
+      "dobFutureDateNotAllowed": "التاريخ المستقبلي غير مسموح به",
+      "emailRequired": "البريد الإلكتروني مطلوب"
     }
   },
   "CreateJob": {

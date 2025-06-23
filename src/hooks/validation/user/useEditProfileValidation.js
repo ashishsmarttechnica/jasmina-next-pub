@@ -12,6 +12,7 @@ const useEditProfileValidation = () => {
     education: {},
   });
 
+  //
   const validatePersonalInfo = (data) => {
     const newErrors = {};
 
@@ -28,9 +29,9 @@ const useEditProfileValidation = () => {
       newErrors.userName = t("personal.userNameMin");
     }
 
-    if (!data?.gender) {
-      newErrors.gender = t("personal.genderRequired");
-    }
+    // if (!data?.gender) {
+    //   newErrors.gender = t("personal.genderRequired");
+    // }
 
     // if (!data?.dob) {
     //   newErrors.dob = t("personal.dobRequired");
@@ -73,12 +74,16 @@ const useEditProfileValidation = () => {
       newErrors.location = t("personal.locationRequired");
     }
 
-    // Optional fields validation
-    if (data?.linkedin && !data.linkedin.startsWith("https://www.linkedin.com/")) {
-      newErrors.linkedin = t("personal.linkedinInvalid");
+    // // Optional fields validation
+    // if (data?.linkedin && !data.linkedin.startsWith("https://www.linkedin.com/")) {
+    //   newErrors.linkedin = t("personal.linkedinInvalid");
+    // }
+
+    if (!data?.email?.trim()) {
+      newErrors.email = t("personal.emailRequired");
     }
 
-    if (data?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (!data?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       newErrors.email = t("personal.emailInvalid");
     }
 
@@ -86,6 +91,11 @@ const useEditProfileValidation = () => {
   };
 
   const validateJobPreferences = (data) => {
+    // If data is null or undefined (when availability is "Not Available"), return empty errors
+    if (!data) {
+      return {};
+    }
+
     const newErrors = {};
 
     if (!data?.jobRole?.trim()) {
@@ -175,16 +185,16 @@ const useEditProfileValidation = () => {
     }
 
     // Languages validation (optional but if added, must be complete)
-    if (data?.languagesList?.length) {
-      data.languagesList.forEach((lang, index) => {
-        if (!lang.languages?.trim()) {
-          newErrors[`language-${index}-languages`] = t("languages.languageNameRequired");
-        }
-        if (!lang.proficiency) {
-          newErrors[`language-${index}-proficiency`] = t("languages.languageProficiencyRequired");
-        }
-      });
-    }
+    // if (data?.languagesList?.length) {
+    //   data.languagesList.forEach((lang, index) => {
+    //     if (!lang.languages?.trim()) {
+    //       newErrors[`language-${index}-languages`] = t("languages.languageNameRequired");
+    //     }
+    //     if (!lang.proficiency) {
+    //       newErrors[`language-${index}-proficiency`] = t("languages.languageProficiencyRequired");
+    //     }
+    //   });
+    // }
 
     // Experience validation (optional but if added, must be complete)
     if (data?.experienceList?.length) {
@@ -216,9 +226,13 @@ const useEditProfileValidation = () => {
     return newErrors;
   };
 
-  const validateAll = (personalData, preferencesData, educationSkillsData) => {
+  const validateAll = (personalData, preferencesData, educationSkillsData, availability) => {
     const personalErrors = validatePersonalInfo(personalData || {});
-    const jobErrors = validateJobPreferences(preferencesData || {});
+
+    // Only validate job preferences if availability is not "Not Available"
+    const jobErrors =
+      availability !== "Not Available" ? validateJobPreferences(preferencesData || {}) : {};
+
     const educationErrors = validateEducationAndSkills(educationSkillsData || {});
 
     const newErrors = {

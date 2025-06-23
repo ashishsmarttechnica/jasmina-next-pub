@@ -268,7 +268,10 @@
         "remote": "Fernbedienung",
         "hybrid": "Hybrid",
         "part-time": "Teilzeit",
-        "full-time": "Vollzeit"
+        "full-time": "Vollzeit",
+        "freelance": "Verfügbar für freiberuflich",
+        "notavailable": "Nicht verfügbar",
+        "worldwide": "Offen für entfernte weltweit"
       },
       "short_bioPlaceholder": "Geben Sie Ihre kurze Biografie ein",
       "short_bio": "Kurze Biografie",
@@ -328,7 +331,8 @@
         "part-time": "Teilzeit",
         "internship": "Praktikum",
         "freelancer": "Freiberufler",
-        "remote": "Fernbedienung"
+        "remote": "Fernbedienung",
+        "remotejob": "Remote -Job"
       },
       "experienceoption": {
         "beginner": "Anfänger",
@@ -506,7 +510,9 @@
       "lastNameError": "Nachname ist erforderlich.",
       "phoneNumberError": "Telefonnummer ist erforderlich.",
       "PhoneLength10to15Error": "Geben Sie die Telefonnummer zwischen 10 und 15 Ziffern ein",
-      "uploadLogoImage": "Laden Sie das Logo -Bild hoch"
+      "uploadLogoImage": "Laden Sie das Logo -Bild hoch",
+      "websiteError": "Website ist erforderlich.",
+      "logoUrlError": "Logo -Bild ist erforderlich."
     },
     "location": {
       "subTitle": "Lassen Sie Benutzer und Kandidaten wissen, wo Sie sich befinden.",
@@ -727,7 +733,8 @@
   "Validation": {
     "personal": {
       "phoneInvalid": "Ungültiges Telefonnummernformat (10 Ziffern erforderlich)",
-      "dobFutureDateNotAllowed": "Zukünftiges Datum nicht erlaubt"
+      "dobFutureDateNotAllowed": "Zukünftiges Datum nicht erlaubt",
+      "emailRequired": "E -Mail ist erforderlich"
     }
   },
   "CreateJob": {

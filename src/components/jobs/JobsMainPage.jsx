@@ -1,7 +1,6 @@
 import JobsLayout from "@/layout/JobsLayout";
-import React from "react";
-import MyJobs from "./leftSidebar/MyJobs";
 import DefaultJob from "./defaultJob/DefaultJob";
+import MyJobs from "./leftSidebar/MyJobs";
 
 const JobsMainPage = () => {
   return (

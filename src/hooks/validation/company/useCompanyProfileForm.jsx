@@ -28,13 +28,17 @@ const useCompanyProfileForm = () => {
       newErrors.industryType = t("industry.industryTypeError");
     }
 
+    if (!formData.website.trim()) newErrors.website = t("profile.websiteError");
+    if (!formData.logoUrl?.trim()) {
+      newErrors.logoUrl = t("profile.logoUrlError");
+    }
+
     if (!formData.companyType.trim()) newErrors.companyType = t("industry.companyTypeError");
     // if (!formData.socialLinks.trim())
     //   newErrors.socialLinks = "socialLinks is required.";
-    if (!formData.tagline.trim()) newErrors.tagline = t("industry.taglineError");
+    // if (!formData.tagline.trim()) newErrors.tagline = t("industry.taglineError");
     if (!formData.employees.trim()) newErrors.employees = t("industry.employeesError");
-    // if (!formData.description.trim())
-    //   newErrors.description = "Description is required.";
+    if (!formData.description.trim()) newErrors.description = "Description is required.";
 
     if (formData.instagramLink?.trim() !== "") {
       try {

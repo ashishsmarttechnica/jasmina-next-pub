@@ -307,23 +307,23 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
     return "";
   };
 
-  const getStateError = () => {
-    if (showErrors && selectedCountry && !selectedState) {
-      return t("stateRequired") || "State is required";
-    }
-    return "";
-  };
+  // const getStateError = () => {
+  //   if (showErrors && selectedCountry && !selectedState) {
+  //     return t("stateRequired") || "State is required";
+  //   }
+  //   return "";
+  // };
 
-  const getCityError = () => {
-    if (showErrors && selectedCountry && selectedState) {
-      if (!manualCityEntry && !selectedCity) {
-        return t("cityRequired") || "City is required";
-      } else if (manualCityEntry && !cityInput) {
-        return t("cityRequired") || "City is required";
-      }
-    }
-    return "";
-  };
+  // const getCityError = () => {
+  //   if (showErrors && selectedCountry && selectedState) {
+  //     if (!manualCityEntry && !selectedCity) {
+  //       return t("cityRequired") || "City is required";
+  //     } else if (manualCityEntry && !cityInput) {
+  //       return t("cityRequired") || "City is required";
+  //     }
+  //   }
+  //   return "";
+  // };
 
   return (
     <div>
@@ -348,12 +348,12 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
         <div>
           <Selecter
             name="state"
-            label={`${t("state")} *`}
+            label={`${t("state")} `}
             placeholder={t("selectState")}
             value={selectedState}
             onChange={handleStateChange}
             options={stateOptions}
-            error={getStateError()}
+            // error={getStateError()}
             isLoading={isLoadingStates && selectedCountry}
             disabled={!selectedCountry || isLoadingStates || stateOptions.length === 0}
             isSearchable={isStateSearchable}
@@ -371,21 +371,21 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
                 value={cityInput}
                 onChange={handleCityInput}
                 placeholder={t("enterCityManually")}
-                className={`focus:ring-primary-500 focus:border-primary-500 w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
-                  getCityError() ? "border-red-500" : "border-gray-300"
-                }`}
+                // className={`focus:ring-primary-500 focus:border-primary-500 w-full rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
+                //   getCityError() ? "border-red-500" : "border-gray-300"
+                // }`}
               />
-              {getCityError() && <p className="mt-1 text-sm text-red-500">{getCityError()}</p>}
+              {/* {getCityError() && <p className="mt-1 text-sm text-red-500">{getCityError()}</p>} */}
             </div>
           ) : (
             <Selecter
               name="city"
-              label={`${t("city")} *`}
+              label={`${t("city")} `}
               placeholder={t("selectCity")}
               value={selectedCity}
               onChange={handleCityChange}
               options={cityOptions}
-              error={getCityError()}
+              // error={getCityError()}
               isLoading={isLoadingCities && selectedState && selectedCountry}
               disabled={
                 !selectedState || !selectedCountry || isLoadingCities || cityOptions.length === 0

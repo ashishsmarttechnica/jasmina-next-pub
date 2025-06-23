@@ -19,9 +19,9 @@ const useProfileForm = () => {
     }
 
     // Gender validation
-    if (!formData.gender) {
-      newErrors.gender = t("GenderError");
-    }
+    // if (!formData.gender) {
+    //   newErrors.gender = t("GenderError");
+    // }
 
     // Date of Birth validation
     if (!formData.dob) {
@@ -29,27 +29,24 @@ const useProfileForm = () => {
     }
 
     // Phone validation
-    if (!formData.phone) {
-      newErrors.phone = t("PhoneError");
-    } else {
-      const phoneDigits = formData.phone.replace(/\D/g, "");
-      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-        newErrors.phone = t("PhoneLength10to15Error"); // Add this key in your translations
-      }
-    }
+    // if (!formData.phone) {
+    //   newErrors.phone = t("PhoneError");
+    // } else {
+    //   const phoneDigits = formData.phone.replace(/\D/g, "");
+    //   if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+    //     newErrors.phone = t("PhoneLength10to15Error"); // Add this key in your translations
+    //   }
+    // }
 
     // Location validation
     if (!formData.location) {
       newErrors.location = t("LocationError");
     } else {
       const locationParts = formData.location.split(", ");
-      if (locationParts.length !== 3) {
+      // Only require country (last part)
+      const country = locationParts[locationParts.length - 1];
+      if (!country) {
         newErrors.location = t("LocationError");
-      } else {
-        const [city, state, country] = locationParts;
-        if (!city || !state || !country) {
-          newErrors.location = t("LocationError");
-        }
       }
     }
 
@@ -57,56 +54,56 @@ const useProfileForm = () => {
     //   newErrors.LinkedInLink = t("LinkedInLinkError");
     // }
     // LinkedIn URL validation
-    if (formData.LinkedInLink?.trim()) {
-      try {
-        const url = new URL(formData.LinkedInLink);
-        if (!url.hostname.includes("linkedin.com")) {
-          newErrors.LinkedInLink = t("InvalidLinkedInLinkError");
-        }
-      } catch {
-        newErrors.LinkedInLink = t("InvalidLinkError");
-      }
-    }
+    // if (formData.LinkedInLink?.trim()) {
+    //   try {
+    //     const url = new URL(formData.LinkedInLink);
+    //     if (!url.hostname.includes("linkedin.com")) {
+    //       newErrors.LinkedInLink = t("InvalidLinkedInLinkError");
+    //     }
+    //   } catch {
+    //     newErrors.LinkedInLink = t("InvalidLinkError");
+    //   }
+    // }
     // instagram link validation
-    if (formData.instagramLink?.trim() !== "") {
-      try {
-        const url = new URL(formData.instagramLink);
-        if (!url.hostname.includes("instagram.com")) {
-          newErrors.instagramLink = t("InvalidInstagramLinkError") || "Invalid Instagram Link";
-        }
-      } catch {
-        newErrors.instagramLink = t("InvalidLinkError");
-      }
-    }
+    // if (formData.instagramLink?.trim() !== "") {
+    //   try {
+    //     const url = new URL(formData.instagramLink);
+    //     if (!url.hostname.includes("instagram.com")) {
+    //       newErrors.instagramLink = t("InvalidInstagramLinkError") || "Invalid Instagram Link";
+    //     }
+    //   } catch {
+    //     newErrors.instagramLink = t("InvalidLinkError");
+    //   }
+    // }
     // x link validation
-    if (formData.xLink?.trim() !== "") {
-      try {
-        const url = new URL(formData.xLink);
-        if (!url.hostname.includes("x.com")) {
-          newErrors.xLink = t("InvalidXLinkError") || "Invalid X Link";
-        }
-      } catch {
-        newErrors.xLink = t("InvalidLinkError") || "Invalid Link";
-      }
-    }
+    // if (formData.xLink?.trim() !== "") {
+    //   try {
+    //     const url = new URL(formData.xLink);
+    //     if (!url.hostname.includes("x.com")) {
+    //       newErrors.xLink = t("InvalidXLinkError") || "Invalid X Link";
+    //     }
+    //   } catch {
+    //     newErrors.xLink = t("InvalidLinkError") || "Invalid Link";
+    //   }
+    // }
     // facebook link validation
-    if (formData.facebookLink?.trim() !== "") {
-      try {
-        const url = new URL(formData.facebookLink);
-        if (!url.hostname.includes("facebook.com")) {
-          newErrors.facebookLink = t("InvalidFacebookLinkError") || "Invalid Facebook Link";
-        }
-      } catch {
-        newErrors.facebookLink = t("InvalidLinkError");
-      }
-    }
+    // if (formData.facebookLink?.trim() !== "") {
+    //   try {
+    //     const url = new URL(formData.facebookLink);
+    //     if (!url.hostname.includes("facebook.com")) {
+    //       newErrors.facebookLink = t("InvalidFacebookLinkError") || "Invalid Facebook Link";
+    //     }
+    //   } catch {
+    //     newErrors.facebookLink = t("InvalidLinkError");
+    //   }
+    // }
 
     // short bio validation
-    if (formData.short_bio?.trim() !== "") {
-      if (formData.short_bio.length > 100) {
-        newErrors.short_bio = t("ShortBioLengthError") || "Short bio must be less than 100 characters";
-      }
-    }
+    // if (formData.short_bio?.trim() !== "") {
+    //   if (formData.short_bio.length > 100) {
+    //     newErrors.short_bio = t("ShortBioLengthError") || "Short bio must be less than 100 characters";
+    //   }
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

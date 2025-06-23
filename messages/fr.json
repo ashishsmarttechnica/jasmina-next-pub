@@ -269,7 +269,10 @@
         "remote": "Télécommande",
         "hybrid": "Hybride",
         "part-time": "À temps partiel",
-        "full-time": "À temps plein"
+        "full-time": "À temps plein",
+        "freelance": "Disponible pour le freelance",
+        "notavailable": "Pas disponible",
+        "worldwide": "Ouvert à distance dans le monde entier"
       },
       "short_bioPlaceholder": "Entrez votre courte biographie",
       "short_bio": "Bio courte",
@@ -329,7 +332,8 @@
         "part-time": "À temps partiel",
         "internship": "Stage",
         "freelancer": "Pigiste",
-        "remote": "Télécommande"
+        "remote": "Télécommande",
+        "remotejob": "Travail à distance"
       },
       "experienceoption": {
         "beginner": "Débutant",
@@ -506,7 +510,9 @@
       "lastNameError": "Le nom de famille est requis.",
       "phoneNumberError": "Le numéro de téléphone est requis.",
       "PhoneLength10to15Error": "Entrez le numéro de téléphone entre 10 et 15 chiffres",
-      "uploadLogoImage": "Télécharger l'image du logo"
+      "uploadLogoImage": "Télécharger l'image du logo",
+      "websiteError": "Le site Web est requis.",
+      "logoUrlError": "L'image de logo est requise."
     },
     "location": {
       "subTitle": "Faites savoir aux utilisateurs et aux candidats où vous êtes basé.",
@@ -727,7 +733,8 @@
   "Validation": {
     "personal": {
       "phoneInvalid": "Format de numéro de téléphone non valide (10 chiffres requis)",
-      "dobFutureDateNotAllowed": "Date future non autorisée"
+      "dobFutureDateNotAllowed": "Date future non autorisée",
+      "emailRequired": "un e-mail est requis"
     }
   },
   "CreateJob": {
