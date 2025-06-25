@@ -83,9 +83,9 @@ const JobCards = ({ filters }) => {
       <div className="w-full pr-2 md:w-[35%]">
         <div className="flex flex-col gap-4">
           {mappedJobs.length > 0 ? (
-            mappedJobs.slice(0, visibleCount).map((job) => (
+            mappedJobs.slice(0, visibleCount).map((job, index) => (
               <Card
-                key={job._id}
+                key={`${job._id}-${index}`}
                 className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
                   selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
                 }`}
@@ -118,7 +118,7 @@ const JobCards = ({ filters }) => {
               </Card>
             ))
           ) : (
-            <div>No jobs found.</div>
+            <div>Waiting for jobs...</div>
           )}
 
           {visibleCount < mappedJobs.length && (

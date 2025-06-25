@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/common/card/Card";
+// import AppliedJobsPageSkeleton from "@/common/skeleton/AppliedJobsPageSkeleton";
 import useGetAppliedJobs from "@/hooks/job/useGetAppliedJobs";
 import useAppliedJobStore from "@/store/appliedJob.store";
 import Image from "next/image";
@@ -89,8 +90,6 @@ const AppliedJobsMainPage = () => {
             <div>Loading applied jobs...</div>
           ) : error ? (
             <div>Error: {error}</div>
-          ) : mappedJobs.length === 0 ? (
-            <div>No applied jobs found.</div>
           ) : (
             <div className="flex flex-col gap-4 md:flex-row">
               {/* Left Column: Job List */}
@@ -103,7 +102,7 @@ const AppliedJobsMainPage = () => {
                     key={job._id}
                     className={`mb-3 transform cursor-pointer transition duration-200 ${
                       selectedJob?._id === job._id
-                        ? "border-primary border-2"
+                        ? "border-primary border-1"
                         : "hover:scale-[1.01]"
                     }`}
                     onClick={() => setSelectedJob(job)}

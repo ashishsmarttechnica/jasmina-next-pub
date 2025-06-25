@@ -90,9 +90,9 @@ const useEditProfileValidation = () => {
     return newErrors;
   };
 
-  const validateJobPreferences = (data) => {
-    // If data is null or undefined (when availability is "Not Available"), return empty errors
-    if (!data) {
+  const validateJobPreferences = (data, availability) => {
+    // If availability is "Not Available", skip all job preference validations
+    if (availability === "Not Available") {
       return {};
     }
 
@@ -110,16 +110,6 @@ const useEditProfileValidation = () => {
       newErrors.salaryRange = t("job.salaryRangeRequired");
     }
 
-    // if (!data?.joindate) {
-    //   newErrors.joindate = t("job.joindateRequired");
-    // } else {
-    //   const joinDate = new Date(data.joindate);
-    //   const today = new Date();
-    //   if (joinDate < today) {
-    //     newErrors.joindate = t("job.joindateFuture");
-    //   }
-    // }
-
     if (!data?.workLocation?.trim()) {
       newErrors.workLocation = t("job.workLocationRequired");
     }
@@ -127,10 +117,6 @@ const useEditProfileValidation = () => {
     if (!data?.experience) {
       newErrors.experience = t("job.experienceRequired");
     }
-
-    // if (data?.industry?.trim() === "") {
-    //   newErrors.industry = t("job.industryRequired");
-    // }
 
     return newErrors;
   };
@@ -228,11 +214,7 @@ const useEditProfileValidation = () => {
 
   const validateAll = (personalData, preferencesData, educationSkillsData, availability) => {
     const personalErrors = validatePersonalInfo(personalData || {});
-
-    // Only validate job preferences if availability is not "Not Available"
-    const jobErrors =
-      availability !== "Not Available" ? validateJobPreferences(preferencesData || {}) : {};
-
+    const jobErrors = validateJobPreferences(preferencesData || {}, availability);
     const educationErrors = validateEducationAndSkills(educationSkillsData || {});
 
     const newErrors = {

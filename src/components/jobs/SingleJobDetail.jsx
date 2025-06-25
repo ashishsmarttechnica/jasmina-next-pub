@@ -7,7 +7,8 @@ import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
@@ -63,6 +64,7 @@ const SingleJobDetail = ({ job, onBack }) => {
   };
 
   const handleApplyNow = () => {
+    // const locale = window.location.pathname.split("/")[1];
     router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
 

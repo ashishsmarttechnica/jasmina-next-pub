@@ -43,3 +43,8 @@ export const getAppliedJobs = async ({ userId, page = 1, limit = 10 }) => {
   const res = await axios.get(`/get/applied/job?${params.toString()}`);
   return res.data;
 };
+
+export const applyJob = async (data) => {
+  const res = await axios.post("/apply/job", data);
+  return res.data;
+};

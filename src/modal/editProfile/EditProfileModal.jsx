@@ -18,7 +18,8 @@ import PersonalInformationForm from "./PersonalInformationForm";
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
 
-  console.log(user, "sdfdsf");
+  console.log(user?.profile.availabilty, "sdfdsf23423423");
+
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
   const { resetLocation } = useLocationStore();
@@ -34,10 +35,15 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   // Image state
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
+  const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
 
   // Proficiency options for skills/languages
   const proficiencyOptions = useProficiencyOptions();
   const categoryOptions = useSkillCategoryOptions();
+
+  const handleAvailabilityChange = (newAvailability) => {
+    setAvailability(newAvailability);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +54,12 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     const educationData = educationSkillsRef.current?.getData();
 
     // Validate all forms using the centralized validation
-    const isValid = validateAll(personalData, preferencesData, educationData);
+    const isValid = validateAll(
+      personalData,
+      preferencesData,
+      educationData,
+      personalData.availabilty
+    );
 
     // If validation fails, stop form submission
     if (!isValid) {
@@ -77,16 +88,18 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.facebook", personalData.facebook);
     formData.append("profile.email", personalData.email);
 
-    // Preferences fields
-    formData.append("preferences.jobRole", preferencesData.jobRole);
-    formData.append("preferences.jobType", preferencesData.jobType);
-    formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
-    formData.append("preferences.currency", preferencesData.currency);
-    formData.append("preferences.availableFrom", preferencesData.joindate);
-    formData.append("preferences.preferredLocation", preferencesData.workLocation);
-    formData.append("preferences.yearsOfExperience", preferencesData.experience);
-    if (preferencesData.industry)
-      formData.append("preferences.preferredIndustry", preferencesData.industry);
+    // Preferences fields - only append if availability is not "Not Available"
+    if (personalData.availabilty !== "Not Available") {
+      formData.append("preferences.jobRole", preferencesData.jobRole);
+      formData.append("preferences.jobType", preferencesData.jobType);
+      formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
+      formData.append("preferences.currency", preferencesData.currency);
+      formData.append("preferences.availableFrom", preferencesData.joindate);
+      formData.append("preferences.preferredLocation", preferencesData.workLocation);
+      formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      if (preferencesData.industry)
+        formData.append("preferences.preferredIndustry", preferencesData.industry);
+    }
 
     // Education
     educationData.educationList?.forEach((edu, i) => {
@@ -172,18 +185,21 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             email={descriptionData?.email}
             errors={errors?.personal || {}}
             clearFieldError={clearError}
+            onAvailabilityChange={handleAvailabilityChange}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           />
         </div>
-        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
-          <JobPreferencesForm
-            ref={jobRef}
-            initialData={descriptionData?.preferences}
-            errors={errors?.job || {}}
-            clearFieldError={clearError}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          />
-        </div>
+        {availability !== "Not Available" && (
+          <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+            <JobPreferencesForm
+              ref={jobRef}
+              initialData={descriptionData?.preferences}
+              errors={errors?.job || {}}
+              clearFieldError={clearError}
+              className="grid grid-cols-1 gap-4 md:grid-cols-2"
+            />
+          </div>
+        )}
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <EducationSkillsForm
             categoryOptions={categoryOptions}

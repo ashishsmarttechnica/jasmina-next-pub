@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useProfileForm = () => {
   const [errors, setErrors] = useState({});

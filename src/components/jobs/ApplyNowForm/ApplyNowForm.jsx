@@ -1,13 +1,17 @@
 "use client";
+import { applyJob } from "@/api/job.api";
 import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
 import LocationInput from "@/common/LocationInput";
 import useProfileForm from "@/hooks/validation/user/Job/useProfileForm";
+import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/store/auth.store";
 import { useCallback, useRef, useState } from "react";
+import { toast } from "react-toastify";
+
 import { FiUpload } from "react-icons/fi";
 
-const ApplyNowForm = () => {
+const ApplyNowForm = ({ jobId }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     userName: "",
@@ -23,6 +27,8 @@ const ApplyNowForm = () => {
   const { user } = useAuthStore();
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
+  const router = useRouter();
+
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -89,17 +95,12 @@ const ApplyNowForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm(formData)) return;
-    if (!selectedFile && user?.resume) {
-      setActiveTab(4);
-      return;
-    }
+    // if (!validateForm(formData)) return;
 
-    // ❌ No resume and no file selected
-    if (!selectedFile && !user.resume) {
-      setError(t("Please upload a resume file (PDF, DOC, DOCX, TEX)."));
+    if (!selectedFile) {
+      setError("Please upload a resume file (PDF, DOC, DOCX, TEX).");
       return;
     }
 
@@ -107,26 +108,47 @@ const ApplyNowForm = () => {
     const fileExtension = selectedFile?.name.split(".").pop();
 
     if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
-      setError(t("Invalid file format. Please upload a valid resume file."));
+      setError("Invalid file format. Please upload a valid resume file.");
       return;
     }
-    const submitData = new FormData();
-    submitData.append("profile.fullName", formData.fullName);
-    submitData.append("profile.userName", formData.userName);
-    submitData.append("profile.phone", formData.phone);
-    submitData.append("profile.email", formData.email);
-    submitData.append("profile.location", formData.location);
-    submitData.append("profile.dob", formData.dob);
-    submitData.append("profile.cv", formData.cv);
-    submitData.append("profile.experience", formData.experience);
 
-    updateProfile(submitData, {
-      onSuccess: (res) => {
-        if (res.success) {
-          setActiveTab(1);
-        }
-      },
-    });
+    const submitData = new FormData();
+    submitData.append("jobId", jobId);
+    submitData.append("userId", user?._id);
+    submitData.append("fullName", formData.fullName);
+    submitData.append("userName", formData.userName);
+    submitData.append("phone", formData.phone);
+    submitData.append("email", formData.email);
+    submitData.append("location", formData.location);
+    submitData.append("dateOfBirth", formData.dob);
+    submitData.append("expYears", formData.experience);
+    submitData.append("appliedCV", selectedFile);
+
+    try {
+      const response = await applyJob(submitData);
+      if (response.success) {
+        toast.success(response.message);
+        // Reset form after successful submission
+        setFormData({
+          fullName: "",
+          userName: "",
+          phone: "",
+          email: "",
+          location: "",
+          dob: "",
+          cv: null,
+          experience: "",
+        });
+        setSelectedFile(null);
+
+        // Navigate to applied-jobs page after success
+        setTimeout(() => {
+          router.push("/jobs/applied-jobs");
+        }, 1500);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    }
   };
 
   return (
