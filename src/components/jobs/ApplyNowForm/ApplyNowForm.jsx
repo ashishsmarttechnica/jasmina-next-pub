@@ -4,7 +4,7 @@ import InputField from "@/common/InputField";
 import LocationInput from "@/common/LocationInput";
 import useProfileForm from "@/hooks/validation/user/Job/useProfileForm";
 import useAuthStore from "@/store/auth.store";
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FiUpload } from "react-icons/fi";
 
 const ApplyNowForm = () => {
@@ -130,9 +130,9 @@ const ApplyNowForm = () => {
   };
 
   return (
-    <div className="w-full h-fit  xl:max-w-[547px]  p-2 sm:p-[20px] mx-auto bg-white  font-normal text-[14px] rounded-lg shadow-sm">
+    <div className="mx-auto h-fit w-full rounded-lg bg-white p-2 text-[14px] font-normal shadow-sm sm:p-[20px] xl:max-w-[547px]">
       <form onSubmit={handleSubmit}>
-        <h2 className="text-left  mb-4 text-black text-[16px]  font-medium  ">
+        <h2 className="mb-4 text-left text-[16px] font-medium text-black">
           Add your contact information
         </h2>
 
@@ -177,9 +177,7 @@ const ApplyNowForm = () => {
               onLocationDetect={handleLocationDetect}
               error={errors.location}
             />
-            {errors.location && (
-              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
-            )}
+            {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location}</p>}
           </div>
 
           <CustomDatePicker
@@ -191,15 +189,15 @@ const ApplyNowForm = () => {
         </div>
 
         <div className="mb-2">
-          <label className="block font-medium text-[16px] my-5 text-black">
+          <label className="my-5 block text-[16px] font-medium text-black">
             Add a CV for the employer
           </label>
         </div>
 
-        <div className="w-full h-22 border-[#CAB7CC]/[75%] border-[0.78px] rounded-xl flex flex-col items-center justify-center relative cursor-pointer">
+        <div className="relative flex h-22 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-[0.78px] border-[#CAB7CC]/[75%]">
           <label
             htmlFor="cv"
-            className="flex flex-row gap-2 items-center justify-center text-[#0F8200] font-medium text-[14px] cursor-pointer"
+            className="flex cursor-pointer flex-row items-center justify-center gap-2 text-[14px] font-medium text-[#0F8200]"
           >
             <div onClick={handleFileButtonClick}>
               <FiUpload className="text-2xl" />
@@ -214,22 +212,17 @@ const ApplyNowForm = () => {
             accept=".pdf,.doc,.docx,.tex,.webp"
             ref={fileInputRef}
             onChange={handleFileChange}
-            className="absolute inset-0 opacity-0 cursor-pointer"
+            className="absolute inset-0 cursor-pointer opacity-0"
           />
 
           <p className="mt-2 text-[12px] text-gray-600">
-            {selectedFile
-              ? ` ${selectedFile.name}`
-              : "Allowed: PDF, DOC, DOCX, TEX, WEBP"}
+            {selectedFile ? ` ${selectedFile.name}` : "Allowed: PDF, DOC, DOCX, TEX, WEBP"}
           </p>
-          {error && <p className="text-sm text-red-500 ">{error}</p>}
+          {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
 
         <div className="mb-2 flex flex-col">
-          <label
-            htmlFor="experience"
-            className="font-medium text-[14px] mt-1 text-black py-1"
-          >
+          <label htmlFor="experience" className="mt-1 py-1 text-[14px] font-medium text-black">
             How many years of UI/UX experience do you have?*
           </label>
           <input
@@ -238,13 +231,13 @@ const ApplyNowForm = () => {
             value={formData.experience}
             onChange={handleInputChange}
             id="experience"
-            className="max-w-[196px] w-full p-2 mt-1 border-[0.78px] border-[#CAB7CC]/[75%] outline-none rounded-lg"
+            className="mt-1 w-full max-w-[196px] rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full mt-3 sm:mt-5 p-1 hover:text-primary sm:p-2 bg-primary transition-all duration-100 ease-in border border-transparent hover:border-primary hover:bg-secondary/50 text-white rounded-md text-[18px] sm:text-[14px] font-medium"
+          className="hover:text-primary bg-primary hover:border-primary hover:bg-secondary/50 mt-3 w-full rounded-md border border-transparent p-1 text-[18px] font-medium text-white transition-all duration-100 ease-in sm:mt-5 sm:p-2 sm:text-[14px]"
         >
           Submit your Application
         </button>

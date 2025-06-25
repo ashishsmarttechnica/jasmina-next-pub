@@ -34,3 +34,12 @@ export const getSavedJob = async (id) => {
   const res = await axios.get(`/get/save/job?id=${id}`);
   return res.data;
 };
+
+export const getAppliedJobs = async ({ userId, page = 1, limit = 10 }) => {
+  const params = new URLSearchParams();
+  params.append("id", userId);
+  params.append("page", page);
+  params.append("limit", limit);
+  const res = await axios.get(`/get/applied/job?${params.toString()}`);
+  return res.data;
+};

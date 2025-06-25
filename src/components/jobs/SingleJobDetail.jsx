@@ -7,7 +7,8 @@ import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
@@ -19,32 +20,50 @@ const SingleJobDetail = ({ job, onBack }) => {
   // console.log(job, "job");
   const [bookmarked, setBookmarked] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
+  const savedJobs = useJobStore((s) => s.savedJobs);
+  const router = useRouter();
+  // Check if this job is already saved when component mounts or job changes
+  useEffect(() => {
+    if (job && savedJobs && Array.isArray(savedJobs)) {
+      const isAlreadySaved = savedJobs.some(
+        (savedJob) =>
+          savedJob.jobId === job._id ||
+          savedJob._id === job._id ||
+          (job.savedId && savedJob.savedId === job.savedId)
+      );
+      setBookmarked(isAlreadySaved);
+    }
+  }, [job, savedJobs]);
 
   const toggleBookmark = () => {
-    if (!bookmarked) {
-      const userId = Cookies.get("userId");
-      if (!userId) {
-        toast.error("User not logged in");
-        return;
-      }
-      saveJob({
-        jobId: job?._id,
-        userId,
-        onSuccess: () => {
-          toast.success("Job saved!");
-          setBookmarked(true);
-        },
-        onError: (error) => {
-          toast.error(error?.response?.data?.message || "Failed to save job.");
-        },
-      });
-    } else {
-      setBookmarked(false);
+    const userId = Cookies.get("userId");
+    if (!userId) {
+      toast.error("User not logged in");
+      return;
     }
+
+    if (bookmarked) {
+      // If already bookmarked, show message but don't call API again
+      toast.info("Job already saved!");
+      return;
+    }
+
+    // Save the job only if not already bookmarked
+    saveJob({
+      jobId: job?._id,
+      userId,
+      onSuccess: () => {
+        toast.success("Job saved!");
+        setBookmarked(true);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message || "Failed to save job.");
+      },
+    });
   };
 
   const handleApplyNow = () => {
-    alert("Apply now clicked!");
+    router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
 
   return (

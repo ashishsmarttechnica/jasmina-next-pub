@@ -16,7 +16,6 @@ export const getConnections = async ({
   limit = 10,
   connectionType = "User",
 }) => {
-
   const res = await axios.get(
     `/get/connection?userId=${userId}&userType=${userType}&page=${page}&limit=${limit}&filterType=${connectionType}`
   );

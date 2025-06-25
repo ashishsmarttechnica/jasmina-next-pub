@@ -16,7 +16,7 @@ const PeopleCard = ({ person }) => {
   const t = useTranslations("CompanyProfile.singleCompanyTab");
 
   const handleProfile = (user) => {
-    router.push(`/single-user/${user._id}`);
+    router.push(`/single-user/${user._id}?fromConnections=true`);
   };
 
   const handleRemove = (user) => {
@@ -46,8 +46,9 @@ const PeopleCard = ({ person }) => {
 
   return (
     <div
-      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
-        }`}
+      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
+        isRemoving ? "translate-x-full transform opacity-0" : ""
+      }`}
     >
       {/* Avatar and Info */}
       <div

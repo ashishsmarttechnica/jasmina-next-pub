@@ -67,6 +67,7 @@ const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clea
           onChange={handleLocationChange}
           error={errors.country}
           isLGBTQ={true}
+          countryLabel={`${t("CountryHeadquarters")} *`}
         />
       </div>
 

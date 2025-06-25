@@ -532,7 +532,9 @@
       "countryError": "البلد مطلوب.",
       "cityError": "المدينة مطلوبة.",
       "fullAddressError": "العنوان الكامل مطلوب.",
-      "location": "موقع"
+      "location": "موقع",
+      "countryHeadquarters": "المقر الرئيسي",
+      "CountryHeadquarters": "مقر البلد"
     },
     "media": {
       "subTitle": "عرض شعار شركتك وموقع الويب وملامح وسائل التواصل الاجتماعي.",

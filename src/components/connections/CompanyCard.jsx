@@ -15,7 +15,7 @@ const CompanyCard = ({ company }) => {
   const router = useRouter();
   const t = useTranslations("UserProfile.profile.singleprofileTab");
   const handleProfile = (company) => {
-    router.push(`/company/single-company/${company._id}`);
+    router.push(`/company/single-company/${company._id}?fromConnections=true`);
   };
 
   const handleRemove = (company) => {

@@ -4,7 +4,7 @@ import useLocationStore from "@/store/location.store";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) => {
+const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, countryLabel }) => {
   const t = useTranslations("Common");
   const {
     selectedCountry,
@@ -307,23 +307,8 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
     return "";
   };
 
-  // const getStateError = () => {
-  //   if (showErrors && selectedCountry && !selectedState) {
-  //     return t("stateRequired") || "State is required";
-  //   }
-  //   return "";
-  // };
-
-  // const getCityError = () => {
-  //   if (showErrors && selectedCountry && selectedState) {
-  //     if (!manualCityEntry && !selectedCity) {
-  //       return t("cityRequired") || "City is required";
-  //     } else if (manualCityEntry && !cityInput) {
-  //       return t("cityRequired") || "City is required";
-  //     }
-  //   }
-  //   return "";
-  // };
+  // Use custom country label if provided, otherwise use default
+  const displayCountryLabel = countryLabel || `${t("country")} *`;
 
   return (
     <div>
@@ -333,7 +318,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ }) =>
         <div>
           <Selecter
             name="country"
-            label={`${t("country")} *`}
+            label={displayCountryLabel}
             placeholder={t("selectCountry")}
             value={selectedCountry}
             onChange={handleCountryChange}

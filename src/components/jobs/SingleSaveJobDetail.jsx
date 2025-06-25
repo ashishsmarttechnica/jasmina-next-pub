@@ -6,41 +6,60 @@ import Experience from "@/assets/svg/jobs/Experience";
 import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import useJobStore from "@/store/job.store";
-import { useState } from "react";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
-import { MdBookmark } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
   // console.log(job, "job");
-  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
   const saveJob = useJobStore((s) => s.saveJob);
+  const savedJobs = useJobStore((s) => s.savedJobs);
 
-    const toggleBookmark = () => {
-      if (!bookmarked) {
-        const userId = Cookies.get("userId");
-        if (!userId) {
-          toast.error("User not logged in");
-          return;
-        }
-        saveJob({
-          jobId: job?._id,
-          userId,
-          onSuccess: () => {
-            toast.success("Job saved!");
-            setBookmarked(true);
-          },
-          onError: (error) => {
-            toast.error(error?.response?.data?.message || "Failed to save job.");
-          },
-        });
-      } else {
-        setBookmarked(false);
-      }
-    };
+  // Check if this job is already saved when component mounts or job changes
+  useEffect(() => {
+    if (job && savedJobs && Array.isArray(savedJobs)) {
+      const isAlreadySaved = savedJobs.some(
+        (savedJob) =>
+          savedJob.jobId === job._id ||
+          savedJob._id === job._id ||
+          (job.savedId && savedJob.savedId === job.savedId)
+      );
+      setBookmarked(isAlreadySaved);
+    }
+  }, [job, savedJobs]);
+
+  const toggleBookmark = () => {
+    const userId = Cookies.get("userId");
+    if (!userId) {
+      toast.error("User not logged in");
+      return;
+    }
+
+    if (bookmarked) {
+      // If already bookmarked, show message but don't call API again
+      toast.info("Job already saved!");
+      return;
+    }
+
+    // Save the job only if not already bookmarked
+    saveJob({
+      jobId: job?._id,
+      userId,
+      onSuccess: () => {
+        toast.success("Job saved!");
+        setBookmarked(true);
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message || "Failed to save job.");
+      },
+    });
+  };
 
   const handleApplyNow = () => {
     alert("Apply now clicked!");
@@ -57,13 +76,12 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
 
       <h3 className="mb-2 flex justify-between text-lg font-semibold text-black">
         {job?.title}
-        <span className="cursor-pointer">
-          {/* {bookmarked ? (
-            <MdBookmark className="text-xl text-[#888DA8]" />
+        <span onClick={toggleBookmark} className="cursor-pointer">
+          {bookmarked ? (
+            <FaBookmark className="text-xl text-[#888DA8]" />
           ) : (
             <LuBookmark className="text-xl text-[#888DA8]" />
-          )} */}
-          <FaBookmark className="text-xl text-[#888DA8]" />
+          )}
         </span>
       </h3>
 

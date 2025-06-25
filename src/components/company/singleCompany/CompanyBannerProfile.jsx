@@ -3,12 +3,17 @@ import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
+import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import getImg from "@/lib/getImg";
 import EdicCompanyProfileModal from "@/modal/editCompanyProfile/EdicCompanyProfileModal";
+import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+// import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+// import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
@@ -17,6 +22,53 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  // Check if user came from connections page
+  const fromConnections =
+    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
+
+  const { mutate: removeConnection } = useRemoveConnection();
+
+  const handleConnectionClick = () => {
+    router.push("/en/connections");
+  };
+  const handleResentPassword = () => {
+    setIsPasswordModalOpen(true);
+  };
+
+  const handleRemoveConnection = () => {
+    if (!userData || !paramsUserId) return;
+
+    setIsRemoving(true);
+
+    removeConnection(
+      {
+        id: paramsUserId,
+        role: "Company",
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            // Refresh the page to update the UI
+            window.location.reload();
+          } else {
+            toast.error(res?.message || "Failed to remove connection");
+          }
+        },
+        onError: (error) => {
+          toast.error(error?.message || "Failed to remove connection");
+        },
+        onSettled: () => {
+          setIsRemoving(false);
+        },
+      }
+    );
+  };
+
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
@@ -61,12 +113,27 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             <p className="text-xs font-normal text-[#888DA8]">{userData?.country || "Country"}</p>
 
             {isCurrentUser ? (
-              <button className="profile-btn" onClick={() => setOpen(true)}>
-                {t("editProfile")}
-              </button>
+              <div className="flex gap-2">
+                <button className="profile-btn" onClick={() => setOpen(true)}>
+                  {t("editProfile")}
+                </button>
+                <button className="profile-btn" onClick={() => handleResentPassword()}>
+                  Reset Password
+                </button>
+              </div>
             ) : (
               <div className="mt-3.5 flex gap-2">
-                <button className="connect-btn">{t("connect")}</button>
+                {fromConnections ? (
+                  <button
+                    onClick={handleRemoveConnection}
+                    disabled={isRemoving}
+                    className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isRemoving ? "Removing..." : "Remove"}
+                  </button>
+                ) : (
+                  <button className="connect-btn">{t("connect")}</button>
+                )}
                 <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group">
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
@@ -87,7 +154,10 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
               />
             </div>
             <div className="mt-28 flex w-full overflow-hidden border border-black/10 sm:mt-5 sm:max-w-xs md:mt-4 xl:max-w-[266px]">
-              <div className="w-1/2 border-r border-black/10 px-2 py-4 text-center">
+              <div
+                onClick={handleConnectionClick}
+                className="w-1/2 cursor-pointer border-r border-black/10 px-2 py-4 text-center hover:bg-gray-50"
+              >
                 <p className="text-primary text-[16px] font-bold">
                   {userData?.connectionCount || 0}
                 </p>
@@ -103,6 +173,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
         </div>
       </div>
       <EdicCompanyProfileModal open={open} onClose={() => setOpen(false)} userData={userData} />
+      <PasswordResetModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        userData={userData}
+      />
     </div>
   );
 };

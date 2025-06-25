@@ -2,14 +2,16 @@ import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
+import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import getImg from "@/lib/getImg";
 import EditProfileModal from "@/modal/editProfile/EditProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 // Import social media icons
 const LinkedInIcon = () => (
@@ -70,14 +72,57 @@ const UserBannerProfile = ({
 }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const paramsUserId = params?.id;
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  // Check if user came from connections page
+  const fromConnections =
+    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true ;
+
+  const { mutate: removeConnection } = useRemoveConnection();
 
   const handleResentPassword = () => {
     setIsPasswordModalOpen(true);
+  };
+
+  const handleConnectionClick = () => {
+    router.push("/en/connections");
+  };
+
+  const handleRemoveConnection = () => {
+    if (!userData || !paramsUserId) return;
+
+    setIsRemoving(true);
+
+    removeConnection(
+      {
+        id: paramsUserId,
+        role: "User",
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            // toast.success("Connection removed successfully!");
+            // Refresh the page to update the UI
+            window.location.reload();
+          } else {
+            toast.error(res?.message || "Failed to remove connection");
+          }
+        },
+        onError: (error) => {
+          toast.error(error?.message || "Failed to remove connection");
+        },
+        onSettled: () => {
+          setIsRemoving(false);
+        },
+      }
+    );
   };
 
   if (isLoading) {
@@ -172,12 +217,22 @@ const UserBannerProfile = ({
                   {t("editProfile")}
                 </button>
                 <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
-                  Resent Password
+                  Reset Password
                 </button>
               </div>
             ) : (
               <div className="mt-3.5 flex gap-2">
-                <button className="connect-btn">{t("connect")}</button>
+                {fromConnections ? (
+                  <button
+                    onClick={handleRemoveConnection}
+                    disabled={isRemoving}
+                    className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isRemoving ? "Removing..." : "Remove"}
+                  </button>
+                ) : (
+                  <button className="connect-btn">{t("connect")}</button>
+                )}
                 <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
@@ -200,7 +255,10 @@ const UserBannerProfile = ({
               />
             </div>
             <div className="mt-28 flex w-full overflow-hidden border border-black/10 sm:mt-5 sm:max-w-xs md:mt-4 xl:max-w-[266px]">
-              <div className="w-1/2 border-r border-black/10 px-2 py-4 text-center">
+              <div
+                onClick={handleConnectionClick}
+                className="w-1/2 cursor-pointer border-r border-black/10 px-2 py-4 text-center hover:bg-gray-50"
+              >
                 <p className="text-primary text-[16px] font-bold">
                   {userData?.connectionCount || 0}
                 </p>

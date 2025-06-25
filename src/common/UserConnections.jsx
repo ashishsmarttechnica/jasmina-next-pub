@@ -49,9 +49,9 @@ const UserConnections = ({ title }) => {
 
   const handleUserProfile = (user) => {
     if (user.connectionType === "User") {
-      router.push(`/single-user/${user.details._id}`);
+      router.push(`/single-user/${user.details._id}?fromConnections=true`);
     } else {
-      router.push(`/company/single-company/${user.details._id}`);
+      router.push(`/company/single-company/${user.details._id}?fromConnections=true`);
     }
   };
 

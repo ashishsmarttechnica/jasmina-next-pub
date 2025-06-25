@@ -531,7 +531,9 @@
       "countryError": "Le pays est requis.",
       "cityError": "La ville est requise.",
       "fullAddressError": "Une adresse complète est requise.",
-      "location": "Emplacement"
+      "location": "Emplacement",
+      "countryHeadquarters": "Quartier général",
+      "CountryHeadquarters": "Siège social"
     },
     "media": {
       "subTitle": "Présentez les profils de logo, de site Web et de médias sociaux de votre entreprise.",

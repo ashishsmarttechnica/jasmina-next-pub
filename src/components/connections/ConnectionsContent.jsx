@@ -45,7 +45,7 @@ const ConnectionsContent = () => {
     error: userError,
     refetch: refetchUser,
     isFetching: isUserFetching,
-  } = useConnections( "User" ,  userPage, undefined, { enabled: activeTab === "people" }, );
+  } = useConnections("User", userPage, undefined, { enabled: activeTab === "people" });
 
   const {
     data: companyData,
@@ -54,7 +54,7 @@ const ConnectionsContent = () => {
     error: companyError,
     refetch: refetchCompany,
     isFetching: isCompanyFetching,
-  } = useConnections( "Company" ,  companyPage, undefined, { enabled: activeTab === "company" }, );
+  } = useConnections("Company", companyPage, undefined, { enabled: activeTab === "company" });
 
   const currentConnections = activeTab === "people" ? userConnections : companyConnections;
   const currentPagination = activeTab === "people" ? userPagination : companyPagination;

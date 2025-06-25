@@ -17,6 +17,8 @@ import PersonalInformationForm from "./PersonalInformationForm";
 
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
+
+  console.log(user, "sdfdsf");
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
   const { resetLocation } = useLocationStore();

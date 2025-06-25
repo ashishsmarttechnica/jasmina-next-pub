@@ -7,6 +7,7 @@ import { create } from "zustand";
 
 const useJobStore = create((set, get) => ({
   jobs: [],
+  savedJobs: [],
   isLoading: false,
   error: null,
   pagination: {},
@@ -28,9 +29,9 @@ const useJobStore = create((set, get) => ({
           savedId: item._id,
           savedAt: item.createdAt,
         }));
-        set({ jobs: savedJobs, isLoading: false });
+        set({ jobs: savedJobs, savedJobs: savedJobs, isLoading: false });
       } else {
-        set({ jobs: [], isLoading: false });
+        set({ jobs: [], savedJobs: [], isLoading: false });
       }
 
       if (onSuccess) onSuccess(response);
@@ -53,6 +54,13 @@ const useJobStore = create((set, get) => ({
           savedAt: savedJob.createdAt,
         };
         set({ jobs: [jobData], isLoading: false });
+
+        // Update savedJobs array too
+        const currentSavedJobs = get().savedJobs;
+        const jobExists = currentSavedJobs.some((job) => job._id === jobData._id);
+        if (!jobExists) {
+          set({ savedJobs: [...currentSavedJobs, jobData] });
+        }
       } else {
         set({ jobs: [], isLoading: false });
       }
@@ -66,7 +74,21 @@ const useJobStore = create((set, get) => ({
   saveJob: async ({ jobId, userId, onSuccess, onError }) => {
     try {
       const res = await saveJobApi({ jobId, userId });
-      // Optionally update jobs state here if you want to mark as saved/bookmarked
+
+      // Update savedJobs array to mark job as saved/bookmarked
+      const currentJobs = get().jobs;
+      const currentSavedJobs = get().savedJobs;
+
+      const savedJob = currentJobs.find((job) => job._id === jobId);
+      if (savedJob && !currentSavedJobs.some((job) => job._id === jobId)) {
+        const newSavedJob = {
+          ...savedJob,
+          savedId: res.data?.savedJob?._id || `temp_${jobId}`,
+          savedAt: new Date().toISOString(),
+        };
+        set({ savedJobs: [...currentSavedJobs, newSavedJob] });
+      }
+
       if (onSuccess) onSuccess(res);
     } catch (error) {
       if (onError) onError(error);

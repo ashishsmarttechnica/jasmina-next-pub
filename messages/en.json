@@ -619,7 +619,9 @@
       "countryError": "Country is required.",
       "cityError": "City is required.",
       "fullAddressError": "Full Address is required.",
-      "location": "Location"
+      "location": "Location",
+      "countryHeadquarters": "Headquarters",
+      "CountryHeadquarters": "Country Headquarters"
     },
     "media": {
       "title": "Media",
