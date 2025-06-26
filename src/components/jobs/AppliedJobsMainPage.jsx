@@ -194,7 +194,11 @@ const AppliedJobsMainPage = () => {
               {selectedJob && (
                 <div className="w-full md:w-[65%]">
                   <div className="sticky top-12 px-2">
-                    <SingleJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
+                    <SingleJobDetail
+                      job={selectedJob}
+                      onBack={() => setSelectedJob(null)}
+                      hideApplyButton={true}
+                    />
                   </div>
                 </div>
               )}

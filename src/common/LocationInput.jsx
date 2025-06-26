@@ -104,14 +104,14 @@ const LocationInput = ({ value, onChange, onLocationDetect, isDesable }) => {
           className="border border-lightGray/75 p-2 rounded w-full  transition-all duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent hover:border-primary hover:bg-primary/5 active:bg-primary/10"
           disabled={isDesable || isLocationDetected}
         />
-        <button
+        {/* <button
           type="button"
           onClick={detectLocation}
           disabled={loading || isLoading || isLocationDetected}
           className="border border-lightGray/[75%] px-3 rounded-md text-sm bg-lightWhite hover:bg-gray transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading || isLoading ? `${t("locationDetecting")}` : `${t("locationDetect")}`}
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -382,7 +382,7 @@
       "skillName": "Nom de compétence *",
       "proficiency": "Compétence",
       "category": "Catégorie",
-      "experience": "Expérience (en années) *",
+      "experience": "Expérience (en années) ",
       "selectOption": "Sélectionnez une option",
       "proficiencyOptions": {
         "intermediate": "Intermédiaire",

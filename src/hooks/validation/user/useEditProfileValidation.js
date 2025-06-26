@@ -90,12 +90,11 @@ const useEditProfileValidation = () => {
     return newErrors;
   };
 
-  const validateJobPreferences = (data, availability) => {
+  const validateJobPreferences = (data) => {
     // If availability is "Not Available", skip all job preference validations
-    if (availability === "Not Available") {
-      return {};
-    }
 
+
+   
     const newErrors = {};
 
     if (!data?.jobRole?.trim()) {
@@ -114,9 +113,9 @@ const useEditProfileValidation = () => {
       newErrors.workLocation = t("job.workLocationRequired");
     }
 
-    if (!data?.experience) {
-      newErrors.experience = t("job.experienceRequired");
-    }
+    // if (!data?.experience) {
+    //   newErrors.experience = t("job.experienceRequired");
+    // }
 
     return newErrors;
   };
@@ -183,31 +182,31 @@ const useEditProfileValidation = () => {
     // }
 
     // Experience validation (optional but if added, must be complete)
-    if (data?.experienceList?.length) {
-      data.experienceList.forEach((exp, index) => {
-        if (!exp.companyName?.trim()) {
-          newErrors[`experience-${index}-companyName`] = t("experience.companyNameRequired");
-        }
-        if (!exp.role?.trim()) {
-          newErrors[`experience-${index}-role`] = t("experience.roleRequired");
-        }
-        if (!exp.startDate) {
-          newErrors[`experience-${index}-startDate`] = t("experience.startDateRequired");
-        }
-        if (!exp.location?.trim()) {
-          newErrors[`experience-${index}-location`] = t("experience.locationRequired");
-        }
+    // if (data?.experienceList?.length) {
+    //   data.experienceList.forEach((exp, index) => {
+    //     if (!exp.companyName?.trim()) {
+    //       newErrors[`experience-${index}-companyName`] = t("experience.companyNameRequired");
+    //     }
+    //     if (!exp.role?.trim()) {
+    //       newErrors[`experience-${index}-role`] = t("experience.roleRequired");
+    //     }
+    //     if (!exp.startDate) {
+    //       newErrors[`experience-${index}-startDate`] = t("experience.startDateRequired");
+    //     }
+    //     if (!exp.location?.trim()) {
+    //       newErrors[`experience-${index}-location`] = t("experience.locationRequired");
+    //     }
 
-        // Validate date ranges
-        if (exp.startDate && exp.endDate) {
-          const startDate = new Date(exp.startDate);
-          const endDate = new Date(exp.endDate);
-          if (endDate < startDate) {
-            newErrors[`experience-${index}-endDate`] = t("experience.endDateBeforeStart");
-          }
-        }
-      });
-    }
+    //     // Validate date ranges
+    //     if (exp.startDate && exp.endDate) {
+    //       const startDate = new Date(exp.startDate);
+    //       const endDate = new Date(exp.endDate);
+    //       if (endDate < startDate) {
+    //         newErrors[`experience-${index}-endDate`] = t("experience.endDateBeforeStart");
+    //       }
+    //     }
+    //   });
+    // }
 
     return newErrors;
   };

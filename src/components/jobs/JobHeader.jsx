@@ -1,9 +1,8 @@
 "use client";
 import Bar from "@/assets/svg/jobs/Bar";
 import Colors from "@/assets/svg/jobs/colors";
-import Link from "next/link";
 import { useState } from "react";
-import { FaBookmark, FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 

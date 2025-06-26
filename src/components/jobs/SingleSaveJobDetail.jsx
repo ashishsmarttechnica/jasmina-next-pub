@@ -5,6 +5,7 @@ import Dollar from "@/assets/svg/jobs/Dollar";
 import Experience from "@/assets/svg/jobs/Experience";
 import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
+import { useRouter } from "@/i18n/navigation";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
   const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
   const saveJob = useJobStore((s) => s.saveJob);
   const savedJobs = useJobStore((s) => s.savedJobs);
-
+  const router = useRouter();
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -62,7 +63,8 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
   };
 
   const handleApplyNow = () => {
-    alert("Apply now clicked!");
+    // const locale = window.location.pathname.split("/")[1];
+    router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
 
   return (

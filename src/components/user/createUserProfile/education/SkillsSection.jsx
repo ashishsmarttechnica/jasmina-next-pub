@@ -65,7 +65,7 @@ const SkillsSection = ({
           </div>
           {/* experience */}
           <InputField
-            label={`${t("experience")}*`}
+            label={`${t("experience")}`}
             name={`experience-${index}`}
             type="number"
             min="0"
@@ -73,7 +73,7 @@ const SkillsSection = ({
             value={skill.experience}
             onChange={(e) => handleChange("skillsList", index, "experience", e.target.value)}
             onBlur={() => clearFieldError(`skill-${index}-experience`)}
-            error={errors[`skill-${index}-experience`]}
+            // error={errors[`skill-${index}-experience`]}
           />
 
           {/* Category */}

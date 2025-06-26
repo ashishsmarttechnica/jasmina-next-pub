@@ -5,6 +5,7 @@ import Dollar from "@/assets/svg/jobs/Dollar";
 import Experience from "@/assets/svg/jobs/Experience";
 import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
+import useAppliedJobStore from "@/store/appliedJob.store";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 // import { useRouter } from "next/navigation";
@@ -16,12 +17,14 @@ import { LuBookmark } from "react-icons/lu";
 import { MdBookmark } from "react-icons/md";
 import { toast } from "react-toastify";
 
-const SingleJobDetail = ({ job, onBack }) => {
+const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
   // console.log(job, "job");
   const [bookmarked, setBookmarked] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
   const savedJobs = useJobStore((s) => s.savedJobs);
+  const appliedJobs = useAppliedJobStore((s) => s.appliedJobs);
   const router = useRouter();
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
@@ -35,6 +38,16 @@ const SingleJobDetail = ({ job, onBack }) => {
       setBookmarked(isAlreadySaved);
     }
   }, [job, savedJobs]);
+
+  // Check if user has already applied to this job
+  useEffect(() => {
+    if (job && appliedJobs && Array.isArray(appliedJobs)) {
+      const isAlreadyApplied = appliedJobs.some(
+        (appliedJob) => appliedJob.jobId?._id === job._id || appliedJob.jobId === job._id
+      );
+      setHasApplied(isAlreadyApplied);
+    }
+  }, [job, appliedJobs]);
 
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
@@ -64,7 +77,6 @@ const SingleJobDetail = ({ job, onBack }) => {
   };
 
   const handleApplyNow = () => {
-    // const locale = window.location.pathname.split("/")[1];
     router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
 
@@ -101,12 +113,17 @@ const SingleJobDetail = ({ job, onBack }) => {
         {job?.genderPrefereance}
       </div>
 
-      <button
-        className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
-        onClick={handleApplyNow}
-      >
-        Apply Now
-      </button>
+      {!hideApplyButton && (
+        <button
+          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
+            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+          }`}
+          onClick={handleApplyNow}
+          disabled={hasApplied}
+        >
+          {hasApplied ? "Already Applied" : "Apply Now"}
+        </button>
+      )}
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
         <h4 className="mb-2 font-medium">Quick Info Section</h4>

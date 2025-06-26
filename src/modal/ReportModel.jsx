@@ -77,6 +77,7 @@ function ReportModel({ isOpen, onClose }) {
                 "Spam / Advertising",
                 "Harassment / Bullying",
                 userType === "user" ? "Fake Profile" : "Fake Company",
+                "Fake User Profile",
                 "Inappropriate Content",
                 "Other",
               ].map((reason, index) => (

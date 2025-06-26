@@ -145,9 +145,7 @@ const Preferences = ({ setActiveTab }) => {
               error={errors.salaryRange}
               type="text"
             />
-            <p className="mt-1 text-xs text-gray-500">
-              {t("description")}
-            </p>
+            <p className="mt-1 text-xs text-gray-500">{t("description")}</p>
           </div>
 
           <div className="flex flex-col">
@@ -165,7 +163,7 @@ const Preferences = ({ setActiveTab }) => {
 
           <div className="flex flex-col">
             <InputField
-              label={`${t("experience")} * `}
+              label={`${t("experience")}  `}
               name="experience"
               value={formData.experience}
               onChange={handleChange}
@@ -173,9 +171,7 @@ const Preferences = ({ setActiveTab }) => {
               max={50}
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
-            <p className="mt-1 text-xs text-gray-500">
-              {t("experienceDescription")}
-            </p>
+            <p className="mt-1 text-xs text-gray-500">{t("experienceDescription")}</p>
           </div>
           {/* <Selecter
             name="experience"

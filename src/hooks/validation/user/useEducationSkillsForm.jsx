@@ -32,7 +32,7 @@ const useEducationSkillsForm = () => {
     skillsList.forEach((skill, index) => {
       if (!skill.skill) newErrors[`skill-${index}-skill`] = t("skillError");
       if (!skill.proficiency) newErrors[`skill-${index}-proficiency`] = t("proficiencyError");
-      if (!skill.experience) newErrors[`skill-${index}-experience`] = t("experienceError");
+      // if (!skill.experience) newErrors[`skill-${index}-experience`] = t("experienceError");
       if (!skill.category) newErrors[`skill-${index}-category`] = t("categoryError");
     });
 
@@ -55,23 +55,23 @@ const useEducationSkillsForm = () => {
       }
     });
 
-    experienceList.forEach((exp, index) => {
-      if (!exp.companyName) newErrors[`experience-${index}-companyName`] = t("companyNameError");
-      if (!exp.role) newErrors[`experience-${index}-role`] = t("roleError");
-      if (!exp.startDate) newErrors[`experience-${index}-startDate`] = t("startDateError");
-      if (!exp.endDate) newErrors[`experience-${index}-endDate`] = t("endDateError");
-      if (!exp.location) newErrors[`experience-${index}-location`] = t("locationError");
-      if (!exp.position) newErrors[`experience-${index}-position`] = t("positionError");
+    // experienceList.forEach((exp, index) => {
+    //   if (!exp.companyName) newErrors[`experience-${index}-companyName`] = t("companyNameError");
+    //   if (!exp.role) newErrors[`experience-${index}-role`] = t("roleError");
+    //   if (!exp.startDate) newErrors[`experience-${index}-startDate`] = t("startDateError");
+    //   if (!exp.endDate) newErrors[`experience-${index}-endDate`] = t("endDateError");
+    //   if (!exp.location) newErrors[`experience-${index}-location`] = t("locationError");
+    //   if (!exp.position) newErrors[`experience-${index}-position`] = t("positionError");
 
-      // Date validation: Check if end date is before start date
-      if (exp.startDate && exp.endDate) {
-        const startDate = new Date(exp.startDate);
-        const endDate = new Date(exp.endDate);
-        if (endDate < startDate) {
-          newErrors[`experience-${index}-endDate`] = t("endDateBeforeStartError");
-        }
-      }
-    });
+    //   // Date validation: Check if end date is before start date
+    //   if (exp.startDate && exp.endDate) {
+    //     const startDate = new Date(exp.startDate);
+    //     const endDate = new Date(exp.endDate);
+    //     if (endDate < startDate) {
+    //       newErrors[`experience-${index}-endDate`] = t("endDateBeforeStartError");
+    //     }
+    //   }
+    // });
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

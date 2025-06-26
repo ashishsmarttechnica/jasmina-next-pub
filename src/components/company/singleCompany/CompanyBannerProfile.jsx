@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 // import { useParams } from "next/navigation";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
+import ReportModel from "@/modal/ReportModel";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -26,6 +27,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const searchParams = useSearchParams();
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if user came from connections page
   const fromConnections =
@@ -135,9 +137,10 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                   <button className="connect-btn">{t("connect")}</button>
                 )}
                 <button className="message-btn">{t("message")}</button>
-                <button className="flag-btn group">
+                <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )}
           </div>

@@ -1,7 +1,6 @@
 "use client";
 import Card from "@/common/card/Card";
 import useGetJobs from "@/hooks/job/useGetJobs";
-import useJobStore from "@/store/job.store";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -16,9 +15,11 @@ const JobCards = ({ filters }) => {
     ? { limit: 1000 } // Large limit to get all records
     : { ...filters, limit: 1000 }; // Include filters with large limit
 
-  useGetJobs(searchParams);
+  const { data, isLoading, error } = useGetJobs(searchParams);
+  const jobs = data?.jobs || [];
+  const pagination = data?.pagination || {};
+  const isLastPage = data?.isLastPage || false;
 
-  const { jobs, isLoading, error } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -67,7 +68,7 @@ const JobCards = ({ filters }) => {
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     _raw: job,
   }));
-
+  //
   // Auto-select the first job by default when jobs are loaded or changed
   useEffect(() => {
     if (mappedJobs.length > 0 && !selectedJob) {

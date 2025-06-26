@@ -33,7 +33,6 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
 
   useEffect(() => {
     if (initialData) {
-     
       setLocalData({
         jobRole: initialData.jobRole || "",
         jobType: Array.isArray(initialData.jobType)
@@ -133,7 +132,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
             label={`${t("experience")}`}
             value={localData.experience}
             onChange={handleChange}
-            error={errors.experience}
+            // error={errors.experience}
             type="number"
             max={50}
             placeholder="Enter years of experience"

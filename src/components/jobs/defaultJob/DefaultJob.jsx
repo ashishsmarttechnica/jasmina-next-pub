@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 // import JobCards from "../JobCards";
-import JobHeader from "../JobHeader";
 import JobCards from "../JobCards";
+import JobHeader from "../JobHeader";
 
 const DefaultJob = () => {
   const [filters, setFilters] = useState({

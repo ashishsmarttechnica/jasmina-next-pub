@@ -383,7 +383,7 @@
       "skillName": "اسم المهارة*",
       "proficiency": "الكفاءة",
       "category": "فئة",
-      "experience": "الخبرة (في سنوات)*",
+      "experience": "الخبرة (في سنوات)",
       "selectOption": "حدد خيار",
       "proficiencyOptions": {
         "intermediate": "متوسط",

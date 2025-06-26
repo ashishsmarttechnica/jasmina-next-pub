@@ -60,57 +60,57 @@ const ExperienceSection = ({
           )}
 
           <InputField
-            label={`${t("Company Name")}*`}
+            label={`${t("Company Name")}`}
             name={`companyName-${index}`}
             type="text"
             value={experience.companyName}
             onChange={(e) => handleChange("experienceList", index, "companyName", e.target.value)}
             onBlur={() => clearFieldError(`experience-${index}-companyName`)}
-            error={errors[`experience-${index}-companyName`]}
+            // error={errors[`experience-${index}-companyName`]}
           />
 
           <InputField
-            label={`${t("Role")}*`}
+            label={`${t("Role")}`}
             name={`role-${index}`}
             type="text"
             value={experience.role}
             onChange={(e) => handleChange("experienceList", index, "role", e.target.value)}
             onBlur={() => clearFieldError(`experience-${index}-role`)}
-            error={errors[`experience-${index}-role`]}
+            // error={errors[`experience-${index}-role`]}
           />
 
           <CustomDatePicker
-            label={`${t("Start Date")}*`}
+            label={`${t("Start Date")}`}
             value={experience.startDate || ""}
             onChange={(date) => handleDateChange(date, "startDate", index)}
             maxDate={new Date()}
-            error={errors[`experience-${index}-startDate`]}
+            // error={errors[`experience-${index}-startDate`]}
           />
 
           <CustomDatePicker
-            label={`${t("End Date")}*`}
+            label={`${t("End Date")}`}
             value={experience.endDate || ""}
             onChange={(date) => handleDateChange(date, "endDate", index)}
             minDate={experience.startDate ? new Date(experience.startDate) : undefined}
             maxDate={new Date()}
-            error={errors[`experience-${index}-endDate`]}
+            // error={errors[`experience-${index}-endDate`]}
           />
 
           <InputField
-            label={`${t("Location")}*`}
+            label={`${t("Location")}`}
             name={`location-${index}`}
             type="text"
             value={experience.location}
             onChange={(e) => handleChange("experienceList", index, "location", e.target.value)}
             onBlur={() => clearFieldError(`experience-${index}-location`)}
-            error={errors[`experience-${index}-location`]}
+            // error={errors[`experience-${index}-location`]}
           />
           <Selecter
-            label={`${t("Position")}*`}
+            label={`${t("Position")}`}
             name={`position-${index}`}
             value={experience.position}
             onChange={(e) => handleChange("experienceList", index, "position", e.target.value)}
-            error={errors[`experience-${index}-position`]}
+            // error={errors[`experience-${index}-position`]}
             options={positionOptions}
             placeholder={t("Position")}
             isOther={true}

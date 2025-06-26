@@ -1,6 +1,7 @@
 import { useState } from "react";
-import JobCards from "../JobCards";
+// import JobCards from "../JobCards";
 import JobHeader from "../JobHeader";
+import JobCards from "./JobCards";
 
 const DefaultJob = () => {
   // This state is for the actual filters used for searching
