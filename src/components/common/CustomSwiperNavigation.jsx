@@ -5,6 +5,7 @@ import { useSwiper } from 'swiper/react';
 import styles from '@/styles/CustomSwiperNavigation.module.css';
 
 export default function CustomSwiperNavigation() {
+  
   const swiper = useSwiper();
   const [activeIndex, setActiveIndex] = useState(0);
   const [slidesCount, setSlidesCount] = useState(0);
