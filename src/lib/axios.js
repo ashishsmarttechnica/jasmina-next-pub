@@ -3,7 +3,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 1000000, // 10 seconds timeout // for local data
   headers: {
     // "Content-Type": "application/json",
     Accept: "application/json",

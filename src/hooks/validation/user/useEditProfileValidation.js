@@ -93,8 +93,6 @@ const useEditProfileValidation = () => {
   const validateJobPreferences = (data) => {
     // If availability is "Not Available", skip all job preference validations
 
-
-   
     const newErrors = {};
 
     if (!data?.jobRole?.trim()) {
@@ -211,9 +209,16 @@ const useEditProfileValidation = () => {
     return newErrors;
   };
 
-  const validateAll = (personalData, preferencesData, educationSkillsData, availability) => {
+  const validateAll = (personalData, preferencesData, educationSkillsData) => {
     const personalErrors = validatePersonalInfo(personalData || {});
-    const jobErrors = validateJobPreferences(preferencesData || {}, availability);
+    console.log(personalData?.availabilty, "personalData?.availabilty");
+
+    // Skip job preferences validation if availability is "Not Available"
+    let jobErrors = {};
+    if (personalData?.availabilty !== "Not Available") {
+      jobErrors = validateJobPreferences(preferencesData || {});
+    }
+
     const educationErrors = validateEducationAndSkills(educationSkillsData || {});
 
     const newErrors = {

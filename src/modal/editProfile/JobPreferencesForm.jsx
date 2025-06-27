@@ -80,6 +80,7 @@ const JobPreferencesForm = forwardRef(({ initialData, errors = {}, clearFieldErr
           onChange={handleChange}
           error={errors.jobRole}
           options={roleOptions}
+          isClearable
           placeholder="Select Job Role"
           className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
         />

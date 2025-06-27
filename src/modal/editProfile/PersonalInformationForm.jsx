@@ -28,7 +28,6 @@ const PersonalInformationForm = forwardRef(
       availabilty: "",
       short_bio: "",
     });
-    console.log(localData, "localData");
     const availabilityOptions = useAvailabilityOptions();
     const genderOptions = useGenderOptions();
     const pronounOptions = usePronounOptions();

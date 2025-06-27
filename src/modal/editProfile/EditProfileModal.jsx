@@ -18,8 +18,6 @@ import PersonalInformationForm from "./PersonalInformationForm";
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
 
-  // console.log(user?.profile.availabilty, "sdfdsf23423423");
-
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
   const { resetLocation } = useLocationStore();
@@ -35,15 +33,15 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   // Image state
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
-  // const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
+  const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
 
   // Proficiency options for skills/languages
   const proficiencyOptions = useProficiencyOptions();
   const categoryOptions = useSkillCategoryOptions();
 
-  // const handleAvailabilityChange = (newAvailability) => {
-  //   setAvailability(newAvailability);
-  // };
+  const handleAvailabilityChange = (newAvailability) => {
+    setAvailability(newAvailability);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,7 +74,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.location", personalData.location);
     formData.append("profile.pronounce", personalData.pronoun);
     formData.append("profile.isPrivate", personalData.isPrivate);
-    // formData.append("profile.availabilty", personalData.availabilty);
+    formData.append("profile.availabilty", availability);
     formData.append("profile.linkedin", personalData.linkedin);
     formData.append("profile.instagram", personalData.instagram);
     formData.append("profile.x", personalData.x);
@@ -84,17 +82,17 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.email", personalData.email);
 
     // Preferences fields - only append if availability is not "Not Available"
-    // if (personalData.availabilty !== "Not Available") {
-    formData.append("preferences.jobRole", preferencesData.jobRole);
-    formData.append("preferences.jobType", preferencesData.jobType);
-    formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
-    formData.append("preferences.currency", preferencesData.currency);
-    formData.append("preferences.availableFrom", preferencesData.joindate);
-    formData.append("preferences.preferredLocation", preferencesData.workLocation);
-    formData.append("preferences.yearsOfExperience", preferencesData.experience);
-    if (preferencesData.industry)
-      formData.append("preferences.preferredIndustry", preferencesData.industry);
-    // }
+    if (availability !== "Not Available") {
+      formData.append("preferences.jobRole", preferencesData.jobRole);
+      formData.append("preferences.jobType", preferencesData.jobType);
+      formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
+      formData.append("preferences.currency", preferencesData.currency);
+      formData.append("preferences.availableFrom", preferencesData.joindate);
+      formData.append("preferences.preferredLocation", preferencesData.workLocation);
+      formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      if (preferencesData.industry)
+        formData.append("preferences.preferredIndustry", preferencesData.industry);
+    }
 
     // Education
     educationData.educationList?.forEach((edu, i) => {
@@ -147,6 +145,10 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     if (descriptionData?.profile?.photo) {
       setSelectedImage(getImg(descriptionData?.profile?.photo));
     }
+    // Set default availability when modal opens
+    if (descriptionData?.profile?.availabilty) {
+      setAvailability(descriptionData?.profile?.availabilty);
+    }
   }, [descriptionData]);
 
   return (
@@ -180,21 +182,21 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             email={descriptionData?.email}
             errors={errors?.personal || {}}
             clearFieldError={clearError}
-            // onAvailabilityChange={handleAvailabilityChange}
+            onAvailabilityChange={handleAvailabilityChange}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           />
         </div>
-        {/* {availability !== "Not Available" && ( */}
-        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
-          <JobPreferencesForm
-            ref={jobRef}
-            initialData={descriptionData?.preferences}
-            errors={errors?.job || {}}
-            clearFieldError={clearError}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          />
-        </div>
-        {/* )} */}
+        {availability !== "Not Available" && (
+          <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+            <JobPreferencesForm
+              ref={jobRef}
+              initialData={descriptionData?.preferences}
+              errors={errors?.job || {}}
+              clearFieldError={clearError}
+              className="grid grid-cols-1 gap-4 md:grid-cols-2"
+            />
+          </div>
+        )}
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <EducationSkillsForm
             categoryOptions={categoryOptions}
