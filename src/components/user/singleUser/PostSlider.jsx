@@ -12,7 +12,7 @@ import FillLike from "@/assets/svg/feed/FillLike";
 import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
 import { useLikePost, usePostShare, useUnlikePost } from "@/hooks/post/usePosts";
 import { useRouter } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import "swiper/css";
@@ -84,6 +84,7 @@ function PostCardSingle({ post, userData }) {
   useEffect(() => {
     setLocalPost(post);
   }, [post]);
+const t = useTranslations("CompanyProfile");
 
   const handleLike = (id) => {
     if (isLiking) return;
@@ -220,7 +221,7 @@ function PostCardSingle({ post, userData }) {
               className="text-primary mt-1 text-[11px] underline sm:text-xs"
               onClick={() => router.push(`/post/${localPost._id}`)}
             >
-              more
+              {t("ReadMore")}
             </button>
           )}
         </div>

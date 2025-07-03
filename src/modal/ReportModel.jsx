@@ -7,8 +7,10 @@ import { toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
 import { Modal } from "rsuite";
 import capitalize from "../lib/capitalize";
+import { useTranslations } from "next-intl";
 
 function ReportModel({ isOpen, onClose }) {
+  const t = useTranslations("Report");
   const userType = capitalize(Cookies.get("userRole"));
   const [selectedReason, setSelectedReason] = useState("");
   const [description, setDescription] = useState("");
@@ -41,7 +43,14 @@ function ReportModel({ isOpen, onClose }) {
       }
     );
   };
-
+  const reportReasons = [
+    t('SpamAdvertising'),
+    t('HarassmentBullying'),
+    userType === 'user' ? t('FakeProfile') : t('FakeCompany'),
+    t('FakeUserProfile'),
+    t('InappropriateContent'),
+    t('Other'),
+  ];
   return (
     <Modal
       open={isOpen}
@@ -61,26 +70,19 @@ function ReportModel({ isOpen, onClose }) {
           <div className="w-full">
             <div className="mx-auto mt-4 mb-4 flex max-w-[284px] flex-col text-center">
               <span className="text-[16px] font-medium text-black sm:text-[17px]">
-                {userType === "User" ? "Report This User" : "Report This Company"}
+                {userType === "User" ? t('ReportThisUser') : t('ReportThisCompany')}
               </span>
               <p className="text-[13px] font-normal text-[#888DA8] sm:text-[15px]">
-                Your report is confidential and helps us keep Jasmina safe.
+                {t('ReportDescription')}
               </p>
             </div>
 
             <p className="mb-2 text-[15px] font-medium text-black sm:mb-[5px] sm:text-[16px]">
-              Choose Reason
+              {t('ChooseReason')}
             </p>
 
             <div className="flex flex-col gap-2.5">
-              {[
-                "Spam / Advertising",
-                "Harassment / Bullying",
-                userType === "user" ? "Fake Profile" : "Fake Company",
-                "Fake User Profile",
-                "Inappropriate Content",
-                "Other",
-              ].map((reason, index) => (
+              {reportReasons.map((reason, index) => (
                 <label
                   key={index}
                   className="flex items-center gap-2 text-[14px] font-normal text-[#888DA8]"
@@ -102,10 +104,10 @@ function ReportModel({ isOpen, onClose }) {
                 </label>
               ))}
 
-              <p className="pt-4 text-[15px] font-medium text-black sm:text-[16px]">Tell us more</p>
+              <p className="pt-4 text-[15px] font-medium text-black sm:text-[16px]">{t('Tellusmore')}</p>
 
               <textarea
-                placeholder="Tell us more"
+              placeholder={t('Tellusmore')}
                 className="mt-2 h-[120px] w-full resize-none rounded-[6px] border-none bg-[#EDF2F6] p-2 pl-4 text-[13px] text-[#888DA8] outline-none sm:h-[158px] sm:pl-6 sm:text-[14px]"
                 rows={4}
                 value={description}
@@ -118,7 +120,7 @@ function ReportModel({ isOpen, onClose }) {
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Submit Report"}
+                  {isSubmitting ? t('Submitting') : t('submSubmitReportit')}
                 </button>
               </div>
             </div>

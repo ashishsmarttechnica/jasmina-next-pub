@@ -1,6 +1,7 @@
 "use client";
 import Bar from "@/assets/svg/jobs/Bar";
 import Colors from "@/assets/svg/jobs/colors";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
@@ -11,7 +12,8 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
   const [selected, setSelected] = useState("LGBTQ+");
   const [searchInput, setSearchInput] = useState(filters.search || "");
   const [locationInput, setLocationInput] = useState(filters.location || "");
-  const options = ["LGBTQ+", "Non-LGBTQ+"];
+  const t = useTranslations("Jobs");
+  const options = [t("lgbtqOption"), t("nonLgbtqOption")];
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
@@ -20,7 +22,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <FiSearch className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-            placeholder="Job title or Company"
+            placeholder={t("jobTitleOrCompanyPlaceholder")} 
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -30,7 +32,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <HiOutlineLocationMarker className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-            placeholder="Location"
+             placeholder={t("Location")} 
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={locationInput}
             onChange={(e) => setLocationInput(e.target.value)}
@@ -60,9 +62,8 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
               <span>{selected}</span>
             </div>
             <FaChevronDown
-              className={`text-grayBlueText text-base transition-transform duration-500 ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={`text-grayBlueText text-base transition-transform duration-500 ${isOpen ? "rotate-180" : ""
+                }`}
             />
           </button>
 
@@ -103,7 +104,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
               setFilters(filtersInput);
             }}
           >
-            Find Job
+            {t("FindJob")}
           </button>
         </div>
       </div>

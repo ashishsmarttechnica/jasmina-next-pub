@@ -25,3 +25,8 @@ export const getCompany = async (id) => {
 //   const res = await axios.post("/create/post", data);
 //   return res.data;
 // };
+
+export const getCompanyAppliedJob = async (id) => {
+  const res = await axios.get(`/getcompany/applied/job?id=${id}`);
+  return res.data;
+};

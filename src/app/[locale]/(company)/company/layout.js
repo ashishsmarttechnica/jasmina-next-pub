@@ -4,6 +4,7 @@ export default function CompanyLayout({ children }) {
   return (
     <>
       <UserHeader />
+
       {children}
     </>
   );

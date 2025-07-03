@@ -7,28 +7,38 @@ export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit 
   const jobs = useJobStore((s) => s.jobs);
   const setLoading = useJobStore((s) => s.setLoading);
   const setError = useJobStore((s) => s.setError);
+  const setPagination = useJobStore((s) => s.setPagination || function () {});
 
   return useQuery({
     queryKey: ["jobs", { search, location, lgbtq, page, limit }],
     queryFn: async () => {
       try {
+        setLoading(true);
         const res = await getJobs({ search, location, lgbtq, page, limit });
 
         // Extract data from response
         const data = res?.data || {};
         const newJobs = data?.jobs || [];
-        const pagination = data?.pagination || {};
+
+        // Extract pagination info from response
+        const pagination = {
+          total: data?.total || 0,
+          totalPages: data?.totalPages || 1,
+          currentPage: data?.currentPage || page,
+          pageSize: data?.pageSize || limit,
+        };
 
         // If it's the first page, replace jobs, otherwise append
         const mergedJobs = page === 1 ? newJobs : [...jobs, ...newJobs];
 
         // Update store
         setJobs(mergedJobs);
+        setPagination(pagination);
         setLoading(false);
         setError(null);
 
         // Calculate if we're on the last page based on pagination info
-        const isLastPage = page >= (pagination.totalPages || 1);
+        const isLastPage = page >= pagination.totalPages;
 
         return {
           jobs: mergedJobs,
@@ -56,6 +66,7 @@ export const useRecentJobs = () => {
     queryKey: ["recentJobs"],
     queryFn: async () => {
       try {
+        setLoading(true);
         const res = await getRecentJobs();
         const jobs = res?.data?.jobs || [];
 

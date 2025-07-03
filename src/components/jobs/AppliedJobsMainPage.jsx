@@ -3,12 +3,13 @@ import Card from "@/common/card/Card";
 // import AppliedJobsPageSkeleton from "@/common/skeleton/AppliedJobsPageSkeleton";
 import useGetAppliedJobs from "@/hooks/job/useGetAppliedJobs";
 import useAppliedJobStore from "@/store/appliedJob.store";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import ImageFallback from "../../common/shared/ImageFallback";
 import JobsLayout from "../../layout/JobsLayout";
+import { getRelativeTime } from "../../utils/dateUtils";
 import JobHeader from "./JobHeader";
 import MyJobs from "./leftSidebar/MyJobs";
 import SingleJobDetail from "./SingleJobDetail";
@@ -70,6 +71,7 @@ const AppliedJobsMainPage = () => {
       posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
       appliedDate: appliedJob.createdAt ? new Date(appliedJob.createdAt).toLocaleDateString() : "-",
       status: appliedJob.seen ? "Seen" : "Not seen",
+      website: job?.company?.website,
       _raw: { ...job, application: appliedJob },
     };
   });
@@ -91,7 +93,7 @@ const AppliedJobsMainPage = () => {
           ) : error ? (
             <div>Error: {error}</div>
           ) : (
-            <div className="flex flex-col gap-4 md:flex-row">
+            <div className="flex flex-col  md:flex-row">
               {/* Left Column: Job List */}
               <div className="w-full md:w-[35%]">
                 {/* <h2 className="mb-3 font-medium">
@@ -107,56 +109,44 @@ const AppliedJobsMainPage = () => {
                     }`}
                     onClick={() => setSelectedJob(job)}
                   >
-                    <div className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                          <Image src={job.logo} alt={job.company} fill className="object-cover" />
-                        </div>
-                        <div>
-                          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
-                            {job.status}
-                          </span>
-                          {job.tag && (
-                            <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                              {job.tag}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <h3 className="mt-3 text-lg font-semibold text-gray-900">{job.title}</h3>
-                      <p className="text-sm text-gray-500">{job.company}</p>
+                     <div className="p-4">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                    <IoClipboardOutline className="h-4 w-4" />
+                    {job.experience}
+                  </p>
+                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                    <HiOutlineLocationMarker className="h-4 w-4" />
+                    {job.location}
+                  </p>
+                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
+                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+                    <p>Posted {getRelativeTime(job.posted)}</p>
+                  </div>
+                  {/* <div>{job?.createdAt}</div> */}
 
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        <div className="flex items-center text-xs text-gray-500">
-                          <HiOutlineLocationMarker className="mr-1" />
-                          {job.location}
-                        </div>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <IoClipboardOutline className="mr-1" />
-                          {job.type}
-                        </div>
-                      </div>
+                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                    <ImageFallback
+                      src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                      alt="logo"
+                      width={28}
+                      height={28}
+                      className="mt-1 rounded-md"
+                    />
 
-                      <div className="mt-2 text-xs text-gray-500">
-                        Applied on: {job.appliedDate}
+                    <div className="flex w-full flex-col">
+                      <div className="text-sm text-gray-500">
+                        {job.company || "Unknown Company"}
                       </div>
-
-                      <div className="mt-3 flex flex-wrap gap-1">
-                        {job.requiredSkills.slice(0, 3).map((skill, i) => (
-                          <span
-                            key={i}
-                            className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                        {job.requiredSkills.length > 3 && (
-                          <span className="text-xs text-gray-500">
-                            +{job.requiredSkills.length - 3}
-                          </span>
-                        )}
+                      {/* {job.socialLinks && ( */}
+                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                        {job.website}
                       </div>
+                      {/* )} */}
                     </div>
+                  </div>
+                  {/**/}
+                </div>
                   </Card>
                 ))}
                 {visibleCount < mappedJobs.length && (

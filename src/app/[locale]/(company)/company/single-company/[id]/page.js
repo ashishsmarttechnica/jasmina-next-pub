@@ -1,7 +1,5 @@
-import { getSeoMeta } from "@/lib/seoMetadata";
-import React from "react";
 import MainSingleCompany from "@/components/company/singleCompany/MainSingleCompany";
-
+import { getSeoMeta } from "@/lib/seoMetadata";
 
 export const metadata = getSeoMeta({
   title: "single-company | Jasmina",

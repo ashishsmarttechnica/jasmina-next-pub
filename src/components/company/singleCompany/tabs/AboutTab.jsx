@@ -1,6 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 const AboutTab = ({ userData }) => {
+  const t = useTranslations("CompanyProfile");
   return (
     <div className="p-2 sm:p-6">
       <div className="px-[30px]">
@@ -11,71 +14,71 @@ const AboutTab = ({ userData }) => {
         <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="space-y-4">
             <div>
-              <p className="text-[13px] font-medium">Website</p>
+              <p className="text-[13px] font-medium">{t("Website")}</p>
               <a
                 href={userData?.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[13px] text-blue-500 hover:underline"
               >
-                {userData?.website || "Not specified"}
+                {userData?.website || t("NotSpecified")}
               </a>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Phone</p>
+              <p className="text-[13px] font-medium">{t("Phone")}</p>
               <span className="text-[13px] text-blue-500">
-                {userData?.phoneNumber || "Not specified"}
+                {userData?.phoneNumber || t("NotSpecified")}
               </span>
             </div>
             {userData?.socialLinks && (
               <div>
-                <p className="text-[13px] font-medium">LinkedIn / Social Links</p>
+                <p className="text-[13px] font-medium">{t("LinkedInSocialLinks")}</p>
                 <a
                   href={userData?.socialLinks}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[13px] text-blue-500 hover:underline"
                 >
-                  {userData?.socialLinks || "Not specified"}
+                  {userData?.socialLinks || t("NotSpecified")}
                 </a>
               </div>
             )}
             {userData?.instagram && (
               <div>
-                <p className="text-[13px] font-medium">Instagram</p>
+                <p className="text-[13px] font-medium">{t("Instagram")}</p>
                 <a
                   href={userData?.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[13px] text-blue-500 hover:underline"
                 >
-                  {userData?.instagram || "Not specified"}
+                  {userData?.instagram || t("NotSpecified")}
                 </a>
               </div>
             )}
             {userData?.facebook && (
               <div>
-                <p className="text-[13px] font-medium">Facebook</p>
+                <p className="text-[13px] font-medium">{t("Facebook")}</p>
                 <a
                   href={userData?.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[13px] text-blue-500 hover:underline"
                 >
-                  {userData?.facebook || "Not specified"}
+                  {userData?.facebook || t("NotSpecified")}
                 </a>
               </div>
             )}
             {userData?.x && (
               <div>
-                <p className="text-[13px] font-medium">X</p>
+                <p className="text-[13px] font-medium">{t("X")}</p>
                 <a
                   href={userData?.x}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[13px] text-blue-500 hover:underline"
                 >
-                  {userData?.x || "Not specified"}
+                  {userData?.x || t("NotSpecified")}
                 </a>
               </div>
             )}
@@ -83,13 +86,13 @@ const AboutTab = ({ userData }) => {
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
             <div>
-              <p className="text-[13px] font-medium">Founded</p>
+              <p className="text-[13px] font-medium">{t("Founded")}</p>
               <span className="text-grayBlueText text-[13px]">
-                {userData?.industry || "Not specified"}
+                {userData?.industry || t("NotSpecified")}
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Industry</p>
+              <p className="text-[13px] font-medium">{t('Industry')}</p>
               <div className="flex flex-wrap gap-2">
                 {userData?.industryType?.map((industry, index) => (
                   <span
@@ -98,31 +101,31 @@ const AboutTab = ({ userData }) => {
                   >
                     {industry}
                   </span>
-                )) || <span className="text-grayBlueText text-[13px]">Not specified</span>}
+                )) || <span className="text-grayBlueText text-[13px]">{t('Notspecified')}</span>}
               </div>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Employees</p>
+              <p className="text-[13px] font-medium">{t('Employees')}</p>
               <span className="text-grayBlueText text-[13px]">
-                {userData?.numberOfEmployees || "Not specified"}
+                {userData?.numberOfEmployees || t("NotSpecified")}
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Headquarters</p>
+              <p className="text-[13px] font-medium">{t('Headquarters')}</p>
               <span className="text-grayBlueText text-[13px]">
-                {userData?.fullAddress || "Not specified"}
+                {userData?.fullAddress || t("NotSpecified")}
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Company Type</p>
+              <p className="text-[13px] font-medium">{t("CompanyType")}</p>
               <span className="text-grayBlueText text-[13px]">
-                {userData?.companyType || "Not specified"}
+                {userData?.companyType || t("NotSpecified")}
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">Phone</p>
+              <p className="text-[13px] font-medium">{t("Phone")}</p>
               <span className="text-grayBlueText text-[13px]">
-                {userData?.contact || "Not specified"}
+                {userData?.contact || t("NotSpecified")}
               </span>
             </div>
           </div>

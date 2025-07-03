@@ -174,7 +174,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
                 onChange={handleChange}
                 options={educationOptions}
                 isOther={true}
-                label="Education"
+                // label="Education"
                 error={errors.education}
               />
             </div>
@@ -196,8 +196,11 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
             </div>
 
             <div>
+              <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
+                Applicants
+              </label>
               <InputField
-                label="Applicants"
+                // label="Applicants"
                 type="number"
                 name="applicants"
                 value={formData.applicants}

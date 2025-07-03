@@ -5,6 +5,7 @@ import useAuthStore from "@/store/auth.store";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 const WhoCanSeeYourProfile = () => {
   const { user, setUser } = useAuthStore();
@@ -14,6 +15,8 @@ const WhoCanSeeYourProfile = () => {
     isPending,
     error: apiError,
   } = useUpdateProfile();
+  const t = useTranslations("UserProfile.whocanseeyourprofile");
+  
   const [formData, setFormData] = useState({
     isPublic: true,
     isLGBTQFriendly: false,
@@ -66,8 +69,8 @@ const WhoCanSeeYourProfile = () => {
     <div>
       <div className="mt-6 sm:mt-10">
         <ReusableForm
-          title="Who can see your profile?"
-          subtitle="Choose your profile visibility and safety preferences."
+          title={t("Whocanseeyourprofile")}
+          subtitle={t("Chooseyourprofilevisibilityandsafetypreferences")}
         >
           {/* Toggle - Make profile public */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
@@ -76,12 +79,11 @@ const WhoCanSeeYourProfile = () => {
                 <div className="flex items-center gap-2">
                   <span className="text-[20px]">🌍</span>
                   <p className="font-semibold text-sm">
-                    Make my profile public
+                    {t("Makemyprofilepublic")}
                   </p>
                 </div>
                 <p className="text-xs text-gray-500 pl-7 pr-4 sm:pl-8 sm:pr-0">
-                  Anyone on the platform (users + companies) can see your
-                  profile.
+                  {t("makePublicDescription")}
                 </p>
               </div>
             </div>
@@ -100,13 +102,13 @@ const WhoCanSeeYourProfile = () => {
           {formData.isPublic && (
             <div className="mb-4 px-4 sm:px-8">
               <p className="text-sm font-medium mb-2">
-                Who can view your public profile?
+                {t("publicViewLabel")}
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                 {[
-                  { label: "Friends", value: 0 },
-                  { label: "Companies", value: 1 },
-                  { label: "Both", value: 2 },
+                  { label: t("Friends"), value: 0 },
+                  { label: t("Companies"), value: 1 },
+                  { label: t("Both"), value: 2 },
                 ].map((option) => (
                   <label
                     key={option.value}
@@ -136,12 +138,11 @@ const WhoCanSeeYourProfile = () => {
                 <div className="flex items-center gap-2">
                   <span className="text-[20px]">🌈</span>
                   <p className="font-semibold text-sm">
-                    Show only to LGBTQ+ friendly companies
+                    {t("lgbtqFriendlyLabel")}
                   </p>
                 </div>
                 <p className="text-xs text-gray-500 pl-7 pr-4 sm:pl-8 sm:pr-0">
-                  Your profile will remain hidden from public. Only companies
-                  located in LGBTQ-friendly countries can access it.
+                  {t("lgbtqFriendlyDescription")}
                 </p>
               </div>
             </div>
@@ -159,7 +160,7 @@ const WhoCanSeeYourProfile = () => {
           </div>
 
           <button onClick={handleSubmit} className="btn-fill cursor-pointer">
-            Next
+            {t("nextButton")}
           </button>
         </ReusableForm>
       </div>

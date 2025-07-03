@@ -2,13 +2,15 @@
 import { applyJob } from "@/api/job.api";
 import CustomDatePicker from "@/common/DatePicker";
 import InputField from "@/common/InputField";
-import LocationInput from "@/common/LocationInput";
 import useProfileForm from "@/hooks/validation/user/Job/useProfileForm";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/store/auth.store";
+import { useTranslations } from "next-intl";
 import { useCallback, useRef, useState } from "react";
 import { FiUpload } from "react-icons/fi";
 import { toast } from "react-toastify";
+import Selecter from "../../../common/Selecter";
+import { useCurrentyAvailabilityOptions, usePronounOptions } from "../../../utils/selectOptions";
 
 const ApplyNowForm = ({ jobId }) => {
   const [formData, setFormData] = useState({
@@ -20,27 +22,25 @@ const ApplyNowForm = ({ jobId }) => {
     pronouns: "",
     location: "",
     preferredStartDate: "",
+    expYears: "",
     currentAvailability: "",
-    salaryExpectationMin: "",
+    salaryExpectation: "",
     salaryExpectationMax: "",
-    coverLetter: "",
+    message: "",
+    expYears: "0",
+    attachments: "",
   });
 
-  const availabilityOptions = [
-    "Immediately",
-    "2 weeks notice",
-    "1 month notice",
-    "More than 1 month",
-  ];
-
+  const availabilityOptions = useCurrentyAvailabilityOptions();
   const [selectedFile, setSelectedFile] = useState(null);
   const [additionalFiles, setAdditionalFiles] = useState([]);
   const fileInputRef = useRef(null);
   const additionalFilesRef = useRef(null);
   const { errors, setErrors, validateForm, clearFieldError } = useProfileForm();
-  const [error, setError] = useState("");
   const { user } = useAuthStore();
   const router = useRouter();
+  const t = useTranslations("UserProfile.profile");
+  const pronounOptions = usePronounOptions();
 
   const handleChange = useCallback(
     (e) => {
@@ -75,30 +75,33 @@ const ApplyNowForm = ({ jobId }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      // Validate file extension
+      const validExtensions = [t('pdf'), t('doc'), t("docx"), t("tex"), t("webp")];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      if (!validExtensions.includes(`.${fileExtension}`)) {
+        setErrors((prev) => ({
+          ...prev,
+          cv: t("InvalidFileFormatError")
+        }));
+        setSelectedFile(null);
+        return;
+      } else {
+        clearFieldError(t("cv"));
+      }
       setSelectedFile(file);
-      setError("");
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        cv: t("InvalidFileFormatErrorFile"),
+      }));
+      setSelectedFile(null);
     }
   };
 
   const handleDateChange = useCallback(
     (date) => {
-      setFormData((prev) => ({ ...prev, dob: date }));
-      clearFieldError("dob");
-    },
-    [clearFieldError]
-  );
-
-  const handleLocationChange = useCallback(
-    (val) => {
-      setFormData((prev) => ({ ...prev, location: val }));
-      clearFieldError("location");
-    },
-    [clearFieldError]
-  );
-
-  const handleLocationDetect = useCallback(
-    ({ city, state, country }) => {
-      clearFieldError("location");
+      setFormData((prev) => ({ ...prev, preferredStartDate: date }));
+      clearFieldError(t("preferredStartDate"));
     },
     [clearFieldError]
   );
@@ -115,21 +118,15 @@ const ApplyNowForm = ({ jobId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate required fields
-    if (!validateForm(formData)) {
+    if (!validateForm({ ...formData, cv: selectedFile })) {
       return;
     }
 
-    if (!selectedFile) {
-      setError("Please upload a resume file (PDF, DOC, DOCX, TEX).");
-      return;
-    }
-
-    const validExtensions = [".pdf", ".doc", ".docx", ".tex", ".webp"];
+    const validExtensions = [t('pdf'), t('doc'), t("docx"), t("tex"), t("webp")];
     const fileExtension = selectedFile?.name.split(".").pop();
 
     if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
-      setError("Invalid file format. Please upload a valid resume file.");
+      setErrors({ ...errors, cv: t("InvalidFileFormatError") });
       return;
     }
 
@@ -140,7 +137,7 @@ const ApplyNowForm = ({ jobId }) => {
     // Required fields
     submitData.append("fullName", formData.fullName);
     submitData.append("email", formData.email);
-    submitData.append("appliedCV", selectedFile);
+    submitData.append("appliedCV", formData.appliedCV);
 
     // Optional fields - only append if they have values
     if (formData.phone) submitData.append("phone", formData.phone);
@@ -152,15 +149,14 @@ const ApplyNowForm = ({ jobId }) => {
       submitData.append("preferredStartDate", formData.preferredStartDate);
     if (formData.currentAvailability)
       submitData.append("currentAvailability", formData.currentAvailability);
-    if (formData.salaryExpectationMin)
-      submitData.append("salaryExpectationMin", formData.salaryExpectationMin);
-    if (formData.salaryExpectationMax)
-      submitData.append("salaryExpectationMax", formData.salaryExpectationMax);
-    if (formData.coverLetter) submitData.append("coverLetter", formData.coverLetter);
+    if (formData.salaryExpectation)
+      submitData.append("salaryExpectation", formData.salaryExpectation);
+
+    if (formData.message) submitData.append("message", formData.message);
 
     // Additional files
     additionalFiles.forEach((file) => {
-      submitData.append("additionalFiles", file);
+      submitData.append("attachments", file);
     });
 
     try {
@@ -177,9 +173,9 @@ const ApplyNowForm = ({ jobId }) => {
           location: "",
           preferredStartDate: "",
           currentAvailability: "",
-          salaryExpectationMin: "",
+          salaryExpectation: "",
           salaryExpectationMax: "",
-          coverLetter: "",
+          message: "",
         });
         setSelectedFile(null);
         setAdditionalFiles([]);
@@ -189,18 +185,18 @@ const ApplyNowForm = ({ jobId }) => {
         }, 1500);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || t("Failedtoapplyjob"));
     }
   };
 
   return (
     <div className="mx-auto h-fit w-full rounded-lg bg-white p-2 text-[14px] font-normal shadow-sm sm:p-[20px] xl:max-w-[747px]">
       <form onSubmit={handleSubmit}>
-        <h2 className="mb-4 text-left text-[16px] font-medium text-black">Required Information</h2>
+        <h2 className="mb-4 text-left text-[16px] font-medium text-black">{t("RequiredInformation")}</h2>
 
         <div className="grid grid-cols-1 gap-y-2.5">
           <InputField
-            label="Full Name *"
+            label={t("fullName")}
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
@@ -209,7 +205,7 @@ const ApplyNowForm = ({ jobId }) => {
           />
 
           <InputField
-            label="Email *"
+            label={t("emaill")}
             name="email"
             type="email"
             value={formData.email}
@@ -219,7 +215,7 @@ const ApplyNowForm = ({ jobId }) => {
           />
 
           <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">Resume/CV Upload *</label>
+            <label className="text-grayBlueText mb-1 block text-[14px]">{t('ResumeCVUpload')}</label>
             <div className="relative flex h-22 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-[0.78px] border-[#CAB7CC]/[75%] p-4">
               <label
                 htmlFor="cv"
@@ -228,7 +224,7 @@ const ApplyNowForm = ({ jobId }) => {
                 <div onClick={handleFileButtonClick}>
                   <FiUpload className="text-2xl" />
                 </div>
-                Upload Resume/CV
+                {t("UploadCV")}
               </label>
 
               <input
@@ -239,34 +235,23 @@ const ApplyNowForm = ({ jobId }) => {
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="absolute inset-0 cursor-pointer opacity-0"
-                required
+              // required
               />
 
               <p className="mt-2 text-[12px] text-gray-600">
-                {selectedFile ? ` ${selectedFile.name}` : "Allowed: PDF, DOC, DOCX, TEX, WEBP"}
-              </p>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-            </div>
-          </div>
+                {selectedFile ? ` ${selectedFile.name}` : t('allowedTypes')}
 
-          <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">Cover Letter</label>
-            <textarea
-              name="coverLetter"
-              value={formData.coverLetter}
-              onChange={handleChange}
-              className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
-              rows="4"
-              placeholder="Tell us why you're interested in this position..."
-            />
+              </p>
+            </div>
+            {errors.cv && <p className="mt-1 text-sm text-red-500">{errors.cv}</p>}
           </div>
 
           <h2 className="mt-2 mb-2 text-left text-[16px] font-medium text-black">
-            Additional Information (Optional)
+            {t("OptionalInformation")}
           </h2>
 
           <InputField
-            label="Phone Number"
+            label={t("phoneNumber")}
             name="phone"
             type="tel"
             value={formData.phone}
@@ -275,93 +260,72 @@ const ApplyNowForm = ({ jobId }) => {
           />
 
           <InputField
-            label="LinkedIn URL"
+            label={t("linkedinUrl")}
             name="linkedinUrl"
             value={formData.linkedinUrl}
             onChange={handleChange}
           />
 
           <InputField
-            label="Portfolio URL"
+            label={t("portfolioUrl")}
             name="portfolioUrl"
             value={formData.portfolioUrl}
             onChange={handleChange}
           />
 
-          <InputField
-            label="Pronouns"
-            name="pronouns"
-            value={formData.pronouns}
+          <Selecter
+            name="pronoun"
+            label={`${t("pronoun")}`}
+            placeholder={t("pronounPlaceholder")}
+            value={formData.pronoun}
             onChange={handleChange}
-            placeholder="e.g., they/them, she/her, he/him"
+            options={pronounOptions}
+            isOther={true}
           />
 
-          <div className="space-y-1">
-            <LocationInput
-              value={formData.location}
-              onChange={handleLocationChange}
-              onLocationDetect={handleLocationDetect}
-              error={errors.location}
-            />
-          </div>
+          <InputField
+            label={t("location")}
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            error={errors.location}
+            placeholder={t("Enteryourlocation")}
+          />
 
           <CustomDatePicker
             value={formData.preferredStartDate}
-            onChange={(date) =>
-              handleChange({ target: { name: "preferredStartDate", value: date } })
-            }
-            label="Preferred Start Date"
+            onChange={handleDateChange}
+            label={`${t("PreferredStartDate")} `}
           />
 
-          <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">Current Availability</label>
-            <select
-              name="currentAvailability"
-              value={formData.currentAvailability}
-              onChange={handleChange}
-              className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
-            >
-              <option value="">Select availability</option>
-              {availabilityOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mb-4 grid grid-cols-2 gap-4">
+          <Selecter
+            name="currentAvailability"
+            label={`${t("availability")} `}
+            placeholder={t("Selectyouravailabilty")}
+            value={formData.currentAvailability}
+            onChange={handleChange}
+            options={availabilityOptions}
+            error={errors.currentAvailability}
+            isOther={true}
+            isClearable={true}
+          />
+          <div className="mb-4 grid grid-cols-1 gap-4">
             <div>
-              <label className="text-grayBlueText mb-1 block text-[14px]">
-                Salary Expectation (Min)
-              </label>
+              <label className="text-grayBlueText mb-1 block text-[14px]">{t("SalaryExpectation")}</label>
               <input
-                type="number"
-                name="salaryExpectationMin"
-                value={formData.salaryExpectationMin}
+                type="text"
+                name="salaryExpectation"
+                value={formData.salaryExpectation}
                 onChange={handleChange}
                 className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
-                placeholder="Min salary"
-              />
-            </div>
-            <div>
-              <label className="text-grayBlueText mb-1 block text-[14px]">
-                Salary Expectation (Max)
-              </label>
-              <input
-                type="number"
-                name="salaryExpectationMax"
-                value={formData.salaryExpectationMax}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
-                placeholder="Max salary"
+                placeholder= {t("EnterSalaryExpectation")}
               />
             </div>
           </div>
 
           <div className="mb-4">
             <label className="text-grayBlueText mb-1 block text-[14px]">
-              Additional Certificates/Documents
+              {t("AdditionalFiles")}
             </label>
             <div className="relative flex h-22 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-[0.78px] border-[#CAB7CC]/[75%] p-4">
               <input
@@ -374,7 +338,7 @@ const ApplyNowForm = ({ jobId }) => {
               />
               <FiUpload className="text-2xl text-[#0F8200]" />
               <p className="mt-2 text-[12px] text-gray-600">
-                Upload additional certificates or documents
+                {t("UploadAdditionalFiles")}
               </p>
             </div>
             {additionalFiles.length > 0 && (
@@ -387,25 +351,35 @@ const ApplyNowForm = ({ jobId }) => {
                       onClick={() => removeAdditionalFile(index)}
                       className="text-red-500"
                     >
-                      Remove
+                      {t("Remove")}
                     </button>
                   </div>
                 ))}
               </div>
             )}
           </div>
+          <div className="mb-4">
+            <label className="text-grayBlueText mb-1 block text-[14px]">{t("CoverLetter")}</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
+              rows="4"
+              placeholder= {t("Writeyourmessage")}
+            />
+          </div>
         </div>
 
         <div className="mt-6 mb-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
-          By submitting this application, your information will be shared with the employer. Please
-          make sure your profile respects Jasmina's community guidelines.
+          {t("Byapplyingjob")}
         </div>
 
         <button
           type="submit"
           className="hover:text-primary bg-primary hover:border-primary hover:bg-secondary/50 mt-3 w-full rounded-md border border-transparent p-1 text-[18px] font-medium text-white transition-all duration-100 ease-in sm:mt-5 sm:p-2 sm:text-[14px]"
         >
-          Submit Application
+          {t("SubmitApplication")}
         </button>
       </form>
     </div>

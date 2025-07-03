@@ -35,6 +35,7 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-toastify": "^11.0.5",
+    "react-tooltip": "^5.29.1",
     "rsuite": "^5.80.1",
     "swiper": "^11.2.6",
     "tailwindcss-rtl": "^0.9.0",

@@ -7,7 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { RiLockPasswordLine } from "react-icons/ri";
 
 const PasswordResetModal = ({ isOpen, onClose, userData }) => {
-  const t = useTranslations("CompanyProfile.singleCompany");
+  const t = useTranslations("auth");
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -82,10 +82,10 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                       <RiLockPasswordLine className="text-[28px] text-[#0F8200]" />
                     </div>
                     <span className="mb-1 text-[20px] font-semibold text-black">
-                      Reset Password
+                      {t("resetPassword")}
                     </span>
                     <p className="text-[15px] font-normal text-[#888DA8]">
-                      Update your password to secure your account
+                      {t("resetPasswordDescription")}
                     </p>
                   </div>
 
@@ -102,7 +102,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
 
                     <div className="space-y-4">
                       <PasswordField
-                        label="Current Password"
+                        label={t("CurrentPassword")}
                         name="currentPassword"
                         value={formData.currentPassword}
                         onChange={handleChange}
@@ -113,7 +113,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                       />
 
                       <PasswordField
-                        label="New Password"
+                        label={t("NewPassword")}
                         name="newPassword"
                         value={formData.newPassword}
                         onChange={handleChange}
@@ -124,7 +124,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                       />
 
                       <PasswordField
-                        label="Confirm New Password"
+                        label={t("ConfirmPassword")}
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
@@ -137,7 +137,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
 
                     <div className="flex w-full items-center justify-center">
                       <button type="submit" className="btn-fill" disabled={isPending}>
-                        {isPending ? "Resetting..." : "Reset Password"}
+                        {isPending ? `${t('Resetting')}...` : t('ResetPassword')}
                       </button>
                     </div>
                   </form>

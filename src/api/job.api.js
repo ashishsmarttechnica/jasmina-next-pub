@@ -24,6 +24,12 @@ export const saveJob = async ({ jobId, userId }) => {
   const res = await axios.post("/save/job", { jobId, userId });
   return res.data;
 };
+export const removeJob = async ({ jobId, userId }) => {
+  const response = await axios.delete(`/remove/job`, {
+    data: { jobId, userId },
+  });
+  return response.data;
+};
 
 export const getSavedJobs = async (userId) => {
   const res = await axios.get(`/get/save/job?id=${userId}`);

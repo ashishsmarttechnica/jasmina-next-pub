@@ -17,7 +17,7 @@ const MainSingleCompany = () => {
   const [mainContent, setMainContent] = useState(null);
 
   const { data: userData, isLoading, error } = useSingleCompany(userId);
-  console.log(userData);
+  // console.log(userData);
   if (error) {
     return <div>Error loading user data</div>;
   }

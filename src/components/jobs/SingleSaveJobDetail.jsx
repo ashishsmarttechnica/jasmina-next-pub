@@ -14,6 +14,10 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
 import { toast } from "react-toastify";
+import { removeJob } from "../../api/job.api";
+import Bar from "../../assets/svg/jobs/Bar";
+import Colors from "../../assets/svg/jobs/colors";
+import ImageFallback from "../../common/shared/ImageFallback";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
@@ -41,25 +45,31 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       toast.error("User not logged in");
       return;
     }
-
+  
     if (bookmarked) {
-      // If already bookmarked, show message but don't call API again
-      toast.info("Job already saved!");
-      return;
+      // 🔁 Call removeJob API
+      removeJob({ jobId: job?._id, userId })
+        .then(() => {
+          toast.success("Job removed!");
+          setBookmarked(false);
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message || "Failed to remove job.");
+        });
+    } else {
+      // Save the job only if not already bookmarked
+      saveJob({
+        jobId: job?._id,
+        userId,
+        onSuccess: () => {
+          toast.success("Job saved!");
+          setBookmarked(true);
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.message || "Failed to save job.");
+        },
+      });
     }
-
-    // Save the job only if not already bookmarked
-    saveJob({
-      jobId: job?._id,
-      userId,
-      onSuccess: () => {
-        toast.success("Job saved!");
-        setBookmarked(true);
-      },
-      onError: (error) => {
-        toast.error(error?.response?.data?.message || "Failed to save job.");
-      },
-    });
   };
 
   const handleApplyNow = () => {
@@ -68,7 +78,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <div className="w-full overflow-hidden rounded-lg border  mt-5 md:mt-0 border-gray-200 bg-white p-5 shadow-sm">
       {/* <button
         className="text-sm text-blue-600 underline mb-3"
         onClick={onBack}
@@ -97,7 +107,11 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         {/* <Colors width={13} height={13} /> */}
-        {job?.genderPrefereance}
+        <div className="mb-2 flex items-center gap-3 text-sm text-[#888DA8]">
+          {job?.genderPrefereance === "lgbtq" && <Colors className="h-5 w-5" />}
+          {job?.genderPrefereance === "nonlgbtq" && <Bar className="h-5 w-5" />}
+          <span>{job?.genderPrefereance}</span>
+        </div>
       </div>
 
       <button
@@ -161,6 +175,26 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
               ))}
           </ul>
         </div>
+        <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-3">
+            <ImageFallback
+              src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+              alt="logo"
+              width={28}
+              height={28}
+              className="mt-1 rounded-md"
+            />
+
+            <div className="flex w-full flex-col">
+              <div className="text-sm text-gray-500">
+                {job.company?.companyName || "Unknown Company"}
+              </div>
+              {/* {job.socialLinks && ( */}
+              <div className="w-full max-w-full text-[13px] break-all whitespace-normal ">
+                {job.website}
+              </div>
+              {/* )} */}
+            </div>
+          </div>
       </div>
     </div>
   );

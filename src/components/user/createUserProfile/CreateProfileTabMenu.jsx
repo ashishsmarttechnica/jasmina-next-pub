@@ -22,7 +22,7 @@ const VerificationBar = () => {
   const t = useTranslations("UserProfile.userprofilemenu");
   const { data: userData, isLoading } = useUser();
   const { user } = useAuthStore();
-  console.log(user, "user");
+  // console.log(user, "user");
   const availabilty = user?.profile?.availabilty;
   // console.log(availabilty, "availabilty");
 

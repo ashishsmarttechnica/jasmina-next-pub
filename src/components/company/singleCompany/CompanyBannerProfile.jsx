@@ -15,11 +15,14 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import ReportModel from "@/modal/ReportModel";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useAcceptConnection } from "../../../hooks/user/useNetworkInvites";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
+  console.log(userData,"paramsUserId");
+  
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [open, setOpen] = useState(false);
@@ -28,11 +31,13 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { mutate: acceptConnection, isPending } = useAcceptConnection();
   // Check if user came from connections page
-  const fromConnections =
-    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
-
+  // const fromConnections =
+  //   searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
+  const [showConnect, setShowConnect] = useState(
+    !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
+  );
   const { mutate: removeConnection } = useRemoveConnection();
 
   const handleConnectionClick = () => {
@@ -56,7 +61,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
         onSuccess: (res) => {
           if (res.success) {
             // Refresh the page to update the UI
-            window.location.reload();
+            setShowConnect(true);
           } else {
             toast.error(res?.message || "Failed to remove connection");
           }
@@ -71,6 +76,24 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
     );
   };
 
+  const handleConnect = () => {
+    if (!userData || !paramsUserId) return;
+    acceptConnection(
+      { id: paramsUserId, role: "Company" },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowConnect(false);
+          } else {
+            toast.error(res?.message || "Failed to connect");
+          }
+        },
+        onError: (error) => {
+          toast.error(error?.message || "Failed to connect");
+        },
+      }
+    );
+  };
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
@@ -114,7 +137,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             </p>
             <p className="text-xs font-normal text-[#888DA8]">{userData?.country || "Country"}</p>
 
-            {isCurrentUser ? (
+            {/* {isCurrentUser ? (
               <div className="flex gap-2">
                 <button className="profile-btn" onClick={() => setOpen(true)}>
                   {t("editProfile")}
@@ -135,6 +158,37 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                   </button>
                 ) : (
                   <button className="connect-btn">{t("connect")}</button>
+                )}
+                <button className="message-btn">{t("message")}</button>
+                <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
+                  <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
+                </button>
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+              </div>
+            )} */}
+             {isCurrentUser ? (
+              <div className="flex gap-2">
+                <button className="profile-btn" onClick={() => handleDisc(userData)}>
+                  {t("editProfile")}
+                </button>
+                <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
+                  Reset Password
+                </button>
+              </div>
+            ) : (
+              <div className="mt-3.5 flex gap-2">
+                {showConnect ? (
+                  <button className="connect-btn" onClick={handleConnect}>
+                    {t("connect")}
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleRemoveConnection}
+                    disabled={isRemoving}
+                    className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isRemoving ? "Removing..." : "Remove"}
+                  </button>
                 )}
                 <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>

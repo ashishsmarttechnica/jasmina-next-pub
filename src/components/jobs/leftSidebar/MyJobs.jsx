@@ -38,7 +38,7 @@ const MyJobs = () => {
   }, [getSavedJobs]);
 
   return (
-    <Card className="w-full md:sticky md:top-4 md:max-w-[266px] xl:w-[266px] xl:max-w-[266px]">
+    <Card className="w-full md:sticky md:top-4 md:max-w-[236px] xl:w-[256px] xl:max-w-[266px]">
       <CardHeading title={"My jobs"} />
 
       <div className="w-full text-[#888DA8] md:max-w-[1000px]">

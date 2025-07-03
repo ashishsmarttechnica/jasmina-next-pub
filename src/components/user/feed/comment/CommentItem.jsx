@@ -28,13 +28,13 @@ const CommentItem = ({ comment }) => {
   const handleUserProfile = (singleComment) => {
     if (singleComment.userType === "Company") {
       if (singleComment.user?._id) {
-        router.push(`/company/single-company/${singleComment.user._id}`);
+        router.push(`/company/single-company/${singleComment.user._id}?fromConnections=true`);
       } else {
         toast.error("Company not found");
       }
     } else {
       if (singleComment.user?._id) {
-        router.push(`/single-user/${singleComment.user._id}`);
+        router.push(`/single-user/${singleComment.user._id}?fromConnections=true`);
       } else {
         toast.error("User not found");
       }

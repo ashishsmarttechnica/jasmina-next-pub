@@ -51,11 +51,11 @@ const RecentJobs = () => {
         <CardHeading title={t("recentjob")} />
       </div>
 
-      <div className="mx-auto overflow-hidden p-5">
+      <div className="mx-auto overflow-hidden  p-5">
         <Swiper spaceBetween={10} slidesPerView="auto" className="h-full">
           {jobList.map((job, index) => (
-            <SwiperSlide key={index} className="!w-auto">
-              <div className="border-grayBlueText/50 h-auto w-auto min-w-[172px] overflow-hidden rounded-md border px-0 shadow-sm">
+            <SwiperSlide key={index} className="!w-auto z-5">
+              <div className="border-grayBlueText/50 z-5 h-auto w-auto min-w-[172px] overflow-hidden rounded-md border px-0 shadow-sm">
                 <div className="block justify-between bg-white p-2.5 text-left transition-all hover:shadow">
                   <h3 className="mb-2.5 max-w-[99px] text-base leading-[21px] font-bold tracking-normal text-black">
                     {job.title}

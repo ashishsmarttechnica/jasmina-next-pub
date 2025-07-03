@@ -22,7 +22,7 @@ const CompanyNavItems = ({ onLinkClick }) => {
   const logout = useAuthStore((state) => state.logout);
 
   const { user } = useAuthStore();
-  console.log(user, "user");
+  // console.log(user, "user");
 
   useEffect(() => {
     function handleClickOutside(event) {

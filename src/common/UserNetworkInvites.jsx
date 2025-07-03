@@ -12,6 +12,7 @@ import useNetworkInvitesStore from "@/store/networkInvites.store";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { Tooltip } from "react-tooltip";
 import Card from "./card/Card";
 import CardHeading from "./card/CardHeading";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
@@ -49,7 +50,7 @@ const UserNetworkInvites = ({ title }) => {
         type: "Company",
         typeColor: "text-green-600",
         icon: <FaBuilding className="h-3 w-3" />,
-      }, 
+      },
     };
 
     return configs[type] || configs.User;
@@ -140,14 +141,22 @@ const UserNetworkInvites = ({ title }) => {
                     <p
                       className="cursor-pointer truncate text-[13px] font-medium"
                       onClick={() => handleUserProfile(item)}
+                      data-tooltip-id={`name-tooltip-${item._id}`}
+                      data-tooltip-content={config.name}
                     >
                       {config.name}
                     </p>
+                    <Tooltip id={`name-tooltip-${item._id}`} />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
-                  <p className="text-grayBlueText mt-0.5 truncate text-xs font-normal">
+                  <p
+                    className="text-grayBlueText mt-0.5 truncate text-xs font-normal"
+                    data-tooltip-id={`subtitle-tooltip-${item._id}`}
+                    data-tooltip-content={config.subtitle}
+                  >
                     {config.subtitle}
                   </p>
+                  <Tooltip id={`subtitle-tooltip-${item._id}`} />
                 </div>
               </div>
 

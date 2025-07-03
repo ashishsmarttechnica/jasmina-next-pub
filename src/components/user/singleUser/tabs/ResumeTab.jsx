@@ -1,17 +1,19 @@
 "use client";
 
 import getImg from "@/lib/getImg";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const ResumeTab = ({ resume }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("UserProfile.profile.singleprofileTab");
 
   // If resume is missing or empty
   if (!resume || (typeof resume === "string" && resume.trim() === "")) {
     return (
       <div className="p-2 sm:p-4">
         <div className="px-2 sm:px-[30px]">
-          <p className="text-sm text-gray-500 sm:text-base">No resume document available.</p>
+          <p className="text-sm text-gray-500 sm:text-base">{t('Noresumedocumentavailable')}</p>
         </div>
       </div>
     );

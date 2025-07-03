@@ -1,27 +1,34 @@
 "use client";
 import Card from "@/common/card/Card";
-import useGetJobs from "@/hooks/job/useGetJobs";
-import Image from "next/image";
+import ImageFallback from "@/common/shared/ImageFallback";
+import { useAllJobs } from "@/hooks/job/useGetJobs";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import { getRelativeTime } from "../../utils/dateUtils";
 import SingleJobDetail from "./SingleJobDetail";
 
 const JobCards = ({ filters }) => {
+  const [page, setPage] = useState(1);
   const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
 
-  // Pass a large limit to fetch all records
-  const searchParams = isDefaultFilters
-    ? { limit: 1000 } // Large limit to get all records
-    : { ...filters, limit: 1000 }; // Include filters with large limit
+  // Use standard pagination with the API
+  const searchParams = isDefaultFilters ? { page, limit: 10 } : { ...filters, page, limit: 10 };
 
-  const { data, isLoading, error } = useGetJobs(searchParams);
+  const { data, isLoading, error } = useAllJobs(searchParams);
   const jobs = data?.jobs || [];
   const pagination = data?.pagination || {};
   const isLastPage = data?.isLastPage || false;
+  const totalPages = pagination?.totalPages || 0;
+  const totalJobs = pagination?.total || 0;
+  console.log(jobs, "dsfsdjobss");
 
   const [selectedJob, setSelectedJob] = useState(null);
-  const [visibleCount, setVisibleCount] = useState(3);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   // When jobs are filtered, if the selected job is not in the new list, clear the selection.
   useEffect(() => {
@@ -66,9 +73,10 @@ const JobCards = ({ filters }) => {
         : job.requiredSkills.split(",")
       : [],
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
+    website: job?.company?.website,
     _raw: job,
   }));
-  //
+
   // Auto-select the first job by default when jobs are loaded or changed
   useEffect(() => {
     if (mappedJobs.length > 0 && !selectedJob) {
@@ -76,15 +84,32 @@ const JobCards = ({ filters }) => {
     }
   }, [mappedJobs, selectedJob]);
 
-  if (isLoading) return <div>Loading jobs...</div>;
-  if (error) return <div>Error loading jobs.</div>;
+  const handleLoadMore = () => {
+    if (page < totalPages) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  if (isLoading && page === 1) return <div>Loading jobs...</div>;
+  if (error) return <div>Error loading jobs: {error.message}</div>;
 
   return (
-    <div className="flex w-full flex-col gap-6 md:flex-row">
-      <div className="w-full pr-2 md:w-[35%]">
+    <div className="flex w-full flex-col gap-1 md:flex-row">
+      <div className="w-full  md:w-[35%]">
         <div className="flex flex-col gap-4">
+          <div className="mb-2 text-sm text-gray-500">
+            {totalJobs > 0 ? (
+              <p>
+                Showing {jobs.length} of {totalJobs} jobs
+              </p>
+            ) : (
+              <p>No jobs found</p>
+            )}
+          </div>
+
           {mappedJobs.length > 0 ? (
-            mappedJobs.slice(0, visibleCount).map((job, index) => (
+            mappedJobs.map((job, index) => (
+              // console.log();
               <Card
                 key={`${job._id}-${index}`}
                 className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
@@ -93,6 +118,7 @@ const JobCards = ({ filters }) => {
                 onClick={() => setSelectedJob(job)}
               >
                 <div className="p-4">
+               
                   <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
                   <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                     <IoClipboardOutline className="h-4 w-4" />
@@ -102,33 +128,59 @@ const JobCards = ({ filters }) => {
                     <HiOutlineLocationMarker className="h-4 w-4" />
                     {job.location}
                   </p>
+                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    {job?.genderPrefereance}
+                    <p>Posted {getRelativeTime(job.posted)}</p>
                   </div>
-                  <div className="mt-3 flex items-center gap-2 border-t pt-3">
-                    <Image
-                      src={job.logo}
-                      alt={`logo`}
+                  {/* <div>{job?.createdAt}</div> */}
+
+                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                    <ImageFallback
+                      src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                      alt="logo"
                       width={28}
                       height={28}
-                      className="rounded-md"
+                      className="mt-1 rounded-md"
                     />
-                    <span className="text-sm text-gray-500">{job.company}</span>
+
+                    <div className="flex w-full flex-col">
+                      <div className="text-sm text-gray-500">
+                        {job.company || "Unknown Company"}
+                      </div>
+                      {/* {job.socialLinks && ( */}
+                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                        {job.website}
+                      </div>
+                      {/* )} */}
+                    </div>
                   </div>
+                  {/**/}
                 </div>
               </Card>
             ))
           ) : (
-            <div>Waiting for jobs...</div>
+            <div>No jobs found matching your criteria.</div>
           )}
 
-          {visibleCount < mappedJobs.length && (
+          {!isLoading && page < totalPages && (
             <button
               className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
-              onClick={() => setVisibleCount((prev) => prev + 3)}
+              onClick={handleLoadMore}
             >
               Load More
             </button>
+          )}
+
+          {isLoading && page > 1 && (
+            <div className="mt-2 text-center">
+              <p>Loading more jobs...</p>
+            </div>
+          )}
+
+          {page >= totalPages && jobs.length > 0 && (
+            <div className="mt-2 text-center text-gray-500">
+              <p>No more jobs to load</p>
+            </div>
           )}
         </div>
       </div>

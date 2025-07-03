@@ -39,7 +39,7 @@ export const useNetworkInvites = (page = 1, limit = 5) => {
   });
 };
 
-export const useAcceptConnection = () => {
+export const useAcceptConnection = (options = {}) => {
   const queryClient = useQueryClient();
   const userId = Cookies.get("userId");
   const userRole = Cookies.get("userRole");
@@ -52,23 +52,28 @@ export const useAcceptConnection = () => {
         reciverId: userId, //login user id
         reciverType: capitalize(userRole), //login user role
       }),
-    onSuccess: (data) => {
+    onSuccess: (data, variables, context) => {
       if (data?.success) {
         toast.success("Connection request accepted successfully!");
-        // Only invalidate the networkInvites query with exact match
         queryClient.invalidateQueries({
           queryKey: ["networkInvites"],
-          exact: true
+          exact: true,
         });
       } else {
         toast.error(data?.message || "Failed to accept connection request");
       }
+      if (options.onSuccess) {
+        options.onSuccess(data, variables, context);
+      }
     },
-    onError: (error) => {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong!";
+    onError: (error, variables, context) => {
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
+      if (options.onError) {
+        options.onError(error, variables, context);
+      }
     },
+    ...options,
   });
 };
 
@@ -91,15 +96,14 @@ export const useRejectConnection = () => {
         // Only invalidate the networkInvites query with exact match
         queryClient.invalidateQueries({
           queryKey: ["networkInvites"],
-          exact: true
+          exact: true,
         });
       } else {
         toast.error(data?.message || "Failed to reject connection request");
       }
     },
     onError: (error) => {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong!";
+      const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
   });

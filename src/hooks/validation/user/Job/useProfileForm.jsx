@@ -24,7 +24,7 @@ const useProfileForm = () => {
 
     // CV validation (Required)
     if (!formData.cv && !formData.appliedCV) {
-      newErrors.cv = "Please upload your CV";
+      newErrors.cv = "Please upload a resume file (PDF, DOC, DOCX, TEX).";
     } else if (formData.cv || formData.appliedCV) {
       const file = formData.cv || formData.appliedCV;
       const validExt = ["pdf", "doc", "docx", "tex", "webp"];

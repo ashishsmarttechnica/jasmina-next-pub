@@ -3,11 +3,12 @@ import Card from "@/common/card/Card";
 import useGetJobs from "@/hooks/job/useGetJobs";
 import useGetSavedJobs from "@/hooks/job/useGetSavedJobs";
 import useJobStore from "@/store/job.store";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import ImageFallback from "../../common/shared/ImageFallback";
+import { getRelativeTime } from "../../utils/dateUtils";
 import SingleSaveJobDetail from "./SingleSaveJobDetail";
 
 const SaveJobCards = ({ filters, isSavedJobs = false }) => {
@@ -18,6 +19,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const { jobs, isLoading, error, getSavedJob } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
+console.log(jobs,"dfgfdgjobsss");
 
   // Calculate params for useGetJobs hook
   const jobParams = isDefaultFilters ? { limit: 1000 } : { ...filters, limit: 1000 };
@@ -89,6 +91,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
+      website: job?.company?.website,
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     _raw: job,
   }));
@@ -114,19 +117,19 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   if (error) return <div>Error loading jobs.</div>;
 
   return (
-    <div className="flex w-full flex-col gap-6 md:flex-row">
-      <div className="w-full pr-2 md:w-[35%]">
+    <div className="flex w-full flex-col md:flex-row">
+      <div className="w-full md:w-[35%]">
         <div className="flex flex-col gap-4">
           {mappedJobs.length > 0 ? (
             mappedJobs.slice(0, visibleCount).map((job) => (
               <Card
                 key={job.savedId || job._id}
                 className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                  selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
+                  selectedJob?._id === job._id ? "border-green-700 bg-green-700" : "border-gray-300"
                 }`}
                 onClick={() => setSelectedJob(job)}
               >
-                <div className="p-4">
+               <div className="p-4">
                   <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
                   <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                     <IoClipboardOutline className="h-4 w-4" />
@@ -136,19 +139,33 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
                     <HiOutlineLocationMarker className="h-4 w-4" />
                     {job.location}
                   </p>
+                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    {job?.genderPrefereance}
+                    <p>Posted {getRelativeTime(job.posted)}</p>
                   </div>
-                  <div className="mt-3 flex items-center gap-2 border-t pt-3">
-                    <Image
-                      src={job.logo}
-                      alt={`logo`}
+                  {/* <div>{job?.createdAt}</div> */}
+
+                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                    <ImageFallback
+                      src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                      alt="logo"
                       width={28}
                       height={28}
-                      className="rounded-md"
+                      className="mt-1 rounded-md"
                     />
-                    <span className="text-sm text-gray-500">{job.company}</span>
+
+                    <div className="flex w-full flex-col">
+                      <div className="text-sm text-gray-500">
+                        {job.company || "Unknown Company"}
+                      </div>
+                      {/* {job.socialLinks && ( */}
+                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                        {job.website}
+                      </div>
+                      {/* )} */}
+                    </div>
                   </div>
+                  {/**/}
                 </div>
               </Card>
             ))

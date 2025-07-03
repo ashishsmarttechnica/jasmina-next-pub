@@ -95,8 +95,8 @@ const PeopleCard = ({ person }) => {
           </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">
-          {person.details.createdAt &&
-            `${t("connecton")} ${new Date(person.details.createdAt).toLocaleDateString("en-US", {
+          {person.details.updatedAt &&
+            `${t("connecton")} ${new Date(person.details.updatedAt).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
               year: "numeric",

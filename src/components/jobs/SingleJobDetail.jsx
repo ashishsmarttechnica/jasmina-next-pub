@@ -16,10 +16,14 @@ import { IoClipboardOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
 import { MdBookmark } from "react-icons/md";
 import { toast } from "react-toastify";
+import { removeJob } from "../../api/job.api";
+import Bar from "../../assets/svg/jobs/Bar";
+import Colors from "../../assets/svg/jobs/colors";
+import ImageFallback from "../../common/shared/ImageFallback";
 
 const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
-  // console.log(job, "job");
+  console.log(job, "job");
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
@@ -57,23 +61,29 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
     }
 
     if (bookmarked) {
-      // If already bookmarked, show message but don't call API again
-      toast.info("Job already saved!");
-      return;
+      // 🔁 Call removeJob API
+      removeJob({ jobId: job?._id, userId })
+        .then(() => {
+          toast.success("Job removed!");
+          setBookmarked(false);
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message || "Failed to remove job.");
+        });
+    } else {
+      // Save the job only if not already bookmarked
+      saveJob({
+        jobId: job?._id,
+        userId,
+        onSuccess: () => {
+          toast.success("Job saved!");
+          setBookmarked(true);
+        },
+        onError: (error) => {
+          toast.error(error?.response?.data?.message || "Failed to save job.");
+        },
+      });
     }
-
-    // Save the job only if not already bookmarked
-    saveJob({
-      jobId: job?._id,
-      userId,
-      onSuccess: () => {
-        toast.success("Job saved!");
-        setBookmarked(true);
-      },
-      onError: (error) => {
-        toast.error(error?.response?.data?.message || "Failed to save job.");
-      },
-    });
   };
 
   const handleApplyNow = () => {
@@ -81,7 +91,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-5 shadow-sm mt-5 md:mt-0">
       {/* <button
         className="text-sm text-blue-600 underline mb-3"
         onClick={onBack}
@@ -110,7 +120,11 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
       </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         {/* <Colors width={13} height={13} /> */}
-        {job?.genderPrefereance}
+        <div className="mb-2 flex items-center gap-3 text-sm text-[#888DA8]">
+          {job?.genderPrefereance === "lgbtq" && <Colors className="h-5 w-5" />}
+          {job?.genderPrefereance === "nonlgbtq" && <Bar className="h-5 w-5" />}
+          <span>{job?.genderPrefereance}</span>
+        </div>
       </div>
 
       {!hideApplyButton && (
@@ -127,28 +141,28 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
         <h4 className="mb-2 font-medium">Quick Info Section</h4>
-        <ul className="space-y-2 text-sm text-[#888DA8]">
-          <li className="flex items-center gap-2">
+        <ul className="space-y-3 text-sm text-[#888DA8]">
+          <li className="my-1 flex items-center gap-2">
             <ClockSvg />
             {job?.type}
           </li>
-          <li className="flex items-center gap-2">
+          <li className="my-1 flex items-center gap-2">
             <Experience />
             Experience: {job?.experience}
           </li>
-          <li className="flex items-center gap-2">
+          <li className="my-1 flex items-center gap-2">
             <BookEducation />
             Education: {job?.education}
           </li>
-          <li className="flex items-center gap-2">
+          <li className="my-1 flex items-center gap-2">
             <Dollar />
             Salary: {job?.salary}
           </li>
-          <li className="flex items-center gap-2">
+          <li className="my-1 flex items-center gap-2">
             <Graph />
             Seniority: {job?.seniority}
           </li>
-          <li className="flex items-center gap-2">
+          <li className="my-1 flex items-center gap-2">
             <PeopleSvg />
             Applicants: {job?.applicants}
           </li>
@@ -157,14 +171,14 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
         <h4 className="mb-2 font-medium text-black">Job Description</h4>
-        <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.description }} />
+        <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal" dangerouslySetInnerHTML={{ __html: job?.description }} />
         <div
-          className="mt-2 max-w-md"
+          className="mt-2 max-w-md indesc w-full  text-[13px] break-all whitespace-normal "
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">Job responsibilities</h4>
-          <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
+          <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal " dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">Job Requirements</h4>
@@ -172,12 +186,34 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (
                 <li key={i} className="flex items-center">
-                  <span className="w-full rounded-lg bg-[#EAEAEA] px-3 py-2 text-center text-xs text-[13px] font-medium text-black shadow-sm transition-colors duration-200 hover:bg-green-100">
+                  <span className="w-full rounded-lg bg-[#EAEAEA] px-3 py-2 text-center text-xs text-[13px] font-medium text-black shadow-sm transition-colors duration-200 hover:bg-green-100 max-w-full  break-all whitespace-normal ">
                     {skill}
                   </span>
                 </li>
               ))}
           </ul>
+        </div>
+        <div>
+          <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-3">
+            <ImageFallback
+              src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+              alt="logo"
+              width={28}
+              height={28}
+              className="mt-1 rounded-md"
+            />
+
+            <div className="flex w-full flex-col">
+              <div className="text-sm text-gray-500">
+                {job.company?.companyName || "Unknown Company"}
+              </div>
+              {/* {job.socialLinks && ( */}
+              <div className="w-full max-w-full text-[13px] break-all whitespace-normal ">
+                {job.website}
+              </div>
+              {/* )} */}
+            </div>
+          </div>
         </div>
       </div>
     </div>

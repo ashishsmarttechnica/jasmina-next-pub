@@ -5,7 +5,7 @@ const EmptyState = ({ activeTab }) => {
 
   return (
     <div className="text-grayBlueText p-4 text-center sm:p-6">
-      {t("no")} {activeTab === t("people") ? t("people") : t("company")} {t("connectionfound")}
+      {t("No")} {activeTab}   {t("connectionfound")}
     </div>
   );
 };

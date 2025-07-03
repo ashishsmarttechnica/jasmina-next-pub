@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useAcceptConnection } from "../../../hooks/user/useNetworkInvites";
 
 // Import social media icons
 const LinkedInIcon = () => (
@@ -80,7 +81,11 @@ const UserBannerProfile = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
-
+  const [showConnect, setShowConnect] = useState(
+    !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
+  );
+  
+  const { mutate: acceptConnection, isPending } = useAcceptConnection();
   // Check if user came from connections page
   const fromConnections =
     searchParams?.get("fromConnections") === "true" || userData?.isConnected === true ;
@@ -108,9 +113,7 @@ const UserBannerProfile = ({
       {
         onSuccess: (res) => {
           if (res.success) {
-            // toast.success("Connection removed successfully!");
-            // Refresh the page to update the UI
-            window.location.reload();
+            setShowConnect(true);
           } else {
             toast.error(res?.message || "Failed to remove connection");
           }
@@ -120,6 +123,25 @@ const UserBannerProfile = ({
         },
         onSettled: () => {
           setIsRemoving(false);
+        },
+      }
+    );
+  };
+
+  const handleConnect = () => {
+    if (!userData || !paramsUserId) return;
+    acceptConnection(
+      { id: paramsUserId, role: "User" },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowConnect(false);
+          } else {
+            toast.error(res?.message || "Failed to connect");
+          }
+        },
+        onError: (error) => {
+          toast.error(error?.message || "Failed to connect");
         },
       }
     );
@@ -222,7 +244,11 @@ const UserBannerProfile = ({
               </div>
             ) : (
               <div className="mt-3.5 flex gap-2">
-                {fromConnections ? (
+                {showConnect ? (
+                  <button className="connect-btn" onClick={handleConnect}>
+                    {t("connect")}
+                  </button>
+                ) : (
                   <button
                     onClick={handleRemoveConnection}
                     disabled={isRemoving}
@@ -230,14 +256,11 @@ const UserBannerProfile = ({
                   >
                     {isRemoving ? "Removing..." : "Remove"}
                   </button>
-                ) : (
-                  <button className="connect-btn">{t("connect")}</button>
                 )}
                 <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
-
                 <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )}

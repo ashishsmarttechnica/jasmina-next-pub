@@ -335,7 +335,7 @@ const Selecter = ({
                     value={searchTerm}
                     onChange={handleSearchChange}
                     onClick={handleSearchClick}
-                    placeholder="Search..."
+                    placeholder={t("Search")}
                     className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 w-full rounded border py-2 pr-3 pl-10 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
                   />
                 </div>
@@ -351,7 +351,7 @@ const Selecter = ({
                     value={internalOtherValue}
                     onChange={handleOtherInputChange}
                     onKeyPress={handleKeyPress}
-                    placeholder="Enter custom value"
+                    placeholder={t("freetext")}
                     autoFocus
                     className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 flex-1 rounded border px-3 py-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
                   />

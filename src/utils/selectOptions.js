@@ -281,11 +281,22 @@ export const useAvailabilityOptions = () => {
   const t = useTranslations("UserProfile.profile");
   return [
     { label: `${t("availabilityOption.openToWork")}`, value: "Open to Work" },
-   
+
     { label: `${t("availabilityOption.freelance")}`, value: "Available for Freelance" },
-      { label: `${t("availabilityOption.notavailable")}`, value: "Not Available" },
-      { label: `${t("availabilityOption.worldwide")}`, value: " Open for Remote Worldwide" },
-    ];
+    { label: `${t("availabilityOption.notavailable")}`, value: "Not Available" },
+    { label: `${t("availabilityOption.worldwide")}`, value: " Open for Remote Worldwide" },
+  ];
+};
+
+export const useCurrentyAvailabilityOptions = () => {
+  const t = useTranslations("UserProfile.profile");
+  return [
+    { label: `${t("availabilityOption.immediately")}`, value: "immediately" },
+    { label: `${t("availabilityOption.in1Week")}`, value: "1 week" },
+    { label: `${t("availabilityOption.in2Weeks")}`, value: "2 weeks" },
+    { label: `${t("availabilityOption.in1Month")}`, value: "1 month" },
+    { label: `${t("availabilityOption.negotiable")}`, value: "2 month" },
+  ];
 };
 export const useEmployeTypeOptions = () => {
   const t = useTranslations("CreateCompanyJob.employeetype");
@@ -325,5 +336,49 @@ export const useDepartmentOptions = () => {
     { label: `${t("educationTraining")}`, value: "education_training" },
     { label: `${t("securityRiskManagement")}`, value: "security_risk_management" },
     { label: `${t("executiveLeadership")}`, value: "executive_leadership" },
+  ];
+};
+
+export const usestatusOptions = () => {
+  return [
+    { label: "All Status", value: "All Status" },
+    { label: "Open", value: "Open" },
+    { label: "Closed", value: "Closed" },
+    { label: "In Progress", value: "In Progress" },
+  ];
+};
+
+export const uselocationOptions = () => {
+  return [
+    { label: "All Location", value: "All Location" },
+    { label: "New York", value: "New York" },
+    { label: "Los Angeles", value: "Los Angeles" },
+    { label: "Chicago", value: "Chicago" },
+  ];
+};
+
+export const useTimeZonesOptions = () => {
+  const t = useTranslations("UserProfile");
+  return [
+    { label: "UTC (GMT)", value: "UTC" },
+    { label: "Asia/Kolkata (IST)", value: "Asia/Kolkata" },
+    { label: "US/Eastern (EST/EDT)", value: "US/Eastern" },
+    { label: "US/Pacific (PST/PDT)", value: "US/Pacific" },
+    { label: "US/Central (CST/CDT)", value: "US/Central" },
+    { label: "Europe/London (GMT/BST)", value: "Europe/London" },
+    { label: "Europe/Paris (CET/CEST)", value: "Europe/Paris" },
+    { label: "Europe/Berlin (CET/CEST)", value: "Europe/Berlin" },
+    { label: "Asia/Tokyo (JST)", value: "Asia/Tokyo" },
+    { label: "Asia/Shanghai (CST)", value: "Asia/Shanghai" },
+    { label: "Asia/Singapore (SGT)", value: "Asia/Singapore" },
+    { label: "Asia/Dubai (GST)", value: "Asia/Dubai" },
+    { label: "Australia/Sydney (AEST/AEDT)", value: "Australia/Sydney" },
+    { label: "Pacific/Auckland (NZST/NZDT)", value: "Pacific/Auckland" },
+    { label: "America/Sao_Paulo (BRT/BRST)", value: "America/Sao_Paulo" },
+    { label: "Africa/Johannesburg (SAST)", value: "Africa/Johannesburg" },
+    { label: "Africa/Cairo (EET/EEST)", value: "Africa/Cairo" },
+    { label: "Asia/Seoul (KST)", value: "Asia/Seoul" },
+    { label: "Asia/Jakarta (WIB)", value: "Asia/Jakarta" },
+    { label: "Canada/Eastern (EST/EDT)", value: "Canada/Eastern" },
   ];
 };

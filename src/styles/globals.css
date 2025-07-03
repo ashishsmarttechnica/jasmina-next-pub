@@ -131,7 +131,7 @@ input[type="radio"]:checked::before {
 }
 
 .btn-white-fill {
-  @apply bg-white text-primary border-primary mt-3 w-full rounded-[4px] border p-1 text-[18px] transition-all duration-200 ease-in hover:bg-primary hover:text-white sm:mt-6 sm:p-2 sm:text-[20px];
+  @apply text-primary border-primary hover:bg-primary mt-3 w-full rounded-[4px] border bg-white p-1 text-[18px] transition-all duration-200 ease-in hover:text-white sm:mt-6 sm:p-2 sm:text-[20px];
 }
 
 .btn-small {
@@ -189,4 +189,41 @@ button {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.indesc li {
+  list-style: disc;
+  padding: 5px;
+}
+
+.indesc h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1em 0 0.5em 0;
+  color: #222;
+}
+
+.indesc h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1em 0 0.5em 0;
+  color: #333;
+}
+
+.indesc strong {
+  font-weight: 700;
+  color: #0f8200;
+}
+
+.indesc p {
+  margin-bottom: 0.75em;
+  color: #444;
+  line-height: 1.6;
+}
+
+.dark .indesc h2,
+.dark .indesc h3,
+.dark .indesc strong,
+.dark .indesc p {
+  color: #cdcdcd;
 }

@@ -7,13 +7,14 @@ import useJobDetailsValidation from "@/hooks/validation/job/useJobDetailsValidat
 import useLocationStore from "@/store/location.store";
 import { useCallback, useEffect, useState } from "react";
 import { useDepartmentOptions, useEmployeTypeOptions } from "@/utils/selectOptions";
+import { useTranslations } from "next-intl";
 
 const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => {
   const { errors, setErrors, validateForm, clearError, clearLocationErrors } =
     useJobDetailsValidation();
   const [locationComplete, setLocationComplete] = useState(false);
   const { resetLocation } = useLocationStore();
-
+  const t = useTranslations("CompanyProfile");
   // Check if location is complete with proper format (city, state, country)
   useEffect(() => {
     if (formData.jobLocation) {
@@ -114,26 +115,26 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
   return (
     <ReusableForm
-      title={"Post a New Job"}
+      title={t("PostaNewJob")}
       maxWidth="max-w-[698px]"
-      subtitle={"Fill in the details below and find the right candidate."}
+      subtitle={t("AddJobDetailsSubtitle")}
     >
       <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
           <InputField
-            label={`Job Title *`}
+            label={t("JobTitle")}
             name="jobTitle"
             value={formData.jobTitle}
             onChange={handleChange}
-            placeholder={"Enter job title"}
+            placeholder={t("EnterJobTitle")}
             parentClassName="col-span-2"
             error={errors.jobTitle}
           />
 
           <Selecter
             name="jobType"
-            label={`Employment Type *`}
-            placeholder={"Select Employment Type"}
+            label={t("EmploymentType")}
+            placeholder={t("SelectEmploymentType")}
             value={formData.jobType}
             onChange={handleChange}
             options={employetypeOptions}
@@ -141,8 +142,8 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
           />
           <Selecter
             name="department"
-            label={`Department *`}
-            placeholder={"Select department"}
+            label={t("Department")}
+            placeholder={t("SelectDepartment")}
             value={formData.department}
             onChange={handleChange}
             options={departmentOptions}
@@ -165,7 +166,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
                   />
                 </svg>
               </span>
-              Remote Job
+              {t('RemoteJob')}
             </label>
             <button
               type="button"
@@ -174,7 +175,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
               role="switch"
               aria-checked={formData.isRemote}
             >
-              <span className="sr-only">Remote job toggle</span>
+              <span className="sr-only">{t("Remotejobtoggle")}</span>
               <span
                 className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${formData.isRemote ? "translate-x-5" : "translate-x-0"}`}
               />
@@ -184,7 +185,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
           {!formData.isRemote && (
             <>
               <div className="col-span-2 space-y-1">
-                <label className="block text-sm font-medium text-gray-700">{`Job Location *`}</label>
+                <label className="block text-sm font-medium text-gray-700">{t('JobLocation')}</label>
                 <LocationSelector
                   value={formData.jobLocation}
                   onChange={handleLocationChange}
@@ -195,10 +196,10 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
               <InputField
                 name="jobArea"
-                label={`Area *`}
+                label={t("JobArea")}
                 value={formData.jobArea}
                 onChange={handleChange}
-                placeholder={"Enter specific location (e.g., downtown, business district)"}
+                placeholder={t("EnterJobArea")}
                 parentClassName="col-span-2"
                 error={errors.jobArea}
               />
@@ -207,7 +208,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
           <div className="col-span-2">
             <button type="submit" className="btn-fill">
-              Next
+              {t("Next")}
             </button>
           </div>
         </div>

@@ -307,6 +307,25 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
     return "";
   };
 
+
+  // const getStateError = () => {
+  //   if (showErrors && selectedCountry && !selectedState) {
+  //     return t("stateRequired") || "State is required";
+  //   }
+  //   return "";
+  // };
+
+  // const getCityError = () => {
+  //   if (showErrors && selectedCountry && selectedState) {
+  //     if (!manualCityEntry && !selectedCity) {
+  //       return t("cityRequired") || "City is required";
+  //     } else if (manualCityEntry && !cityInput) {
+  //       return t("cityRequired") || "City is required";
+  //     }
+  //   }
+  //   return "";
+  // };
+  
   // Use custom country label if provided, otherwise use default
   const displayCountryLabel = countryLabel || `${t("country")} *`;
 
