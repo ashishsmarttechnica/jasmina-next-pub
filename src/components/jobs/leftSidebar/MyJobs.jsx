@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import useAppliedJobStore from "@/store/appliedJob.store";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { LuBookmark } from "react-icons/lu";
 
@@ -16,6 +17,7 @@ const MyJobs = () => {
   const savedJobs = useJobStore((state) => state.savedJobs);
   const appliedJobs = useAppliedJobStore((state) => state.appliedJobs);
   const getSavedJobs = useJobStore((state) => state.getSavedJobs);
+  const t = useTranslations("Jobs");
 
   // Use the hooks to fetch data
   useGetSavedJobs();
@@ -28,10 +30,10 @@ const MyJobs = () => {
       getSavedJobs({
         userId,
         onSuccess: () => {
-          console.log("Saved jobs fetched successfully in MyJobs");
+          console.log(t("SavedJobsFetched"));
         },
         onError: (error) => {
-          console.error("Error fetching saved jobs in MyJobs:", error);
+          console.error(t("ErrorfetchingsavedjobsinMyJobs:"), error);
         },
       });
     }
@@ -49,7 +51,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between border-b border-[#888DA8]/10 py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <List className="text-2xl" />
-              <span className="text-[13px] font-normal">Applied Jobs</span>
+              <span className="text-[13px] font-normal">{t('AppliedJobs')}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{appliedJobs.length}</span>
           </div>
@@ -61,7 +63,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <LuBookmark className="text-sm" />
-              <span className="text-[13px] font-normal">Save Jobs</span>
+              <span className="text-[13px] font-normal">{t('SaveJobs')}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{savedJobs.length}</span>
           </div>

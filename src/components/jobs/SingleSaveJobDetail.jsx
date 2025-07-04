@@ -18,14 +18,17 @@ import { removeJob } from "../../api/job.api";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
+import { useTranslations } from "next-intl";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
   // console.log(job, "job");
+  const t = useTranslations("Jobs");
   const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
   const saveJob = useJobStore((s) => s.saveJob);
   const savedJobs = useJobStore((s) => s.savedJobs);
   const router = useRouter();
+  
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -42,15 +45,15 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
     if (!userId) {
-      toast.error("User not logged in");
+       toast.error(t('Usernotloggedin'));
       return;
     }
-  
+
     if (bookmarked) {
       // 🔁 Call removeJob API
       removeJob({ jobId: job?._id, userId })
         .then(() => {
-          toast.success("Job removed!");
+          toast.success(t('Jobremoved'));
           setBookmarked(false);
         })
         .catch((error) => {
@@ -62,7 +65,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         jobId: job?._id,
         userId,
         onSuccess: () => {
-          toast.success("Job saved!");
+         toast.success(t('Jobsaved'));
           setBookmarked(true);
         },
         onError: (error) => {
@@ -118,7 +121,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
         onClick={handleApplyNow}
       >
-        Apply Now
+        {t('ApplyNow')}
       </button>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
@@ -130,40 +133,40 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            Experience: {job?.experience}
+            {t('experience')}: {job?.experience}
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            Education: {job?.education}
+            {t('Education')}: {job?.education}
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            Salary: {job?.salary}
+            {t('Salary')}: {job?.salary}
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            Seniority: {job?.seniority}
+            {t('Seniority')}: {job?.seniority}
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            Applicants: {job?.applicants}
+            {t('Applicants')}: {job?.applicants}
           </li>
         </ul>
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
-        <h4 className="mb-2 font-medium text-black">Job Description</h4>
+        <h4 className="mb-2 font-medium text-black">{t('JobDescription')}</h4>
         <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.description }} />
         <div
           className="mt-2 max-w-md"
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">Job responsibilities</h4>
+          <h4 className="mb-2 font-medium text-black">{t('JobResponsibilities')}</h4>
           <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">Job Requirements</h4>
+          <h4 className="mb-2 font-medium text-black">{t('JobRequirements')}</h4>
           <ul className="mt-2 grid max-w-md list-disc grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (
@@ -175,26 +178,6 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
               ))}
           </ul>
         </div>
-        <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-3">
-            <ImageFallback
-              src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
-              alt="logo"
-              width={28}
-              height={28}
-              className="mt-1 rounded-md"
-            />
-
-            <div className="flex w-full flex-col">
-              <div className="text-sm text-gray-500">
-                {job.company?.companyName || "Unknown Company"}
-              </div>
-              {/* {job.socialLinks && ( */}
-              <div className="w-full max-w-full text-[13px] break-all whitespace-normal ">
-                {job.website}
-              </div>
-              {/* )} */}
-            </div>
-          </div>
       </div>
     </div>
   );

@@ -10,16 +10,17 @@ import { IoClipboardOutline } from "react-icons/io5";
 import ImageFallback from "../../common/shared/ImageFallback";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleSaveJobDetail from "./SingleSaveJobDetail";
+import { useTranslations } from "next-intl";
 
 const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const searchParams = useSearchParams();
   const jobId = searchParams.get("id");
-
+  const t = useTranslations("Jobs");
   const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
   const { jobs, isLoading, error, getSavedJob } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
-console.log(jobs,"dfgfdgjobsss");
+  console.log(jobs, "dfgfdgjobsss");
 
   // Calculate params for useGetJobs hook
   const jobParams = isDefaultFilters ? { limit: 1000 } : { ...filters, limit: 1000 };
@@ -39,10 +40,10 @@ console.log(jobs,"dfgfdgjobsss");
       getSavedJob({
         id: jobId,
         onSuccess: (res) => {
-          console.log("Saved job fetched successfully");
+          console.log(t("SavedJobFetched"));
         },
         onError: (error) => {
-          console.error("Error fetching saved job:", error);
+          console.error(t("Errorfetchingsavedjob"), error);
         },
       });
     }
@@ -60,9 +61,9 @@ console.log(jobs,"dfgfdgjobsss");
     _id: job._id,
     savedId: job.savedId || null,
     title: job.jobTitle || job.title || "-",
-    experience: job.experience ? `${job.experience} years` : "-",
+    experience: job.experience ? `${job.experience} ${t("years")}` : "-",
     location: job.jobLocation || job.location || "-",
-    tag: job.company?.isLGBTQFriendly ? "LGBTQ Friendly" : "",
+    tag: job.company?.isLGBTQFriendly ? t("lgbtqFriendly") : "",
     skills: job.requiredSkills || [],
     company: job.company?.companyName || "-",
     url: job.company?.website || "",
@@ -82,16 +83,16 @@ console.log(jobs,"dfgfdgjobsss");
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+          .replace(/<[^>]+>/g, "")
+          .split("\n")
+          .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
-      website: job?.company?.website,
+    website: job?.company?.website,
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     _raw: job,
   }));
@@ -113,9 +114,8 @@ console.log(jobs,"dfgfdgjobsss");
     }
   }, [jobId, mappedJobs]);
 
-  if (isLoading) return <div>Loading jobs...</div>;
-  if (error) return <div>Error loading jobs.</div>;
-
+  if (isLoading) return <div>{t("Loadingjobs")}</div>;
+  if (error) return <div>{t("Errorloadingjobs")}</div>;
   return (
     <div className="flex w-full flex-col md:flex-row">
       <div className="w-full md:w-[35%]">
@@ -124,12 +124,11 @@ console.log(jobs,"dfgfdgjobsss");
             mappedJobs.slice(0, visibleCount).map((job) => (
               <Card
                 key={job.savedId || job._id}
-                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                  selectedJob?._id === job._id ? "border-green-700 bg-green-700" : "border-gray-300"
-                }`}
+                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id ? "border-green-700 bg-green-700" : "border-gray-300"
+                  }`}
                 onClick={() => setSelectedJob(job)}
               >
-               <div className="p-4">
+                <div className="p-4">
                   <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
                   <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                     <IoClipboardOutline className="h-4 w-4" />
@@ -141,7 +140,7 @@ console.log(jobs,"dfgfdgjobsss");
                   </p>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>Posted {getRelativeTime(job.posted)}</p>
+                    <p>{t("Posted")} {getRelativeTime(job.posted)}</p>
                   </div>
                   {/* <div>{job?.createdAt}</div> */}
 
@@ -156,7 +155,7 @@ console.log(jobs,"dfgfdgjobsss");
 
                     <div className="flex w-full flex-col">
                       <div className="text-sm text-gray-500">
-                        {job.company || "Unknown Company"}
+                        {job.company || (t("unknownCompany"))}
                       </div>
                       {/* {job.socialLinks && ( */}
                       <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
@@ -170,7 +169,7 @@ console.log(jobs,"dfgfdgjobsss");
               </Card>
             ))
           ) : (
-            <div>No Saved jobs found.</div>
+            <div>{t("NoSavedjobsfound")}</div>
           )}
 
           {visibleCount < mappedJobs.length && (
@@ -178,7 +177,7 @@ console.log(jobs,"dfgfdgjobsss");
               className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
               onClick={() => setVisibleCount((prev) => prev + 3)}
             >
-              Load More
+              {t("loadMore")}
             </button>
           )}
         </div>

@@ -1,6 +1,6 @@
-import SingleApplication from "@/components/SingleCompanyProfile/applicationJob/SingleApplication";
 import MainCompanyProfile from "@/common/MainCompanyProfile";
 import UserMightKnow from "@/common/UserMightKnow";
+import SingleApplication from "@/components/SingleCompanyProfile/applicationJob/singleApplicationComponent/SingleApplication";
 import CompanyConnectionsLayout from "@/layout/CompanyConnectionsLayout";
 
 const page = () => {

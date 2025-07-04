@@ -7,9 +7,11 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleJobDetail from "./SingleJobDetail";
+import { useTranslations } from "next-intl";
 
 const JobCards = ({ filters }) => {
   const [page, setPage] = useState(1);
+  const t = useTranslations("Jobs");
   const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
 
   // Use standard pagination with the API
@@ -41,9 +43,9 @@ const JobCards = ({ filters }) => {
   const mappedJobs = jobs.map((job) => ({
     _id: job._id,
     title: job.jobTitle || job.title || "-",
-    experience: job.experience ? `${job.experience} years` : "-",
+    experience: job.experience ? `${job.experience} ${t('years')}` : "-",
     location: job.jobLocation || job.location || "-",
-    tag: job.company?.isLGBTQFriendly ? "LGBTQ Friendly" : "",
+    tag: job.company?.isLGBTQFriendly ? t('lgbtqFriendly') : "",
     skills: job.requiredSkills || [],
     company: job.company?.companyName || "-",
     url: job.company?.website || "",
@@ -63,9 +65,9 @@ const JobCards = ({ filters }) => {
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+          .replace(/<[^>]+>/g, "")
+          .split("\n")
+          .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
@@ -90,8 +92,8 @@ const JobCards = ({ filters }) => {
     }
   };
 
-  if (isLoading && page === 1) return <div>Loading jobs...</div>;
-  if (error) return <div>Error loading jobs: {error.message}</div>;
+  if (isLoading && page === 1) return <div>{t('loadingJobs')}</div>;
+  if (error) return <div>{t('errorLoadingJobs')}: {error.message}</div>;
 
   return (
     <div className="flex w-full flex-col gap-1 md:flex-row">
@@ -100,10 +102,10 @@ const JobCards = ({ filters }) => {
           <div className="mb-2 text-sm text-gray-500">
             {totalJobs > 0 ? (
               <p>
-                Showing {jobs.length} of {totalJobs} jobs
+              {t('Showing')} {jobs.length} {t('of')} {totalJobs} {t('jobs')}
               </p>
             ) : (
-              <p>No jobs found</p>
+              <p>{t('Nojobsfound')}</p>
             )}
           </div>
 
@@ -112,13 +114,12 @@ const JobCards = ({ filters }) => {
               // console.log();
               <Card
                 key={`${job._id}-${index}`}
-                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                  selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
-                }`}
+                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
+                  }`}
                 onClick={() => setSelectedJob(job)}
               >
                 <div className="p-4">
-               
+
                   <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
                   <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                     <IoClipboardOutline className="h-4 w-4" />
@@ -130,7 +131,7 @@ const JobCards = ({ filters }) => {
                   </p>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>Posted {getRelativeTime(job.posted)}</p>
+                    <p>{t("Posted")} {getRelativeTime(job.posted)}</p>
                   </div>
                   {/* <div>{job?.createdAt}</div> */}
 
@@ -145,7 +146,7 @@ const JobCards = ({ filters }) => {
 
                     <div className="flex w-full flex-col">
                       <div className="text-sm text-gray-500">
-                        {job.company || "Unknown Company"}
+                        {job.company || t('unknownCompany')}
                       </div>
                       {/* {job.socialLinks && ( */}
                       <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
@@ -159,7 +160,7 @@ const JobCards = ({ filters }) => {
               </Card>
             ))
           ) : (
-            <div>No jobs found matching your criteria.</div>
+             <div>{t('noJobsMatchingCriteria')}</div>
           )}
 
           {!isLoading && page < totalPages && (
@@ -167,19 +168,19 @@ const JobCards = ({ filters }) => {
               className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
               onClick={handleLoadMore}
             >
-              Load More
+               {t('loadMore')}
             </button>
           )}
 
           {isLoading && page > 1 && (
             <div className="mt-2 text-center">
-              <p>Loading more jobs...</p>
+              <p>{t('loadingMoreJobs')}</p>
             </div>
           )}
 
           {page >= totalPages && jobs.length > 0 && (
             <div className="mt-2 text-center text-gray-500">
-              <p>No more jobs to load</p>
+             <p>{t('noMoreJobsToLoad')}</p>
             </div>
           )}
         </div>

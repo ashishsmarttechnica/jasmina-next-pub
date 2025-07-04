@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
 import { getRelativeTime } from "../../../utils/dateUtils";
 import SearchBar from "./SearchBar";
 
@@ -42,28 +41,7 @@ const Applications = () => {
   };
   //
   const handleJobClick = (item) => {
-    console.log(item.job._id, "itemData");
-
-    if (item.totalApplications > 0) {
-      const sendeddata = {
-        id: item.job._id,
-        jobTitle: item.job.jobTitle,
-        employeeType: item.job.employeeType,
-        seniorityLevel: item.job.seniorityLevel,
-        createdAt: item.job.createdAt,
-        deadline: item.job.deadline,
-        status: item.job.status,
-        newApplications: item.newApplications,
-        totalApplications: item.totalApplications,
-      };
-
-      const itemString = encodeURIComponent(JSON.stringify(sendeddata));
-      router.push(
-        `/company/single-company/${item.job._id}/applications/${item.applications[0]._id}?item=${itemString}`
-      );
-    } else {
-      toast.error("No applications found");
-    }
+    router.push(`/company/single-company/${params.id}/applications/${item._id}`);
   };
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
@@ -72,9 +50,8 @@ const Applications = () => {
   if (isGetCompanyAppliedJobLoading) return <div>Loading...</div>;
   if (isGetCompanyAppliedJobError) return <div>Error: {getCompanyAppliedJobError?.message}</div>;
 
-  const jobListings = getCompanyAppliedJob || [];
-
-  console.log(jobListings);
+  const jobListings = getCompanyAppliedJob;
+  console.log(jobListings, "jobListings");
 
   return (
     <div>
@@ -107,7 +84,7 @@ const Applications = () => {
         {/* */}
         {jobListings.map((item, idx) => (
           <div
-            key={item.job.id || idx}
+            key={item._id || idx}
             onClick={() => {
               handleJobClick(item);
             }}
@@ -115,9 +92,9 @@ const Applications = () => {
           >
             {/* Left Block */}
             <div className="mb-3 md:mb-0">
-              <h3 className="text-lg font-medium">{item.job.jobTitle}</h3>
+              <h3 className="text-lg font-medium">{item.jobTitle}</h3>
               <p className="text-sm text-gray-500">
-                {item.job.employeeType} | {item.job.seniorityLevel}
+                {item.employeeType} | {item.seniorityLevel}
               </p>
             </div>
 
@@ -127,7 +104,7 @@ const Applications = () => {
               <div className="text-left text-sm text-gray-500 md:text-center">
                 {/* <p>{new Date(item.job.createdAt).toLocaleDateString()}</p> */}
                 <p>
-                  {new Date(item.job.createdAt)
+                  {new Date(item.createdAt)
                     .toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "short",
@@ -136,29 +113,29 @@ const Applications = () => {
                     .replace(/ /g, ", ")}
                 </p>
 
-                <p>{getRelativeTime(item.job.deadline)}</p>
+                <p>{getRelativeTime(item.deadline)}</p>
               </div>
 
               {/* Status */}
               <span
                 className={`flex items-center rounded-md px-3 py-1 text-sm ${
-                  getStatusLabel(item.job.status) === "Open"
+                  getStatusLabel(item.status) === "Open"
                     ? "bg-green-100 text-green-700"
-                    : getStatusLabel(item.job.status) === "Closed"
+                    : getStatusLabel(item.status) === "Closed"
                       ? "bg-red-100 text-red-700"
                       : "bg-yellow-100 text-yellow-700"
                 }`}
               >
-                {getStatusLabel(item.job.status)}
+                {getStatusLabel(item.status)}
                 <IoChevronDownOutline className="ml-1 text-xs" />
               </span>
 
               {/* Action Links */}
               <div className="flex flex-col items-start gap-2 text-sm underline md:flex-row md:items-center md:gap-4">
-                <Link href={`/applicationjob/${item.job.id}`} className="text-blue-600">
+                <Link href={`/applicationjob/${item._id}`} className="text-blue-600">
                   New {item.newApplications}
                 </Link>
-                <Link href={`/applicationjob/${item.job.id}`} className="text-blue-600">
+                <Link href={`/applicationjob/${item._id}`} className="text-blue-600">
                   Applicant {item.totalApplications}
                 </Link>
                 <button className="text-gray-500 hover:text-black">

@@ -11,13 +11,14 @@ import { toast } from "react-toastify";
 import getImg from "../lib/getImg";
 import Card from "./card/Card";
 import ImageFallback from "./shared/ImageFallback";
+import { useTranslations } from "next-intl";
 
 const MainCompanyProfile = ({ title, userData }) => {
   const { user } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname(); // <-- Get current route
   const logout = useAuthStore((state) => state.logout);
-
+  const t = useTranslations("CompanyProfile");
   const userId = user?._id;
 
   const handleMenuClick = (item) => {
@@ -35,7 +36,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <FiUser className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Profile",
+      label: t('Profile'),
       path: `/company/single-company/${userId}`,
       count: null,
     },
@@ -43,7 +44,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <MdWork className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Post a Job",
+      label: t('PostaJob'),
       path: `/company/single-company/${userId}/postjob`,
       count: 3,
     },
@@ -51,7 +52,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <BsFileEarmarkText className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "View Applications",
+      label: t('Interview'),
       path: `/company/single-company/${userId}/applications`,
       count: 45,
     },
@@ -59,7 +60,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Interviews",
+      label: t('ViewApplications'),
       path: `/company/single-company/${userId}/interview`,
       count: null,
     },
@@ -67,7 +68,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <MdSettings className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Settings",
+      label: t('Settings'),
       path: `/company/single-company/${userId}/settings`,
       count: null,
     },
@@ -75,7 +76,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Subscription",
+      label: t('Subscription'),
       path: `/company/single-company/${userId}/subscription`,
       count: null,
     },
@@ -83,7 +84,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <BiLogOut className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: "Logout",
+      label: t('Logout'),
       isLogout: true,
       path: "/logout",
       count: null,

@@ -115,11 +115,11 @@ const UserBannerProfile = ({
           if (res.success) {
             setShowConnect(true);
           } else {
-            toast.error(res?.message || "Failed to remove connection");
+            toast.error(res?.message || t("Failedtoremoveconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || "Failed to remove connection");
+          toast.error(error?.message || t("Failedtoremoveconnection"));
         },
         onSettled: () => {
           setIsRemoving(false);
@@ -137,11 +137,11 @@ const UserBannerProfile = ({
           if (res.success) {
             setShowConnect(false);
           } else {
-            toast.error(res?.message || "Failed to connect");
+            toast.error(res?.message || t("Failedtoconnect"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || "Failed to connect");
+          toast.error(error?.message || t("Failedtoconnect"));
         },
       }
     );
@@ -170,18 +170,18 @@ const UserBannerProfile = ({
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
             <h2 className="text-lg font-bold text-black md:text-xl">
-              {userData?.profile?.fullName || "User Name"}
+              {userData?.profile?.fullName || t("fullName")}
             </h2>
             <p className="text-[13px] font-normal md:text-[15px]">
-              {userData?.preferences?.jobRole || "Job Role"}
+              {userData?.preferences?.jobRole || t("jobRole")}
             </p>
             <p className="text-xs font-normal text-[#888DA8]">
-              {userData?.profile?.location || "Location"}
+              {userData?.profile?.location || t("location")}
             </p>
             <div className="flex gap-2">
               <div className="mt-1 flex items-center gap-1 text-xs font-normal text-[#888DA8]">
                 <div className="font-bold"> Availability : </div>
-                <div> {userData?.profile?.availabilty || "Availability"}</div>
+                <div> {userData?.profile?.availabilty || t("Availability")}</div>
               </div>
             </div>
 
@@ -239,7 +239,7 @@ const UserBannerProfile = ({
                   {t("editProfile")}
                 </button>
                 <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
-                  Reset Password
+                  {t("resetPassword")}
                 </button>
               </div>
             ) : (

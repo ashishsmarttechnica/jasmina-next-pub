@@ -641,7 +641,13 @@
       "connections": "Connections",
       "views": "Views",
       "nosuggestion": "No suggestions available at the moment",
-      "resetPassword": "Reset Password"
+      "resetPassword": "Reset Password",
+      "jobRole": "Job Role",
+      "fullName": "User Name",
+      "location": "Location",
+      "Availability": "Availability",
+      "Failedtoconnect": "Failed to connect",
+      "Failedtoremoveconnection": "Failed to remove connection"
     },
     "singleCompanyTab": {
       "about": "About",
@@ -963,11 +969,24 @@
     "FindJob": "Find Job",
     "Loadingjobs": "Loading jobs...",
     "Errorloadingjobs": "Error loading jobs.",
-    "NoSavedjobsfound": "No Saved jobs found."
+    "NoSavedjobsfound": "No Saved jobs found.",
+    "Posted": "Posted",
+    "unknownCompany": "Unknown Company",
+    "alreadyApplied": "Already Applied",
+    "applyNow": "Apply Now",
+    "jobSaved": "Job saved!",
+    "jobRemoved": "Job removed!",
+    "loginToBookmark": "User not logged in",
+    "SavedJobsFetched": "Saved jobs fetched successfully in MyJobs",
+    "failedToSaveJob": "Failed to save job.",
+    "failedToRemoveJob": "Failed to remove job.",
+    "Errorfetchingsavedjob": "Error fetching saved job:",
+    "SavedJobFetched": "Saved job fetched successfully"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",
   "Failedtoremovejob": "Failed to remove job.",
   "Jobsaved": "Job saved!",
-  "Failedtosavejob": "Failed to save job."
+  "Failedtosavejob": "Failed to save job.",
+  "ErrorfetchingsavedjobsinMyJobs:": "Error fetching saved jobs in MyJobs:"
 }

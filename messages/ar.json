@@ -679,7 +679,13 @@
       "editProfile": "تحرير الملف الشخصي",
       "nosuggestion": "لا توجد اقتراحات متاحة في الوقت الحالي",
       "remove": "يزيل",
-      "resetPassword": "إعادة تعيين كلمة المرور"
+      "resetPassword": "إعادة تعيين كلمة المرور",
+      "jobRole": "دور الوظيفة",
+      "fullName": "اسم المستخدم",
+      "location": "موقع",
+      "Availability": "توافر",
+      "Failedtoconnect": "فشل الاتصال",
+      "Failedtoremoveconnection": "فشل في إزالة الاتصال"
     },
     "singleCompanyTab": {
       "about": "عن",
@@ -924,11 +930,24 @@
     "FindJob": "ابحث عن الوظيفة",
     "Loadingjobs": "تحميل الوظائف ...",
     "Errorloadingjobs": "خطأ في تحميل الوظائف.",
-    "NoSavedjobsfound": "لم يتم العثور على وظائف محفوظة."
+    "NoSavedjobsfound": "لم يتم العثور على وظائف محفوظة.",
+    "Posted": "نشر",
+    "unknownCompany": "شركة غير معروفة",
+    "alreadyApplied": "تم تطبيقه بالفعل",
+    "applyNow": "تقدم الآن",
+    "jobSaved": "تم حفظ الوظيفة!",
+    "jobRemoved": "تمت إزالة الوظيفة!",
+    "loginToBookmark": "المستخدم لم يسجل الدخول",
+    "SavedJobsFetched": "تم حفظ الوظائف المحفوظة بنجاح في myjobs",
+    "failedToSaveJob": "فشل في حفظ الوظيفة.",
+    "failedToRemoveJob": "فشل في إزالة الوظيفة.",
+    "Errorfetchingsavedjob": "خطأ جلب الوظيفة المحفوظة:",
+    "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",
   "Failedtoremovejob": "فشل في إزالة الوظيفة.",
   "Jobsaved": "تم حفظ الوظيفة!",
-  "Failedtosavejob": "فشل في حفظ الوظيفة."
+  "Failedtosavejob": "فشل في حفظ الوظيفة.",
+  "ErrorfetchingsavedjobsinMyJobs:": "خطأ جلب الوظائف المحفوظة في myjobs:"
 }

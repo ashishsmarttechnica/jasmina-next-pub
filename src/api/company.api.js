@@ -27,6 +27,11 @@ export const getCompany = async (id) => {
 // };
 
 export const getCompanyAppliedJob = async (id) => {
-  const res = await axios.get(`/getcompany/applied/job?id=${id}`);
+  const res = await axios.get(`/getcompany/job?id=${id}`);
+  return res.data;
+};
+
+export const getAllApplicants = async (jobId, page = 1, limit = 10, status = "all") => {
+  const res = await axios.get(`/job/applications?jobId=${jobId}&page=${page}&limit=${limit}`);
   return res.data;
 };

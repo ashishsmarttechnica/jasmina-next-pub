@@ -10,7 +10,7 @@ const useSingleCompanyAppliedJob = (id) => {
       const res = await getCompanyAppliedJob(id);
 
       if (res.success) {
-        const newData = res.data || [];
+        const newData = res.data.jobs || [];
         const pagination = res.data.pagination;
 
         setAppliedJobs(newData);

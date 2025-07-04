@@ -677,7 +677,13 @@
       "editProfile": "Modifier le profil",
       "nosuggestion": "Aucune suggestion disponible pour le moment",
       "remove": "Retirer",
-      "resetPassword": "Réinitialiser le mot de passe"
+      "resetPassword": "Réinitialiser le mot de passe",
+      "jobRole": "Rôle professionnel",
+      "fullName": "Nom d'utilisateur",
+      "location": "Emplacement",
+      "Availability": "Disponibilité",
+      "Failedtoconnect": "Échec de la connexion",
+      "Failedtoremoveconnection": "Impossible de supprimer la connexion"
     },
     "singleCompanyTab": {
       "about": "À propos",
@@ -922,11 +928,24 @@
     "FindJob": "Trouver un emploi",
     "Loadingjobs": "Chargement des emplois ...",
     "Errorloadingjobs": "Erreur de chargement des travaux.",
-    "NoSavedjobsfound": "Aucun travail économisé trouvé."
+    "NoSavedjobsfound": "Aucun travail économisé trouvé.",
+    "Posted": "Affiché",
+    "unknownCompany": "Entreprise inconnue",
+    "alreadyApplied": "Déjà appliqué",
+    "applyNow": "Postuler maintenant",
+    "jobSaved": "Travail sauvé!",
+    "jobRemoved": "Travail supprimé!",
+    "loginToBookmark": "Utilisateur non connecté",
+    "SavedJobsFetched": "Des travaux sauvés sont venus avec succès dans MyJobs",
+    "failedToSaveJob": "N'a pas réussi à économiser le travail.",
+    "failedToRemoveJob": "N'a pas réussi à supprimer le travail.",
+    "Errorfetchingsavedjob": "Erreur récupérant le travail enregistré:",
+    "SavedJobFetched": "Économiser le travail récupéré avec succès"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",
   "Failedtoremovejob": "N'a pas réussi à supprimer le travail.",
   "Jobsaved": "Travail sauvé!",
-  "Failedtosavejob": "N'a pas réussi à économiser le travail."
+  "Failedtosavejob": "N'a pas réussi à économiser le travail.",
+  "ErrorfetchingsavedjobsinMyJobs:": "Erreur récupérant les travaux économisés dans MyJobs:"
 }

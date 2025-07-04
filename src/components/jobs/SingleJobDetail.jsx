@@ -20,6 +20,7 @@ import { removeJob } from "../../api/job.api";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
+import { useTranslations } from "next-intl";
 
 const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
@@ -27,6 +28,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
+  const t = useTranslations("Jobs");
   const savedJobs = useJobStore((s) => s.savedJobs);
   const appliedJobs = useAppliedJobStore((s) => s.appliedJobs);
   const router = useRouter();
@@ -56,7 +58,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
     if (!userId) {
-      toast.error("User not logged in");
+      toast.error(t("loginToBookmark"));
       return;
     }
 
@@ -64,11 +66,11 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
       // 🔁 Call removeJob API
       removeJob({ jobId: job?._id, userId })
         .then(() => {
-          toast.success("Job removed!");
+          toast.success(t("jobRemoved"));
           setBookmarked(false);
         })
         .catch((error) => {
-          toast.error(error?.response?.data?.message || "Failed to remove job.");
+          toast.error(error?.response?.data?.message || t("failedToRemoveJob"));
         });
     } else {
       // Save the job only if not already bookmarked
@@ -76,11 +78,11 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         jobId: job?._id,
         userId,
         onSuccess: () => {
-          toast.success("Job saved!");
+          toast.success(t("jobSaved"));
           setBookmarked(true);
         },
         onError: (error) => {
-          toast.error(error?.response?.data?.message || "Failed to save job.");
+          toast.error(error?.response?.data?.message || t("failedToSaveJob"));
         },
       });
     }
@@ -129,59 +131,62 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
 
       {!hideApplyButton && (
         <button
-          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
-            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-          }`}
+          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+            }`}
           onClick={handleApplyNow}
           disabled={hasApplied}
         >
-          {hasApplied ? "Already Applied" : "Apply Now"}
+          {hasApplied ? t("alreadyApplied") : t("applyNow")}
         </button>
       )}
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
-        <h4 className="mb-2 font-medium">Quick Info Section</h4>
-        <ul className="space-y-3 text-sm text-[#888DA8]">
-          <li className="my-1 flex items-center gap-2">
+        <h4 className="mb-2 font-medium">{t("QuickInfoSection")}</h4>
+        <ul className="space-y-2 text-sm text-[#888DA8]">
+          <li className="flex items-center gap-2">
             <ClockSvg />
             {job?.type}
           </li>
-          <li className="my-1 flex items-center gap-2">
+          <li className="flex items-center gap-2">
             <Experience />
-            Experience: {job?.experience}
+            {t('experience')}: {job?.experience}
           </li>
-          <li className="my-1 flex items-center gap-2">
+          <li className="flex items-center gap-2">
             <BookEducation />
-            Education: {job?.education}
+            {t('Education')}: {job?.education}
           </li>
-          <li className="my-1 flex items-center gap-2">
+          <li className="flex items-center gap-2">
             <Dollar />
-            Salary: {job?.salary}
+            {t('Salary')}: {job?.salary}
           </li>
-          <li className="my-1 flex items-center gap-2">
+          <li className="flex items-center gap-2">
             <Graph />
-            Seniority: {job?.seniority}
+            {t('Seniority')}: {job?.seniority}
           </li>
-          <li className="my-1 flex items-center gap-2">
+          <li className="flex items-center gap-2">
             <PeopleSvg />
-            Applicants: {job?.applicants}
+            {t('Applicants')}: {job?.applicants}
           </li>
+
         </ul>
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
-        <h4 className="mb-2 font-medium text-black">Job Description</h4>
+        <h4 className="mb-2 font-medium text-black">{t('JobDescription')}</h4>
+
         <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal" dangerouslySetInnerHTML={{ __html: job?.description }} />
         <div
           className="mt-2 max-w-md indesc w-full  text-[13px] break-all whitespace-normal "
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">Job responsibilities</h4>
+          <h4 className="mb-2 font-medium text-black">{t('JobResponsibilities')}</h4>
+
           <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal " dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">Job Requirements</h4>
+          <h4 className="mb-2 font-medium text-black">{t('JobRequirements')}</h4>
+
           <ul className="mt-2 grid max-w-md list-disc grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (
@@ -205,8 +210,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
 
             <div className="flex w-full flex-col">
               <div className="text-sm text-gray-500">
-                {job.company?.companyName || "Unknown Company"}
-              </div>
+                {job.company?.companyName || "Unknown Company"}              </div>
               {/* {job.socialLinks && ( */}
               <div className="w-full max-w-full text-[13px] break-all whitespace-normal ">
                 {job.website}

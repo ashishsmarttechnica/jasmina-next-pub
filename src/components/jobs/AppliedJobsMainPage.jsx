@@ -13,6 +13,7 @@ import { getRelativeTime } from "../../utils/dateUtils";
 import JobHeader from "./JobHeader";
 import MyJobs from "./leftSidebar/MyJobs";
 import SingleJobDetail from "./SingleJobDetail";
+import { useTranslations } from "next-intl";
 
 const AppliedJobsMainPage = () => {
   const [filters, setFilters] = useState({
@@ -32,7 +33,7 @@ const AppliedJobsMainPage = () => {
 
   // Access getAppliedJobs directly for page changes
   const getAppliedJobs = useAppliedJobStore((state) => state.getAppliedJobs);
-
+  const t = useTranslations("Jobs");
   // Handle page change
   const handlePageChange = async (page) => {
     setCurrentPage(page);
@@ -63,9 +64,9 @@ const AppliedJobsMainPage = () => {
         ? Array.isArray(job.responsibilities)
           ? job.responsibilities
           : job.responsibilities
-              .replace(/<[^>]+>/g, "")
-              .split("\n")
-              .filter(Boolean)
+            .replace(/<[^>]+>/g, "")
+            .split("\n")
+            .filter(Boolean)
         : [],
       requiredSkills: job.requiredSkills || [],
       posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
@@ -89,9 +90,9 @@ const AppliedJobsMainPage = () => {
         <JobHeader filters={filters} setFilters={setFilters} showSaveJobsLink={false} />
         <div className="mt-4 flex flex-col gap-4">
           {isLoading ? (
-            <div>Loading applied jobs...</div>
+            <div>{t('Loadingappliedjobs')}</div>
           ) : error ? (
-            <div>Error: {error}</div>
+            <div>{t('Error')}: {error}</div>
           ) : (
             <div className="flex flex-col  md:flex-row">
               {/* Left Column: Job List */}
@@ -102,51 +103,50 @@ const AppliedJobsMainPage = () => {
                 {mappedJobs.slice(0, visibleCount).map((job) => (
                   <Card
                     key={job._id}
-                    className={`mb-3 transform cursor-pointer transition duration-200 ${
-                      selectedJob?._id === job._id
+                    className={`mb-3 transform cursor-pointer transition duration-200 ${selectedJob?._id === job._id
                         ? "border-primary border-1"
                         : "hover:scale-[1.01]"
-                    }`}
+                      }`}
                     onClick={() => setSelectedJob(job)}
                   >
-                     <div className="p-4">
-                  <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <IoClipboardOutline className="h-4 w-4" />
-                    {job.experience}
-                  </p>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <HiOutlineLocationMarker className="h-4 w-4" />
-                    {job.location}
-                  </p>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>Posted {getRelativeTime(job.posted)}</p>
-                  </div>
-                  {/* <div>{job?.createdAt}</div> */}
-
-                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
-                    <ImageFallback
-                      src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
-                      alt="logo"
-                      width={28}
-                      height={28}
-                      className="mt-1 rounded-md"
-                    />
-
-                    <div className="flex w-full flex-col">
-                      <div className="text-sm text-gray-500">
-                        {job.company || "Unknown Company"}
+                    <div className="p-4">
+                      <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                      <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                        <IoClipboardOutline className="h-4 w-4" />
+                        {job.experience}
+                      </p>
+                      <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                        <HiOutlineLocationMarker className="h-4 w-4" />
+                        {job.location}
+                      </p>
+                      <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
+                      <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+                        <p>Posted {getRelativeTime(job.posted)}</p>
                       </div>
-                      {/* {job.socialLinks && ( */}
-                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
-                        {job.website}
+                      {/* <div>{job?.createdAt}</div> */}
+
+                      <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                        <ImageFallback
+                          src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                          alt="logo"
+                          width={28}
+                          height={28}
+                          className="mt-1 rounded-md"
+                        />
+
+                        <div className="flex w-full flex-col">
+                          <div className="text-sm text-gray-500">
+                            {job.company || "Unknown Company"}
+                          </div>
+                          {/* {job.socialLinks && ( */}
+                          <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                            {job.website}
+                          </div>
+                          {/* )} */}
+                        </div>
                       </div>
-                      {/* )} */}
+                      {/**/}
                     </div>
-                  </div>
-                  {/**/}
-                </div>
                   </Card>
                 ))}
                 {visibleCount < mappedJobs.length && (
@@ -154,7 +154,7 @@ const AppliedJobsMainPage = () => {
                     className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
                     onClick={() => setVisibleCount((prev) => prev + 3)}
                   >
-                    Load More
+                    {t('loadMore')}
                   </button>
                 )}
 
@@ -165,11 +165,10 @@ const AppliedJobsMainPage = () => {
                         (page) => (
                           <button
                             key={page}
-                            className={`rounded px-3 py-1 ${
-                              pagination.currentPage === page
+                            className={`rounded px-3 py-1 ${pagination.currentPage === page
                                 ? "bg-green-700 text-white"
                                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                            }`}
+                              }`}
                             onClick={() => handlePageChange(page)}
                           >
                             {page}

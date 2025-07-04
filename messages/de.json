@@ -678,7 +678,13 @@
       "editProfile": "Profil bearbeiten",
       "nosuggestion": "Im Moment keine Vorschläge zur Verfügung",
       "remove": "Entfernen",
-      "resetPassword": "Passwort zurücksetzen"
+      "resetPassword": "Passwort zurücksetzen",
+      "jobRole": "Jobrolle",
+      "fullName": "Benutzername",
+      "location": "Standort",
+      "Availability": "Verfügbarkeit",
+      "Failedtoconnect": "Fehlgeschlagene Verbindung",
+      "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
     },
     "singleCompanyTab": {
       "about": "Um",
@@ -923,11 +929,24 @@
     "FindJob": "Job finden",
     "Loadingjobs": "Ladejobs ...",
     "Errorloadingjobs": "Fehlerladungsjobs.",
-    "NoSavedjobsfound": "Keine geretteten Jobs gefunden."
+    "NoSavedjobsfound": "Keine geretteten Jobs gefunden.",
+    "Posted": "Gepostet",
+    "unknownCompany": "Unbekannte Firma",
+    "alreadyApplied": "Bereits angewendet",
+    "applyNow": "Jetzt bewerben",
+    "jobSaved": "Job gespeichert!",
+    "jobRemoved": "Job entfernt!",
+    "loginToBookmark": "Benutzer nicht angemeldet",
+    "SavedJobsFetched": "Rettete Jobs erfolgreich in Myjobs abgeholt",
+    "failedToSaveJob": "Ich habe keinen Job sparen.",
+    "failedToRemoveJob": "Ich habe den Job nicht entfernen.",
+    "Errorfetchingsavedjob": "Fehler beim Abholen gespeicherter Jobs:",
+    "SavedJobFetched": "Rettete Job erfolgreich abgeholt"
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",
   "Failedtoremovejob": "Ich habe den Job nicht entfernen.",
   "Jobsaved": "Job gespeichert!",
-  "Failedtosavejob": "Ich habe keinen Job sparen."
+  "Failedtosavejob": "Ich habe keinen Job sparen.",
+  "ErrorfetchingsavedjobsinMyJobs:": "Fehler beim Abholen gespeicherter Jobs in Myjobs:"
 }

@@ -172,7 +172,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                   {t("editProfile")}
                 </button>
                 <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
-                  Reset Password
+                  {t("resetPassword")}
                 </button>
               </div>
             ) : (
