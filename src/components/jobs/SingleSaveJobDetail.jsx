@@ -57,7 +57,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
           setBookmarked(false);
         })
         .catch((error) => {
-          toast.error(error?.response?.data?.message || "Failed to remove job.");
+          toast.error(error?.response?.data?.message || t('Failedtosavejob'));
         });
     } else {
       // Save the job only if not already bookmarked
@@ -69,7 +69,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
           setBookmarked(true);
         },
         onError: (error) => {
-          toast.error(error?.response?.data?.message || "Failed to save job.");
+          toast.error(error?.response?.data?.message || t('Failedtosavejob'));
         },
       });
     }

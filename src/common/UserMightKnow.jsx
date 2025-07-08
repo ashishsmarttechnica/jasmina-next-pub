@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
+import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 
 const UserMightKnow = () => {
   const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
@@ -71,7 +72,7 @@ const UserMightKnow = () => {
     if (capitalize(user.role) === "User") {
       router.push(`/single-user/${user._id}`);
     } else {
-      router.push(`/company/single-company/${user._id}`);
+      router.push(`/company/single-company/${user._id}?fromNetworkInvites=true`);
     }
   };
 
@@ -130,17 +131,10 @@ const UserMightKnow = () => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <div
-                      className="cursor-pointer truncate text-xs font-medium"
-                      onClick={() => handleUserProfile(item)}
-                    >
-                      {config.name}
-                    </div>
+                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
-                  <p className="text-grayBlueText truncate text-[10px] font-normal">
-                    {config.subtitle}
-                  </p>
+                  <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
                 </div>
               </div>
 

@@ -66,7 +66,7 @@ const ApplyNowForm = ({ jobId }) => {
       const formattedValue = value.replace(/[^\d\s+\-()]/g, "");
       setFormData((prev) => ({ ...prev, phone: formattedValue }));
       if (formattedValue.trim() !== "") {
-        clearFieldError("phone");
+        clearFieldError(t("phone"));
       }
     },
     [clearFieldError]
@@ -76,12 +76,12 @@ const ApplyNowForm = ({ jobId }) => {
     const file = event.target.files[0];
     if (file) {
       // Validate file extension
-      const validExtensions = [t('pdf'), t('doc'), t("docx"), t("tex"), t("webp")];
+      const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
       const fileExtension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(`.${fileExtension}`)) {
         setErrors((prev) => ({
           ...prev,
-          cv: t("InvalidFileFormatError")
+          cv: t("InvalidFileFormatError"),
         }));
         setSelectedFile(null);
         return;
@@ -122,7 +122,7 @@ const ApplyNowForm = ({ jobId }) => {
       return;
     }
 
-    const validExtensions = [t('pdf'), t('doc'), t("docx"), t("tex"), t("webp")];
+    const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
     const fileExtension = selectedFile?.name.split(".").pop();
 
     if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
@@ -137,7 +137,11 @@ const ApplyNowForm = ({ jobId }) => {
     // Required fields
     submitData.append("fullName", formData.fullName);
     submitData.append("email", formData.email);
-    submitData.append("appliedCV", formData.appliedCV);
+
+    // Append CV file
+    if (selectedFile) {
+      submitData.append("appliedCV", selectedFile);
+    }
 
     // Optional fields - only append if they have values
     if (formData.phone) submitData.append("phone", formData.phone);
@@ -156,7 +160,7 @@ const ApplyNowForm = ({ jobId }) => {
 
     // Additional files
     additionalFiles.forEach((file) => {
-      submitData.append("attachments", file);
+      submitData.append("attechments", file);
     });
 
     try {
@@ -192,7 +196,9 @@ const ApplyNowForm = ({ jobId }) => {
   return (
     <div className="mx-auto h-fit w-full rounded-lg bg-white p-2 text-[14px] font-normal shadow-sm sm:p-[20px] xl:max-w-[747px]">
       <form onSubmit={handleSubmit}>
-        <h2 className="mb-4 text-left text-[16px] font-medium text-black">{t("RequiredInformation")}</h2>
+        <h2 className="mb-4 text-left text-[16px] font-medium text-black">
+          {t("RequiredInformation")}
+        </h2>
 
         <div className="grid grid-cols-1 gap-y-2.5">
           <InputField
@@ -215,7 +221,9 @@ const ApplyNowForm = ({ jobId }) => {
           />
 
           <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">{t('ResumeCVUpload')}</label>
+            <label className="text-grayBlueText mb-1 block text-[14px]">
+              {t("ResumeCVUpload")}
+            </label>
             <div className="relative flex h-22 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-[0.78px] border-[#CAB7CC]/[75%] p-4">
               <label
                 htmlFor="cv"
@@ -235,12 +243,11 @@ const ApplyNowForm = ({ jobId }) => {
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="absolute inset-0 cursor-pointer opacity-0"
-              // required
+                // required
               />
 
               <p className="mt-2 text-[12px] text-gray-600">
-                {selectedFile ? ` ${selectedFile.name}` : t('allowedTypes')}
-
+                {selectedFile ? ` ${selectedFile.name}` : t("allowedTypes")}
               </p>
             </div>
             {errors.cv && <p className="mt-1 text-sm text-red-500">{errors.cv}</p>}
@@ -311,14 +318,16 @@ const ApplyNowForm = ({ jobId }) => {
           />
           <div className="mb-4 grid grid-cols-1 gap-4">
             <div>
-              <label className="text-grayBlueText mb-1 block text-[14px]">{t("SalaryExpectation")}</label>
+              <label className="text-grayBlueText mb-1 block text-[14px]">
+                {t("SalaryExpectation")}
+              </label>
               <input
                 type="text"
                 name="salaryExpectation"
                 value={formData.salaryExpectation}
                 onChange={handleChange}
                 className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
-                placeholder= {t("EnterSalaryExpectation")}
+                placeholder={t("EnterSalaryExpectation")}
               />
             </div>
           </div>
@@ -337,9 +346,7 @@ const ApplyNowForm = ({ jobId }) => {
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
               />
               <FiUpload className="text-2xl text-[#0F8200]" />
-              <p className="mt-2 text-[12px] text-gray-600">
-                {t("UploadAdditionalFiles")}
-              </p>
+              <p className="mt-2 text-[12px] text-gray-600">{t("UploadAdditionalFiles")}</p>
             </div>
             {additionalFiles.length > 0 && (
               <div className="mt-2">
@@ -366,7 +373,7 @@ const ApplyNowForm = ({ jobId }) => {
               onChange={handleChange}
               className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
               rows="4"
-              placeholder= {t("Writeyourmessage")}
+              placeholder={t("Writeyourmessage")}
             />
           </div>
         </div>

@@ -1,12 +1,26 @@
 // import ApplicationJobContent from "@/components/applicationJob/ApplicationJobContent";
 
-// import Subscription from "@/components/profile/subscription/Subscription";
-import ApplicationJobContent from "@/components/SingleCompanyProfile/applicationJob/ApplicationJobContent";
+import MainCompanyProfile from "@/common/MainCompanyProfile";
+import UserMightKnow from "@/common/UserMightKnow";
+import Subscription from "@/components/SingleCompanyProfile/subscription/Subscription";
+import CompanyConnectionsLayout from "@/layout/CompanyConnectionsLayout";
 
 const page = () => {
+  const userData = {
+    companyName: "Company Name",
+  };
   return (
     <div className="py-5">
-      <ApplicationJobContent />
+      <CompanyConnectionsLayout
+        RightComponents={[
+          <MainCompanyProfile key="right2" title={userData?.companyName} userData={userData} />,
+          <UserMightKnow key="right1" />,
+        ]}
+      >
+        <div className="space-y-5">
+          <Subscription />
+        </div>
+      </CompanyConnectionsLayout>
     </div>
   );
 };

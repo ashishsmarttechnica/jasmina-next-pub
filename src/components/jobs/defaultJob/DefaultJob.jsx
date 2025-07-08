@@ -11,7 +11,7 @@ const DefaultJob = () => {
     lgbtq: true,
   });
   return (
-    <div className="w-full">
+    <div className="w-full px-2 sm:px-4">
       <JobHeader filters={filters} setFilters={setFilters} />
       <div className="mt-4 flex flex-col gap-4">
         <div className="">

@@ -16,7 +16,7 @@
 .swiperContainer :global(.swiper-pagination-bullet) {
   width: 8px;
   height: 8px;
-  background-color: #E5E7EB;
+  background-color: #e5e7eb;
   opacity: 1;
   margin: 0 4px;
 }
@@ -27,7 +27,7 @@
 
 .swiperContainer :global(.swiper-button-prev),
 .swiperContainer :global(.swiper-button-next) {
-  color: #9CA3AF;
+  color: #9ca3af;
   top: auto;
   bottom: -5px;
 }

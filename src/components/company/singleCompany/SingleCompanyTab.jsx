@@ -3,87 +3,76 @@
 import SingleUserTabSkeleton from "@/common/skeleton/SingleUserTabSkeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import AboutTab from "./tabs/AboutTab";
 import JobTab from "./tabs/JobTab";
 import PeopleTab from "./tabs/PeopleTab";
 
 const SingleCompanyTab = ({ userData, isLoading }) => {
-  const [activeTab, setActiveTab] = useState("About"); // Set "About" as the default tab
   const t = useTranslations("CompanyProfile.singleCompanyTab");
-  const tabs = [`${t("about")}`, `${t("job")}`, `${t("people")}`];
-  // Calculate tab positions and widths
-  const About = t("about");
-  const Job = t("job");
-  const People = t("people");
-  const tabWidths = {
-    [About]: "65px",
-    [Job]: "65px",
-    [People]: "70px",
-  };
+  const [isRTL, setIsRTL] = useState(false);
+  const tabRefs = useRef({});
 
-  const tabPositions = {
-    [About]: "0px",
-    [Job]: "70px",
-    [People]: "150px",
-  };
+  const tabs = [t("about"), t("job"), t("people")];
+  const [activeTab, setActiveTab] = useState(tabs[0]);
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case `${t("about")}`:
-        return <AboutTab userData={userData} />;
-      case `${t("job")}`:
-        return <JobTab userData={userData} />;
-      case `${t("people")}`:
-        return <PeopleTab userData={userData} />;
-
-      default:
-        return null;
-    }
-  };
-
-  if (isLoading) {
-    return <SingleUserTabSkeleton />;
-  }
+  useEffect(() => {
+    // Detect RTL from document
+    setIsRTL(typeof document !== 'undefined' && document.documentElement.dir === 'rtl');
+  }, []);
 
   return (
     <div className="rounded-[5px] bg-white shadow">
-      <div className="relative hidden gap-3 border-b border-black/10 px-3 text-[14px] font-medium text-gray-500 sm:flex sm:gap-10">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`py-3.5 capitalize outline-none ${activeTab === tab ? "text-primary" : ""}`}
-          >
-            {tab}
-          </button>
-        ))}
-        <motion.div
-          layout
-          transition={{ type: "spring", stiffness: 500, damping: 40 }}
-          className="bg-primary absolute -bottom-0.5 h-[3px]"
-          style={{
-            width: tabWidths[activeTab],
-            left: tabPositions[activeTab],
-          }}
-        />
+      {/* Desktop Tabs */}
+      <div
+        className="relative hidden border-b border-black/10 text-[14px] font-medium text-gray-500 sm:flex"
+        dir={isRTL ? 'rtl' : 'ltr'}
+      >
+        <div className={`flex ${isRTL ? 'flex-row-reverse' : ''} gap-6 `}>
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              ref={el => tabRefs.current[tab] = el}
+              onClick={() => setActiveTab(tab)}
+              className={`relative whitespace-nowrap py-3.5 px-2 capitalize outline-none ${activeTab === tab ? "text-primary" : ""
+                }`}
+            >
+              {tab}
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="activeTabIndicator"
+                  className="bg-primary absolute bottom-0 h-[3px]"
+                  initial={false}
+                  animate={{
+                    width: tabRefs.current[tab]?.scrollWidth || 'auto',
+                    left: isRTL ? 'unset' : 0,
+                    right: isRTL ? 0 : 'unset'
+                  }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Mobile Dropdown */}
-      <div className="p-4 sm:hidden">
+      <div className="p-4 sm:hidden" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="relative">
           <select
             value={activeTab}
             onChange={(e) => setActiveTab(e.target.value)}
-            className="focus:ring-primary/20 focus:border-primary w-full appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 focus:ring-2 focus:outline-none"
+            className={`focus:ring-primary/20 focus:border-primary w-full appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 focus:ring-2 focus:outline-none ${isRTL ? 'text-right' : 'text-left'
+              }`}
           >
             {tabs.map((tab) => (
-              <option key={tab} value={tab} className="px-4 py-3">
+              <option key={tab} value={tab} className=" py-3">
                 {tab}
               </option>
             ))}
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4">
+          <div className={`pointer-events-none absolute inset-y-0 ${isRTL ? 'left-0' : 'right-0'
+            } flex items-center px-4`}>
             <svg
               className="h-5 w-5 text-gray-500"
               fill="none"
@@ -95,8 +84,8 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              ></path>
+                d={isRTL ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+              />
             </svg>
           </div>
         </div>
@@ -111,8 +100,11 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="min-h-[200px]"
+          dir={isRTL ? 'rtl' : 'ltr'}
         >
-          {renderContent()}
+          {activeTab === tabs[0] && <AboutTab userData={userData} />}
+          {activeTab === tabs[1] && <JobTab userData={userData} />}
+          {activeTab === tabs[2] && <PeopleTab userData={userData} />}
         </motion.div>
       </AnimatePresence>
     </div>

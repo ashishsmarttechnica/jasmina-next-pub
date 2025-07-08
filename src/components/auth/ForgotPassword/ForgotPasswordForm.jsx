@@ -78,7 +78,7 @@ const ForgotPasswordForm = () => {
     const pasteData = e.clipboardData.getData("Text").trim();
 
     if (!/^\d{6}$/.test(pasteData)) {
-      toast.error("Please paste a valid 6-digit OTP");
+      toast.error(t("otpPasteError"));
       return;
     }
 
@@ -92,7 +92,7 @@ const ForgotPasswordForm = () => {
     const fullOtp = otp.join("").trim();
 
     if (fullOtp.length !== 6 || otp.includes("")) {
-      toast.error("Please enter a valid 6-digit OTP");
+      toast.error(t("otpError"));
       return;
     }
 
@@ -129,15 +129,15 @@ const ForgotPasswordForm = () => {
   const handleNewPasswordSubmit = (e) => {
     e.preventDefault();
     if (!formData.newPassword || !formData.confirmPassword) {
-      toast.error("Please fill both fields.");
+      toast.error(t("passwordRequired"));
       return;
     }
     if (formData.newPassword !== formData.confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error(t("passwordMismatch"));
       return;
     }
     if (formData.newPassword.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
+      toast.error(t("passwordLengthError"));
       return;
     }
     resetPassword({ email: formData.email, newPassword: formData.newPassword });

@@ -175,7 +175,7 @@ const CreateCompany = () => {
                 <Loader inverse />
               </div>
             ) : (
-              `${t("Next")} >`
+              `${t("Next")} `
             )}
           </button>
         </div>
@@ -185,3 +185,4 @@ const CreateCompany = () => {
 };
 
 export default CreateCompany;
+

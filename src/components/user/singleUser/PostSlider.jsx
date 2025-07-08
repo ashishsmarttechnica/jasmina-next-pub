@@ -154,24 +154,24 @@ const t = useTranslations("CompanyProfile");
                 ...prev,
                 totalShare: (prev.totalShare || 0) + 1,
               }));
-              toast.success("Post shared successfully!");
+              toast.success(t("Postsharedsuccessfully"));
             } else {
-              toast.error(response?.message || "Failed to share post");
+              toast.error(response?.message || t("Failedtosharepost"));
             }
           },
           onError: (error) => {
-            toast.error(error?.response?.data?.message || "Failed to share post");
+            toast.error(error?.response?.data?.message || t("Failedtosharepost"));
           },
         });
       } catch (error) {
         // Only show error if it's not a user cancellation
         if (error.name !== "AbortError") {
           console.log(error);
-          toast.error("Share cancelled or failed");
+          toast.error(t("Sharecancelledorfailed"));
         }
       }
     } else {
-      toast.info("Share not supported on this device");
+      toast.info(t("Shareunsupported"));
     }
   };
 

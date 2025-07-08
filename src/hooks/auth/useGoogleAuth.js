@@ -5,6 +5,7 @@ import { auth, googleProvider } from "@/lib/firebase";
 import useAuthStore from "@/store/auth.store";
 import { signInWithPopup } from "firebase/auth";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,7 @@ export default function useGoogleAuth() {
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
+   const t = useTranslations("Auth");
 
   // Function to handle Google sign-in with account type selection
   const handleGoogleSignIn = async (accountType) => {
@@ -51,7 +53,7 @@ export default function useGoogleAuth() {
           setToken(token);
           setUser(userData);
 
-          toast.success("Successfully logged in with Google!");
+          toast.success(t("GoogleSignInSuccess"));
 
           // Redirect based on role
           if (role === "user") {
@@ -62,7 +64,7 @@ export default function useGoogleAuth() {
             router.push("/dashboard");
           }
         } else {
-          toast.error(response.data.message || "Failed to authenticate with Google");
+          toast.error(response.data.message || t("GoogleSignInFailed"));
         }
       } catch (apiError) {
         console.error("Error during Google registration with backend:", apiError);

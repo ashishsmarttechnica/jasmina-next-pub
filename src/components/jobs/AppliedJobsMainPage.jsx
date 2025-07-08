@@ -3,6 +3,7 @@ import Card from "@/common/card/Card";
 // import AppliedJobsPageSkeleton from "@/common/skeleton/AppliedJobsPageSkeleton";
 import useGetAppliedJobs from "@/hooks/job/useGetAppliedJobs";
 import useAppliedJobStore from "@/store/appliedJob.store";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -13,7 +14,6 @@ import { getRelativeTime } from "../../utils/dateUtils";
 import JobHeader from "./JobHeader";
 import MyJobs from "./leftSidebar/MyJobs";
 import SingleJobDetail from "./SingleJobDetail";
-import { useTranslations } from "next-intl";
 
 const AppliedJobsMainPage = () => {
   const [filters, setFilters] = useState({
@@ -64,9 +64,9 @@ const AppliedJobsMainPage = () => {
         ? Array.isArray(job.responsibilities)
           ? job.responsibilities
           : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+              .replace(/<[^>]+>/g, "")
+              .split("\n")
+              .filter(Boolean)
         : [],
       requiredSkills: job.requiredSkills || [],
       posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
@@ -90,11 +90,13 @@ const AppliedJobsMainPage = () => {
         <JobHeader filters={filters} setFilters={setFilters} showSaveJobsLink={false} />
         <div className="mt-4 flex flex-col gap-4">
           {isLoading ? (
-            <div>{t('Loadingappliedjobs')}</div>
+            <div>{t("Loadingappliedjobs")}</div>
           ) : error ? (
-            <div>{t('Error')}: {error}</div>
+            <div>
+              {t("Error")}: {error}
+            </div>
           ) : (
-            <div className="flex flex-col  md:flex-row">
+            <div className="flex w-full flex-col md:flex-row">
               {/* Left Column: Job List */}
               <div className="w-full md:w-[35%]">
                 {/* <h2 className="mb-3 font-medium">
@@ -103,10 +105,11 @@ const AppliedJobsMainPage = () => {
                 {mappedJobs.slice(0, visibleCount).map((job) => (
                   <Card
                     key={job._id}
-                    className={`mb-3 transform cursor-pointer transition duration-200 ${selectedJob?._id === job._id
+                    className={`mb-3 transform cursor-pointer transition duration-200 ${
+                      selectedJob?._id === job._id
                         ? "border-primary border-1"
                         : "hover:scale-[1.01]"
-                      }`}
+                    }`}
                     onClick={() => setSelectedJob(job)}
                   >
                     <div className="p-4">
@@ -154,11 +157,15 @@ const AppliedJobsMainPage = () => {
                     className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
                     onClick={() => setVisibleCount((prev) => prev + 3)}
                   >
-                    {t('loadMore')}
+                    {t("loadMore")}
                   </button>
                 )}
-
-                {pagination.totalPages > 1 && (
+                {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
+                  <div className="mt-2 text-center text-gray-500">
+                    <p>{t("noMoreJobsToLoad")}</p>
+                  </div>
+                )}
+                {/* {pagination.totalPages > 1 && (
                   <div className="mt-4 flex justify-center">
                     <div className="flex space-x-2">
                       {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
@@ -177,7 +184,7 @@ const AppliedJobsMainPage = () => {
                       )}
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
               {/* Right Column: Job Detail */}
               {selectedJob && (

@@ -84,7 +84,8 @@
     "home": "Home",
     "jobs": "Jobs",
     "connections": "Connections",
-    "logout": "Logout"
+    "logout": "Logout",
+    "logoutSuccess": "Logout successful!"
   },
   "FeedProfileLeft": {
     "connections": "Connections",
@@ -109,7 +110,8 @@
     "home": "Home",
     "jobs": "Jobs",
     "connections": "Connections",
-    "logout": "Logout"
+    "logout": "Logout",
+    "logoutSuccess": "Logout successful!"
   },
   "CompanyMainFeed": {
     "connections": "Connections",
@@ -228,7 +230,17 @@
     "resetPasswordDescription": "Update your password to secure your account",
     "CurrentPassword": "Current Password",
     "Resetting": "Resetting",
-    "ResetPassword": "Reset Password"
+    "ResetPassword": "Reset Password",
+    "emailRequired": "Access denied. Please signup first.",
+    "otpPasteError": "Please paste a valid 6-digit OTP",
+    "otpError": "Please enter a valid 6-digit OTP",
+    "LoginSuccess": "Successfully logged in with Google!",
+    "LoginFailed": "Failed to authenticate with Google",
+    "apierror": "Error during Google login:",
+    "errorsignin": "Error during Google sign-in:",
+    "passwordRequired": "Please fill both fields.",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordLengthError": "Password must be at least 6 characters long."
   },
   "UserProfile": {
     "userprofilemenu": {
@@ -277,7 +289,8 @@
         "message": "Message",
         "remove": "Remove",
         "removing": "Removing...",
-        "Noresumedocumentavailable": "No resume document available."
+        "Noresumedocumentavailable": "No resume document available.",
+        "Failedtoremoveconnection": "Failed to remove connection"
       },
       "genderPlaceholder": "Select Gender",
       "dob": "Date of Birth",
@@ -381,7 +394,12 @@
       "CoverLetter": "Cover Letter",
       "Writeyourmessage": "Tell us why you're interested in this position...",
       "Byapplyingjob": "By submitting this application, your information will be shared with the employer. Please           make sure your profile respects Jasmina's community guidelines.",
-      "SubmitApplication": "Submit Application"
+      "SubmitApplication": "Submit Application",
+      "fullNameRequired": "Full Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "cvRequired": "Please upload a resume file (PDF, DOC, DOCX, TEX).",
+      "cvInvalidFormat": "Invalid file format. Allowed: PDF, DOC, DOCX, TEX, WEBP"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
@@ -647,7 +665,8 @@
       "location": "Location",
       "Availability": "Availability",
       "Failedtoconnect": "Failed to connect",
-      "Failedtoremoveconnection": "Failed to remove connection"
+      "Failedtoremoveconnection": "Failed to remove connection",
+      "Failedtoacceptconnection": "Failed to connect"
     },
     "singleCompanyTab": {
       "about": "About",
@@ -663,7 +682,8 @@
       "remove": "Remove",
       "removing": "Removing...",
       "connecton": "Connected on\t",
-      "No": "No"
+      "No": "No",
+      "Failedtoremoveconnection": "Failed to remove connection"
     },
     "location": {
       "title": "Location",
@@ -804,7 +824,13 @@
     "JobLocation": "Job Location *",
     "JobArea": "Area *",
     "EnterJobArea": "Enter specific location (e.g., downtown, business district)",
-    "Next": "Next"
+    "Next": "Next",
+    "LogoutSuccess": "Logged out successfully",
+    "Postsharedsuccessfully": "Post shared successfully!",
+    "Failedtosharepost": "Failed to share post",
+    "Sharecancelledorfailed": "Share cancelled or failed",
+    "Shareunsupported": "Share not supported on this device",
+    "PreviousPlans": "Previous Plans"
   },
   "Common": {
     "country": "Country",
@@ -885,7 +911,9 @@
     "requirements": "Requirements",
     "salary": "salary",
     "preview": "preview",
-    "skills": "skills"
+    "skills": "skills",
+    "jobPostedSuccessfully": "Job created successfully",
+    "errorsubmitting": "Error submitting form:"
   },
   "CreateCompanyJob": {
     "employeetype": {
@@ -981,12 +1009,23 @@
     "failedToSaveJob": "Failed to save job.",
     "failedToRemoveJob": "Failed to remove job.",
     "Errorfetchingsavedjob": "Error fetching saved job:",
-    "SavedJobFetched": "Saved job fetched successfully"
+    "SavedJobFetched": "Saved job fetched successfully",
+    "Failedtosavejob": "Failed to remove job."
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",
   "Failedtoremovejob": "Failed to remove job.",
   "Jobsaved": "Job saved!",
   "Failedtosavejob": "Failed to save job.",
-  "ErrorfetchingsavedjobsinMyJobs:": "Error fetching saved jobs in MyJobs:"
+  "ErrorfetchingsavedjobsinMyJobs:": "Error fetching saved jobs in MyJobs:",
+  "about": "About",
+  "Sharecancelledorfailed": "Share cancelled or failed",
+  "Shareunsupported": "Share not supported on this device",
+  "Companynotfound": "Company not found",
+  "Usernotfound": "User not found",
+  "GoogleSignInSuccess": "Successfully logged in with Google!",
+  "GoogleSignInFailed": "Failed to authenticate with Google",
+  "Auth": {
+    "GoogleSignInSuccess": "Successfully logged in with Google!"
+  }
 }

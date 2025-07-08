@@ -25,7 +25,7 @@ const MainCompanyProfile = ({ title, userData }) => {
     if (item.isLogout) {
       logout();
       router.push("/login");
-      toast.success("Logged out successfully");
+      toast.success(t('LogoutSuccess'));
     } else if (pathname !== item.path) {
       router.push(item.path);
     }
@@ -78,6 +78,14 @@ const MainCompanyProfile = ({ title, userData }) => {
       ),
       label: t('Subscription'),
       path: `/company/single-company/${userId}/subscription`,
+      count: null,
+    },
+    {
+      icon: (isActive) => (
+        <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+      ),
+      label: t('PreviousPlans'),
+      path: `/company/single-company/${userId}/previousplans`,
       count: null,
     },
     {

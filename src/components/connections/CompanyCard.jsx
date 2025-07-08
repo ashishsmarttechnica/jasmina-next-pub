@@ -30,11 +30,11 @@ const CompanyCard = ({ company }) => {
             const updatedConnections = connections.filter((conn) => conn._id !== company._id);
             setConnections(updatedConnections);
           } else {
-            toast.error("Failed to remove connection");
+            toast.error(t("Failedtoremoveconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || "Failed to remove connection");
+          toast.error(error?.message || t("Failedtoremoveconnection"));
         },
         onSettled: () => {
           setIsRemoving(false);

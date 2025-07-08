@@ -1,8 +1,7 @@
-
 function Card({ children, className = "", onClick }) {
   return (
     <div
-      className={`w-full md:max-w-[700px] sm:w-[285px] md:w-[266px] xl:w-[285px]  bg-white rounded-md text-black flex flex-col font-Ubuntu border border-black/10 shadow-card ${className} `}
+      className={`font-Ubuntu shadow-card flex w-full flex-col rounded-md border border-black/10 bg-white text-black sm:w-[285px] md:w-[266px] md:max-w-[700px] xl:w-[280px] ${className} `}
       onClick={onClick}
     >
       {children}

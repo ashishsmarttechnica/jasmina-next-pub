@@ -5,6 +5,7 @@ import getImg from "@/lib/getImg";
 import useConnectionsStore from "@/store/connections.store";
 import Cookies from "js-cookie";
 import { FaBuilding, FaUser } from "react-icons/fa6";
+import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import Card from "./card/Card";
 import CardHeading from "./card/CardHeading";
 import ImageFallback from "./shared/ImageFallback";
@@ -106,17 +107,10 @@ const UserConnections = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <div
-                      className="cursor-pointer truncate text-xs font-medium"
-                      onClick={() => handleUserProfile(user)}
-                    >
-                      {config.name}
-                    </div>
+                    <NameWithTooltip name={config.name} id={user._id} onClick={() => handleUserProfile(item)} />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
-                  <p className="text-grayBlueText truncate text-[10px] font-normal">
-                    {config.subtitle}
-                  </p>
+                  <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />
                 </div>
               </div>
             </div>

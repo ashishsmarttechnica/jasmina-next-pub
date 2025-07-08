@@ -130,10 +130,10 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
 
         sharePost(id);
       } catch (error) {
-        toast.error("Share cancelled or failed");
+        toast.error(t("Sharecancelledorfailed"));
       }
     } else {
-      toast.info("Share not supported on this device");
+      toast.info(t("Shareunsupported"));
     }
   };
 

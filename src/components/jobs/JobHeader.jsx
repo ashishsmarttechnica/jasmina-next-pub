@@ -22,7 +22,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <FiSearch className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-            placeholder={t("jobTitleOrCompanyPlaceholder")} 
+            placeholder={t("jobTitleOrCompanyPlaceholder")}
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -32,7 +32,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <HiOutlineLocationMarker className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-             placeholder={t("Location")} 
+            placeholder={t("Location")}
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={locationInput}
             onChange={(e) => setLocationInput(e.target.value)}
@@ -62,8 +62,9 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
               <span>{selected}</span>
             </div>
             <FaChevronDown
-              className={`text-grayBlueText text-base transition-transform duration-500 ${isOpen ? "rotate-180" : ""
-                }`}
+              className={`text-grayBlueText text-base transition-transform duration-500 ${
+                isOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
 

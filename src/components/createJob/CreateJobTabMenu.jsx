@@ -150,14 +150,14 @@ const CreateJobTabMenu = () => {
           setFormData(initialFormState);
           setActiveTab(0);
           setIsSubmitting(false);
-          toast.success("Job created successfully");
+          toast.success(t("jobPostedSuccessfully"));
         },
         onError: () => {
           setIsSubmitting(false);
         },
       });
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error(t("errorsubmitting"), error);
       setIsSubmitting(false);
     }
   };

@@ -3,6 +3,7 @@ import Card from "@/common/card/Card";
 import useGetJobs from "@/hooks/job/useGetJobs";
 import useGetSavedJobs from "@/hooks/job/useGetSavedJobs";
 import useJobStore from "@/store/job.store";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -10,7 +11,6 @@ import { IoClipboardOutline } from "react-icons/io5";
 import ImageFallback from "../../common/shared/ImageFallback";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleSaveJobDetail from "./SingleSaveJobDetail";
-import { useTranslations } from "next-intl";
 
 const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const searchParams = useSearchParams();
@@ -83,9 +83,9 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-          .replace(/<[^>]+>/g, "")
-          .split("\n")
-          .filter(Boolean)
+            .replace(/<[^>]+>/g, "")
+            .split("\n")
+            .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
@@ -124,8 +124,9 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
             mappedJobs.slice(0, visibleCount).map((job) => (
               <Card
                 key={job.savedId || job._id}
-                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id ? "border-green-700 bg-green-700" : "border-gray-300"
-                  }`}
+                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
+                  selectedJob?._id === job._id ? "border-green-700 bg-green-700" : "border-gray-300"
+                }`}
                 onClick={() => setSelectedJob(job)}
               >
                 <div className="p-4">
@@ -140,7 +141,9 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
                   </p>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                   <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>{t("Posted")} {getRelativeTime(job.posted)}</p>
+                    <p>
+                      {t("Posted")} {getRelativeTime(job.posted)}
+                    </p>
                   </div>
                   {/* <div>{job?.createdAt}</div> */}
 
@@ -155,7 +158,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
 
                     <div className="flex w-full flex-col">
                       <div className="text-sm text-gray-500">
-                        {job.company || (t("unknownCompany"))}
+                        {job.company || t("unknownCompany")}
                       </div>
                       {/* {job.socialLinks && ( */}
                       <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
@@ -179,6 +182,11 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
             >
               {t("loadMore")}
             </button>
+          )}
+          {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
+            <div className="mt-2 text-center text-gray-500">
+              <p>{t("noMoreJobsToLoad")}</p>
+            </div>
           )}
         </div>
       </div>

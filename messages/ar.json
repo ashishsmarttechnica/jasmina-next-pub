@@ -168,7 +168,17 @@
     "resetPasswordDescription": "قم بتحديث كلمة المرور الخاصة بك لتأمين حسابك",
     "CurrentPassword": "كلمة المرور الحالية",
     "Resetting": "إعادة ضبط",
-    "ResetPassword": "إعادة تعيين كلمة المرور"
+    "ResetPassword": "إعادة تعيين كلمة المرور",
+    "emailRequired": "تم الرفض. \nيرجى الاشتراك أولا.",
+    "otpPasteError": "يرجى لصق OTP مكون من 6 أرقام",
+    "otpError": "الرجاء إدخال OTP مكون من 6 أرقام",
+    "LoginSuccess": "قامت بتسجيل الدخول بنجاح مع Google!",
+    "LoginFailed": "فشل المصادقة مع Google",
+    "apierror": "خطأ أثناء تسجيل الدخول إلى Google:",
+    "errorsignin": "خطأ أثناء تسجيل الدخول في Google:",
+    "passwordRequired": "يرجى ملء كلا الحقول.",
+    "passwordMismatch": "كلمات المرور لا تتطابق.",
+    "passwordLengthError": "يجب أن يكون طول كلمة المرور 6 أحرف على الأقل."
   },
   "UserProfile": {
     "profile": {
@@ -244,7 +254,8 @@
         "removing": "إزالة ...",
         "message": "رسالة",
         "noexperience": "لا توجد معلومات خبرة متاحة.",
-        "Noresumedocumentavailable": "لا مستند استئناف متاح."
+        "Noresumedocumentavailable": "لا مستند استئناف متاح.",
+        "Failedtoremoveconnection": "فشل في إزالة الاتصال"
       },
       "personalInfo": "معلومات شخصية",
       "pronoun": "ضمير",
@@ -282,7 +293,8 @@
         "in1Week": "1 أسبوع",
         "in2Weeks": "2 أسابيع",
         "in1Month": "1 شهر",
-        "negotiable": "2 شهر"
+        "negotiable": "2 شهر",
+        "immediately": "في الحال"
       },
       "short_bioPlaceholder": "أدخل سيرتك الذاتية القصيرة",
       "short_bio": "السيرة الذاتية القصيرة",
@@ -321,7 +333,12 @@
       "CoverLetter": "غطاء الرسالة",
       "Writeyourmessage": "أخبرنا لماذا أنت مهتم بهذا الموقف ...",
       "Byapplyingjob": "من خلال تقديم هذا الطلب ، سيتم مشاركة معلوماتك مع صاحب العمل. \nيرجى التأكد من احترام ملفات التعريف الخاصة بك في جاسمة.",
-      "SubmitApplication": "إرسال الطلب"
+      "SubmitApplication": "إرسال الطلب",
+      "fullNameRequired": "مطلوب الاسم الكامل",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "تنسيق بريد إلكتروني غير صالح",
+      "cvRequired": "يرجى تحميل ملف السيرة الذاتية (PDF ، DOC ، DOCX ، TEX).",
+      "cvInvalidFormat": "تنسيق ملف غير صالح. \nمسموح به: PDF ، DOC ، DOCX ، TEX ، WebP"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -685,7 +702,8 @@
       "location": "موقع",
       "Availability": "توافر",
       "Failedtoconnect": "فشل الاتصال",
-      "Failedtoremoveconnection": "فشل في إزالة الاتصال"
+      "Failedtoremoveconnection": "فشل في إزالة الاتصال",
+      "Failedtoacceptconnection": "فشل الاتصال"
     },
     "singleCompanyTab": {
       "about": "عن",
@@ -701,7 +719,8 @@
       "no": "لا",
       "connectionfound": "وجدت الاتصال",
       "connecton": "متصلة على",
-      "No": "لا"
+      "No": "لا",
+      "Failedtoremoveconnection": "فشل في إزالة الاتصال"
     },
     "InvalidInstagramLinkError": "رابط Instagram غير صالح",
     "InvalidLinkError": "رابط غير صالح",
@@ -741,7 +760,13 @@
     "JobLocation": "موقع الوظيفة *",
     "JobArea": "منطقة *",
     "EnterJobArea": "أدخل موقعًا محددًا (على سبيل المثال ، وسط المدينة ، منطقة الأعمال)",
-    "Next": "التالي"
+    "Next": "التالي",
+    "LogoutSuccess": "سجلت بنجاح",
+    "Postsharedsuccessfully": "نشر مشترك بنجاح!",
+    "Failedtosharepost": "فشل مشاركة المنشور",
+    "Sharecancelledorfailed": "مشاركة إلغاء أو فشل",
+    "Shareunsupported": "مشاركة غير مدعومة على هذا الجهاز",
+    "PreviousPlans": "الخطط السابقة"
   },
   "Next": "",
   "UserHeader": {
@@ -749,13 +774,15 @@
     "home": "بيت",
     "jobs": "وظائف",
     "connections": "الاتصالات",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "logoutSuccess": "تسجيل الخروج ناجح!"
   },
   "CompanyHeader": {
     "logout": "تسجيل الخروج",
     "connections": "الاتصالات",
     "home": "بيت",
-    "jobs": "وظائف"
+    "jobs": "وظائف",
+    "logoutSuccess": "تسجيل الخروج ناجح!"
   },
   "UserProfileLeft": {
     "connections": "الاتصالات",
@@ -845,7 +872,9 @@
     "requirements": "متطلبات",
     "salary": "مرتب",
     "preview": "معاينة",
-    "skills": "مهارات"
+    "skills": "مهارات",
+    "jobPostedSuccessfully": "تم إنشاء الوظيفة بنجاح",
+    "errorsubmitting": "خطأ إرسال النموذج:"
   },
   "CreateCompanyJob": {
     "employeetype": {
@@ -942,12 +971,23 @@
     "failedToSaveJob": "فشل في حفظ الوظيفة.",
     "failedToRemoveJob": "فشل في إزالة الوظيفة.",
     "Errorfetchingsavedjob": "خطأ جلب الوظيفة المحفوظة:",
-    "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح"
+    "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح",
+    "Failedtosavejob": "فشل في إزالة الوظيفة."
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",
   "Failedtoremovejob": "فشل في إزالة الوظيفة.",
   "Jobsaved": "تم حفظ الوظيفة!",
   "Failedtosavejob": "فشل في حفظ الوظيفة.",
-  "ErrorfetchingsavedjobsinMyJobs:": "خطأ جلب الوظائف المحفوظة في myjobs:"
+  "ErrorfetchingsavedjobsinMyJobs:": "خطأ جلب الوظائف المحفوظة في myjobs:",
+  "about": "عن",
+  "Sharecancelledorfailed": "مشاركة إلغاء أو فشل",
+  "Shareunsupported": "مشاركة غير مدعومة على هذا الجهاز",
+  "Companynotfound": "الشركة لم يتم العثور عليها",
+  "Usernotfound": "لم يتم العثور على المستخدم",
+  "GoogleSignInSuccess": "قامت بتسجيل الدخول بنجاح مع Google!",
+  "GoogleSignInFailed": "فشل المصادقة مع Google",
+  "Auth": {
+    "GoogleSignInSuccess": "قامت بتسجيل الدخول بنجاح مع Google!"
+  }
 }

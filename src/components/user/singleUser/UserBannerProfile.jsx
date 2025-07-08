@@ -2,7 +2,7 @@ import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
-import { useRemoveConnection } from "@/hooks/connections/useConnections";
+import { useCreateConnection, useRemoveConnection } from "@/hooks/connections/useConnections";
 import getImg from "@/lib/getImg";
 import EditProfileModal from "@/modal/editProfile/EditProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
@@ -12,7 +12,6 @@ import { useTranslations } from "next-intl";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAcceptConnection } from "../../../hooks/user/useNetworkInvites";
 
 // Import social media icons
 const LinkedInIcon = () => (
@@ -85,7 +84,12 @@ const UserBannerProfile = ({
     !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
   );
   
-  const { mutate: acceptConnection, isPending } = useAcceptConnection();
+  // const { mutate: acceptConnection, isPending } = useAcceptConnection();
+  const {
+    mutate: createConnection,
+    isPending,
+    isLoading: isCreateConnectionLoading,
+  } = useCreateConnection()
   // Check if user came from connections page
   const fromConnections =
     searchParams?.get("fromConnections") === "true" || userData?.isConnected === true ;
@@ -128,25 +132,41 @@ const UserBannerProfile = ({
     );
   };
 
-  const handleConnect = () => {
-    if (!userData || !paramsUserId) return;
-    acceptConnection(
-      { id: paramsUserId, role: "User" },
+  // const handleConnect = () => {
+  //   if (!userData || !paramsUserId) return;
+  //   acceptConnection(
+  //     { id: paramsUserId, role: "User" },
+  //     {
+  //       onSuccess: (res) => {
+  //         if (res.success) {
+  //           setShowConnect(false);
+  //         } else {
+  //           toast.error(res?.message || t("Failedtoconnect"));
+  //         }
+  //       },
+  //       onError: (error) => {
+  //         toast.error(error?.message || t("Failedtoconnect"));
+  //       },
+  //     }
+  //   );
+  // };
+
+  const handleContactClick = (item) => {
+    if (isCreateConnectionLoading) return;
+    createConnection(
+      { id: item._id, role: item.role },
       {
         onSuccess: (res) => {
           if (res.success) {
             setShowConnect(false);
-          } else {
-            toast.error(res?.message || t("Failedtoconnect"));
           }
-        },
-        onError: (error) => {
-          toast.error(error?.message || t("Failedtoconnect"));
+          else {
+                      toast.error(res?.message || t("Failedtoconnect"));
+                    }
         },
       }
     );
   };
-
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
@@ -245,7 +265,7 @@ const UserBannerProfile = ({
             ) : (
               <div className="mt-3.5 flex gap-2">
                 {showConnect ? (
-                  <button className="connect-btn" onClick={handleConnect}>
+                  <button className="connect-btn" onClick={() => handleContactClick(userData)}>
                     {t("connect")}
                   </button>
                 ) : (

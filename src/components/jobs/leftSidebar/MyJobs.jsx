@@ -40,10 +40,10 @@ const MyJobs = () => {
   }, [getSavedJobs]);
 
   return (
-    <Card className="w-full md:sticky md:top-4 md:max-w-[236px] xl:w-[256px] xl:max-w-[266px]">
+    <Card className="w-full sm:w-auto sm:max-w-full md:sticky md:top-4 md:max-w-[236px] xl:w-[256px] xl:max-w-[266px]">
       <CardHeading title={"My jobs"} />
 
-      <div className="w-full text-[#888DA8] md:max-w-[1000px]">
+      <div className="w-full text-[#888DA8] sm:max-w-full md:max-w-[1000px]">
         <Link
           href="/jobs/applied-jobs"
           className="no-underline visited:no-underline hover:no-underline focus:no-underline active:no-underline"
@@ -51,7 +51,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between border-b border-[#888DA8]/10 py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <List className="text-2xl" />
-              <span className="text-[13px] font-normal">{t('AppliedJobs')}</span>
+              <span className="text-[13px] font-normal">{t("AppliedJobs")}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{appliedJobs.length}</span>
           </div>
@@ -63,7 +63,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <LuBookmark className="text-sm" />
-              <span className="text-[13px] font-normal">{t('SaveJobs')}</span>
+              <span className="text-[13px] font-normal">{t("SaveJobs")}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{savedJobs.length}</span>
           </div>

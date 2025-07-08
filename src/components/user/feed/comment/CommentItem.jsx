@@ -30,13 +30,13 @@ const CommentItem = ({ comment }) => {
       if (singleComment.user?._id) {
         router.push(`/company/single-company/${singleComment.user._id}?fromConnections=true`);
       } else {
-        toast.error("Company not found");
+        toast.error(t("Companynotfound"));
       }
     } else {
       if (singleComment.user?._id) {
         router.push(`/single-user/${singleComment.user._id}?fromConnections=true`);
       } else {
-        toast.error("User not found");
+        toast.error(t("Usernotfound"));
       }
     }
   };

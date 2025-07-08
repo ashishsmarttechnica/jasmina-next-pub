@@ -63,11 +63,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             // Refresh the page to update the UI
             setShowConnect(true);
           } else {
-            toast.error(res?.message || "Failed to remove connection");
+            toast.error(res?.message || t('Failedtoremoveconnection'));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || "Failed to remove connection");
+          toast.error(error?.message || t('Failedtoremoveconnection'));
         },
         onSettled: () => {
           setIsRemoving(false);
@@ -85,11 +85,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
           if (res.success) {
             setShowConnect(false);
           } else {
-            toast.error(res?.message || "Failed to connect");
+            toast.error(res?.message || t('Failedtoacceptconnection'));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || "Failed to connect");
+          toast.error(error?.message || t('Failedtoacceptconnection'));
         },
       }
     );

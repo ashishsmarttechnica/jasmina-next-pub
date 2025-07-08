@@ -17,7 +17,7 @@ const CompanyNavItems = ({ onLinkClick }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const isNotificationsActive = pathname === "/notifications";
-  const isChatActive = pathname === "/Chat";
+  const isChatActive = pathname === "/chat";
   const router = useRouter();
   const logout = useAuthStore((state) => state.logout);
 
@@ -66,7 +66,7 @@ const CompanyNavItems = ({ onLinkClick }) => {
       </Link>
 
       <Link
-        href="/Chat"
+        href="/chat"
         className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${
           isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}

@@ -119,7 +119,7 @@ input[type="radio"]:checked::before {
 }
 
 .cust-card {
-  @apply shadow-card border-grayBlueText/20 w-full rounded-lg border bg-white;
+  @apply w-full rounded-lg bg-white;
 }
 
 .btn {
@@ -226,4 +226,39 @@ button {
 .dark .indesc strong,
 .dark .indesc p {
   color: #cdcdcd;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncate-8 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  /* Show exactly 8 words */
+  -webkit-line-clamp: 1;
+  max-height: 1.2em;
+  line-height: 1.2;
+}
+
+/* Custom truncate for exactly 8 words */
+.truncate-8-words {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Limit to approximately 8 words */
+  max-width: calc(10ch * 1.5);
+}
+.truncate-12-words {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* Limit to approximately 8 words */
+  max-width: calc(15ch * 1.5);
 }

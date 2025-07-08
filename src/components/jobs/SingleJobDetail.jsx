@@ -10,6 +10,7 @@ import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 // import { useRouter } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
@@ -20,7 +21,7 @@ import { removeJob } from "../../api/job.api";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
-import { useTranslations } from "next-intl";
+//
 
 const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
@@ -93,7 +94,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-5 shadow-sm mt-5 md:mt-0">
+    <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 md:mt-0">
       {/* <button
         className="text-sm text-blue-600 underline mb-3"
         onClick={onBack}
@@ -131,8 +132,9 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
 
       {!hideApplyButton && (
         <button
-          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-            }`}
+          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
+            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+          }`}
           onClick={handleApplyNow}
           disabled={hasApplied}
         >
@@ -149,49 +151,51 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            {t('experience')}: {job?.experience}
+            {t("experience")}: {job?.experience}
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            {t('Education')}: {job?.education}
+            {t("Education")}: {job?.education}
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            {t('Salary')}: {job?.salary}
+            {t("Salary")}: {job?.salary}
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            {t('Seniority')}: {job?.seniority}
+            {t("Seniority")}: {job?.seniority}
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            {t('Applicants')}: {job?.applicants}
+            {t("Applicants")}: {job?.applicants}
           </li>
-
         </ul>
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
-        <h4 className="mb-2 font-medium text-black">{t('JobDescription')}</h4>
-
-        <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal" dangerouslySetInnerHTML={{ __html: job?.description }} />
+        <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
         <div
-          className="mt-2 max-w-md indesc w-full  text-[13px] break-all whitespace-normal "
+          className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
+          dangerouslySetInnerHTML={{ __html: job?.description }}
+        />
+        <div
+          className="indesc mt-2 w-full max-w-full text-[13px] break-words whitespace-normal"
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t('JobResponsibilities')}</h4>
-
-          <div className="max-w-sm indesc w-full  text-[13px] break-all whitespace-normal " dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
+          <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
+          <div
+            className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
+            dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
+          />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t('JobRequirements')}</h4>
-
-          <ul className="mt-2 grid max-w-md list-disc grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          <h4 className="mb-2 font-medium text-black">{t("JobRequirements")}</h4>
+          <ul className="mt-2 grid max-w-full list-disc grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (
                 <li key={i} className="flex items-center">
-                  <span className="w-full rounded-lg bg-[#EAEAEA] px-3 py-2 text-center text-xs text-[13px] font-medium text-black shadow-sm transition-colors duration-200 hover:bg-green-100 max-w-full  break-all whitespace-normal ">
+                  <span className="w-full max-w-full rounded-lg bg-[#EAEAEA] px-3 py-2 text-center text-xs text-[13px] font-medium break-words whitespace-normal text-black shadow-sm transition-colors duration-200 hover:bg-green-100">
                     {skill}
                   </span>
                 </li>
@@ -199,23 +203,21 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
           </ul>
         </div>
         <div>
-          <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-3">
+          <div className="mt-3 flex flex-col items-start gap-2 border-t border-slate-100 pt-3 sm:flex-row">
             <ImageFallback
-              src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+              src={job.company.logoUrl}
               alt="logo"
               width={28}
               height={28}
               className="mt-1 rounded-md"
             />
-
             <div className="flex w-full flex-col">
               <div className="text-sm text-gray-500">
-                {job.company?.companyName || "Unknown Company"}              </div>
-              {/* {job.socialLinks && ( */}
-              <div className="w-full max-w-full text-[13px] break-all whitespace-normal ">
+                {job.company?.companyName || "Unknown Company"}{" "}
+              </div>
+              <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
                 {job.website}
               </div>
-              {/* )} */}
             </div>
           </div>
         </div>

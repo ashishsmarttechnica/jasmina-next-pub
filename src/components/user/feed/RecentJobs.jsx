@@ -37,6 +37,33 @@ const jobList = [
     url: "www.netflix.com",
     logo: "https://logo.clearbit.com/amazon.com",
   },
+  {
+    title: "UI/UX Designer",
+    experience: "4 years",
+    location: "Berlin, Japan",
+    posted: "1 day ago",
+    company: "The Walt Disney",
+    url: "www.disney.com",
+    logo: "https://logo.clearbit.com/amazon.com",
+  },
+  {
+    title: "Frontend Developer",
+    experience: "3 years",
+    location: "San Francisco, USA",
+    posted: "2 days ago",
+    company: "Google",
+    url: "www.google.com",
+    logo: "https://logo.clearbit.com/amazon.com",
+  },
+  {
+    title: "Backend Engineer",
+    experience: "5 years",
+    location: "Remote",
+    posted: "5 days ago",
+    company: "Netflix",
+    url: "www.netflix.com",
+    logo: "https://logo.clearbit.com/amazon.com",
+  },
 ];
 
 const RecentJobs = () => {

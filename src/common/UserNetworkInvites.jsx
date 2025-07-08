@@ -9,13 +9,16 @@ import { useRouter } from "@/i18n/navigation";
 import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
 import useNetworkInvitesStore from "@/store/networkInvites.store";
+import { NameWithTooltip, SubtitleWithTooltip } from "@/utils/tooltipUtils";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
-import { Tooltip } from "react-tooltip";
 import Card from "./card/Card";
 import CardHeading from "./card/CardHeading";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
+
+// Helper function
+const isNameLong = (name, maxLength = 15) => name && name.length > maxLength;
 
 const UserNetworkInvites = ({ title }) => {
   const { data: networkInvitesData } = useNetworkInvitesStore();
@@ -79,7 +82,7 @@ const UserNetworkInvites = ({ title }) => {
     if (capitalize(user?.senderType) === "User") {
       router.push(`/single-user/${user?.senderDetails?._id}`);
     } else {
-      router.push(`/company/single-company/${user?.senderDetails?._id}`);
+      router.push(`/company/single-company/${user?.senderDetails?._id}?fromNetworkInvites=true`);
     }
   };
 
@@ -110,7 +113,7 @@ const UserNetworkInvites = ({ title }) => {
       </Card>
     );
   }
-
+//
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
@@ -138,25 +141,10 @@ const UserNetworkInvites = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <p
-                      className="cursor-pointer truncate text-[13px] font-medium"
-                      onClick={() => handleUserProfile(item)}
-                      data-tooltip-id={`name-tooltip-${item._id}`}
-                      data-tooltip-content={config.name}
-                    >
-                      {config.name}
-                    </p>
-                    <Tooltip id={`name-tooltip-${item._id}`} />
+                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
-                  <p
-                    className="text-grayBlueText mt-0.5 truncate text-xs font-normal"
-                    data-tooltip-id={`subtitle-tooltip-${item._id}`}
-                    data-tooltip-content={config.subtitle}
-                  >
-                    {config.subtitle}
-                  </p>
-                  <Tooltip id={`subtitle-tooltip-${item._id}`} />
+                  <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
                 </div>
               </div>
 

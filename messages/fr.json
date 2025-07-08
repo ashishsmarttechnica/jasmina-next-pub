@@ -168,7 +168,17 @@
     "resetPasswordDescription": "Mettez à jour votre mot de passe pour sécuriser votre compte",
     "CurrentPassword": "Mot de passe actuel",
     "Resetting": "Réinitialisation",
-    "ResetPassword": "Réinitialiser le mot de passe"
+    "ResetPassword": "Réinitialiser le mot de passe",
+    "emailRequired": "Accès refusé. \nVeuillez vous inscrire en premier.",
+    "otpPasteError": "Veuillez coller un OTP valide à 6 chiffres",
+    "otpError": "Veuillez saisir un OTP valide à 6 chiffres",
+    "LoginSuccess": "Connecté avec succès avec Google!",
+    "LoginFailed": "Échec de l'authentification avec Google",
+    "apierror": "Erreur pendant la connexion Google:",
+    "errorsignin": "Erreur pendant la connexion Google:",
+    "passwordRequired": "Veuillez remplir les deux champs.",
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+    "passwordLengthError": "Le mot de passe doit comporter au moins 6 caractères."
   },
   "UserProfile": {
     "profile": {
@@ -244,7 +254,8 @@
         "removing": "Supprimer ...",
         "message": "Message",
         "noexperience": "Aucune expérience d'information disponible.",
-        "Noresumedocumentavailable": "Aucun document de CV disponible."
+        "Noresumedocumentavailable": "Aucun document de CV disponible.",
+        "Failedtoremoveconnection": "Impossible de supprimer la connexion"
       },
       "personalInfo": "Information personnelle",
       "pronoun": "Pronom",
@@ -281,7 +292,8 @@
         "worldwide": "Ouvert à distance dans le monde entier",
         "in1Week": "1 semaine",
         "in2Weeks": "2 semaines",
-        "in1Month": "1 mois"
+        "in1Month": "1 mois",
+        "immediately": "immédiatement"
       },
       "short_bioPlaceholder": "Entrez votre courte biographie",
       "short_bio": "Bio courte",
@@ -320,7 +332,12 @@
       "CoverLetter": "Lettre de motivation",
       "Writeyourmessage": "Dites-nous pourquoi vous êtes intéressé par ce poste ...",
       "Byapplyingjob": "En soumettant cette demande, vos informations seront partagées avec l'employeur. \nVeuillez vous assurer que votre profil respecte les directives communautaires de Jasmina.",
-      "SubmitApplication": "Soumettre une demande"
+      "SubmitApplication": "Soumettre une demande",
+      "fullNameRequired": "Le nom complet est requis",
+      "emailRequired": "Un e-mail est requis",
+      "emailInvalid": "Format de messagerie non valide",
+      "cvRequired": "Veuillez télécharger un fichier de CV (PDF, DOC, DOCX, Tex).",
+      "cvInvalidFormat": "Format de fichier non valide. \nAutorisé: PDF, DOC, DOCX, Tex, Webp"
     },
     "userprofilemenu": {
       "education": "Éducation",
@@ -683,7 +700,8 @@
       "location": "Emplacement",
       "Availability": "Disponibilité",
       "Failedtoconnect": "Échec de la connexion",
-      "Failedtoremoveconnection": "Impossible de supprimer la connexion"
+      "Failedtoremoveconnection": "Impossible de supprimer la connexion",
+      "Failedtoacceptconnection": "Échec de la connexion"
     },
     "singleCompanyTab": {
       "about": "À propos",
@@ -699,7 +717,8 @@
       "no": "Non",
       "connectionfound": "Connexion trouvée",
       "connecton": "Connecté sur",
-      "No": "Non"
+      "No": "Non",
+      "Failedtoremoveconnection": "Impossible de supprimer la connexion"
     },
     "InvalidInstagramLinkError": "Lien Instagram non valide",
     "InvalidLinkError": "Lien non valide",
@@ -739,7 +758,13 @@
     "JobLocation": "Emplacement du travail *",
     "JobArea": "Zone *",
     "EnterJobArea": "Entrez un emplacement spécifique (par exemple, Downtown, Business District)",
-    "Next": "Suivant"
+    "Next": "Suivant",
+    "LogoutSuccess": "Déconnecté avec succès",
+    "Postsharedsuccessfully": "Poster partagé avec succès!",
+    "Failedtosharepost": "Échec de partager le poste",
+    "Sharecancelledorfailed": "Partager annulé ou échoué",
+    "Shareunsupported": "Partager non pris en charge sur cet appareil",
+    "PreviousPlans": "Plans précédents"
   },
   "Next": "",
   "UserHeader": {
@@ -747,13 +772,15 @@
     "home": "Maison",
     "jobs": "Emplois",
     "connections": "Relations",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "logoutSuccess": "Déconnexion réussie!"
   },
   "CompanyHeader": {
     "logout": "Déconnexion",
     "connections": "Relations",
     "home": "Maison",
-    "jobs": "Emplois"
+    "jobs": "Emplois",
+    "logoutSuccess": "Déconnexion réussie!"
   },
   "UserProfileLeft": {
     "connections": "Relations",
@@ -843,7 +870,9 @@
     "requirements": "Exigences",
     "salary": "salaire",
     "preview": "prévisualisation",
-    "skills": "compétences"
+    "skills": "compétences",
+    "jobPostedSuccessfully": "Job créé avec succès",
+    "errorsubmitting": "Formulaire de soumission d'erreur:"
   },
   "CreateCompanyJob": {
     "employeetype": {
@@ -940,12 +969,23 @@
     "failedToSaveJob": "N'a pas réussi à économiser le travail.",
     "failedToRemoveJob": "N'a pas réussi à supprimer le travail.",
     "Errorfetchingsavedjob": "Erreur récupérant le travail enregistré:",
-    "SavedJobFetched": "Économiser le travail récupéré avec succès"
+    "SavedJobFetched": "Économiser le travail récupéré avec succès",
+    "Failedtosavejob": "N'a pas réussi à supprimer le travail."
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",
   "Failedtoremovejob": "N'a pas réussi à supprimer le travail.",
   "Jobsaved": "Travail sauvé!",
   "Failedtosavejob": "N'a pas réussi à économiser le travail.",
-  "ErrorfetchingsavedjobsinMyJobs:": "Erreur récupérant les travaux économisés dans MyJobs:"
+  "ErrorfetchingsavedjobsinMyJobs:": "Erreur récupérant les travaux économisés dans MyJobs:",
+  "about": "À propos",
+  "Sharecancelledorfailed": "Partager annulé ou échoué",
+  "Shareunsupported": "Partager non pris en charge sur cet appareil",
+  "Companynotfound": "Entreprise introuvable",
+  "Usernotfound": "Utilisateur introuvable",
+  "GoogleSignInSuccess": "Connecté avec succès avec Google!",
+  "GoogleSignInFailed": "Échec de l'authentification avec Google",
+  "Auth": {
+    "GoogleSignInSuccess": "Connecté avec succès avec Google!"
+  }
 }

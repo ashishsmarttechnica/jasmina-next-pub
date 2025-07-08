@@ -167,7 +167,17 @@
     "resetPasswordDescription": "Aktualisieren Sie Ihr Passwort, um Ihr Konto zu sichern",
     "CurrentPassword": "Aktuelles Passwort",
     "Resetting": "Zurücksetzen",
-    "ResetPassword": "Passwort zurücksetzen"
+    "ResetPassword": "Passwort zurücksetzen",
+    "emailRequired": "Zugriff verweigert. \nBitte melden Sie sich zuerst an.",
+    "otpPasteError": "Bitte fügen Sie einen gültigen 6-stelligen OTP ein",
+    "otpError": "Bitte geben Sie ein gültiges 6-stelliges OTP ein",
+    "LoginSuccess": "Erfolgreich bei Google angemeldet!",
+    "LoginFailed": "Mit Google nicht authentifiziert",
+    "apierror": "Fehler während der Google -Login:",
+    "errorsignin": "Fehler während der Google Anmeldung:",
+    "passwordRequired": "Bitte füllen Sie beide Felder.",
+    "passwordMismatch": "Passwörter stimmen nicht überein.",
+    "passwordLengthError": "Das Passwort muss mindestens 6 Zeichen lang sein."
   },
   "UserProfile": {
     "profile": {
@@ -243,7 +253,8 @@
         "removing": "Entfernen ...",
         "message": "Nachricht",
         "noexperience": "Keine Erfahrungsinformationen verfügbar.",
-        "Noresumedocumentavailable": "Kein Lebenslauf -Dokument verfügbar."
+        "Noresumedocumentavailable": "Kein Lebenslauf -Dokument verfügbar.",
+        "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
       },
       "personalInfo": "Persönliche Informationen",
       "pronoun": "Pronomen",
@@ -281,7 +292,8 @@
         "in1Week": "1 Woche",
         "in2Weeks": "2 Wochen",
         "in1Month": "1 Monat",
-        "negotiable": "2 Monat"
+        "negotiable": "2 Monat",
+        "immediately": "sofort"
       },
       "short_bioPlaceholder": "Geben Sie Ihre kurze Biografie ein",
       "short_bio": "Kurze Biografie",
@@ -320,7 +332,12 @@
       "CoverLetter": "Motivationsschreiben",
       "Writeyourmessage": "Sagen Sie uns, warum Sie an dieser Position interessiert sind ...",
       "Byapplyingjob": "Durch die Einreichung dieser Bewerbung werden Ihre Informationen an den Arbeitgeber weitergegeben. \nBitte stellen Sie sicher, dass Ihr Profil Jasminas Richtlinien der Community respektiert.",
-      "SubmitApplication": "Antrag einreichen"
+      "SubmitApplication": "Antrag einreichen",
+      "fullNameRequired": "Vollständiger Name ist erforderlich",
+      "emailRequired": "E -Mail ist erforderlich",
+      "emailInvalid": "Ungültiges E -Mail -Format",
+      "cvRequired": "Bitte laden Sie eine Lebenslaufdatei hoch (PDF, doc, docx, tex).",
+      "cvInvalidFormat": "Ungültiges Dateiformat. \nErlaubt: pdf, doc, docx, tex, webp"
     },
     "userprofilemenu": {
       "education": "Ausbildung",
@@ -684,7 +701,8 @@
       "location": "Standort",
       "Availability": "Verfügbarkeit",
       "Failedtoconnect": "Fehlgeschlagene Verbindung",
-      "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
+      "Failedtoremoveconnection": "Die Verbindung nicht entfernen",
+      "Failedtoacceptconnection": "Fehlgeschlagene Verbindung"
     },
     "singleCompanyTab": {
       "about": "Um",
@@ -700,7 +718,8 @@
       "no": "NEIN",
       "connectionfound": "Verbindung gefunden",
       "connecton": "Angeschlossen auf",
-      "No": "NEIN"
+      "No": "NEIN",
+      "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
     },
     "InvalidInstagramLinkError": "Ungültiger Instagram -Link",
     "InvalidLinkError": "Ungültiger Link",
@@ -740,7 +759,13 @@
     "JobLocation": "Arbeitsort *",
     "JobArea": "Bereich *",
     "EnterJobArea": "Geben Sie einen bestimmten Standort ein (z. B. Innenstadt, Geschäftsviertel)",
-    "Next": "Nächste"
+    "Next": "Nächste",
+    "LogoutSuccess": "Erfolgreich abgemeldet",
+    "Postsharedsuccessfully": "Post erfolgreich geteilt!",
+    "Failedtosharepost": "Versäumte den Beitrag zu teilen",
+    "Sharecancelledorfailed": "Aktien storniert oder fehlgeschlagen",
+    "Shareunsupported": "Teilen Sie auf diesem Gerät nicht unterstützt",
+    "PreviousPlans": "Vorherige Pläne"
   },
   "Next": "",
   "UserHeader": {
@@ -748,13 +773,15 @@
     "home": "Heim",
     "jobs": "Jobs",
     "connections": "Verbindungen",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "logoutSuccess": "Logout erfolgreich!"
   },
   "CompanyHeader": {
     "logout": "Abmelden",
     "connections": "Verbindungen",
     "home": "Heim",
-    "jobs": "Jobs"
+    "jobs": "Jobs",
+    "logoutSuccess": "Logout erfolgreich!"
   },
   "UserProfileLeft": {
     "connections": "Verbindungen",
@@ -844,7 +871,9 @@
     "requirements": "Anforderungen",
     "salary": "Gehalt",
     "preview": "Vorschau",
-    "skills": "Fähigkeiten"
+    "skills": "Fähigkeiten",
+    "jobPostedSuccessfully": "Job erfolgreich erstellt",
+    "errorsubmitting": "Fehler beim Senden von Formular:"
   },
   "CreateCompanyJob": {
     "employeetype": {
@@ -941,12 +970,23 @@
     "failedToSaveJob": "Ich habe keinen Job sparen.",
     "failedToRemoveJob": "Ich habe den Job nicht entfernen.",
     "Errorfetchingsavedjob": "Fehler beim Abholen gespeicherter Jobs:",
-    "SavedJobFetched": "Rettete Job erfolgreich abgeholt"
+    "SavedJobFetched": "Rettete Job erfolgreich abgeholt",
+    "Failedtosavejob": "Ich habe den Job nicht entfernen."
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",
   "Failedtoremovejob": "Ich habe den Job nicht entfernen.",
   "Jobsaved": "Job gespeichert!",
   "Failedtosavejob": "Ich habe keinen Job sparen.",
-  "ErrorfetchingsavedjobsinMyJobs:": "Fehler beim Abholen gespeicherter Jobs in Myjobs:"
+  "ErrorfetchingsavedjobsinMyJobs:": "Fehler beim Abholen gespeicherter Jobs in Myjobs:",
+  "about": "Um",
+  "Sharecancelledorfailed": "Aktien storniert oder fehlgeschlagen",
+  "Shareunsupported": "Teilen Sie auf diesem Gerät nicht unterstützt",
+  "Companynotfound": "Firma nicht gefunden",
+  "Usernotfound": "Benutzer nicht gefunden",
+  "GoogleSignInSuccess": "Erfolgreich bei Google angemeldet!",
+  "GoogleSignInFailed": "Mit Google nicht authentifiziert",
+  "Auth": {
+    "GoogleSignInSuccess": "Erfolgreich bei Google angemeldet!"
+  }
 }

@@ -12,25 +12,25 @@ const useProfileForm = () => {
 
     // Full Name validation (Required)
     if (!formData.fullName?.trim()) {
-      newErrors.fullName = "Full Name is required";
+      newErrors.fullName = t("fullNameRequired");
     }
 
     // Email validation (Required)
     if (!formData.email?.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t("emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = t("emailInvalid");
     }
 
     // CV validation (Required)
-    if (!formData.cv && !formData.appliedCV) {
-      newErrors.cv = "Please upload a resume file (PDF, DOC, DOCX, TEX).";
-    } else if (formData.cv || formData.appliedCV) {
-      const file = formData.cv || formData.appliedCV;
-      const validExt = ["pdf", "doc", "docx", "tex", "webp"];
-      const ext = file.name.split(".").pop()?.toLowerCase() || "";
-      if (!validExt.includes(ext)) {
-        newErrors.cv = "Invalid file format. Allowed: PDF, DOC, DOCX, TEX, WEBP";
+    if (!formData.cv) {
+      newErrors.cv = t("cvRequired");
+    } else if (formData.cv) {
+      const file = formData.cv;
+      const validExt = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
+      const fileExtension = file.name.split(".").pop()?.toLowerCase();
+      if (!validExt.includes(`.${fileExtension}`)) {
+        newErrors.cv = t("InvalidFileFormatError");
       }
     }
 

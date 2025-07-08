@@ -28,7 +28,7 @@ export default function VerifyOtpPage() {
 
   useEffect(() => {
     if (!email) {
-      toast.error("Access denied. Please signup first.");
+      toast.error(t("emailRequired"));
       router.replace("/signup");
     }
   }, [email, router]);
@@ -57,7 +57,7 @@ export default function VerifyOtpPage() {
     const pasteData = e.clipboardData.getData("Text").trim();
 
     if (!/^\d{6}$/.test(pasteData)) {
-      toast.error("Please paste a valid 6-digit OTP");
+      toast.error(t("otpPasteError"));
       return;
     }
 
@@ -70,7 +70,7 @@ export default function VerifyOtpPage() {
     const fullOtp = otp.join("").trim();
 
     if (fullOtp.length !== 6 || otp.includes("")) {
-      toast.error("Please enter a valid 6-digit OTP");
+      toast.error(t("otpError"));
       return;
     }
 

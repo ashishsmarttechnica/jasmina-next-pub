@@ -55,7 +55,7 @@ const GoogleLoginButton = () => {
           setToken(token);
           setUser(userData);
 
-          toast.success("Successfully logged in with Google!");
+          toast.success(t("LoginSuccess"));
 
           // Redirect based on role
           if (role === "user") {
@@ -66,15 +66,15 @@ const GoogleLoginButton = () => {
             router.push("/dashboard");
           }
         } else {
-          toast.error(response.data.message || "Failed to authenticate with Google");
+          toast.error(response.data.message || t("LoginFailed"));
         }
       } catch (apiError) {
-        console.error("Error during Google login:", apiError);
-        toast.error(apiError?.response?.data?.message || "Failed to login with Google");
+        console.error(t("apierror"), apiError);
+        toast.error(apiError?.response?.data?.message || t("LoginFailed"));
       }
     } catch (error) {
-      console.error("Error during Google sign-in:", error);
-      toast.error(error.message || "Failed to sign in with Google");
+      console.error(t("errorsignin"), error);
+      toast.error(error.message || t("LoginFailed"));
     } finally {
       setIsLoading(false);
     }
