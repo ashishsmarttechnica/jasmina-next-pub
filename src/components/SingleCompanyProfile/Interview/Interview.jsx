@@ -1,82 +1,48 @@
 "use client";
-import { getAllMemberships } from "@/api/membership.api";
+import { getAllInterviews } from "@/api/interview.api";
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { useRef, useState } from "react";
 
 const Interviews = () => {
   const dropdownRef = useRef(null);
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState("Upcoming");
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const getStatusNumber = (status) => {
+    switch (status) {
+      case "Upcoming":
+        return 0;
+      case "Pending":
+        return 1;
+      case "Past":
+        return 2;
+      default:
+        return 0;
+    }
+  };
 
   const {
-    data: membershipData,
+    data: interviewData,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["memberships"],
-    queryFn: getAllMemberships,
+    queryKey: ["interviews", activeTab, page],
+    queryFn: () =>
+      getAllInterviews({
+        page,
+        limit,
+        status: getStatusNumber(activeTab),
+      }),
   });
 
-  const jobListings = [
-    {
-      id: 1,
-      title: "Jerome Bell",
-      type: "Frontend Developer",
-      duration: "3 to 3:30 pm",
-      postedDate: "Today",
-      timeAgo: "10 months ago",
-      status: "Upcoming",
-    },
-    {
-      id: 2,
-      title: "Courtney Henry",
-      type: "Backend Developer",
-      duration: "10 to 10:45 am",
-      postedDate: "24/4/2024",
-      timeAgo: "11 months ago",
-      status: "Pending",
-    },
-    {
-      id: 3,
-      title: "Darlene Robertson",
-      type: "UI/UX Designer",
-      duration: "1 to 2 pm",
-      postedDate: "24/4/2024",
-      timeAgo: "1 year ago",
-      status: "Past",
-    },
-    {
-      id: 4,
-      title: "Ronald Richards",
-      type: "Full Stack Developer",
-      duration: "11 to 11:30 am",
-      postedDate: "24/4/2024",
-      timeAgo: "1 year ago",
-      status: "Upcoming",
-    },
-    {
-      id: 5,
-      title: "Cody Fisher",
-      type: "Mobile App Developer",
-      duration: "4 to 4:30 pm",
-      postedDate: "24/4/2024",
-      timeAgo: "1 year ago",
-      status: "Pending",
-    },
-  ];
-
-  const filteredJobs =
-    activeTab === null ? jobListings : jobListings.filter((job) => job.status === activeTab);
-
-  const subscriptionPlans = membershipData?.data || [];
-
-  const handleJobClick = (id, subId) => {
-    console.log("Clicked job ID:", id, "Sub ID:", subId);
-  };
+  const interviews = interviewData?.data?.jobs || [];
 
   if (isLoading) {
     return (
       <div className="flex h-[400px] items-center justify-center">
-        <div className="text-primary">Loading subscriptions...</div>
+        <div className="text-primary">Loading Interviews...</div>
       </div>
     );
   }
@@ -84,7 +50,7 @@ const Interviews = () => {
   if (error) {
     return (
       <div className="flex h-[400px] items-center justify-center">
-        <div className="text-red-500">Error loading subscriptions. Please try again later.</div>
+        <div className="text-red-500">Error loading Interviews. Please try again later.</div>
       </div>
     );
   }
@@ -110,20 +76,20 @@ const Interviews = () => {
 
       <div className="mt-4">
         <div className="rounded-lg bg-white shadow-md">
-          {filteredJobs.map((job, index) => (
+          {interviews.map((interview, index) => (
             <div
-              key={index}
+              key={interview._id}
               className="flex cursor-pointer items-center justify-between border-b border-gray-100 px-5 py-3 hover:bg-gray-50"
-              // onClick={() => handleJobClick(job.id, job.subId)}
             >
               <div className="block">
-                <h3 className="text-[14px] font-medium">{job.title}</h3>
-                <p className="text-sm text-gray-500">{job.type}</p>
+                <h3 className="text-[14px] font-medium">{interview.jobRole}</h3>
+                <p className="text-sm text-gray-500">{interview.interviewAddress}</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex text-sm text-black">
-                  <p>{job.postedDate}</p> <span className="px-1">·</span>
-                  <p>{job.duration}</p>
+                  <p>{format(new Date(interview.date), "dd/MM/yyyy")}</p>
+                  <span className="px-1">·</span>
+                  <p>{interview.startTime}</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -136,7 +102,7 @@ const Interviews = () => {
               </div>
             </div>
           ))}
-          {filteredJobs.length === 0 && (
+          {interviews.length === 0 && (
             <div className="p-5 text-center text-sm text-gray-500">
               No interviews in this category.
             </div>

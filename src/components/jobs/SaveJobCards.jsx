@@ -65,7 +65,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
     location: job.jobLocation || job.location || "-",
     tag: job.company?.isLGBTQFriendly ? t("lgbtqFriendly") : "",
     skills: job.requiredSkills || [],
-    company: job.company?.companyName || "-",
+    company: job.companyId?.companyName || "-",
     url: job.company?.website || "",
     logo: job.company?.logoUrl
       ? job.company.logoUrl.startsWith("http")
@@ -92,7 +92,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
-    website: job?.company?.website,
+    website: job?.companyId?.website,
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     _raw: job,
   }));
@@ -118,7 +118,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   if (error) return <div>{t("Errorloadingjobs")}</div>;
   return (
     <div className="flex w-full flex-col md:flex-row">
-      <div className="w-full md:w-[35%]">
+      <div className="mb-4 w-full md:mb-0 md:w-[35%] md:pr-2">
         <div className="flex flex-col gap-4">
           {mappedJobs.length > 0 ? (
             mappedJobs.slice(0, visibleCount).map((job) => (
@@ -149,7 +149,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
 
                   <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                     <ImageFallback
-                      src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                      src={job.logo} // assuming it's `logoUrl`, update if needed
                       alt="logo"
                       width={28}
                       height={28}
@@ -177,7 +177,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
 
           {visibleCount < mappedJobs.length && (
             <button
-              className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+              className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800 xl:w-full"
               onClick={() => setVisibleCount((prev) => prev + 3)}
             >
               {t("loadMore")}

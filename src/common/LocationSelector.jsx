@@ -95,6 +95,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
           if (manualCityEntry && cityInput) {
             // Don't reset manually entered city input unless empty
             // This avoids wiping out user's manual entry
+            // 
           } else {
             setCityInput("");
           }

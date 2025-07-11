@@ -46,21 +46,21 @@ const MainCompanyProfile = ({ title, userData }) => {
       ),
       label: t('PostaJob'),
       path: `/company/single-company/${userId}/postjob`,
-      count: 3,
+      // count: 3,
     },
     {
       icon: (isActive) => (
         <BsFileEarmarkText className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Interview'),
+      label: t('ViewApplications'),
       path: `/company/single-company/${userId}/applications`,
-      count: 45,
+      // count: 45,
     },
     {
       icon: (isActive) => (
         <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('ViewApplications'),
+      label: t('Interview'),
       path: `/company/single-company/${userId}/interview`,
       count: null,
     },
@@ -70,7 +70,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       ),
       label: t('Settings'),
       path: `/company/single-company/${userId}/settings`,
-      count: null,
+      // count: null,
     },
     {
       icon: (isActive) => (
@@ -86,7 +86,7 @@ const MainCompanyProfile = ({ title, userData }) => {
       ),
       label: t('PreviousPlans'),
       path: `/company/single-company/${userId}/previousplans`,
-      count: null,
+      // count: null,
     },
     {
       icon: (isActive) => (

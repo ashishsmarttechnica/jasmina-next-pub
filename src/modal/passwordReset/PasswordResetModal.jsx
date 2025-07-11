@@ -1,3 +1,4 @@
+"use client";
 import PasswordField from "@/components/form/PasswordField";
 import { useUserResetPass } from "@/hooks/auth/userResetAndForgotPass";
 import { AnimatePresence, motion } from "framer-motion";
@@ -137,7 +138,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
 
                     <div className="flex w-full items-center justify-center">
                       <button type="submit" className="btn-fill" disabled={isPending}>
-                        {isPending ? `${t('Resetting')}...` : t('ResetPassword')}
+                        {isPending ? `${t("Resetting")}...` : t("ResetPassword")}
                       </button>
                     </div>
                   </form>

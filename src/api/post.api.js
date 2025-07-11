@@ -2,7 +2,7 @@ import axios from "@/lib/axios";
 import Cookies from "js-cookie";
 export const getAllPosts = async (page = 1, limit = 4) => {
   const res = await axios.get(
-    `user/home/page?page=${page}&limit=${limit}&id=${Cookies.get("userId")}`
+    `user/home/page?page=${page}&limit=${limit}&viewerId=${Cookies.get("userId")}`
   );
   return res.data;
 };

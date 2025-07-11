@@ -78,6 +78,11 @@ const JobCards = ({ filters }) => {
       : [],
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     website: job?.company?.website,
+    logoImage: job.company?.logoUrl
+      ? job.company.logoUrl.startsWith("http")
+        ? job.company.logoUrl
+        : `${process.env.NEXT_PUBLIC_API_URL}/${job.company.logoUrl}`
+      : "https://logo.clearbit.com/placeholder.com",
     _raw: job,
   }));
 
@@ -137,7 +142,7 @@ const JobCards = ({ filters }) => {
                   </div>
                   <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                     <ImageFallback
-                      src={job.company.logoUrl}
+                      src={job.logoImage}
                       alt="logo"
                       width={28}
                       height={28}

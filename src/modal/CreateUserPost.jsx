@@ -113,7 +113,7 @@ const CreateUserPost = ({
           />
         </div>
 
-        <div className="mt-6 sm:mt-8">
+        {/* <div className="mt-6 sm:mt-8">
           <h4 className="text-grayBlueText mb-3 text-xs font-medium sm:text-sm">{t("whopost")}</h4>
           <div className="space-y-1">
             <label className="flex cursor-pointer items-center gap-2.5 rounded-md p-2 transition-colors hover:bg-gray-50">
@@ -156,7 +156,7 @@ const CreateUserPost = ({
               </span>
             </label>
           </div>
-        </div>
+        </div> */}
 
         <div className="my-4 w-full border-b border-gray-200"></div>
 

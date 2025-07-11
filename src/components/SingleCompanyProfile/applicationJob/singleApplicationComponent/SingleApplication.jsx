@@ -2,7 +2,8 @@
 
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
-import { useParams, useSearchParams } from "next/navigation";
+import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import SearchBar from "../../applications/SearchBar";
 import ApplicantDetails from "./ApplicantDetails";
@@ -12,6 +13,7 @@ import JobHeader from "./JobHeader";
 
 const SingleApplication = () => {
   const params = useParams();
+  const selectedJobFromStore = useSingleCompanyAppliedJobStore((state) => state.selectedJob);
 
   const [jobData, setJobData] = useState(null);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
@@ -19,7 +21,12 @@ const SingleApplication = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [page, setPage] = useState(1);
 
-  // Parse job data from URL params
+  // Set job data from store when it changes
+  useEffect(() => {
+    if (selectedJobFromStore) {
+      setJobData(selectedJobFromStore);
+    }
+  }, [selectedJobFromStore]);
 
   // Get job ID from either parsed data or URL params
   const jobId = jobData?.id || jobData?._id || params?.subid;
@@ -36,6 +43,23 @@ const SingleApplication = () => {
     10, // Limit per page
     activeTab // Status filter
   );
+  console.log("Raw applicants data:", applicantsData);
+  console.log("Current jobId:", jobId);
+
+  // Get applicants from the fetched data or use empty array if loading/error
+  const applicants = applicantsData?.newApplicants || [];
+  const isLastPage = applicantsData?.isLastPage || false;
+  const pagination = applicantsData?.pagination || { total: 0 };
+
+  console.log("Processed applicants:", applicants);
+  console.log("Pagination:", pagination);
+
+  useEffect(() => {
+    if (applicants.length > 0 && !selectedApplicant) {
+      // Auto-select first applicant when data loads
+      setSelectedApplicant(applicants[0]);
+    }
+  }, [applicants]);
 
   // Handle tab change
   const handleTabChange = (tab) => {
@@ -51,14 +75,7 @@ const SingleApplication = () => {
   const handleApplicantClick = (applicant) => {
     setSelectedApplicant(applicant);
   };
-
-  // Get applicants from the fetched data or use empty array if loading/error
-  const applicants = applicantsData?.newApplicants || [];
-  const isLastPage = applicantsData?.isLastPage || false;
-  const pagination = applicantsData?.pagination || { total: 0 };
-
-
-
+  console.log("jobData", jobData);
   return (
     <div>
       {/* Search and Post Job */}

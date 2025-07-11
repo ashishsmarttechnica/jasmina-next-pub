@@ -50,9 +50,9 @@ const AppliedJobsMainPage = () => {
       location: job.jobLocation || "-",
       tag: job.genderPrefereance === "nonlgbtq" ? "" : "LGBTQ Friendly",
       skills: job.requiredSkills || [],
-      company: "Company", // Need to add company name if available
+      company: job.companyId.companyName || "-", // Need to add company name if available
       url: job.careerWebsite || "",
-      logo: "https://logo.clearbit.com/placeholder.com", // Placeholder logo
+      logo: job.companyId.logoUrl || "https://logo.clearbit.com/placeholder.com", // Placeholder logo
       type: job.employeeType || "-",
       genderPrefereance: job.genderPrefereance || "-",
       education: job.education || "-",
@@ -72,7 +72,7 @@ const AppliedJobsMainPage = () => {
       posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
       appliedDate: appliedJob.createdAt ? new Date(appliedJob.createdAt).toLocaleDateString() : "-",
       status: appliedJob.seen ? "Seen" : "Not seen",
-      website: job?.company?.website,
+      website: job?.companyId?.website,
       _raw: { ...job, application: appliedJob },
     };
   });
@@ -98,7 +98,7 @@ const AppliedJobsMainPage = () => {
           ) : (
             <div className="flex w-full flex-col md:flex-row">
               {/* Left Column: Job List */}
-              <div className="w-full md:w-[35%]">
+              <div className="mb-4 w-full md:mb-0 md:w-[35%] md:pr-2">
                 {/* <h2 className="mb-3 font-medium">
                   Your Applied Jobs ({pagination.total || mappedJobs.length})
                 </h2> */}
@@ -130,7 +130,7 @@ const AppliedJobsMainPage = () => {
 
                       <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                         <ImageFallback
-                          src={job.company.logoUrl} // assuming it's `logoUrl`, update if needed
+                          src={job?.company?.logo} // assuming it's `logoUrl`, update if needed
                           alt="logo"
                           width={28}
                           height={28}
@@ -139,11 +139,11 @@ const AppliedJobsMainPage = () => {
 
                         <div className="flex w-full flex-col">
                           <div className="text-sm text-gray-500">
-                            {job.company || "Unknown Company"}
+                            {job?.company || "Unknown Company"}
                           </div>
                           {/* {job.socialLinks && ( */}
                           <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
-                            {job.website}
+                            {job?.website}
                           </div>
                           {/* )} */}
                         </div>
@@ -154,7 +154,7 @@ const AppliedJobsMainPage = () => {
                 ))}
                 {visibleCount < mappedJobs.length && (
                   <button
-                    className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+                    className="mt-2 w-full rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
                     onClick={() => setVisibleCount((prev) => prev + 3)}
                   >
                     {t("loadMore")}

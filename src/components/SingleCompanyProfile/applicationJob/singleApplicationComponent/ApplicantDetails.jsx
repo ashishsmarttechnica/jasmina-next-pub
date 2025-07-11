@@ -98,18 +98,16 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
         </div>
 
         {/* Additional applicant information */}
-        {selectedApplicant.originalData && (
+        {/* {selectedApplicant.originalData && (
           <div className="mt-4 border-t border-gray-200 pt-4">
             <h3 className="mb-2 text-lg font-medium">Additional Information</h3>
 
-            {/* Phone */}
             {selectedApplicant.phone && (
               <div className="mb-2">
                 <span className="font-medium">Phone:</span> {selectedApplicant.phone}
               </div>
             )}
 
-            {/* Message if available */}
             {selectedApplicant.originalData.message && (
               <div className="mb-2">
                 <span className="font-medium">Message:</span>{" "}
@@ -117,7 +115,6 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
               </div>
             )}
 
-            {/* Application Date */}
             {selectedApplicant.createdAt && (
               <div className="mb-2">
                 <span className="font-medium">Applied on:</span>{" "}
@@ -125,7 +122,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
               </div>
             )}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

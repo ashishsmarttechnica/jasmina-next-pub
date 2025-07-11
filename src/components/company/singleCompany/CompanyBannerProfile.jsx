@@ -21,8 +21,8 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
-  console.log(userData,"paramsUserId");
-  
+  console.log(userData, "paramsUserId");
+
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [open, setOpen] = useState(false);
@@ -63,11 +63,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             // Refresh the page to update the UI
             setShowConnect(true);
           } else {
-            toast.error(res?.message || t('Failedtoremoveconnection'));
+            toast.error(res?.message || t("Failedtoremoveconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || t('Failedtoremoveconnection'));
+          toast.error(error?.message || t("Failedtoremoveconnection"));
         },
         onSettled: () => {
           setIsRemoving(false);
@@ -85,11 +85,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
           if (res.success) {
             setShowConnect(false);
           } else {
-            toast.error(res?.message || t('Failedtoacceptconnection'));
+            toast.error(res?.message || t("Failedtoacceptconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || t('Failedtoacceptconnection'));
+          toast.error(error?.message || t("Failedtoacceptconnection"));
         },
       }
     );
@@ -166,12 +166,12 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                 <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )} */}
-             {isCurrentUser ? (
+            {isCurrentUser ? (
               <div className="flex gap-2">
-                <button className="profile-btn" onClick={() => handleDisc(userData)}>
+                <button className="profile-btn" onClick={() => setOpen(true)}>
                   {t("editProfile")}
                 </button>
-                <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
+                <button className="profile-btn" onClick={() => handleResentPassword()}>
                   {t("resetPassword")}
                 </button>
               </div>

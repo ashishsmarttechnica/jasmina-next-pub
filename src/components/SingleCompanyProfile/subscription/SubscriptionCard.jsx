@@ -1,7 +1,7 @@
 import back from "@/assets/Subscription/back.png";
 import Image from "next/image";
 
-const SubscriptionCard = ({ title, price, eligibility, employeeRange, isActive }) => {
+const SubscriptionCard = ({ title, price,handleUpgrade, eligibility, employeeRange, isActive }) => {
   return (
     <div
       className={`relative z-0 overflow-hidden rounded-lg bg-white p-6 ${!isActive ? "opacity-60" : ""}`}
@@ -36,6 +36,7 @@ const SubscriptionCard = ({ title, price, eligibility, employeeRange, isActive }
             !isActive ? "cursor-not-allowed" : ""
           }`}
           disabled={!isActive}
+          onClick={handleUpgrade}
         >
           {isActive ? "Get Started" : "Currently Unavailable"}
         </button>

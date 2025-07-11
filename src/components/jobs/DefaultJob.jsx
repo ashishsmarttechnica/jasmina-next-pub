@@ -26,7 +26,9 @@ const DefaultJob = () => {
     <div className="w-full">
       <JobHeader filters={filtersInput} setFilters={setFiltersInput} onFindJob={handleFindJob} />
       <div className="mt-4 flex flex-col gap-4">
-        <JobCards filters={filters} />
+      <div className="">
+          <JobCards filters={filters} />
+        </div>
       </div>
     </div>
   );

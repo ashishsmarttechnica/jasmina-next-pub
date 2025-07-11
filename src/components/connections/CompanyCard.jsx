@@ -98,7 +98,7 @@ const CompanyCard = ({ company }) => {
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">
           {company?.details?.createdAt &&
-            `${t("connecton")} ${new Date(company?.details?.createdAt).toLocaleDateString("en-US", {
+            `${t("connecton")} ${new Date(company?.createdAt).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
               year: "numeric",

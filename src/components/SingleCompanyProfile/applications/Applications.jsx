@@ -2,6 +2,7 @@
 import Selecter from "@/common/Selecter";
 import useSingleCompanyAppliedJob from "@/hooks/company/singleCompany/useSingleCompanyAppliedJob";
 import { Link, useRouter } from "@/i18n/navigation";
+import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
@@ -12,6 +13,7 @@ import SearchBar from "./SearchBar";
 const Applications = () => {
   const router = useRouter();
   const params = useParams();
+  const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
 
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const {
@@ -41,6 +43,7 @@ const Applications = () => {
   };
   //
   const handleJobClick = (item) => {
+    setSelectedJob(item); // Store the selected job data
     router.push(`/company/single-company/${params.id}/applications/${item._id}`);
   };
   const handleStatusChange = (e) => {
@@ -88,39 +91,36 @@ const Applications = () => {
             onClick={() => {
               handleJobClick(item);
             }}
-            className="mb-3 flex cursor-pointer flex-col justify-between p-4 transition-all duration-300 hover:bg-gray-100 md:flex-row md:items-center"
+            className="flex cursor-pointer items-center justify-between border-b border-[#E4E6EA] px-6 py-4 transition-all duration-300 hover:bg-gray-50"
           >
-            {/* Left Block */}
-            <div className="mb-3 md:mb-0">
-              <h3 className="text-lg font-medium">{item.jobTitle}</h3>
-              <p className="text-sm text-gray-500">
+            {/* Left section - Title and Type */}
+            <div className="flex-[2]">
+              <h3 className="text-[15px] font-medium text-[#1B1B1B]">{item.jobTitle}</h3>
+              <p className="text-[13px] text-[#888DA8]">
                 {item.employeeType} | {item.seniorityLevel}
               </p>
             </div>
 
-            {/* Right Block */}
-            <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-6 lg:gap-12">
-              {/* Time Info */}
-              <div className="text-left text-sm text-gray-500 md:text-center">
-                {/* <p>{new Date(item.job.createdAt).toLocaleDateString()}</p> */}
-                <p>
-                  {new Date(item.createdAt)
-                    .toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })
-                    .replace(/ /g, ", ")}
-                </p>
+            {/* Middle section - Date and Time */}
+            <div className="flex-1 text-center">
+              <p className="text-[13px] text-[#888DA8]">
+                {new Date(item.createdAt)
+                  .toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
+                  .replace(/ /g, ", ")}
+              </p>
+              <p className="text-[13px] text-[#888DA8]">{getRelativeTime(item.deadline)}</p>
+            </div>
 
-                <p>{getRelativeTime(item.deadline)}</p>
-              </div>
-
-              {/* Status */}
+            {/* Applicants count */}
+            <div className="flex-1 text-right">
               <span
-                className={`flex items-center rounded-md px-3 py-1 text-sm ${
+                className={`inline-flex items-center rounded-[4px] px-3 py-1 text-[13px] font-medium ${
                   getStatusLabel(item.status) === "Open"
-                    ? "bg-green-100 text-green-700"
+                    ? "bg-[#DCFCE7] text-[#166534]"
                     : getStatusLabel(item.status) === "Closed"
                       ? "bg-red-100 text-red-700"
                       : "bg-yellow-100 text-yellow-700"
@@ -129,22 +129,33 @@ const Applications = () => {
                 {getStatusLabel(item.status)}
                 <IoChevronDownOutline className="ml-1 text-xs" />
               </span>
+            </div>
 
-              {/* Action Links */}
-              <div className="flex flex-col items-start gap-2 text-sm underline md:flex-row md:items-center md:gap-4">
-                <Link href={`/applicationjob/${item._id}`} className="text-blue-600">
-                  New {item.newApplications}
-                </Link>
-                <Link href={`/applicationjob/${item._id}`} className="text-blue-600">
-                  Applicant {item.totalApplications}
-                </Link>
-                <button className="text-gray-500 hover:text-black">
-                  <FiMoreVertical
-                    size={25}
-                    className="rounded-sm bg-[#F2F2F2] p-[1px] text-black"
-                  />
-                </button>
-              </div>
+            <div className="flex-1 text-center">
+              <Link
+                href={`/applicationjob/${item._id}`}
+                className="text-[13px] text-[#0B5CFF] underline hover:underline"
+              >
+                New {item.applicants}
+              </Link>
+            </div>
+
+            <div className="flex-1 text-center">
+              <Link
+                href={`/applicationjob/${item._id}`}
+                className="text-[13px] text-[#0B5CFF] underline hover:underline"
+              >
+                Applicant {item.applicants}
+              </Link>
+            </div>
+
+            {/* Status */}
+
+            {/* Actions */}
+            <div className="ml-6">
+              <button className="p-1 text-gray-500 hover:text-black">
+                <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
+              </button>
             </div>
           </div>
         ))}

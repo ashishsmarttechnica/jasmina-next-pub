@@ -46,7 +46,7 @@ const CompanyWhoCanSeeYourProfile = () => {
             <div className="flex items-start sm:items-center gap-2 w-full sm:w-auto">
               <div>
         
-             <p className="flex items-start gap-2  pl-7 pr-4 sm:pl-8 sm:pr-0 mt-2">
+             <p className="flex items-start gap-2 pl-2 sm:pr-0 mt-2">
                 <input
                   type="checkbox"
                   checked={agreedToLGBTQCommitment}

@@ -13,9 +13,9 @@ const FeedPost = ({ isUser = false }) => {
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
-
+  console.log(pagination, "sdfsdfpagination");
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);
-
+  console.log(data, "sdfsdfdata");
   // Function to render skeleton loaders
   const renderSkeletons = (count = 3) => {
     return (
@@ -92,7 +92,7 @@ const FeedPost = ({ isUser = false }) => {
         )}
 
         {/* Load more button */}
-        {!isFetching && pagination.total > posts.length && (
+        {!isFetching && pagination?.total && page < pagination?.totalPages && (
           <div className="flex justify-center">
             <button
               className="bg-primary rounded px-4 py-1 text-center text-white"

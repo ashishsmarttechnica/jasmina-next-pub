@@ -31,8 +31,8 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
         }
 
         // Extract applications array and pagination from response
-        const applications = res?.applications || [];
-        const pagination = res?.pagination || {
+        const applications = res?.data?.applications || [];
+        const pagination = res?.data?.pagination || {
           total: 0,
           page: 1,
           limit: 10,

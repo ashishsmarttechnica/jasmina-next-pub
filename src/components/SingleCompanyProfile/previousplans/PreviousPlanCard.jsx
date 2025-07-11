@@ -34,7 +34,7 @@ const PreviousPlanCard = ({ companyId }) => {
             title={plan.title}
             dateRange={`${format(new Date(plan.purchase_date), "dd MMMM yyyy")} – ${format(new Date(plan.expire_date), "dd MMMM yyyy")}`}
             price={`€${plan.price}`}
-            status={plan.payment_status}
+            // status={plan.payment_status}
           />
         ))}
       </div>

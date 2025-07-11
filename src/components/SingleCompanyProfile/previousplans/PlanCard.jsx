@@ -5,11 +5,11 @@ const PlanCard = ({ title, dateRange, price, status }) => {
       <p className="mb-2 text-center text-[13px] whitespace-pre text-[#888DA8]/[70%]">
         {dateRange}
       </p>
-      <p
+      {/* <p
         className={`mb-3 text-[12px] ${status === "pending" ? "text-yellow-600" : status === "completed" ? "text-green-600" : "text-red-600"}`}
       >
         Status: {status.charAt(0).toUpperCase() + status.slice(1)}
-      </p>
+      </p> */}
       <div className="flex w-full justify-center">
         <span className="bg-secondary text-primary rounded-sm px-6 py-2 text-[13px]">{price}</span>
       </div>
