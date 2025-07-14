@@ -37,6 +37,6 @@ export const getAllApplicants = async (jobId, page = 1, limit = 10, status = "al
 };
 
 export const checkCompanyVerification = async (companyId) => {
-  const response = await axios.get(`/api/v1/isVerified?companyId=${companyId}`);
+  const response = await axios.get(`/isVerified?companyId=${companyId}`);
   return response.data;
 };

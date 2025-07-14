@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import CompanyNavItems from "./CompanyNavItems";
 import HeaderLogoLink from "./HeaderLogoLink";
+import SearchBar from "./SearchBar";
 import UserNavItems from "./UserNavItems";
 
 export default function UserHeader() {
@@ -32,12 +33,8 @@ export default function UserHeader() {
           {/* Logo & Search */}
           <div className="flex w-full max-w-sm items-center gap-3">
             <HeaderLogoLink logoHref={logoHref} />
-            <div className="relative w-full max-w-[242px] text-white">
-              <input
-                type="text"
-                placeholder={t("searchPlaceholder")}
-                className="w-full rounded bg-[#132028] py-1.5 pl-3 text-[13px] font-normal placeholder:text-white focus:outline-none"
-              />
+            <div className="w-full max-w-[242px]">
+              <SearchBar placeholder={t("searchPlaceholder")} />
             </div>
           </div>
 

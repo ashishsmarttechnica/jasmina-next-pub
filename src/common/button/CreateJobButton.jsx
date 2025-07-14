@@ -16,15 +16,21 @@ const CreateJobButton = () => {
 
   const handlePostJobClick = async () => {
     setIsLoading(true);
+    try {
+      // Check if company is verified
+      if (!verificationData?.success) {
+        setShowVerificationModal(true);
+        setIsLoading(false);
+        return;
+      }
 
-    // Check if company is verified
-    if (!verificationData?.isVerified) {
+      router.push("/company/create-job");
+    } catch (error) {
+      console.error("Verification check error:", error);
       setShowVerificationModal(true);
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    router.push("/company/create-job");
   };
 
   return (

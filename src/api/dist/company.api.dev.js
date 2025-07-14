@@ -128,7 +128,7 @@ var checkCompanyVerification = function checkCompanyVerification(companyId) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return regeneratorRuntime.awrap(_axios["default"].get("/api/v1/isVerified?companyId=".concat(companyId)));
+          return regeneratorRuntime.awrap(_axios["default"].get("/isVerified?companyId=".concat(companyId)));
 
         case 2:
           response = _context5.sent;
