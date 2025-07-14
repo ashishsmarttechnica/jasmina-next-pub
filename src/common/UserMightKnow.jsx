@@ -10,9 +10,9 @@ import getImg from "@/lib/getImg";
 import useUserMightKnowStore from "@/store/userMightKnow.store";
 import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
+import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
-import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 
 const UserMightKnow = () => {
   const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
@@ -82,6 +82,7 @@ const UserMightKnow = () => {
 
   if (isError) {
     return (
+      
       <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={t("mightKnow")} />
         <div className="w-full px-2 py-4">
@@ -131,7 +132,11 @@ const UserMightKnow = () => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={item._id}
+                      onClick={() => handleUserProfile(item)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />

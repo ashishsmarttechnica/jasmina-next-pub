@@ -1,4 +1,4 @@
-import axiosClient from "@/lib/axios";
+import { purchasePlan } from "@/api/membership.api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Modal } from "rsuite";
@@ -12,6 +12,7 @@ const PaymentModal = ({
   setSuccessModal,
   stripeElement,
   loginUser,
+  companyId, // Add companyId to props
 }) => {
   const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState({
@@ -32,19 +33,21 @@ const PaymentModal = ({
       return;
     }
 
+    if (!stripePromise) {
+      toast.error("Stripe is not properly configured.");
+      return;
+    }
+
     try {
       setLoading(true);
 
       // 1. Create payment intent with Stripe
       const stripe = await stripePromise;
-      const { error: stripeError } = await stripeElement.submit();
-
-      if (stripeError) {
-        toast.error(stripeError.message);
-        return;
+      if (!stripe) {
+        throw new Error("Failed to initialize Stripe");
       }
 
-      // 2. Process the payment
+      // 2. Process the payment - Create payment method directly from the card element
       const { error: paymentError, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
         card: stripeElement,
@@ -60,27 +63,40 @@ const PaymentModal = ({
 
       // 3. Call your backend API to process the purchase
       const purchaseData = {
-        companyId: loginUser?._id, // Assuming loginUser._id is the company ID
-        transactionId: paymentMethod.id,
-        title: selectedPlan?.title,
-        employeeRange: `${selectedPlan?.employeeRange?.min}-${selectedPlan?.employeeRange?.max}`,
-        price: selectedPlan?.price,
+        companyId: companyId, // Use the passed companyId instead of loginUser._id
+        title: selectedPlan?.title || "",
+        price: Number(selectedPlan?.price) || 0,
+        employeeRange: `${selectedPlan?.employeeRange?.min || 0}-${selectedPlan?.employeeRange?.max || 0}`,
+        eligibility: selectedPlan?.eligibility || "Basic support",
+        custId: paymentMethod?.customer || `cus_${Date.now()}`,
+        email: email,
         payment_status: "success",
+        transactionId: paymentMethod?.id || `txn_${Date.now()}`,
       };
 
-      const response = await axiosClient.post("/api/v1/purchase-plan", purchaseData);
+      try {
+        const response = await purchasePlan(purchaseData);
 
-      if (response.data.success) {
-        setSuccessModal(true);
-        setPaymentModal(false);
-        toast.success("Payment successful! Your plan has been upgraded.");
-        setPaymentData({ email: "" });
-      } else {
-        toast.error(response.data.message || "Payment failed. Please try again.");
+        if (response.success) {
+          setSuccessModal(true);
+          setPaymentModal(false);
+          toast.success("Payment successful! Your plan has been upgraded.");
+          setPaymentData({ email: "" });
+        } else {
+          throw new Error(response.message || "Payment failed");
+        }
+      } catch (error) {
+        console.error("API Error:", error);
+        toast.error(
+          error.response?.data?.message || error.message || "Payment failed. Please try again."
+        );
+        throw error;
       }
     } catch (error) {
       console.error("Payment error:", error);
-      toast.error(error.response?.data?.message || "Payment failed. Please try again.");
+      toast.error(
+        error.response?.data?.message || error.message || "Payment failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.applyJob = exports.getAppliedJobs = exports.getSavedJob = exports.getSavedJobs = exports.removeJob = exports.saveJob = exports.getJobs = exports.getRecentJobs = exports.createJob = void 0;
+exports.updateJobStatus = exports.applyJob = exports.getAppliedJobs = exports.getSavedJob = exports.getSavedJobs = exports.removeJob = exports.saveJob = exports.getJobs = exports.getRecentJobs = exports.createJob = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -251,3 +251,27 @@ var applyJob = function applyJob(data) {
 };
 
 exports.applyJob = applyJob;
+
+var updateJobStatus = function updateJobStatus(_ref5) {
+  var jobId, status, res;
+  return regeneratorRuntime.async(function updateJobStatus$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          jobId = _ref5.jobId, status = _ref5.status;
+          _context10.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].put("/update/job?jobId=".concat(jobId, "&status=").concat(status)));
+
+        case 3:
+          res = _context10.sent;
+          return _context10.abrupt("return", res.data);
+
+        case 5:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  });
+};
+
+exports.updateJobStatus = updateJobStatus;

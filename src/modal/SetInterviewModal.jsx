@@ -1,21 +1,39 @@
 "use client";
+import { useScheduleInterview } from "@/hooks/interview/useScheduleInterview";
 import useInterviewValidation from "@/hooks/validation/company/useInterviewValidation";
 import { useTimeZonesOptions } from "@/utils/selectOptions";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { DatePicker, Input, Modal, SelectPicker } from "rsuite";
 
-const SetInterviewModal = ({ isOpen, onClose }) => {
+const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
-  const [timeZone, setTimeZone] = useState("");
+  const [timeZone, setTimeZone] = useState("Asia/Kolkata");
   const timeZones = useTimeZonesOptions();
 
   const { errors, validateField, validateForm } = useInterviewValidation();
+  const { mutate: scheduleInterview, isLoading } = useScheduleInterview(onClose);
 
   const handleSend = () => {
     const formData = { date, startTime, address, timeZone };
     if (validateForm(formData)) {
+      const interviewData = {
+        companyId: Cookies.get("userId"),
+        userId: candidateData?.userId,
+        jobId,
+        email: candidateData?.email,
+        jobRole: candidateData?.jobRole || candidateData?.title,
+        date: date.toISOString().split("T")[0],
+        name: candidateData?.name,
+        startTime,
+        interviewAddress: address,
+        timeZone,
+        experience: candidateData?.experience,
+        resume: candidateData?.resume,
+      };
+      scheduleInterview(interviewData);
     }
   };
 
@@ -24,7 +42,7 @@ const SetInterviewModal = ({ isOpen, onClose }) => {
       setDate(null);
       setStartTime("");
       setAddress("");
-      setTimeZone("");
+      setTimeZone("Asia/Kolkata");
     }
   }, [isOpen]);
 
@@ -37,10 +55,23 @@ const SetInterviewModal = ({ isOpen, onClose }) => {
     >
       <Modal.Header>
         <div className="mb-2 border-b border-slate-300 py-2">
-          <div className="my-1 text-[20px] font-bold">Kristin Watson</div>
-          <div className="my-1 text-[14px] font-medium">Frontend Developer</div>
-          <div className="text-[13px] text-[#007BFF]">kristinwatson@gamil.com</div>
-          <div className="mb-2 text-[#888DA8]">5 Year of Experience in this Field</div>
+          <div className="my-1 text-[20px] font-bold">
+            {candidateData?.name || "Candidate Name"}
+          </div>
+          <div className="my-1 text-[14px] font-medium">{candidateData?.jobRole || "Job Role"}</div>
+          <div className="text-[13px] text-[#007BFF]">{candidateData?.email || "Email"}</div>
+          <div className="mb-2 text-[#888DA8]">
+            {candidateData?.experience
+              ? `${candidateData.experience} Years of Experience`
+              : "Experience not specified"}
+          </div>
+          {candidateData?.resume && (
+            <div className="text-sm text-blue-600">
+              <a href={candidateData.resume} target="_blank" rel="noopener noreferrer">
+                View Resume
+              </a>
+            </div>
+          )}
         </div>
       </Modal.Header>
 
@@ -59,6 +90,7 @@ const SetInterviewModal = ({ isOpen, onClose }) => {
                 placeholder="Select date"
                 shouldDisableDate={(d) => d < new Date().setHours(0, 0, 0, 0)}
                 className="mt-1 w-full"
+                format="yyyy-MM-dd"
               />
               {errors.date && <p className="text-sm text-red-500">{errors.date}</p>}
             </div>
@@ -92,6 +124,7 @@ const SetInterviewModal = ({ isOpen, onClose }) => {
                 placeholder="Time zone"
                 className="mt-1 w-full"
                 searchable={false}
+                defaultValue="Asia/Kolkata"
               />
               {errors.timeZone && <p className="text-sm text-red-500">{errors.timeZone}</p>}
             </div>
@@ -116,18 +149,19 @@ const SetInterviewModal = ({ isOpen, onClose }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <div className="my-4">
+        <div className="my-4 flex justify-end gap-2">
           <button
             onClick={onClose}
-            className="text-primary border-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            className="text-primary border-primary rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Close
           </button>
           <button
             onClick={handleSend}
-            className="bg-primary hover:text-primary hover:border-primary mt-5 w-full rounded-sm px-3 py-2 text-[13px] text-white hover:border hover:bg-white sm:mx-2 sm:mt-0 sm:w-auto"
+            disabled={isLoading}
+            className="bg-primary hover:text-primary hover:border-primary rounded-sm px-6 py-2 text-[13px] text-white hover:border hover:bg-white"
           >
-            Send Interview
+            {isLoading ? "Scheduling..." : "Send Interview"}
           </button>
         </div>
       </Modal.Footer>

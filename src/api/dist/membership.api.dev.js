@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPreviousPlans = exports.getAllMemberships = void 0;
+exports.purchasePlan = exports.getPreviousPlans = exports.getAllMemberships = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -54,3 +54,26 @@ var getPreviousPlans = function getPreviousPlans(companyId) {
 };
 
 exports.getPreviousPlans = getPreviousPlans;
+
+var purchasePlan = function purchasePlan(purchaseData) {
+  var res;
+  return regeneratorRuntime.async(function purchasePlan$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return regeneratorRuntime.awrap(_axios["default"].post("/purchase-plan", purchaseData));
+
+        case 2:
+          res = _context3.sent;
+          return _context3.abrupt("return", res.data);
+
+        case 4:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  });
+};
+
+exports.purchasePlan = purchasePlan;

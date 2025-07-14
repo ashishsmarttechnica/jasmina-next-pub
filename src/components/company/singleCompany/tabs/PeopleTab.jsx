@@ -13,8 +13,13 @@ import { FaBuilding, FaUser } from "react-icons/fa";
 
 const PeopleTab = () => {
   const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
-  const { data, isLoading, isError, error } = useUserSuggestions();
-  const { mutate: createConnection, isPending } = useCreateConnection();
+  const { data, isLoading, isError, error ,refetch} = useUserSuggestions();
+  const {
+    mutate: createConnection,
+    isPending,
+    isLoading: isCreateConnectionLoading,
+  } = useCreateConnection();
+  
   const t= useTranslations("CompanyProfile.singleCompany");
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
@@ -53,6 +58,20 @@ const PeopleTab = () => {
     setSelectedItemId(null); // Just close options
   };
 
+  const handleContactClick = (item) => {
+    if (isCreateConnectionLoading) return;
+    createConnection(
+      { id: item._id, role: item.role },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            resetStore();
+            refetch();
+          }
+        },
+      }
+    );
+  };
   const handleUserProfile = (user) => {
     router.push(`/single-user/${user._id}`);
   };
@@ -132,8 +151,10 @@ const PeopleTab = () => {
                 {isSelected ? (
                   <>
                     <button
-                      disabled={isPending}
+                      // disabled={isPending}
+                      disabled={isCreateConnectionLoading}
                       className="text-primary border-primary hover:bg-primary mx-2 rounded-xs border px-4 py-1 text-[12px] transition-colors duration-300 hover:text-white sm:text-[14px]"
+                      onClick={() => handleContactClick(item)}
                     >
                       {t("connect")}
                     </button>
@@ -142,7 +163,9 @@ const PeopleTab = () => {
                     </button>
                   </>
                 ) : (
-                  <button className="bg-primary hover:text-primary hover:border-primary rounded-xs border border-transparent px-4 py-1 text-[12px] text-white transition-colors duration-300 hover:bg-transparent sm:text-[14px]">
+                  <button className="bg-primary hover:text-primary hover:border-primary rounded-xs border border-transparent px-4 py-1 text-[12px] text-white transition-colors duration-300 hover:bg-transparent sm:text-[14px]"
+                  onClick={() => handleContactClick(item)}
+                  >
                      {t("connect")}
                   </button>
                 )}

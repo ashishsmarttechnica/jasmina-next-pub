@@ -10,3 +10,12 @@ export const getAllInterviews = async ({ page = 1, limit = 10, status = 0 }) => 
     throw error;
   }
 };
+
+export const scheduleInterview = async (data) => {
+  try {
+    const response = await axios.post("/interview/apply", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

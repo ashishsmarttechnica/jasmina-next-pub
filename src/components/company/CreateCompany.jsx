@@ -111,7 +111,6 @@ const CreateCompany = () => {
     submitData.append("x", formData.twitterLink);
     submitData.append("facebook", formData.facebookLink);
 
-
     if (selectedCompanyImageFile instanceof File) {
       submitData.append("logoUrl", selectedCompanyImageFile);
     }
@@ -166,6 +165,33 @@ const CreateCompany = () => {
       />
       <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
 
+      {/* LGBTQ Checkbox Section */}
+      {formData.country && formData.isLGBTQ === true && (
+        <div className="mt-4">
+          <div className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="lgbtq-commitment"
+              className="border-grayBlueText/[50%] focus:ring-primary mt-1 h-4 w-4 border bg-gray-100 text-blue-600 focus:ring-1"
+              checked={formData.isLGBTQ}
+              onChange={(e) => {
+                // Only allow checking, prevent unchecking
+                if (e.target.checked) {
+                  setFormData((prev) => ({ ...prev, isLGBTQ: true }));
+                }
+              }}
+            />
+            <label htmlFor="lgbtq-commitment" className="text-sm text-gray-600">
+              <p className="text-grayBlueText text-sm text-[13px] leading-[21px]">
+                By activating this, Our company commits to being LGBTQ+ inclusive and operating in a
+                country that respects LGBTQ+ rights. We agree to provide documentation upon request
+                and await admin approval
+              </p>
+            </label>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-2">
         <div className="block space-y-4">
           <button className="btn-fill">
@@ -185,4 +211,3 @@ const CreateCompany = () => {
 };
 
 export default CreateCompany;
-

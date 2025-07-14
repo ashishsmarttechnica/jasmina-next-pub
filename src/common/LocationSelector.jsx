@@ -27,6 +27,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
   const initialLoadDone = useRef(false);
 
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
+  console.log(countries, "countries");
 
   // Debug the countries data
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);
@@ -95,7 +96,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
           if (manualCityEntry && cityInput) {
             // Don't reset manually entered city input unless empty
             // This avoids wiping out user's manual entry
-            // 
+            //
           } else {
             setCityInput("");
           }
@@ -308,7 +309,6 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
     return "";
   };
 
-
   // const getStateError = () => {
   //   if (showErrors && selectedCountry && !selectedState) {
   //     return t("stateRequired") || "State is required";
@@ -326,7 +326,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
   //   }
   //   return "";
   // };
-  
+
   // Use custom country label if provided, otherwise use default
   const displayCountryLabel = countryLabel || `${t("country")} *`;
 
@@ -414,8 +414,8 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
         </div>
       )}
 
-      {/* Global error message - shown if form was submitted and location is incomplete
-      {error && !isLocationComplete && <p className="mt-2 text-sm text-red-500">{error}</p>} */}
+      {/* Global error message - shown if form was submitted and location is incomplete */}
+      {error && !isLocationComplete && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>
   );
 };

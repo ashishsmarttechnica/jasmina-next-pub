@@ -149,7 +149,12 @@ const SingleApplication = () => {
         </>
       )}
 
-      <SetInterviewModal isOpen={isSetInterviewOpen} onClose={() => setIsSetInterviewOpen(false)} />
+      <SetInterviewModal
+        isOpen={isSetInterviewOpen}
+        onClose={() => setIsSetInterviewOpen(false)}
+        jobId={jobId}
+        candidateData={selectedApplicant}
+      />
     </div>
   );
 };

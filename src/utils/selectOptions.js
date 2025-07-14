@@ -280,11 +280,11 @@ export const usePositionOptions = () => {
 export const useAvailabilityOptions = () => {
   const t = useTranslations("UserProfile.profile");
   return [
-    { label: `${t("availabilityOption.openToWork")}`, value: "Open to Work" },
+    { label: `🟢 ${t("availabilityOption.openToWork")}`, value: "Open to Work" },
 
-    { label: `${t("availabilityOption.freelance")}`, value: "Available for Freelance" },
-    { label: `${t("availabilityOption.notavailable")}`, value: "Not Available" },
-    { label: `${t("availabilityOption.worldwide")}`, value: " Open for Remote Worldwide" },
+    { label: `🟡 ${t("availabilityOption.freelance")}`, value: "Available for Freelance" },
+    { label: `🔴 ${t("availabilityOption.notavailable")}`, value: "Not Available" },
+    { label: `🌍 ${t("availabilityOption.worldwide")}`, value: " Open for Remote Worldwide" },
   ];
 };
 
