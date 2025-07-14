@@ -124,7 +124,10 @@ const SingleApplication = () => {
             {/* Selected Applicant Details */}
             {selectedApplicant ? (
               <ApplicantDetails
-                selectedApplicant={selectedApplicant}
+                selectedApplicant={{
+                  ...selectedApplicant,
+                  jobId: jobId, // Explicitly pass the jobId
+                }}
                 setIsSetInterviewOpen={setIsSetInterviewOpen}
               />
             ) : (

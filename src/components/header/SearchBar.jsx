@@ -1,3 +1,4 @@
+import { useRouter } from "@/i18n/navigation";
 import axios from "@/lib/axios";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -6,6 +7,7 @@ import { FiSearch } from "react-icons/fi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
 const SearchBar = ({ placeholder = "Search..." }) => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState({ users: [], companies: [], jobs: [] });
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -65,19 +67,18 @@ const SearchBar = ({ placeholder = "Search..." }) => {
   const handleSuggestionClick = (suggestion, type) => {
     switch (type) {
       case "user":
-        setSearchQuery(suggestion.profile?.fullName || "");
+        router.push(`/single-user/${suggestion._id}?fromConnections=true`);
         break;
       case "company":
-        setSearchQuery(suggestion.name || "");
+        router.push(`/company/single-company/${suggestion._id}?fromConnections=true`);
         break;
       case "job":
-        setSearchQuery(suggestion.jobTitle || "");
+        router.push(`/jobs/${suggestion._id}`);
         break;
       default:
         setSearchQuery("");
     }
     setShowSuggestions(false);
-    // Handle navigation or other actions here based on type
   };
 
   const renderUserSuggestions = () => {

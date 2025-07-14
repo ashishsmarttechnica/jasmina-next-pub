@@ -1,31 +1,37 @@
+import { updateApplicationStatus } from "@/api/job.api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { FaCalendarCheck } from "react-icons/fa6";
 import { RxDownload } from "react-icons/rx";
-
-import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 // Convert numeric status to readable text
 const getStatusText = (status) => {
-  switch (status) {
-    case "0":
+  const numericStatus = parseInt(status);
+  switch (numericStatus) {
+    case 1:
       return "New";
-    case "1":
+    case 2:
       return "Reviewed";
-    case "2":
+    case 3:
       return "Interviewed";
-    case "3":
+    case 4:
       return "Approved";
-    case "4":
+    case 5:
       return "Rejected";
-    case "5":
+    case 6:
       return "Hired";
     default:
-      return status || "New";
+      return "New";
   }
 };
 
 const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
   const [resumeUrl, setResumeUrl] = useState("");
-
+  const [isUpdating, setIsUpdating] = useState(false);
+  const queryClient = useQueryClient();
+  console.log("selectedApplicant in ApplicantDetails:", selectedApplicant);
+  console.log("jobId in ApplicantDetails:", selectedApplicant?.jobId);
   useEffect(() => {
     if (selectedApplicant?.resume) {
       // Log the resume URL for debugging
@@ -40,6 +46,32 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
   console.log("Selected applicant details:", selectedApplicant);
 
   const isInterviewFixed = selectedApplicant.status === "2";
+
+  const handleStatusChange = async (e) => {
+    const newStatus = parseInt(e.target.value);
+    setIsUpdating(true);
+    console.log("Updating application status with:", {
+      userId: selectedApplicant.userId,
+      jobId: selectedApplicant.jobId,
+      status: newStatus,
+    });
+    try {
+      await updateApplicationStatus({
+        userId: selectedApplicant.userId,
+        jobId: selectedApplicant.jobId,
+        status: newStatus,
+      });
+
+      // Invalidate and refetch the applicants query
+      queryClient.invalidateQueries(["applicants"]);
+      toast.success("Status updated successfully");
+    } catch (error) {
+      console.error("Error updating status:", error);
+      toast.error(error?.response?.data?.message || "Failed to update status");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
     <div className="w-full lg:w-[60%]">
@@ -79,14 +111,16 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
             <div className="flex flex-col items-end">
               <select
                 className="mb-3 rounded-md border border-none bg-slate-100 px-6 py-2"
-                defaultValue={selectedApplicant.status || "0"}
+                defaultValue={selectedApplicant.status || 0}
+                onChange={handleStatusChange}
+                disabled={isUpdating}
               >
-                <option value="0">New</option>
-                <option value="1">Reviewed</option>
-                <option value="2">Interviewed</option>
-                <option value="3">Approved</option>
-                <option value="4">Rejected</option>
-                <option value="5">Hired</option>
+                <option value={0}>New</option>
+                <option value={1}>Reviewed</option>
+                <option value={2}>Interviewed</option>
+                <option value={3}>Approved</option>
+                <option value={4}>Rejected</option>
+                <option value={5}>Hired</option>
               </select>
               <button
                 className={`mt-12 flex items-center rounded-md px-4 py-2 text-white ${

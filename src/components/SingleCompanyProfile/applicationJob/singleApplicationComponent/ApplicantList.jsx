@@ -1,8 +1,9 @@
 import { getStatusColor, getStatusText } from "@/utils/singleApplicationUtils";
 import { FiMoreVertical } from "react-icons/fi";
-import { IoChevronDownOutline } from "react-icons/io5";
 
 const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) => {
+  console.log("Selected Applicant in List:", selectedApplicant);
+
   if (!applicants || applicants.length === 0) {
     return (
       <div className="w-full rounded-lg bg-white p-6 text-center shadow-md lg:w-[40%]">
@@ -21,7 +22,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         console.log(
           `Rendering applicant: ${applicant._id}, status: ${applicant.status} (${statusText})`
         );
-
+        console.log(applicant, "applicant+++++++++++++++++++++++");
         return (
           <div
             key={applicant._id || applicant.id}
@@ -30,7 +31,11 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                 ? "bg-gray-50"
                 : ""
             }`}
-            onClick={() => handleApplicantClick(applicant)}
+            onClick={() => {
+              console.log("Clicked Applicant:", applicant);
+              console.log("Current Selected Applicant_______________________:", selectedApplicant);
+              handleApplicantClick(applicant);
+            }}
           >
             <div className="flex-1">
               <h3 className="text-[15px] font-medium">{applicant.name || "Unknown"}</h3>
@@ -40,7 +45,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
               <div className="flex items-center gap-2">
                 <span className={`rounded-md px-3 py-1 text-sm ${getStatusColor(statusText)}`}>
                   {statusText}
-                  {statusText === "New" && <IoChevronDownOutline className="ml-1 inline" />}
+                  {statusText === "New"}
                 </span>
               </div>
               <button className="text-gray-400">
