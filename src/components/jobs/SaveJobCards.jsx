@@ -20,7 +20,6 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const { jobs, isLoading, error, getSavedJob } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
-  console.log(jobs, "dfgfdgjobsss");
 
   // Calculate params for useGetJobs hook
   const jobParams = isDefaultFilters ? { limit: 1000 } : { ...filters, limit: 1000 };

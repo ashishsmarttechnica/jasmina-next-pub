@@ -27,7 +27,6 @@ const useAppliedJobStore = create((set) => ({
         // Extract jobs from appliedJobs array
         const appliedJobsData = response.data.appliedJobs || [];
 
-        console.log(appliedJobsData, "appliedJobsData");
 
         set({
           appliedJobs: appliedJobsData,

@@ -13,9 +13,7 @@ const FeedPost = ({ isUser = false }) => {
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
-  console.log(pagination, "sdfsdfpagination");
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);
-  console.log(data, "sdfsdfdata");
   // Function to render skeleton loaders
   const renderSkeletons = (count = 3) => {
     return (

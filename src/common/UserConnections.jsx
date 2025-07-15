@@ -34,7 +34,7 @@ const UserConnections = ({ title }) => {
         icon: <FaUser className="h-3 w-3" />,
       },
       Company: {
-        image: item.details.logoUrl,
+        image: item.details && item.details.logoUrl ? item.details.logoUrl : undefined,
         name: item.details?.companyName,
         subtitle: item.details?.industryType,
         showOnline: false,
@@ -98,7 +98,7 @@ const UserConnections = ({ title }) => {
                   onClick={() => handleUserProfile(user)}
                 >
                   <ImageFallback
-                    src={config.image && getImg(config.image)}
+                    src={config.image ? getImg(config.image) : undefined}
                     alt={config.name ?? "user"}
                     width={32}
                     height={32}
@@ -107,7 +107,11 @@ const UserConnections = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={user._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={user._id}
+                      onClick={() => handleUserProfile(user)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />

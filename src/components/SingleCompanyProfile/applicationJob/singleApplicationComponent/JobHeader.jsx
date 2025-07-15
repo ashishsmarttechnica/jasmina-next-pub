@@ -7,13 +7,15 @@ const JobHeader = ({ jobData }) => {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-[16px] font-medium">{jobData?.jobTitle}</h1>
-          <div className="text-gray-500 text-[13px]">
+          <div className="text-[13px] text-gray-500">
             {jobData?.employeeType} | {jobData?.seniorityLevel}
           </div>
         </div>
         <div className="block items-center gap-2">
-          <div className="text-gray-500 text-[13px]">{jobData?.createdAt && formatDate(jobData.createdAt)}</div>
-          <div className="text-gray-500 text-[13px]">
+          <div className="text-[13px] text-gray-500">
+            {jobData?.createdAt && formatDate(jobData.createdAt)}
+          </div>
+          <div className="text-[13px] text-gray-500">
             {jobData?.deadline
               ? ` ${new Date(jobData?.deadline).toLocaleDateString()}`
               : jobData?.timeAgo}
@@ -30,9 +32,9 @@ const JobHeader = ({ jobData }) => {
             {getJobStatusLabel(jobData?.status)}
           </span>
           <span className="">Applicant {jobData?.applicants}</span>
-             <button className="text-gray-400">
-                <FiMoreVertical size={20} className="bg-secondary p-1 text-[50px] text-black" />
-              </button>
+          <button className="text-gray-400">
+            <FiMoreVertical size={20} className="bg-secondary p-1 text-[50px] text-black" />
+          </button>
         </div>
       </div>
     </div>

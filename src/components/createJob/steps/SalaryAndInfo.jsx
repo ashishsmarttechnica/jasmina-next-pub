@@ -61,7 +61,6 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
 
       // Apply update
       onChange({ [name]: value });
-      console.log(name, value);
       // Clear any errors related to this field
       if (errors[name]) {
         clearError(name);

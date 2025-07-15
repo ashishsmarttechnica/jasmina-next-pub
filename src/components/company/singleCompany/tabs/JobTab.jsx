@@ -16,7 +16,6 @@ const JobTab = () => {
   const { resentJobs } = useResentJobStore();
   // console.log(data, isLoading, error, "recent/job");
   const params = useParams();
-  console.log(params,"paramssssssdata");
   // const { data: userData, isLoading, error } = useSingleCompany(userId);
 
   const {
@@ -26,9 +25,7 @@ const JobTab = () => {
     error: getCompanyAppliedJobError,
   } = useSingleCompanyAppliedJob(params.id);
   const jobListings = getCompanyAppliedJob;
-  console.log(jobListings, "jobListings+++++++++++++++++");
   const { user } = useAuthStore();
-  console.log(user,"user3455");
   
   const handleApplyNow = () => {
     // const locale = window.location.pathname.split("/")[1];

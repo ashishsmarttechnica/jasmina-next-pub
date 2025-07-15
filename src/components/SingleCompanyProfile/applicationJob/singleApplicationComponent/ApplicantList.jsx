@@ -2,7 +2,6 @@ import { getStatusColor, getStatusText } from "@/utils/singleApplicationUtils";
 import { FiMoreVertical } from "react-icons/fi";
 
 const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) => {
-  console.log("Selected Applicant in List:", selectedApplicant);
 
   if (!applicants || applicants.length === 0) {
     return (
@@ -19,10 +18,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         const statusText = getStatusText(applicant.status);
 
         // Debug the applicant data
-        console.log(
-          `Rendering applicant: ${applicant._id}, status: ${applicant.status} (${statusText})`
-        );
-        console.log(applicant, "applicant+++++++++++++++++++++++");
+     
         return (
           <div
             key={applicant._id || applicant.id}
@@ -32,8 +28,6 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                 : ""
             }`}
             onClick={() => {
-              console.log("Clicked Applicant:", applicant);
-              console.log("Current Selected Applicant_______________________:", selectedApplicant);
               handleApplicantClick(applicant);
             }}
           >

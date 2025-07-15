@@ -11,7 +11,6 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
     queryKey: ["applicants", jobId, page, status],
     queryFn: async () => {
       if (!jobId) {
-        console.log("No job ID provided");
         return {
           newApplicants: [],
           pagination: { total: 0, page: 1, limit: 10, totalPages: 1 },
@@ -20,9 +19,7 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
       }
 
       try {
-        console.log(`Fetching applicants for job: ${jobId}, page: ${page}, status: ${status}`);
         const res = await getAllApplicants(jobId, page, limit, status);
-        console.log("API Response:", res);
 
         // Check if the response indicates an error
         if (!res.success) {

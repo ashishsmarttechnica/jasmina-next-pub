@@ -45,7 +45,6 @@ const CompanyCard = ({ company }) => {
     );
   };
 
-  console.log(company);
 
   return (
     <div

@@ -27,7 +27,7 @@ const LocationSelector = ({ value, onChange, error, onFieldChange, isLGBTQ, coun
   const initialLoadDone = useRef(false);
 
   const { data: countries, isLoading: isLoadingCountries } = useCountries();
-  console.log(countries, "countries");
+  // console.log(countries, "countries");
 
   // Debug the countries data
   const { data: states, isLoading: isLoadingStates } = useStates(selectedCountry);

@@ -30,12 +30,9 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const queryClient = useQueryClient();
-  console.log("selectedApplicant in ApplicantDetails:", selectedApplicant);
-  console.log("jobId in ApplicantDetails:", selectedApplicant?.jobId);
   useEffect(() => {
     if (selectedApplicant?.resume) {
       // Log the resume URL for debugging
-      console.log("Resume URL:", selectedApplicant.resume);
       setResumeUrl(selectedApplicant.resume);
     }
   }, [selectedApplicant]);
@@ -43,18 +40,17 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
   if (!selectedApplicant) return null;
 
   // Log the selected applicant for debugging
-  console.log("Selected applicant details:", selectedApplicant);
 
   const isInterviewFixed = selectedApplicant.status === "2";
 
   const handleStatusChange = async (e) => {
     const newStatus = parseInt(e.target.value);
     setIsUpdating(true);
-    console.log("Updating application status with:", {
-      userId: selectedApplicant.userId,
-      jobId: selectedApplicant.jobId,
-      status: newStatus,
-    });
+    // console.log("Updating application status with:", {
+    //   userId: selectedApplicant.userId,
+    //   jobId: selectedApplicant.jobId,
+    //   status: newStatus,
+    // });
     try {
       await updateApplicationStatus({
         userId: selectedApplicant.userId,
@@ -141,7 +137,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
                 disabled={isInterviewFixed}
               >
                 <FaCalendarCheck className="mr-2" />
-                Set Interview
+                {isInterviewFixed ? "Interview Fixed" : "Set Interview"}
               </button>
             </div>
           </div>

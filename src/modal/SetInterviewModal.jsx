@@ -1,6 +1,7 @@
 "use client";
 import { useScheduleInterview } from "@/hooks/interview/useScheduleInterview";
 import useInterviewValidation from "@/hooks/validation/company/useInterviewValidation";
+import getImg from "@/lib/getImg";
 import { useTimeZonesOptions } from "@/utils/selectOptions";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
   const [timeZone, setTimeZone] = useState("Asia/Kolkata");
+  const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
   const timeZones = useTimeZonesOptions();
 
   const { errors, validateField, validateForm } = useInterviewValidation();
@@ -36,7 +38,37 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
       scheduleInterview(interviewData);
     }
   };
+  // Resume view logic (like ResumeTab)
+  let fileName, fileUrl, fileExtension;
+  if (typeof candidateData?.resume === "string") {
+    fileName = candidateData.resume.split("/").pop();
+    fileUrl = getImg(candidateData.resume);
+    fileExtension = fileName.split(".").pop()?.toLowerCase();
+  }
 
+  // Function to get Google Docs viewer URL
+  const getGoogleDocsViewerUrl = (url) => {
+    let absoluteUrl = url;
+    if (!url.startsWith("http")) {
+      const baseUrl = window.location.origin;
+      absoluteUrl = `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`;
+    }
+    return `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=false`;
+  };
+
+  const handleView = () => {
+    if (!fileUrl) return;
+    setIsLoadingViewResume(true);
+    try {
+      const viewerUrl = getGoogleDocsViewerUrl(fileUrl);
+      window.open(viewerUrl, "_blank");
+    } catch (error) {
+      console.error("Error opening document:", error);
+      window.open(fileUrl, "_blank");
+    } finally {
+      setIsLoadingViewResume(false);
+    }
+  };
   useEffect(() => {
     if (isOpen) {
       setDate(null);
@@ -45,7 +77,7 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
       setTimeZone("Asia/Kolkata");
     }
   }, [isOpen]);
-
+  console.log(candidateData, "candidateData");
   return (
     <Modal
       open={isOpen}
@@ -67,9 +99,14 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
           </div>
           {candidateData?.resume && (
             <div className="text-sm text-blue-600">
-              <a href={candidateData.resume} target="_blank" rel="noopener noreferrer">
-                View Resume
-              </a>
+              <button
+                type="button"
+                onClick={handleView}
+                disabled={isLoadingViewResume}
+                className="underline disabled:opacity-50"
+              >
+                {isLoadingViewResume ? "Opening..." : "View Resume"}
+              </button>
             </div>
           )}
         </div>

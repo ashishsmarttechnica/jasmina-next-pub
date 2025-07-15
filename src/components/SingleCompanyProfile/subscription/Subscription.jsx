@@ -13,7 +13,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 const Subscription = () => {
   const params = useParams();
   const companyId = params?.id; // Get companyId from URL params
-  console.log(companyId, "companyId -000");
 
   const {
     data: membershipData,

@@ -1,5 +1,6 @@
+import { getSearchSuggestions } from "@/api/search.api";
 import { useRouter } from "@/i18n/navigation";
-import axios from "@/lib/axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BsBriefcase } from "react-icons/bs";
@@ -43,12 +44,12 @@ const SearchBar = ({ placeholder = "Search..." }) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.get(`/search?query=${searchQuery}&limit=10&page=1`);
-      if (response.data?.success) {
+      const response = await getSearchSuggestions({ query: searchQuery, page: 1 });
+      if (response?.success) {
         setSuggestions({
-          users: response.data.data.users || [],
-          companies: response.data.data.companies || [],
-          jobs: response.data.data.jobs || [],
+          users: response.data.users || [],
+          companies: response.data.companies || [],
+          jobs: response.data.jobs || [],
         });
       }
     } catch (error) {
@@ -65,6 +66,8 @@ const SearchBar = ({ placeholder = "Search..." }) => {
   };
 
   const handleSuggestionClick = (suggestion, type) => {
+    const userRole = Cookies.get("userRole");
+    const userId = Cookies.get("userId");
     switch (type) {
       case "user":
         router.push(`/single-user/${suggestion._id}?fromConnections=true`);
@@ -73,7 +76,11 @@ const SearchBar = ({ placeholder = "Search..." }) => {
         router.push(`/company/single-company/${suggestion._id}?fromConnections=true`);
         break;
       case "job":
-        router.push(`/jobs`);
+        if (userRole === "company") {
+          router.push(`/company/single-company/${userId}/applications`);
+        } else {
+          router.push(`/jobs`);
+        }
         break;
       default:
         setSearchQuery("");

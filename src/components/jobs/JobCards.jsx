@@ -24,7 +24,6 @@ const JobCards = ({ filters }) => {
   const isLastPage = data?.isLastPage || false;
   const totalPages = pagination?.totalPages || 0;
   const totalJobs = pagination?.total || 0;
-  console.log(jobs, "dsfsdjobss");
 
   const [selectedJob, setSelectedJob] = useState(null);
 

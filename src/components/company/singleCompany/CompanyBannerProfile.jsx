@@ -21,7 +21,6 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
-  console.log(userData, "paramsUserId");
 
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
