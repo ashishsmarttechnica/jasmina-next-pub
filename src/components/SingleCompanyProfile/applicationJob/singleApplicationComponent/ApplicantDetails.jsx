@@ -124,7 +124,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
               </select>
               <button
                 className={`mt-12 flex items-center rounded-md px-4 py-2 text-white ${
-                  isInterviewFixed ? "cursor-not-allowed bg-green-500" : "bg-primary"
+                  isInterviewFixed ? "bg-primary cursor-not-allowed" : "bg-primary"
                 }`}
                 onClick={() => {
                   if (!isInterviewFixed) {
@@ -141,7 +141,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
                 disabled={isInterviewFixed}
               >
                 <FaCalendarCheck className="mr-2" />
-                {isInterviewFixed ? "Fixed" : "Set Interview"}
+                Set Interview
               </button>
             </div>
           </div>

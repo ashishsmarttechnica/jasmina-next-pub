@@ -1,22 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import ReusableForm from "@/components/form/ReusableForm";
-import useAuthStore from "@/store/auth.store";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
-import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 const WhoCanSeeYourProfile = () => {
   const { user, setUser } = useAuthStore();
   const router = useRouter();
-  const {
-    mutate: updateProfile,
-    isPending,
-    error: apiError,
-  } = useUpdateProfile();
+  const { mutate: updateProfile, isPending, error: apiError } = useUpdateProfile();
   const t = useTranslations("UserProfile.whocanseeyourprofile");
-  
+
   const [formData, setFormData] = useState({
     isPublic: true,
     isLGBTQFriendly: false,
@@ -33,10 +29,7 @@ const WhoCanSeeYourProfile = () => {
   const handleSubmit = () => {
     const submitData = new FormData();
     submitData.append("visibility.isPublic", formData.isPublic);
-    submitData.append(
-      "visibility.onlyLGBTQFriendlyCompanies",
-      formData.isLGBTQFriendly
-    );
+    submitData.append("visibility.onlyLGBTQFriendlyCompanies", formData.isLGBTQFriendly);
     if (formData.isPublic) {
       submitData.append("visibility.visibleTo", formData.publicViewOption);
     } else {
@@ -73,55 +66,46 @@ const WhoCanSeeYourProfile = () => {
           subtitle={t("Chooseyourprofilevisibilityandsafetypreferences")}
         >
           {/* Toggle - Make profile public */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-            <div className="flex items-start sm:items-center gap-2 w-full sm:w-auto">
+          <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex w-full items-start gap-2 sm:w-auto sm:items-center">
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[20px]">🌍</span>
-                  <p className="font-semibold text-sm">
-                    {t("Makemyprofilepublic")}
-                  </p>
+                  <p className="text-sm font-semibold">{t("Makemyprofilepublic")}</p>
                 </div>
-                <p className="text-xs text-gray-500 pl-7 pr-4 sm:pl-8 sm:pr-0">
+                <p className="pr-4 pl-7 text-xs text-gray-500 sm:pr-0 sm:pl-8">
                   {t("makePublicDescription")}
                 </p>
               </div>
             </div>
-            <label className="inline-flex items-center cursor-pointer self-end sm:self-auto">
+            <label className="inline-flex cursor-pointer items-center self-end sm:self-auto">
               <input
                 type="checkbox"
-                className="sr-only peer"
+                className="peer sr-only"
                 checked={formData.isPublic}
                 onChange={() => updateField("isPublic", !formData.isPublic)}
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-green-600 after:content-[''] after:absolute after:bg-white after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:after:translate-x-full relative"></div>
+              <div className="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-green-600 peer-focus:outline-none after:absolute after:h-6 after:w-6 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full"></div>
             </label>
           </div>
 
           {/* Public View Options */}
           {formData.isPublic && (
             <div className="mb-4 px-4 sm:px-8">
-              <p className="text-sm font-medium mb-2">
-                {t("publicViewLabel")}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="mb-2 text-sm font-medium">{t("publicViewLabel")}</p>
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
                 {[
                   { label: t("Friends"), value: 0 },
                   { label: t("Companies"), value: 1 },
                   { label: t("Both"), value: 2 },
                 ].map((option) => (
-                  <label
-                    key={option.value}
-                    className="flex items-center gap-1 text-sm"
-                  >
+                  <label key={option.value} className="flex items-center gap-1 text-sm">
                     <input
                       type="radio"
                       name="publicView"
                       value={option.value}
                       checked={formData.publicViewOption === option.value}
-                      onChange={() =>
-                        updateField("publicViewOption", option.value)
-                      }
+                      onChange={() => updateField("publicViewOption", option.value)}
                       className="accent-green-600"
                     />
                     {option.label}
@@ -132,30 +116,26 @@ const WhoCanSeeYourProfile = () => {
           )}
 
           {/* Toggle - LGBTQ Friendly */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div className="flex items-start sm:items-center gap-2 w-full sm:w-auto">
+          <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex w-full items-start gap-2 sm:w-auto sm:items-center">
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[20px]">🌈</span>
-                  <p className="font-semibold text-sm">
-                    {t("lgbtqFriendlyLabel")}
-                  </p>
+                  <p className="text-sm font-semibold">{t("lgbtqFriendlyLabel")}</p>
                 </div>
-                <p className="text-xs text-gray-500 pl-7 pr-4 sm:pl-8 sm:pr-0">
+                <p className="pr-4 pl-7 text-xs text-gray-500 sm:pr-0 sm:pl-8">
                   {t("lgbtqFriendlyDescription")}
                 </p>
               </div>
             </div>
-            <label className="inline-flex items-center cursor-pointer self-end sm:self-auto">
+            <label className="inline-flex cursor-pointer items-center self-end sm:self-auto">
               <input
                 type="checkbox"
-                className="sr-only peer"
+                className="peer sr-only"
                 checked={formData.isLGBTQFriendly}
-                onChange={() =>
-                  updateField("isLGBTQFriendly", !formData.isLGBTQFriendly)
-                }
+                onChange={() => updateField("isLGBTQFriendly", !formData.isLGBTQFriendly)}
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-green-600 after:content-[''] after:absolute after:bg-white after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:after:translate-x-full relative"></div>
+              <div className="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-green-600 peer-focus:outline-none after:absolute after:h-6 after:w-6 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full"></div>
             </label>
           </div>
 

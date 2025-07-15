@@ -82,8 +82,8 @@ const Interviews = () => {
               className="flex cursor-pointer items-center justify-between border-b border-gray-100 px-5 py-3 hover:bg-gray-50"
             >
               <div className="block">
-                <h3 className="text-[14px] font-medium">{interview.jobRole}</h3>
-                <p className="text-sm text-gray-500">{interview.interviewAddress}</p>
+                <h3 className="text-[14px] font-medium">{interview.fullName}</h3>
+                <p className="text-sm text-gray-500">{interview.jobRole}</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex text-sm text-black">

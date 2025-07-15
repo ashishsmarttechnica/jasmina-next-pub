@@ -73,7 +73,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
         router.push(`/company/single-company/${suggestion._id}?fromConnections=true`);
         break;
       case "job":
-        router.push(`/jobs/${suggestion._id}`);
+        router.push(`/jobs`);
         break;
       default:
         setSearchQuery("");
@@ -124,7 +124,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
           <HiOutlineBuildingOffice2 className="text-xl text-[#666666]" />
         </div>
         <div className="flex-1">
-          <div className="text-[14px] font-medium text-[#000000]">{company.name}</div>
+          <div className="text-[14px] font-medium text-[#000000]">{company.companyName}</div>
           {company.industryType && (
             <div className="text-[12px] text-[#666666]">{company.industryType.join(", ")}</div>
           )}

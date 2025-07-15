@@ -105,14 +105,8 @@ const JobCards = ({ filters }) => {
     <div className="flex w-full flex-col gap-1 md:flex-row">
       <div className="mb-4 w-full md:mb-0 md:w-[35%] md:pr-2">
         <div className="flex flex-col gap-4">
-          <div className="mb-2 text-sm text-gray-500">
-            {totalJobs > 0 ? (
-              <p>
-                {t("Showing")} {jobs.length} {t("of")} {totalJobs} {t("jobs")}
-              </p>
-            ) : (
-              <p>{t("Nojobsfound")}</p>
-            )}
+          <div className="text-sm text-gray-500">
+            {totalJobs === 0 && <p>{t("Nojobsfound")}</p>}
           </div>
 
           {mappedJobs.length > 0 ? (

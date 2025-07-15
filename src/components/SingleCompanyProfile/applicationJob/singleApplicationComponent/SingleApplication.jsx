@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import SearchBar from "../../applications/SearchBar";
 import ApplicantDetails from "./ApplicantDetails";
 import ApplicantList from "./ApplicantList";
-import FilterTabs from "./FilterTabs";
 import JobHeader from "./JobHeader";
 
 const SingleApplication = () => {
@@ -20,6 +19,10 @@ const SingleApplication = () => {
   const [isSetInterviewOpen, setIsSetInterviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [page, setPage] = useState(1);
+
+  console.log(jobData, "jobData+++++++");
+
+  // console.log();
 
   // Set job data from store when it changes
   useEffect(() => {
@@ -96,7 +99,7 @@ const SingleApplication = () => {
       <JobHeader jobData={jobData} />
 
       {/* Filter Tabs */}
-      <FilterTabs activeTab={activeTab} setActiveTab={handleTabChange} />
+      {/* <FilterTabs activeTab={activeTab} setActiveTab={handleTabChange} /> */}
 
       {/* Applicant Count */}
       <div className="mb-4 text-sm text-gray-500">Total Applicants: {pagination.total || 0}</div>

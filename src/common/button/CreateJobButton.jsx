@@ -5,20 +5,23 @@ import CompanyVerificationModal from "@/modal/CompanyVerificationModal";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Loader } from "rsuite";
+import useNewJobPostStore from "../../store/newjobpost.store";
 
 const CreateJobButton = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const t = useTranslations("CompanyMainFeed");
-
+  const meassage = useNewJobPostStore((s) => s.meassage);
+  const isverified = useNewJobPostStore((s) => s.isverified);
   const { data: verificationData, isLoading: isVerificationLoading } = useCompanyVerification();
+  console.log("verificationData in CreateJobButton:", meassage);
 
   const handlePostJobClick = async () => {
     setIsLoading(true);
     try {
       // Check if company is verified
-      if (!verificationData?.success) {
+      if (!isverified) {
         setShowVerificationModal(true);
         setIsLoading(false);
         return;
@@ -53,6 +56,7 @@ const CreateJobButton = () => {
       <CompanyVerificationModal
         isOpen={showVerificationModal}
         onClose={() => setShowVerificationModal(false)}
+        message={meassage}
       />
     </>
   );

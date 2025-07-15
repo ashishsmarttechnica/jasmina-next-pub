@@ -1,6 +1,6 @@
 import { Modal } from "rsuite";
 
-const CompanyVerificationModal = ({ isOpen, onClose }) => {
+const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   return (
     <Modal
       open={isOpen}
@@ -12,7 +12,7 @@ const CompanyVerificationModal = ({ isOpen, onClose }) => {
         <Modal.Title className="text-xl font-bold text-gray-800">Verification Required</Modal.Title>
       </Modal.Header>
       <Modal.Body className="space-y-4 bg-white px-6 py-4">
-        <p className="text-gray-600">Company is not verified. Please wait for approval.</p>
+        <p className="text-gray-600">{message}</p>
         <div className="flex justify-end">
           <button
             onClick={onClose}
