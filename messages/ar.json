@@ -338,7 +338,8 @@
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "تنسيق بريد إلكتروني غير صالح",
       "cvRequired": "يرجى تحميل ملف السيرة الذاتية (PDF ، DOC ، DOCX ، TEX).",
-      "cvInvalidFormat": "تنسيق ملف غير صالح. \nمسموح به: PDF ، DOC ، DOCX ، TEX ، WebP"
+      "cvInvalidFormat": "تنسيق ملف غير صالح. \nمسموح به: PDF ، DOC ، DOCX ، TEX ، WebP",
+      "messageRequired": "مطلوب القياس"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -561,7 +562,9 @@
       "Both": "كلاهما",
       "lgbtqFriendlyLabel": "عرض فقط للشركات الودية LGBTQ",
       "lgbtqFriendlyDescription": "سيبقى ملفك الشخصي مخفيًا عن الأماكن العامة. \nفقط الشركات الموجودة في البلدان الصديقة LGBTQ يمكنها الوصول إليها.",
-      "nextButton": "التالي"
+      "nextButton": "التالي",
+      "otheruser": "مستخدم آخر",
+      "lgbtqFriendlyLabels": "أظهر ملفي الشخصي فقط للشركات الودية LGBTQ"
     }
   },
   "RoleError": "الدور مطلوب.",

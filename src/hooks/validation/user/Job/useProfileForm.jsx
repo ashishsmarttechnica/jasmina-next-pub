@@ -34,6 +34,9 @@ const useProfileForm = () => {
       }
     }
 
+    if (!formData.message?.trim()) {
+      newErrors.message = "Meassage is required";
+    }
     // Optional fields don't need validation:
     // - phone
     // - linkedinUrl

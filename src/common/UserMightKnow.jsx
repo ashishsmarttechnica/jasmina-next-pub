@@ -27,6 +27,7 @@ const UserMightKnow = () => {
   const router = useRouter();
 
   const getItemConfig = (item) => {
+    console.log(item, "item+++++++++++++++++");
     const configs = {
       User: {
         image: item.profile?.photo,
@@ -42,6 +43,7 @@ const UserMightKnow = () => {
         image: item.logoUrl,
         name: item.companyName,
         subtitle: item.industryType,
+        isLGBTQFriendly: item.isLGBTQFriendly,
         showOnline: false,
         online: false,
         type: "Company",
@@ -82,7 +84,6 @@ const UserMightKnow = () => {
 
   if (isError) {
     return (
-      
       <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={t("mightKnow")} />
         <div className="w-full px-2 py-4">
@@ -108,7 +109,11 @@ const UserMightKnow = () => {
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={t("mightKnow")} />
-      <div className="flex w-full flex-col gap-2 px-2 py-4">
+      <div
+        className={`flex w-full flex-col gap-2 px-2 py-4 ${
+          displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+        }`}
+      >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
           return (
@@ -138,6 +143,7 @@ const UserMightKnow = () => {
                       onClick={() => handleUserProfile(item)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
                 </div>

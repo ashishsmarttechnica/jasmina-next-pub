@@ -66,7 +66,7 @@ const WhoCanSeeYourProfile = () => {
           subtitle={t("Chooseyourprofilevisibilityandsafetypreferences")}
         >
           {/* Toggle - Make profile public */}
-          <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="mt-2 mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div className="flex w-full items-start gap-2 sm:w-auto sm:items-center">
               <div>
                 <div className="flex items-center gap-2">
@@ -95,7 +95,7 @@ const WhoCanSeeYourProfile = () => {
               <p className="mb-2 text-sm font-medium">{t("publicViewLabel")}</p>
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
                 {[
-                  { label: t("Friends"), value: 0 },
+                  { label: t("otheruser"), value: 0 },
                   { label: t("Companies"), value: 1 },
                   { label: t("Both"), value: 2 },
                 ].map((option) => (
@@ -121,7 +121,7 @@ const WhoCanSeeYourProfile = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[20px]">🌈</span>
-                  <p className="text-sm font-semibold">{t("lgbtqFriendlyLabel")}</p>
+                  <p className="text-sm font-semibold">{t("lgbtqFriendlyLabels")}</p>
                 </div>
                 <p className="pr-4 pl-7 text-xs text-gray-500 sm:pr-0 sm:pl-8">
                   {t("lgbtqFriendlyDescription")}

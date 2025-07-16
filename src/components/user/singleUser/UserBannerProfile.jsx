@@ -62,6 +62,13 @@ const FacebookIcon = () => (
   </svg>
 );
 
+const availabilityIcons = {
+  "Open to Work": "🟢",
+  "Available for Freelance": "🟡",
+  "Not Available": "🔴",
+  " Open for Remote Worldwide": "🌍",
+};
+
 const UserBannerProfile = ({
   userData,
   isLoading,
@@ -83,16 +90,16 @@ const UserBannerProfile = ({
   const [showConnect, setShowConnect] = useState(
     !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
   );
-  
+
   // const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const {
     mutate: createConnection,
     isPending,
     isLoading: isCreateConnectionLoading,
-  } = useCreateConnection()
+  } = useCreateConnection();
   // Check if user came from connections page
   const fromConnections =
-    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true ;
+    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
 
   const { mutate: removeConnection } = useRemoveConnection();
 
@@ -159,10 +166,9 @@ const UserBannerProfile = ({
         onSuccess: (res) => {
           if (res.success) {
             setShowConnect(false);
+          } else {
+            toast.error(res?.message || t("Failedtoconnect"));
           }
-          else {
-                      toast.error(res?.message || t("Failedtoconnect"));
-                    }
         },
       }
     );
@@ -170,7 +176,7 @@ const UserBannerProfile = ({
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
-
+  console.log(userData.profile.availabilty, "userData.profile.availabilty");
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div className="flex h-40 items-center justify-between rounded-[5px] bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:h-48 md:px-16 lg:h-56 lg:px-24">
@@ -190,7 +196,7 @@ const UserBannerProfile = ({
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
             <h2 className="text-lg font-bold text-black md:text-xl">
-              {userData?.profile?.fullName || t("fullName")}
+              {userData?.profile?.fullName || t("fullName")} 
             </h2>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.preferences?.jobRole || t("jobRole")}
@@ -201,7 +207,16 @@ const UserBannerProfile = ({
             <div className="flex gap-2">
               <div className="mt-1 flex items-center gap-1 text-xs font-normal text-[#888DA8]">
                 <div className="font-bold"> Availability : </div>
-                <div> {userData?.profile?.availabilty || t("Availability")}</div>
+                <div>
+                  {userData?.profile?.availabilty ? (
+                    <>
+                      <span>{availabilityIcons[userData.profile.availabilty] || ""}</span>{" "}
+                      {userData.profile.availabilty}
+                    </>
+                  ) : (
+                    t("Availability")
+                  )}
+                </div>
               </div>
             </div>
 

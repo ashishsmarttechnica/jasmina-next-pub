@@ -48,6 +48,7 @@ const UserNetworkInvites = ({ title }) => {
         image: item?.senderDetails?.logoUrl,
         name: item?.senderDetails?.companyName,
         subtitle: item?.senderDetails?.industryType,
+        isLGBTQFriendly: item?.senderDetails?.isLGBTQFriendly,
         showOnline: false,
         online: false,
         type: "Company",
@@ -113,7 +114,7 @@ const UserNetworkInvites = ({ title }) => {
       </Card>
     );
   }
-//
+  //
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
@@ -141,8 +142,13 @@ const UserNetworkInvites = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={item._id}
+                      onClick={() => handleUserProfile(item)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
                 </div>

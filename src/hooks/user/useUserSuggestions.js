@@ -1,23 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
 import { getUserSuggestions } from "@/api/user.api";
 import useUserMightKnowStore from "@/store/userMightKnow.store";
+import { useQuery } from "@tanstack/react-query";
 
-export const useUserSuggestions = (page = 1, limit = 5) => {
+export const useUserSuggestions = (page = 1) => {
   const { suggestions, setSuggestions } = useUserMightKnowStore();
 
   return useQuery({
-    queryKey: ["userSuggestions", page, limit],
+    queryKey: ["userSuggestions", page],
     queryFn: async () => {
       try {
-        const response = await getUserSuggestions({ page, limit });
+        const params = { page };
+        const response = await getUserSuggestions(params);
         if (response?.success) {
           // Merge new suggestions with existing ones if not first page
-          const newSuggestions = page === 1
-            ? response.data
-            : {
-                ...response.data,
-                results: [...(suggestions?.results || []), ...response.data.results]
-              };
+          const newSuggestions =
+            page === 1
+              ? response.data
+              : {
+                  ...response.data,
+                  results: [...(suggestions?.results || []), ...response.data.results],
+                };
           setSuggestions(newSuggestions);
           return newSuggestions;
         }

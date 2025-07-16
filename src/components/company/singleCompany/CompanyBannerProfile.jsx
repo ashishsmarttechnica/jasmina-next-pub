@@ -8,10 +8,11 @@ import getImg from "@/lib/getImg";
 import EdicCompanyProfileModal from "@/modal/editCompanyProfile/EdicCompanyProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import Cookies from "js-cookie";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 // import { useParams } from "next/navigation";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
+import Share from "@/assets/svg/feed/Share";
 import ReportModel from "@/modal/ReportModel";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -21,6 +22,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
+  const locale = useLocale();
 
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
@@ -31,6 +33,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const [isRemoving, setIsRemoving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
+  const [isShareLoading, setIsShareLoading] = useState(false);
   // Check if user came from connections page
   // const fromConnections =
   //   searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
@@ -75,6 +78,23 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
     );
   };
 
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: userData?.companyName || "Check out this company!",
+          text: userData?.tagline || "Amazing company!",
+          url: `${window.location.origin}/${locale}/company/${id}`,
+        });
+        toast.success("Company shared successfully");
+      } catch (error) {
+        toast.error("Share cancelled or failed");
+      }
+    } else {
+      toast.info("Share unsupported");
+    }
+  };
+
   const handleConnect = () => {
     if (!userData || !paramsUserId) return;
     acceptConnection(
@@ -96,6 +116,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
+  console.log(userData, "userData");
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div
@@ -129,7 +150,20 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
             <h2 className="text-lg font-bold text-black md:text-xl">
-              {`${userData?.companyName || "Company Name"}`}
+              <div className="flex items-center gap-2">
+                {`${userData?.companyName || "Company Name"}`}
+                <span className="px-2">
+                  {userData?.isLGBTQFriendly && <span className="text-primary text-sm">🌈</span>}
+                </span>
+                <button
+                  onClick={() => handleShare(userData?._id)}
+                  disabled={isShareLoading}
+                  className={`share-btn mt-1 px-2 text-xl ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                  title="Share"
+                >
+                  <Share width={18} height={18} className="text-[#888DA8]" />
+                </button>
+              </div>
             </h2>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.tagline || "Company Tagline"}
@@ -165,6 +199,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                 <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )} */}
+
             {isCurrentUser ? (
               <div className="flex gap-2">
                 <button className="profile-btn" onClick={() => setOpen(true)}>

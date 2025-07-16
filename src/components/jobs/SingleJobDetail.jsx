@@ -10,7 +10,7 @@ import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 // import { useRouter } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
@@ -18,10 +18,10 @@ import { LuBookmark } from "react-icons/lu";
 import { MdBookmark } from "react-icons/md";
 import { toast } from "react-toastify";
 import { removeJob } from "../../api/job.api";
+import Share from "../../assets/svg/feed/Share";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
-//
 
 const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
@@ -30,9 +30,12 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
   const t = useTranslations("Jobs");
+  const locale = useLocale();
   const savedJobs = useJobStore((s) => s.savedJobs);
   const appliedJobs = useAppliedJobStore((s) => s.appliedJobs);
   const router = useRouter();
+  const [isShareLoading, setIsShareLoading] = useState(false);
+  const [totalShare, setTotalShare] = useState(job?.totalShare || 0);
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -92,6 +95,25 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const handleApplyNow = () => {
     router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: job?.title || "Check out this job!",
+          text:
+            job?.description?.replace(/<[^>]+>/g, "")?.slice(0, 100) || "Amazing job opportunity!",
+          url: `${window.location.origin}/${locale}/jobs/${id}`,
+        });
+        // If you have a shareJob mutation, call it here: shareJob(id);
+        setTotalShare((prev) => prev + 1);
+        toast.success("Job shared successfully");
+      } catch (error) {
+        toast.error("Share cancelled or failed");
+      }
+    } else {
+      toast.info("Share unsupported");
+    }
+  };
 
   return (
     <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 md:mt-0">
@@ -102,15 +124,30 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         ← Back to job list
       </button> */}
 
-      <h3 className="mb-2 flex justify-between text-lg font-semibold text-black">
+      <h3 className="mb-2 flex justify-between px-2 text-lg font-semibold text-black">
         {job?.title}
-        <span onClick={toggleBookmark} className="cursor-pointer">
-          {bookmarked ? (
-            <MdBookmark className="text-xl text-[#888DA8]" />
-          ) : (
-            <LuBookmark className="text-xl text-[#888DA8]" />
-          )}
-        </span>
+        <div className="flex items-center gap-1">
+          <span onClick={toggleBookmark} className="cursor-pointer">
+            {bookmarked ? (
+              <MdBookmark className="text-xl text-[#888DA8]" />
+            ) : (
+              <LuBookmark className="text-xl text-[#888DA8]" />
+            )}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleShare(job?._id)}
+              disabled={isShareLoading}
+              className={`share-btn px-2 text-xl ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+              title="Share"
+            >
+              <Share width={18} height={18} className="text-[#888DA8]" />
+            </button>
+            {/* <div className="text-sm text-[#888DA8]">
+              {isShareLoading ? <LoaderIcon /> : totalShare}
+            </div> */}
+          </div>
+        </div>
       </h3>
 
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">

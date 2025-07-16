@@ -37,6 +37,7 @@ const UserConnections = ({ title }) => {
         image: item.details && item.details.logoUrl ? item.details.logoUrl : undefined,
         name: item.details?.companyName,
         subtitle: item.details?.industryType,
+        isLGBTQFriendly: item.details?.isLGBTQFriendly,
         showOnline: false,
         online: false,
         type: "Company",
@@ -113,6 +114,7 @@ const UserConnections = ({ title }) => {
                       onClick={() => handleUserProfile(user)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />
                 </div>

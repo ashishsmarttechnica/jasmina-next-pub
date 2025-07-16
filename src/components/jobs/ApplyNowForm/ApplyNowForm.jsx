@@ -18,7 +18,7 @@ const ApplyNowForm = ({ jobId }) => {
     email: "",
     phone: "",
     linkedinUrl: "",
-    portfolioUrl: "",
+    // portfolioUrl: "",
     pronouns: "",
     location: "",
     preferredStartDate: "",
@@ -41,6 +41,7 @@ const ApplyNowForm = ({ jobId }) => {
   const router = useRouter();
   const t = useTranslations("UserProfile.profile");
   const pronounOptions = usePronounOptions();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleChange = useCallback(
     (e) => {
@@ -117,8 +118,12 @@ const ApplyNowForm = ({ jobId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm({ ...formData, cv: selectedFile })) {
+      return;
+    }
+
+    if (!isChecked) {
+      toast.warning("Please check select the checkbox to apply for the job");
       return;
     }
 
@@ -146,7 +151,7 @@ const ApplyNowForm = ({ jobId }) => {
     // Optional fields - only append if they have values
     if (formData.phone) submitData.append("phone", formData.phone);
     if (formData.linkedinUrl) submitData.append("linkedinUrl", formData.linkedinUrl);
-    if (formData.portfolioUrl) submitData.append("portfolioUrl", formData.portfolioUrl);
+    // if (formData.portfolioUrl) submitData.append("portfolioUrl", formData.portfolioUrl);
     if (formData.pronouns) submitData.append("pronouns", formData.pronouns);
     if (formData.location) submitData.append("location", formData.location);
     if (formData.preferredStartDate)
@@ -172,7 +177,7 @@ const ApplyNowForm = ({ jobId }) => {
           email: "",
           phone: "",
           linkedinUrl: "",
-          portfolioUrl: "",
+          // portfolioUrl: "",
           pronouns: "",
           location: "",
           preferredStartDate: "",
@@ -183,6 +188,7 @@ const ApplyNowForm = ({ jobId }) => {
         });
         setSelectedFile(null);
         setAdditionalFiles([]);
+        setIsChecked(false);
 
         setTimeout(() => {
           router.push("/jobs/applied-jobs");
@@ -252,6 +258,18 @@ const ApplyNowForm = ({ jobId }) => {
             </div>
             {errors.cv && <p className="mt-1 text-sm text-red-500">{errors.cv}</p>}
           </div>
+          <div className="mb-4">
+            <label className="text-grayBlueText mb-1 block text-[14px]">{`${t("CoverLetter")}*`}</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
+              rows="4"
+              placeholder={t("Writeyourmessage")}
+            />
+            {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
+          </div>
 
           <h2 className="mt-2 mb-2 text-left text-[16px] font-medium text-black">
             {t("OptionalInformation")}
@@ -272,13 +290,13 @@ const ApplyNowForm = ({ jobId }) => {
             value={formData.linkedinUrl}
             onChange={handleChange}
           />
-
+          {/* 
           <InputField
             label={t("portfolioUrl")}
             name="portfolioUrl"
             value={formData.portfolioUrl}
             onChange={handleChange}
-          />
+          /> */}
 
           <Selecter
             name="pronoun"
@@ -366,10 +384,10 @@ const ApplyNowForm = ({ jobId }) => {
             )}
           </div>
           <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">{t("CoverLetter")}</label>
+            <label className="text-grayBlueText mb-1 block text-[14px]">Notes</label>
             <textarea
-              name="message"
-              value={formData.message}
+              name="notes"
+              value={formData.notes}
               onChange={handleChange}
               className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
               rows="4"
@@ -379,7 +397,21 @@ const ApplyNowForm = ({ jobId }) => {
         </div>
 
         <div className="mt-6 mb-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
-          {t("Byapplyingjob")}
+          <div className="flex items-center gap-2">
+            <input
+              id="apply-checkbox"
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+              className="border-grayBlueText/[50%] focus:ring-primary h-4 w-4 border bg-gray-100 text-blue-600 focus:ring-1"
+            />
+            <label
+              htmlFor="apply-checkbox"
+              className="text-grayBlueText text-sm text-[13px] leading-[21px]"
+            >
+              {t("Byapplyingjob")}
+            </label>
+          </div>
         </div>
 
         <button

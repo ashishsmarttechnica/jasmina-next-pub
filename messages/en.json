@@ -399,7 +399,8 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email format",
       "cvRequired": "Please upload a resume file (PDF, DOC, DOCX, TEX).",
-      "cvInvalidFormat": "Invalid file format. Allowed: PDF, DOC, DOCX, TEX, WEBP"
+      "cvInvalidFormat": "Invalid file format. Allowed: PDF, DOC, DOCX, TEX, WEBP",
+      "messageRequired": "Meassage is required"
     },
     "preferences": {
       "title": "Set Your Job Preferences",
@@ -622,7 +623,9 @@
       "Both": "Both",
       "lgbtqFriendlyLabel": "Show only to LGBTQ+ friendly companies",
       "lgbtqFriendlyDescription": " Your profile will remain hidden from public. Only companies located in LGBTQ-friendly countries can access it.",
-      "nextButton": " Next"
+      "nextButton": " Next",
+      "otheruser": "Other User",
+      "lgbtqFriendlyLabels": "\tShow My profile only to LGBTQ+ friendly companies"
     }
   },
   "CompanyProfile": {

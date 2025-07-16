@@ -106,7 +106,21 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
+.rainbow-icon {
+  width: 40px;
+  height: 20px;
+  border-radius: 100px 100px 0 0;
+  background: conic-gradient(
+    red 0deg 60deg,
+    orange 60deg 120deg,
+    yellow 120deg 180deg,
+    green 180deg 240deg,
+    blue 240deg 300deg,
+    violet 300deg 360deg
+  );
+  border: 2px solid white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
 ul,
 li {
   list-style: none;

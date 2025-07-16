@@ -337,7 +337,8 @@
       "emailRequired": "E -Mail ist erforderlich",
       "emailInvalid": "Ungültiges E -Mail -Format",
       "cvRequired": "Bitte laden Sie eine Lebenslaufdatei hoch (PDF, doc, docx, tex).",
-      "cvInvalidFormat": "Ungültiges Dateiformat. \nErlaubt: pdf, doc, docx, tex, webp"
+      "cvInvalidFormat": "Ungültiges Dateiformat. \nErlaubt: pdf, doc, docx, tex, webp",
+      "messageRequired": "Messungen sind erforderlich"
     },
     "userprofilemenu": {
       "education": "Ausbildung",
@@ -560,7 +561,9 @@
       "Both": "Beide",
       "lgbtqFriendlyLabel": "Zeigen Sie nur LGBTQ -Freundschaftsfirmen",
       "lgbtqFriendlyDescription": "Ihr Profil bleibt der Öffentlichkeit verborgen. \nNur Unternehmen in LGBTQ-freundlichen Ländern können darauf zugreifen.",
-      "nextButton": "Nächste"
+      "nextButton": "Nächste",
+      "otheruser": "Anderer Benutzer",
+      "lgbtqFriendlyLabels": "Zeigen Sie mein Profil nur LGBTQ -Freundschaftsfirmen"
     }
   },
   "RoleError": "Rolle ist erforderlich.",

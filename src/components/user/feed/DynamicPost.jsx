@@ -21,7 +21,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
   const [shoeCommentBoxId, setShowCommentBoxId] = useState(null);
   const router = useRouter();
   const locale = useLocale();
-
+  const isCompanyPost = post.userId?.role === "company"; // ya jo bhi aapke data me ho
   // Get store functions
   const posts = usePostStore((s) => s.posts);
   const setPosts = usePostStore((s) => s.setPosts);
@@ -207,16 +207,18 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
           >
             <Comment isActive={shoeCommentBoxId == post._id && showComments} /> {post.totalComment}
           </span>
-          <span className="flex items-center gap-1">
-            <button
-              onClick={() => handleShare(post._id)}
-              disabled={isShareLoading}
-              className={`share-btn ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
-            >
-              <Share />
-            </button>
-            <div>{isShareLoading ? <LoaderIcon /> : post.totalShare}</div>
-          </span>
+          {isCompanyPost && (
+             <span className="flex items-center gap-1">
+              <button
+                onClick={() => handleShare(post._id)}
+                disabled={isShareLoading}
+                className={`share-btn ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+              >
+                <Share />
+              </button>
+              <div>{isShareLoading ? <LoaderIcon /> : post.totalShare}</div>
+            </span>
+          )}
         </div>
         <span className="text-grayBlueText text-xs font-normal whitespace-nowrap">{postTime}</span>
       </div>
