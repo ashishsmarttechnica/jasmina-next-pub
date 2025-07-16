@@ -1,8 +1,9 @@
 import { purchasePlan } from "@/api/membership.api";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Modal } from "rsuite";
-
+import PaymentSuccessModal from "./PaymentSuccessModal";
 const PaymentModal = ({
   stripePromise,
   paymentModal,
@@ -18,6 +19,21 @@ const PaymentModal = ({
   const [paymentData, setPaymentData] = useState({
     email: "",
   });
+  const [purchasedPlan, setPurchasedPlan] = useState(null); // Add state for purchased plan
+  const stripeCustomerId = Cookies.get("stripeCustomerId");
+
+  console.log(stripeCustomerId, "stripeCustomerId");
+  // const { mutate, isPending, error } = useLogin();
+  // console.log(mutate, "mutate");
+  // Store stripeCustomerId from OTP verification in paymentData.custId
+  // useEffect(() => {
+  //   if (otpData && otpData.data && otpData.data.stripeCustomerId) {
+  //     setPaymentData((prev) => ({
+  //       ...prev,
+  //       custId: otpData.data.stripeCustomerId,
+  //     }));
+  //   }
+  // }, [otpData]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,7 +84,7 @@ const PaymentModal = ({
         price: Number(selectedPlan?.price) || 0,
         employeeRange: `${selectedPlan?.employeeRange?.min || 0}-${selectedPlan?.employeeRange?.max || 0}`,
         eligibility: selectedPlan?.eligibility || "Basic support",
-        custId: paymentMethod?.customer || `cus_${Date.now()}`,
+        custId: stripeCustomerId, // Static value as requested
         email: email,
         payment_status: "success",
         transactionId: paymentMethod?.id || `txn_${Date.now()}`,
@@ -77,7 +93,8 @@ const PaymentModal = ({
       try {
         const response = await purchasePlan(purchaseData);
 
-        if (response.success) {
+        if (response.success && response.plan) {
+          setPurchasedPlan(response.plan); // Store the plan details
           setSuccessModal(true);
           setPaymentModal(false);
           toast.success("Payment successful! Your plan has been upgraded.");
@@ -196,22 +213,12 @@ const PaymentModal = ({
         </div>
       </Modal>
 
-      <Modal open={successModal} onClose={() => setSuccessModal(false)}>
-        <Modal.Header>
-          <Modal.Title>Payment Successful!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="text-center">
-            <p className="mb-4">Your subscription has been successfully upgraded.</p>
-            <button
-              onClick={() => setSuccessModal(false)}
-              className="bg-primary hover:text-primary border-primary rounded-full border px-4 py-2 text-white hover:bg-white"
-            >
-              Close
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
+      {/* Success Modal extracted to its own component */}
+      <PaymentSuccessModal
+        open={successModal}
+        onClose={() => setSuccessModal(false)}
+        purchasedPlan={purchasedPlan}
+      />
     </>
   );
 };

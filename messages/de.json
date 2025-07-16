@@ -794,7 +794,9 @@
   "UserMainFeed": {
     "connections": "Verbindungen",
     "networkInvites": "Netzwerk lädt ein",
-    "mightKnow": "Leute, die Sie vielleicht kennen"
+    "mightKnow": "Leute, die Sie vielleicht kennen",
+    "companyConnections": "Unternehmensverbindungen",
+    "userConnections": "Benutzerverbindungen"
   },
   "FeedPost": {
     "post": "Post",

@@ -795,7 +795,9 @@
   "UserMainFeed": {
     "connections": "الاتصالات",
     "networkInvites": "تدعو الشبكة",
-    "mightKnow": "الناس الذين قد تعرفهم"
+    "mightKnow": "الناس الذين قد تعرفهم",
+    "companyConnections": "اتصالات الشركة",
+    "userConnections": "اتصالات المستخدم"
   },
   "FeedPost": {
     "post": "بريد",

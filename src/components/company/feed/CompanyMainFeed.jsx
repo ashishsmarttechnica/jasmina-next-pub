@@ -3,16 +3,18 @@ import UserCompanyProfile from "@/common/UserCompanyProfile";
 import UserConnections from "@/common/UserConnections";
 import UserMightKnow from "@/common/UserMightKnow";
 import UserNetworkInvites from "@/common/UserNetworkInvites";
+import FeedPost from "@/components/user/feed/FeedPost";
 import MainLayout from "@/layout/MainLayout";
 import { useTranslations } from "next-intl";
-import FeedPost from "@/components/user/feed/FeedPost";
+import CompanyConnections from "../../../common/CompanyConnections";
 const CompanyMainFeed = () => {
   const t = useTranslations("CompanyMainFeed");
   return (
     <MainLayout
       leftComponents={[
         <UserCompanyProfile key="left1" />,
-        <UserConnections key="left2" title={t("connections")} />,
+        <UserConnections key="left2" title={t("userConnections")} />,
+        <CompanyConnections key="left3" title={t("companyConnections")} />,
       ]}
       rightComponents={[
         <CreateJobButton key="right1" />,

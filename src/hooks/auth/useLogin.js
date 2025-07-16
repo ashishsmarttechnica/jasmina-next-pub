@@ -1,9 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "@/api/auth.api";
-import useAuthStore from "@/store/auth.store";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 import { useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
+import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 export default function useLogin() {
   const setToken = useAuthStore((state) => state.setToken);
@@ -24,7 +24,7 @@ export default function useLogin() {
         Cookies.set("isAuthenticated", "true");
         Cookies.set("profileCreated", profileComplete);
         Cookies.set("userId", data.data._id);
-
+        Cookies.set("stripeCustomerId", data.data.stripeCustomerId);
 
         // Zustand update
         setToken(token);
@@ -41,17 +41,13 @@ export default function useLogin() {
           router.push("/");
         }
       } else {
-        toast.error(
-          `Login failed: ${data?.message || "Something went wrong!"}`
-        );
+        toast.error(`Login failed: ${data?.message || "Something went wrong!"}`);
       }
     },
     onError: (error) => {
       console.error("Login failed:", error);
       toast.error(
-        `An error occurred: ${
-          error?.response?.data?.message || "Something went wrong!"
-        }`
+        `An error occurred: ${error?.response?.data?.message || "Something went wrong!"}`
       );
     },
   });

@@ -1,6 +1,6 @@
-import { createConnection, getConnections, removeConnection } from "@/api/connection.api";
+import { createConnection, getCompanyConnections, getConnections, removeConnection } from "@/api/connection.api";
 import capitalize from "@/lib/capitalize";
-import useConnectionsStore from "@/store/connections.store";
+import useConnectionsStore, { useCompanyConnectionsStore } from "@/store/connections.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -14,6 +14,41 @@ export const useConnections = (connectionType, page, limit, options = {}) => {
     queryKey: ["connections", userId, userType, page],
     queryFn: async () => {
       const res = await getConnections({ userId, userType, page, limit, connectionType });
+
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+
+        // Append or replace based on page
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
+  });
+};
+export const useCompanyConnections = (connectionType, page, limit, options = {}) => {
+  const userId = Cookies.get("userId");
+  const userType = capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useCompanyConnectionsStore();
+
+  return useQuery({
+    queryKey: ["companyConnections", userId, userType, page],
+    queryFn: async () => {
+      const res = await getCompanyConnections({ userId, userType, page, limit, connectionType });
 
       if (res?.success) {
         const newData = res.data.results || [];

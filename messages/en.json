@@ -95,7 +95,9 @@
   "UserMainFeed": {
     "connections": "Connections",
     "networkInvites": "Network Invites",
-    "mightKnow": "People you might know"
+    "mightKnow": "People you might know",
+    "userConnections": "User Connections",
+    "companyConnections": "Company Connections"
   },
   "UserFeedPost": {
     "doyourpost": "Do your post",
@@ -119,7 +121,9 @@
     "mightKnow": "People you might know",
     "postjob": "Post a Job",
     "loading": "Loading",
-    "postJob": "Post a job"
+    "postJob": "Post a job",
+    "userConnections": "User Connections",
+    "companyConnections": "Company Connections"
   },
   "UserPostModel": {
     "sharePlaceholder": "Share your thoughts…",

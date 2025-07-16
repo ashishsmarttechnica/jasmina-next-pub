@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getConnections = exports.createConnection = void 0;
+exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getCompanyConnections = exports.getConnections = exports.createConnection = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -63,44 +63,40 @@ var getConnections = function getConnections(_ref) {
 
 exports.getConnections = getConnections;
 
-var acceptConnection = function acceptConnection(data) {
-  var res;
-  return regeneratorRuntime.async(function acceptConnection$(_context3) {
+var getCompanyConnections = function getCompanyConnections(_ref2) {
+  var userId, userType, _ref2$page, page, _ref2$limit, limit, _ref2$connectionType, connectionType, res;
+
+  return regeneratorRuntime.async(function getCompanyConnections$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.prev = 0;
+          userId = _ref2.userId, userType = _ref2.userType, _ref2$page = _ref2.page, page = _ref2$page === void 0 ? 1 : _ref2$page, _ref2$limit = _ref2.limit, limit = _ref2$limit === void 0 ? 10 : _ref2$limit, _ref2$connectionType = _ref2.connectionType, connectionType = _ref2$connectionType === void 0 ? "Company" : _ref2$connectionType;
           _context3.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].post("accept/connection", data));
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/connection?userId=".concat(userId, "&userType=").concat(userType, "&page=").concat(page, "&limit=").concat(limit, "&filterType=").concat(connectionType)));
 
         case 3:
           res = _context3.sent;
           return _context3.abrupt("return", res.data);
 
-        case 7:
-          _context3.prev = 7;
-          _context3.t0 = _context3["catch"](0);
-          throw _context3.t0;
-
-        case 10:
+        case 5:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  });
 };
 
-exports.acceptConnection = acceptConnection;
+exports.getCompanyConnections = getCompanyConnections;
 
-var rejectConnection = function rejectConnection(data) {
+var acceptConnection = function acceptConnection(data) {
   var res;
-  return regeneratorRuntime.async(function rejectConnection$(_context4) {
+  return regeneratorRuntime.async(function acceptConnection$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
           _context4.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].post("reject/connection", data));
+          return regeneratorRuntime.awrap(_axios["default"].post("accept/connection", data));
 
         case 3:
           res = _context4.sent;
@@ -119,17 +115,17 @@ var rejectConnection = function rejectConnection(data) {
   }, null, null, [[0, 7]]);
 };
 
-exports.rejectConnection = rejectConnection;
+exports.acceptConnection = acceptConnection;
 
-var removeConnection = function removeConnection(data) {
+var rejectConnection = function rejectConnection(data) {
   var res;
-  return regeneratorRuntime.async(function removeConnection$(_context5) {
+  return regeneratorRuntime.async(function rejectConnection$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
           _context5.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].post("remove/connection", data));
+          return regeneratorRuntime.awrap(_axios["default"].post("reject/connection", data));
 
         case 3:
           res = _context5.sent;
@@ -143,6 +139,35 @@ var removeConnection = function removeConnection(data) {
         case 10:
         case "end":
           return _context5.stop();
+      }
+    }
+  }, null, null, [[0, 7]]);
+};
+
+exports.rejectConnection = rejectConnection;
+
+var removeConnection = function removeConnection(data) {
+  var res;
+  return regeneratorRuntime.async(function removeConnection$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          _context6.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].post("remove/connection", data));
+
+        case 3:
+          res = _context6.sent;
+          return _context6.abrupt("return", res.data);
+
+        case 7:
+          _context6.prev = 7;
+          _context6.t0 = _context6["catch"](0);
+          throw _context6.t0;
+
+        case 10:
+        case "end":
+          return _context6.stop();
       }
     }
   }, null, null, [[0, 7]]);
