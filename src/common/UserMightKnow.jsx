@@ -3,26 +3,41 @@ import Contact from "@/assets/svg/feed/Contact";
 import Card from "@/common/card/Card";
 import CardHeading from "@/common/card/CardHeading";
 import { useCreateConnection } from "@/hooks/connections/useConnections";
-import { useUserSuggestions } from "@/hooks/user/useUserSuggestions";
+import { useCompanySuggestions, useUserSuggestions } from "@/hooks/user/useUserSuggestions";
 import { useRouter } from "@/i18n/navigation";
 import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
-import useUserMightKnowStore from "@/store/userMightKnow.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
-
 const UserMightKnow = () => {
-  const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
-  const { data, isLoading, isError, error, refetch } = useUserSuggestions();
+  const userType = capitalize(Cookies.get("userRole"));
+  console.log(userType, "userType+++++++++++++++++");
+
+  // Conditionally use the correct store and hook
+  let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;
+  if (userType === "Company") {
+    // Only call company suggestions and store
+    const companyStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = companyStore.useCompanySuggestionsStore());
+    ({ data, isLoading, isError, error, refetch } = useCompanySuggestions());
+  } else {
+    // Only call user suggestions and store
+    const userStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = userStore.default());
+    ({ data, isLoading, isError, error, refetch } = useUserSuggestions());
+  }
+
   const {
     mutate: createConnection,
     isPending,
     isLoading: isCreateConnectionLoading,
   } = useCreateConnection();
   const t = useTranslations("UserMainFeed");
+
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
 
