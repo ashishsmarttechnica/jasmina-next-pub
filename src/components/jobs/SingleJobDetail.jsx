@@ -25,7 +25,7 @@ import ImageFallback from "../../common/shared/ImageFallback";
 
 const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
-  console.log(job, "job");
+  console.log(job?._raw?.application?.status, "job");
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
@@ -36,6 +36,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const router = useRouter();
   const [isShareLoading, setIsShareLoading] = useState(false);
   const [totalShare, setTotalShare] = useState(job?.totalShare || 0);
+  const AppliedStatus = job?._raw?.application?.status;
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -127,14 +128,34 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
       <h3 className="mb-2 flex justify-between px-2 text-lg font-semibold text-black">
         {job?.title}
         <div className="flex items-center gap-1">
-          <span onClick={toggleBookmark} className="cursor-pointer">
-            {bookmarked ? (
-              <MdBookmark className="text-xl text-[#888DA8]" />
-            ) : (
-              <LuBookmark className="text-xl text-[#888DA8]" />
-            )}
-          </span>
           <div className="flex items-center gap-1">
+            <div className="block gap-2">
+              {AppliedStatus === "0" && (
+                <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                  Reviewed
+                </span>
+              )}
+              {AppliedStatus === "1" && (
+                <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
+                  Interviewing
+                </span>
+              )}
+              {AppliedStatus === "2" && (
+                <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
+                  Approved
+                </span>
+              )}
+              {AppliedStatus === "3" && (
+                <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
+                  Rejected
+                </span>
+              )}
+              {AppliedStatus === "4" && (
+                <span className="inline-block rounded bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+                  Hired
+                </span>
+              )}
+            </div>
             <button
               onClick={() => handleShare(job?._id)}
               disabled={isShareLoading}
@@ -147,6 +168,13 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
               {isShareLoading ? <LoaderIcon /> : totalShare}
             </div> */}
           </div>
+          <span onClick={toggleBookmark} className="cursor-pointer">
+            {bookmarked ? (
+              <MdBookmark className="text-xl text-[#888DA8]" />
+            ) : (
+              <LuBookmark className="text-xl text-[#888DA8]" />
+            )}
+          </span>
         </div>
       </h3>
 

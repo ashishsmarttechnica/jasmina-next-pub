@@ -10,19 +10,17 @@ const getStatusText = (status) => {
   const numericStatus = parseInt(status);
   switch (numericStatus) {
     case 1:
-      return "New";
+      return "Interviewing";
     case 2:
-      return "Reviewed";
-    case 3:
-      return "Interviewed";
-    case 4:
       return "Approved";
-    case 5:
+    case 3:
       return "Rejected";
-    case 6:
+    case 4:
       return "Hired";
+    case 5:
+      return "Reviewed";
     default:
-      return "New";
+      return "Interviewing";
   }
 };
 
@@ -107,16 +105,15 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
             <div className="flex flex-col items-end">
               <select
                 className="mb-3 rounded-md border border-none bg-slate-100 px-6 py-2"
-                defaultValue={selectedApplicant.status || 0}
+                defaultValue={selectedApplicant.status || 1}
                 onChange={handleStatusChange}
                 disabled={isUpdating}
               >
-                <option value={0}>New</option>
-                <option value={1}>Reviewed</option>
-                <option value={2}>Interviewed</option>
-                <option value={3}>Approved</option>
-                <option value={4}>Rejected</option>
-                <option value={5}>Hired</option>
+                <option value={1}>Interviewing</option>
+                <option value={2}>Approved</option>
+                <option value={3}>Rejected</option>
+                <option value={4}>Hired</option>
+                <option value={5}>Reviewed</option>
               </select>
               <button
                 className={`mt-12 flex items-center rounded-md px-4 py-2 text-white ${

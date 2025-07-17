@@ -1,4 +1,5 @@
 "use client";
+import noPostImage from "@/assets/feed/no-post.svg";
 import Card from "@/common/card/Card";
 import ImageFallback from "@/common/shared/ImageFallback";
 import { useAllJobs } from "@/hooks/job/useGetJobs";
@@ -6,9 +7,9 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import getImg from "../../lib/getImg";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleJobDetail from "./SingleJobDetail";
-
 const JobCards = ({ filters }) => {
   const [page, setPage] = useState(1);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -39,7 +40,7 @@ const JobCards = ({ filters }) => {
       setSelectedJob(null);
     }
   }, [jobs, selectedJob]);
-
+  console.log(jobs, "jobs======");
   // Map API job data to UI job shape
   const mappedJobs = jobs.map((job) => ({
     _id: job._id,
@@ -75,13 +76,10 @@ const JobCards = ({ filters }) => {
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
+      
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     website: job?.company?.website,
-    logoImage: job.company?.logoUrl
-      ? job.company.logoUrl.startsWith("http")
-        ? job.company.logoUrl
-        : `${process.env.NEXT_PUBLIC_API_URL}/${job.company.logoUrl}`
-      : "https://logo.clearbit.com/placeholder.com",
+    logoImage: job?.company?.logoUrl,
     _raw: job,
   }));
 
@@ -135,7 +133,8 @@ const JobCards = ({ filters }) => {
                   </div>
                   <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                     <ImageFallback
-                      src={job.logoImage}
+                      src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                      fallbackSrc={noPostImage}
                       alt="logo"
                       width={28}
                       height={28}

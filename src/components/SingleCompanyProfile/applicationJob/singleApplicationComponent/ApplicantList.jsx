@@ -2,7 +2,6 @@ import { getStatusColor, getStatusText } from "@/utils/singleApplicationUtils";
 import { FiMoreVertical } from "react-icons/fi";
 
 const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) => {
-
   if (!applicants || applicants.length === 0) {
     return (
       <div className="w-full rounded-lg bg-white p-6 text-center shadow-md lg:w-[40%]">
@@ -18,7 +17,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         const statusText = getStatusText(applicant.status);
 
         // Debug the applicant data
-     
+
         return (
           <div
             key={applicant._id || applicant.id}
@@ -39,7 +38,6 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
               <div className="flex items-center gap-2">
                 <span className={`rounded-md px-3 py-1 text-sm ${getStatusColor(statusText)}`}>
                   {statusText}
-                  {statusText === "New"}
                 </span>
               </div>
               <button className="text-gray-400">

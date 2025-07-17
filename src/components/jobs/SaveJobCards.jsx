@@ -1,7 +1,9 @@
 "use client";
+import noPostImage from "@/assets/feed/no-post.svg";
 import Card from "@/common/card/Card";
 import useGetJobs from "@/hooks/job/useGetJobs";
 import useGetSavedJobs from "@/hooks/job/useGetSavedJobs";
+import getImg from "@/lib/getImg";
 import useJobStore from "@/store/job.store";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -11,7 +13,6 @@ import { IoClipboardOutline } from "react-icons/io5";
 import ImageFallback from "../../common/shared/ImageFallback";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleSaveJobDetail from "./SingleSaveJobDetail";
-
 const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const searchParams = useSearchParams();
   const jobId = searchParams.get("id");
@@ -92,6 +93,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
         : job.requiredSkills.split(",")
       : [],
     website: job?.companyId?.website,
+    logoImage: job?.companyId?.logoUrl,
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     _raw: job,
   }));
@@ -148,7 +150,8 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
 
                   <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                     <ImageFallback
-                      src={job.logo} // assuming it's `logoUrl`, update if needed
+                      src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                      fallbackSrc={noPostImage}
                       alt="logo"
                       width={28}
                       height={28}

@@ -1,6 +1,7 @@
 "use client";
 import Card from "@/common/card/Card";
 // import AppliedJobsPageSkeleton from "@/common/skeleton/AppliedJobsPageSkeleton";
+import noPostImage from "@/assets/feed/no-post.svg";
 import useGetAppliedJobs from "@/hooks/job/useGetAppliedJobs";
 import useAppliedJobStore from "@/store/appliedJob.store";
 import { useTranslations } from "next-intl";
@@ -10,11 +11,11 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
 import ImageFallback from "../../common/shared/ImageFallback";
 import JobsLayout from "../../layout/JobsLayout";
+import getImg from "../../lib/getImg";
 import { getRelativeTime } from "../../utils/dateUtils";
 import JobHeader from "./JobHeader";
 import MyJobs from "./leftSidebar/MyJobs";
 import SingleJobDetail from "./SingleJobDetail";
-
 const AppliedJobsMainPage = () => {
   const [filters, setFilters] = useState({
     search: "",
@@ -42,7 +43,7 @@ const AppliedJobsMainPage = () => {
   // Map API job data to UI job shape
   const mappedJobs = appliedJobs.map((appliedJob) => {
     const job = appliedJob.jobId || {};
-
+    console.log(job.status, "job.status");
     return {
       _id: job._id || appliedJob._id,
       title: job.jobTitle || "-",
@@ -73,6 +74,8 @@ const AppliedJobsMainPage = () => {
       appliedDate: appliedJob.createdAt ? new Date(appliedJob.createdAt).toLocaleDateString() : "-",
       status: appliedJob.seen ? "Seen" : "Not seen",
       website: job?.companyId?.website,
+      Appliedstatus: appliedJob.status,
+      logoImage: job?.companyId?.logoUrl,
       _raw: { ...job, application: appliedJob },
     };
   });
@@ -104,7 +107,7 @@ const AppliedJobsMainPage = () => {
                 </h2> */}
                 {mappedJobs.slice(0, visibleCount).map((job) => (
                   <Card
-                    key={job._id}
+                    key={`${job._id}-${job._raw.application._id}`}
                     className={`mb-3 transform cursor-pointer transition duration-200 ${
                       selectedJob?._id === job._id
                         ? "border-primary border-1"
@@ -113,7 +116,36 @@ const AppliedJobsMainPage = () => {
                     onClick={() => setSelectedJob(job)}
                   >
                     <div className="p-4">
-                      <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                        <div className="block gap-2">
+                          {job?.Appliedstatus === "0" && (
+                            <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                              Reviewed
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "1" && (
+                            <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
+                              Interviewing
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "2" && (
+                            <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
+                              Approved
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "3" && (
+                            <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
+                              Rejected
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "4" && (
+                            <span className="inline-block rounded bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+                              Hired
+                            </span>
+                          )}
+                        </div>
+                      </div>
                       <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                         <IoClipboardOutline className="h-4 w-4" />
                         {job.experience}
@@ -130,7 +162,8 @@ const AppliedJobsMainPage = () => {
 
                       <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
                         <ImageFallback
-                          src={job?.company?.logo} // assuming it's `logoUrl`, update if needed
+                          src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                          fallbackSrc={noPostImage}
                           alt="logo"
                           width={28}
                           height={28}
@@ -148,7 +181,7 @@ const AppliedJobsMainPage = () => {
                           {/* )} */}
                         </div>
                       </div>
-                      {/**/}
+                      {/* </div> */}
                     </div>
                   </Card>
                 ))}

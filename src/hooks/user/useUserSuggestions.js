@@ -2,14 +2,14 @@ import { getCompanySuggestions, getUserSuggestions } from "@/api/user.api";
 import useUserMightKnowStore, { useCompanySuggestionsStore } from "@/store/userMightKnow.store";
 import { useQuery } from "@tanstack/react-query";
 
-export const useUserSuggestions = (page = 1) => {
+export const useUserSuggestions = (page = 1, limit = 10000) => {
   const { suggestions, setSuggestions } = useUserMightKnowStore();
 
   return useQuery({
     queryKey: ["userSuggestions", page],
     queryFn: async () => {
       try {
-        const params = { page };
+        const params = { page, limit };
         const response = await getUserSuggestions(params);
         if (response?.success) {
           // Merge new suggestions with existing ones if not first page
@@ -36,14 +36,14 @@ export const useUserSuggestions = (page = 1) => {
     // cacheTime: 10 * 60 * 1000,
   });
 };
-export const useCompanySuggestions = (page = 1) => {
+export const useCompanySuggestions = (page = 1, limit = 10000) => {
   const { suggestions, setSuggestions } = useCompanySuggestionsStore();
 
   return useQuery({
     queryKey: ["CompanySuggestionsStore", page],
     queryFn: async () => {
       try {
-        const params = { page };
+        const params = { page, limit };
         const response = await getCompanySuggestions(params);
         if (response?.success) {
           // Merge new suggestions with existing ones if not first page

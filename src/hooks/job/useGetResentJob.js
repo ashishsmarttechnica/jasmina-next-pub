@@ -3,12 +3,13 @@ import useResentJobStore from "@/store/resentjob.store";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-const useGetResentJob = () => {
+const useGetResentJob = (userId) => {
   const { setResentJobs, setLoading, setError } = useResentJobStore();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["recentJobs"],
-    queryFn: getRecentJobs,
+    queryKey: ["recentJobs", userId],
+    queryFn: () => getRecentJobs(userId),
+    enabled: !!userId,
   });
 
   useEffect(() => {
