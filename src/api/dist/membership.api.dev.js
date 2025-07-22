@@ -9,14 +9,14 @@ var _axios = _interopRequireDefault(require("@/lib/axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var getAllMemberships = function getAllMemberships() {
+var getAllMemberships = function getAllMemberships(companyId) {
   var res;
   return regeneratorRuntime.async(function getAllMemberships$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return regeneratorRuntime.awrap(_axios["default"].get("/get/all/membership"));
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/all/membership?companyId=".concat(companyId)));
 
         case 2:
           res = _context.sent;

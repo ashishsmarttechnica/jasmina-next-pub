@@ -71,3 +71,39 @@ export const getOthersConnection = async ({ viewerId, profileId }) => {
     throw error;
   }
 };
+
+export const getOthersCompanyConnections = async ({
+  userId,
+  profileId,
+  userType ,
+  filterType = "Company",
+  page = 1,
+  limit = 10,
+}) => {
+  try {
+    const res = await axios.get(
+      `/get/others/connection?userType=${userType}&filterType=${filterType}&page=${page}&limit=${limit}&userId=${userId}&profileId=${profileId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getOthersUserConnections = async ({
+  userId,
+  profileId,
+  userType,
+  filterType = "User",
+  page = 1,
+  limit = 10,
+}) => {
+  try {
+    const res = await axios.get(
+      `/get/others/connection?userType=${userType}&filterType=${filterType}&page=${page}&limit=${limit}&userId=${userId}&profileId=${profileId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useCompanyConnectionsStore = exports["default"] = void 0;
+exports.useOthersCompanyConnectionsStore = exports.useCompanyConnectionsStore = exports["default"] = void 0;
 
 var _zustand = require("zustand");
 
@@ -107,7 +107,7 @@ var useCompanyConnectionsStore = (0, _zustand.create)((0, _middleware.devtools)(
         };
       });
     },
-    // Reset store  
+    // Reset store
     resetConnections: function resetConnections() {
       return set({
         connections: [],
@@ -120,3 +120,51 @@ var useCompanyConnectionsStore = (0, _zustand.create)((0, _middleware.devtools)(
   name: "CompanyConnectionsStore"
 }));
 exports.useCompanyConnectionsStore = useCompanyConnectionsStore;
+var useOthersCompanyConnectionsStore = (0, _zustand.create)((0, _middleware.devtools)(function (set) {
+  return {
+    connections: [],
+    pagination: null,
+    hasMore: true,
+    setConnections: function setConnections(connections) {
+      return set({
+        connections: connections
+      });
+    },
+    setPagination: function setPagination(pagination) {
+      return set({
+        pagination: pagination
+      });
+    },
+    setHasMore: function setHasMore(hasMore) {
+      return set({
+        hasMore: hasMore
+      });
+    },
+    addConnection: function addConnection(newConnection) {
+      return set(function (state) {
+        return {
+          connections: [newConnection].concat(_toConsumableArray(state.connections))
+        };
+      });
+    },
+    removeConnection: function removeConnection(connectionId) {
+      return set(function (state) {
+        return {
+          connections: state.connections.filter(function (conn) {
+            return conn.connectionId !== connectionId;
+          })
+        };
+      });
+    },
+    resetConnections: function resetConnections() {
+      return set({
+        connections: [],
+        pagination: null,
+        hasMore: true
+      });
+    }
+  };
+}, {
+  name: "OthersCompanyConnectionsStore"
+}));
+exports.useOthersCompanyConnectionsStore = useOthersCompanyConnectionsStore;

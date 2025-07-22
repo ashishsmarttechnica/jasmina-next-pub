@@ -1,7 +1,7 @@
 import axios from "@/lib/axios";
 
-export const getAllMemberships = async () => {
-  const res = await axios.get("/get/all/membership");
+export const getAllMemberships = async (companyId) => {
+  const res = await axios.get(`/get/all/membership?companyId=${companyId}`);
   return res.data;
 };
 

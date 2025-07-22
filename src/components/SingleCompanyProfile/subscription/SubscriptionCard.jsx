@@ -11,9 +11,7 @@ const SubscriptionCard = ({
   isCurrentPlan,
 }) => {
   return (
-    <div
-      className={`relative z-0 overflow-hidden rounded-lg bg-white p-6`}
-    >
+    <div className={`relative z-0 overflow-hidden rounded-lg bg-white p-6`}>
       <div className="absolute inset-0 z-0">
         <Image
           src={back}
@@ -40,15 +38,10 @@ const SubscriptionCard = ({
           </p>
         </div>
         <button
-          className={`mx-auto flex items-center justify-center rounded-md px-6 py-2 ${
-            isCurrentPlan
-              ? "cursor-not-allowed bg-gray-200 text-gray-500"
-              : "bg-primary text-white hover:bg-green-700"
-          } ${!isCurrentPlan ? "cursor-not-allowed" : ""}`}
-          disabled={isCurrentPlan}
+          className="bg-primary mx-auto flex items-center justify-center rounded-md px-6 py-2 text-white hover:bg-green-700"
           onClick={handleUpgrade}
         >
-          {isCurrentPlan ? "Current Plan" :  "Get Started" }
+          {!isActive === true ? "Get Started" : " current plan"}
         </button>
       </div>
     </div>

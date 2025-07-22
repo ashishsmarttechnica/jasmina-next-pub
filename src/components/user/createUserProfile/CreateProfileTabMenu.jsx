@@ -37,7 +37,7 @@ const VerificationBar = () => {
     availabilty !== "Not Available" && {
       label: t("preferences"),
       icon: (isActive) => <Preference isActive={isActive} />,
-      component: <Preferences setActiveTab={setActiveTab} />,
+      component: <Preferences setActiveTab={setActiveTab} availabilty={availabilty} />,
     },
     // {
     //   label: t("preferences"),

@@ -1,6 +1,5 @@
 "use client";
 import useNotificationStore from "@/store/notification.store";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
 const tabs = [
@@ -12,7 +11,7 @@ const tabs = [
 const useGetNotifications = () => {
   const { notifications, loading, error, fetchNotifications, page, hasMore } =
     useNotificationStore();
-  const viewerId = Cookies.get("userId") || "6875ce7685b46853a0f1d90c";
+  const viewerId = "6875ce7685b46853a0f1d90c";
   const limit = 5;
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const Notification = () => {
   const { notifications, loading, error, hasMore, loadMore } = useGetNotifications();
 
   return (
-    <div className="mt-13 rounded-lg bg-white py-6 shadow">
+    <div className="rounded-lg bg-white shadow">
       {/* Tabs */}
       {/* <div className="mb-6 flex gap-4">
         {tabs.map((tab, idx) => (
@@ -72,7 +71,7 @@ const Notification = () => {
               <div className="flex items-center gap-4">
                 {/* If you want to show createdAt as time, format as needed */}
                 <div className="whitespace-nowrap text-gray-400">
-                  {new Date(n.createdAt).toLocaleString()}
+                  {new Date(n.createdAt).toLocaleTimeString()}
                 </div>
               </div>
             </div>

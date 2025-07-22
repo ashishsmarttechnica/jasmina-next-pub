@@ -61,7 +61,7 @@ export const useCompanyConnectionsStore = create(
           connections: state.connections.filter((conn) => conn.connectionId !== connectionId),
         })),
 
-      // Reset store  
+      // Reset store
       resetConnections: () =>
         set({
           connections: [],
@@ -70,5 +70,37 @@ export const useCompanyConnectionsStore = create(
         }),
     }),
     { name: "CompanyConnectionsStore" }
+  )
+);
+
+export const useOthersCompanyConnectionsStore = create(
+  devtools(
+    (set) => ({
+      connections: [],
+      pagination: null,
+      hasMore: true,
+
+      setConnections: (connections) => set({ connections }),
+      setPagination: (pagination) => set({ pagination }),
+      setHasMore: (hasMore) => set({ hasMore }),
+
+      addConnection: (newConnection) =>
+        set((state) => ({
+          connections: [newConnection, ...state.connections],
+        })),
+
+      removeConnection: (connectionId) =>
+        set((state) => ({
+          connections: state.connections.filter((conn) => conn.connectionId !== connectionId),
+        })),
+
+      resetConnections: () =>
+        set({
+          connections: [],
+          pagination: null,
+          hasMore: true,
+        }),
+    }),
+    { name: "OthersCompanyConnectionsStore" }
   )
 );

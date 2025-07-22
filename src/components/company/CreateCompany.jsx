@@ -12,6 +12,7 @@ import CompanyBasicInfo from "./companyUpdateForm/CompanyBasicInfo";
 import CompanyLocationForm from "./companyUpdateForm/CompanyLocationForm";
 import CompanyMediaForm from "./companyUpdateForm/CompanyMediaForm";
 import CompanySizeForm from "./companyUpdateForm/CompanySizeForm";
+import LGBTQCheckbox from "./LGBTQCheckbox";
 
 const CreateCompany = () => {
   const t = useTranslations("CompanyProfile.industry");
@@ -21,7 +22,8 @@ const CreateCompany = () => {
   const [selectedBannerimgImage, setSelectedBannerimgImage] = useState(Bannerimg);
   const [selectedCompanyImageFile, setSelectedCompanyImageFile] = useState(null);
   const [selectedBannerImageFile, setSelectedBannerImageFile] = useState(null);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isLGBTQChecked, setIsLGBTQChecked] = useState(false);
   const [termsError, setTermsError] = useState("");
   const [lgbtqError, setLgbtqError] = useState("");
   const [formData, setFormData] = useState({
@@ -66,18 +68,19 @@ const CreateCompany = () => {
     e.preventDefault();
     let hasError = false;
     if (!validateForm(formData)) return;
-    if (!isChecked) {
+    if (!isTermsChecked) {
       setTermsError(t("checkSingUp"));
       hasError = true;
     } else {
       setTermsError("");
     }
-    if (formData.country && !formData.isLGBTQ && formData.isLGBTQ === true) {
+    if (formData.isLGBTQ && !isLGBTQChecked) {
       setLgbtqError("Please confirm your company's LGBTQ+ commitment to proceed.");
       hasError = true;
     } else {
       setLgbtqError("");
     }
+
     if (hasError) return;
 
     const submitData = new FormData();
@@ -175,39 +178,23 @@ const CreateCompany = () => {
         setSelectedBannerImageFile={setSelectedBannerImageFile}
       />
       <TermsCheckbox
-        isChecked={isChecked}
+        isChecked={isTermsChecked}
         setIsChecked={(checked) => {
-          setIsChecked(checked);
+          setIsTermsChecked(checked);
           if (checked) setTermsError("");
         }}
         error={termsError}
       />
-      {/*  */}
       {/* LGBTQ Checkbox Section */}
-      {formData.country && formData.isLGBTQ === true && (
-        <div className="mt-4">
-          <div className="flex items-start gap-2">
-            <input
-              type="checkbox"
-              id="default-checkbox"
-              className="border-grayBlueText/[50%] mt-1 h-8 w-8 border bg-gray-100 text-blue-600"
-              checked={formData.isLGBTQ}
-              onChange={(e) => {
-                setFormData((prev) => ({ ...prev, isLGBTQ: e.target.checked }));
-                if (e.target.checked) setLgbtqError("");
-              }}
-            />
-            <label htmlFor="default-checkbox" className="text-sm text-gray-600">
-              <p className="text-grayBlueText text-sm text-[13px] leading-[21px]">
-                By activating this, Our company commits to being LGBTQ+ inclusive and operating in a
-                country that respects LGBTQ+ rights. We agree to provide documentation upon request
-                and await admin approval
-              </p>
-            </label>
-          </div>
-          {lgbtqError && <div className="mt-1 text-[13px] text-red-600">{lgbtqError}</div>}
-        </div>
-      )}
+      <LGBTQCheckbox
+        show={formData.country && formData.isLGBTQ === true}
+        isChecked={isLGBTQChecked}
+        setIsChecked={(checked) => {
+          setIsLGBTQChecked(checked);
+          if (checked) setLgbtqError("");
+        }}
+        lgbtqError={lgbtqError}
+      />
 
       <div className="grid grid-cols-1 gap-2">
         <div className="block space-y-4">

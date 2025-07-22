@@ -44,7 +44,8 @@ const SearchBar = ({ placeholder = "Search..." }) => {
 
     try {
       setIsLoading(true);
-      const response = await getSearchSuggestions({ query: searchQuery, page: 1 });
+      const userId = Cookies.get("userId");
+      const response = await getSearchSuggestions({ query: searchQuery, page: 1, userId });
       if (response?.success) {
         setSuggestions({
           users: response.data.users || [],

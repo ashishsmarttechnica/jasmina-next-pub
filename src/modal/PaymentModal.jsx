@@ -18,6 +18,8 @@ const PaymentModal = ({
   onPlanPurchased, // Add callback prop
   currentPlan, // Add currentPlan to props
 }) => {
+
+
   const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState({
     email: "",
@@ -90,6 +92,7 @@ const PaymentModal = ({
 
       // 3. Call your backend API to process the purchase
       const purchaseData = {
+        membershipId: selectedPlan?._id,
         companyId: companyId, // Use the passed companyId instead of loginUser._id
         title: selectedPlan?.title || "",
         price: Number(selectedPlan?.price) || 0,

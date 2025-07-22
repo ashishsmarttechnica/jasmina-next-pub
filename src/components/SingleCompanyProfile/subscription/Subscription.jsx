@@ -19,8 +19,9 @@ const Subscription = () => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["memberships"],
-    queryFn: getAllMemberships,
+    queryKey: ["memberships", companyId],
+    queryFn: () => getAllMemberships(companyId),
+    enabled: !!companyId,
   });
 
   const [paymentScreen, setPaymentScreen] = useState(false);
@@ -30,8 +31,11 @@ const Subscription = () => {
   const [currentPlan, setCurrentPlan] = useState(null);
 
   const handleUpgrade = (plan) => {
+    console.log(plan, "plan 546546");
+
     const formattedPlan = {
       ...plan,
+      membershipId: plan._id,
       employeeRange: {
         min: plan.employeeRange?.min || 0,
         max: plan.employeeRange?.max || 0,

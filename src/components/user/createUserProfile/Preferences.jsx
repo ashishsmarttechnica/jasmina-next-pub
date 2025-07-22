@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Loader } from "rsuite";
 import JobTypeButton from "./JobTypeButton";
 
-const Preferences = ({ setActiveTab }) => {
+const Preferences = ({ setActiveTab, availabilty }) => {
   const { user, setUser } = useAuthStore();
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.preferences");
@@ -28,6 +28,7 @@ const Preferences = ({ setActiveTab }) => {
   const workLocationOptions = useWorkLocationOptions();
   const industryOptions = useIndustryOptions();
   const currencyOptions = useCurrencyOptions();
+  console.log(availabilty, "hhhhhhhhhhhhhh");
 
   const [formData, setFormData] = useState({
     role: "",
@@ -66,7 +67,7 @@ const Preferences = ({ setActiveTab }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm(formData)) return;
+    if (!validateForm(formData, availabilty)) return;
     const submitData = new FormData();
     submitData.append("preferences.jobRole", formData.role);
     submitData.append("preferences.jobType", formData.jobType);
@@ -136,17 +137,19 @@ const Preferences = ({ setActiveTab }) => {
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <InputField
-              label={`${t("salaryrange")}*`}
-              name="salaryRange"
-              value={formData.salaryRange}
-              onChange={handleChange}
-              error={errors.salaryRange}
-              type="text"
-            />
-            <p className="mt-1 text-xs text-gray-500">{t("description")}</p>
-          </div>
+          {["Open to Work", "Available for Freelance"].includes(availabilty) && (
+            <div className="flex flex-col">
+              <InputField
+                label={`${t("salaryrange")}*`}
+                name="salaryRange"
+                value={formData.salaryRange}
+                onChange={handleChange}
+                error={errors.salaryRange}
+                type="text"
+              />
+              <p className="mt-1 text-xs text-gray-500">{t("description")}</p>
+            </div>
+          )}
 
           <div className="flex flex-col">
             <Selecter

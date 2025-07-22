@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getOthersConnection = exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getCompanyConnections = exports.getConnections = exports.createConnection = void 0;
+exports.getOthersUserConnections = exports.getOthersCompanyConnections = exports.getOthersConnection = exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getCompanyConnections = exports.getConnections = exports.createConnection = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -204,3 +204,65 @@ var getOthersConnection = function getOthersConnection(_ref3) {
 };
 
 exports.getOthersConnection = getOthersConnection;
+
+var getOthersCompanyConnections = function getOthersCompanyConnections(_ref4) {
+  var userId, profileId, userType, _ref4$filterType, filterType, _ref4$page, page, _ref4$limit, limit, res;
+
+  return regeneratorRuntime.async(function getOthersCompanyConnections$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          userId = _ref4.userId, profileId = _ref4.profileId, userType = _ref4.userType, _ref4$filterType = _ref4.filterType, filterType = _ref4$filterType === void 0 ? "Company" : _ref4$filterType, _ref4$page = _ref4.page, page = _ref4$page === void 0 ? 1 : _ref4$page, _ref4$limit = _ref4.limit, limit = _ref4$limit === void 0 ? 10 : _ref4$limit;
+          _context8.prev = 1;
+          _context8.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/others/connection?userType=".concat(userType, "&filterType=").concat(filterType, "&page=").concat(page, "&limit=").concat(limit, "&userId=").concat(userId, "&profileId=").concat(profileId)));
+
+        case 4:
+          res = _context8.sent;
+          return _context8.abrupt("return", res.data);
+
+        case 8:
+          _context8.prev = 8;
+          _context8.t0 = _context8["catch"](1);
+          throw _context8.t0;
+
+        case 11:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+};
+
+exports.getOthersCompanyConnections = getOthersCompanyConnections;
+
+var getOthersUserConnections = function getOthersUserConnections(_ref5) {
+  var userId, profileId, userType, _ref5$filterType, filterType, _ref5$page, page, _ref5$limit, limit, res;
+
+  return regeneratorRuntime.async(function getOthersUserConnections$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          userId = _ref5.userId, profileId = _ref5.profileId, userType = _ref5.userType, _ref5$filterType = _ref5.filterType, filterType = _ref5$filterType === void 0 ? "User" : _ref5$filterType, _ref5$page = _ref5.page, page = _ref5$page === void 0 ? 1 : _ref5$page, _ref5$limit = _ref5.limit, limit = _ref5$limit === void 0 ? 10 : _ref5$limit;
+          _context9.prev = 1;
+          _context9.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/others/connection?userType=".concat(userType, "&filterType=").concat(filterType, "&page=").concat(page, "&limit=").concat(limit, "&userId=").concat(userId, "&profileId=").concat(profileId)));
+
+        case 4:
+          res = _context9.sent;
+          return _context9.abrupt("return", res.data);
+
+        case 8:
+          _context9.prev = 8;
+          _context9.t0 = _context9["catch"](1);
+          throw _context9.t0;
+
+        case 11:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+};
+
+exports.getOthersUserConnections = getOthersUserConnections;

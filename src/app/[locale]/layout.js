@@ -1,15 +1,15 @@
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { Ubuntu_Sans } from "next/font/google";
-import "rsuite/dist/rsuite-no-reset.min.css";
-import "@/styles/globals.css";
-import { CustomProvider } from "rsuite";
 import Footer from "@/components/footer/Footer";
+import { routing } from "@/i18n/routing";
+import AppInit from "@/lib/AppInit";
 import QueryProvider from "@/providers/QueryProvider";
+import "@/styles/globals.css";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { Ubuntu_Sans } from "next/font/google";
+import { notFound } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Add CSS for styling the toast
-import AppInit from "@/lib/AppInit";
+import { CustomProvider } from "rsuite";
+import "rsuite/dist/rsuite-no-reset.min.css";
 
 const ubuntu = Ubuntu_Sans({
   variable: "--font-ubuntu",
