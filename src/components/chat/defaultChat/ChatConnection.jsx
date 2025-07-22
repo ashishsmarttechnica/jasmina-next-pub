@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import CommonTitle from "../../../common/CommonTitle"
-import ChatSidebar from "./ChatSidebar"
-import ChatWindow from "./ChatWindow"
-import DefaultChatView from "./DefaultChatView"
+import { useState } from "react";
+import CommonTitle from "../../../common/CommonTitle";
+import ChatSidebar from "./ChatSidebar";
+import ChatWindow from "./ChatWindow";
+import DefaultChatView from "./DefaultChatView";
 
 // Dummy chat data
 const dummyChats = {
@@ -66,59 +66,48 @@ const dummyChats = {
         },
       ],
     },
-    
   ],
-}
+};
 
 const ChatConnection = () => {
-  const [chats] = useState(dummyChats)
-  const [activeChat, setActiveChat] = useState(null)
+  const [activeChat, setActiveChat] = useState(null);
 
   const handleSelectChat = (chat) => {
-    setActiveChat(chat)
-  }
+    setActiveChat(chat);
+  };
 
   const handleBackToSidebar = () => {
-    setActiveChat(null)
-  }
+    setActiveChat(null);
+  };
 
   return (
     <div>
-        <div className="w-full  flex gap-4  flex-col xl:flex-row">
-          <div className="md:w-full xl:max-w-[829px] xl:w-[829px] bg-white rounded-md flex flex-col ">
-            <div className="">
-
+      <div className="flex w-full flex-col gap-4 xl:flex-row">
+        <div className="flex flex-col rounded-md bg-white md:w-full xl:w-[829px] xl:max-w-[829px]">
+          <div className="">
             <CommonTitle title="Messaging" />
+          </div>
+          <div className="flex flex-1 overflow-hidden">
+            <div
+              className={`no-scrollbar w-full overflow-auto overflow-y-auto border-r border-slate-200 md:max-w-[276.5px] ${
+                activeChat ? "hidden md:block" : "block"
+              }`}
+            >
+              <ChatSidebar onSelect={handleSelectChat} activeChat={activeChat} />
             </div>
-            <div className="flex flex-1 overflow-hidden">
-              <div
-                className={`w-full md:max-w-[276.5px] overflow-auto no-scrollbar border-r border-slate-200 overflow-y-auto ${
-                  activeChat ? "hidden md:block" : "block"
-                }`}
-              >
-                <ChatSidebar
-                  chats={chats.conversations}
-                  onSelect={handleSelectChat}
-                  activeChat={activeChat}
-                />
-              </div>
 
-              <div
-                className={`w-full md:w-full ${
-                  activeChat ? "block" : "hidden"
-                } md:block h-full`}
-              >
-                {activeChat ? (
-                  <ChatWindow chat={activeChat} onBack={handleBackToSidebar} />
-                ) : (
-                  <DefaultChatView />
-                )}
-              </div>
+            <div className={`w-full md:w-full ${activeChat ? "block" : "hidden"} h-full md:block`}>
+              {activeChat ? (
+                <ChatWindow chat={activeChat} onBack={handleBackToSidebar} />
+              ) : (
+                <DefaultChatView />
+              )}
             </div>
           </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatConnection
+export default ChatConnection;

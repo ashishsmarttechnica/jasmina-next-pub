@@ -4,6 +4,7 @@ import useTabUnderlineAnimation from "@/hooks/connections/animation/useTabUnderl
 import { useConnections } from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ConnectionHeader from "./ConnectionHeader";
 import ConnectionsList from "./ConnectionsList";
@@ -12,9 +13,13 @@ import ErrorDisplay from "./ErrorDisplay";
 import TabsWithUnderline from "./TabsWithUnderline";
 
 const ConnectionsContent = () => {
+  const searchParams = useSearchParams();
+  const profileId = searchParams.get("profileId");
+  const profileType = searchParams.get("type") || "User";
+  const tabParam = searchParams.get("tab");
   const peopleRef = useRef(null);
   const companyRef = useRef(null);
-  const [activeTab, setActiveTab] = useState("people");
+  const [activeTab, setActiveTab] = useState(tabParam || "people");
   const [userPage, setUserPage] = useState(1);
   const [companyPage, setCompanyPage] = useState(1);
 
@@ -45,7 +50,11 @@ const ConnectionsContent = () => {
     error: userError,
     refetch: refetchUser,
     isFetching: isUserFetching,
-  } = useConnections("User", userPage, undefined, { enabled: activeTab === "people" });
+  } = useConnections("User", userPage, undefined, {
+    enabled: activeTab === "people",
+    userId: profileId,
+    userType: profileType,
+  });
 
   const {
     data: companyData,
@@ -54,7 +63,11 @@ const ConnectionsContent = () => {
     error: companyError,
     refetch: refetchCompany,
     isFetching: isCompanyFetching,
-  } = useConnections("Company", companyPage, undefined, { enabled: activeTab === "company" });
+  } = useConnections("Company", companyPage, undefined, {
+    enabled: activeTab === "company",
+    userId: profileId,
+    userType: profileType,
+  });
 
   const currentConnections = activeTab === "people" ? userConnections : companyConnections;
   const currentPagination = activeTab === "people" ? userPagination : companyPagination;

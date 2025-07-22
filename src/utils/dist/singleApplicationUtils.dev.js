@@ -8,31 +8,32 @@ exports.getJobStatusLabel = exports.getStatusText = exports.formatDate = exports
 // Utility functions for SingleApplicationComponent
 var getStatusColor = function getStatusColor(status) {
   switch (status) {
-    case "Interviewing":
+    case "New":
     case "1":
       return "bg-purple-100 text-purple-800";
 
-    case "Approved":
+    case "Interviewing":
     case "2":
       return "bg-yellow-100 text-yellow-800";
 
-    case "Rejected":
+    case "Approved":
     case "3":
       return "bg-green-100 text-green-800";
 
-    case "Hired":
+    case "Rejected":
     case "4":
       return "bg-red-100 text-red-800";
 
-    case "Reviewed":
+    case "Hired":
     case "5":
       return "bg-teal-100 text-teal-800";
-    // case "Hired":
-    // case "5":
-    //   return "bg-teal-100 text-teal-800";
+
+    case "Reviewed":
+    case "6":
+      return "bg-teal-100 text-teal-800";
 
     default:
-      return "bg-gray-100 text-gray-800";
+      return status || "New";
   }
 };
 
@@ -52,23 +53,27 @@ exports.formatDate = formatDate;
 
 var getStatusText = function getStatusText(status) {
   switch (status) {
+    case "0":
     case "1":
-      return "Interviewing";
+      return "New";
 
     case "2":
-      return "Approved";
+      return "Interviewing";
 
     case "3":
-      return "Rejected";
+      return "Approved";
 
     case "4":
-      return "Hired";
+      return "Rejected";
 
     case "5":
+      return "Hired";
+
+    case "6":
       return "Reviewed";
 
     default:
-      return status || "Interviewing";
+      return status || "New";
   }
 }; // Get job status label (different from application status)
 
@@ -77,7 +82,7 @@ exports.getStatusText = getStatusText;
 
 var getJobStatusLabel = function getJobStatusLabel(status) {
   if (typeof status === "number") {
-    return status === 0 ? "Open" : status === 1 ? "Closed" : "In Progress";
+    return status === 1 ? "Open" : status === 2 ? "Closed" : "In Progress";
   }
 
   return status || "Unknown";

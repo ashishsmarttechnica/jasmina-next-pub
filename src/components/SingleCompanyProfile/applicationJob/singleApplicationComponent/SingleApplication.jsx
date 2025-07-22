@@ -59,7 +59,6 @@ const SingleApplication = () => {
   const isLastPage = applicantsData?.isLastPage || false;
   const pagination = applicantsData?.pagination || { total: 0 };
 
-
   useEffect(() => {
     if (applicants.length > 0 && !selectedApplicant) {
       // Auto-select first applicant when data loads

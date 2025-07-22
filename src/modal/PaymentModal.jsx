@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Modal } from "rsuite";
+import PreviousPlanCard from "../components/SingleCompanyProfile/previousplans/PreviousPlanCard";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 const PaymentModal = ({
   stripePromise,
@@ -14,6 +15,8 @@ const PaymentModal = ({
   stripeElement,
   loginUser,
   companyId, // Add companyId to props
+  onPlanPurchased, // Add callback prop
+  currentPlan, // Add currentPlan to props
 }) => {
   const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState({
@@ -21,6 +24,8 @@ const PaymentModal = ({
   });
   const [purchasedPlan, setPurchasedPlan] = useState(null); // Add state for purchased plan
   const stripeCustomerId = Cookies.get("stripeCustomerId");
+  const [activePlanModalOpen, setActivePlanModalOpen] = useState(false);
+  const [activePlanModalError, setActivePlanModalError] = useState("");
 
   console.log(stripeCustomerId, "stripeCustomerId");
   // const { mutate, isPending, error } = useLogin();
@@ -38,6 +43,12 @@ const PaymentModal = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email } = paymentData;
+
+    // Prevent purchasing the same plan again
+    if (currentPlan && selectedPlan && selectedPlan._id === currentPlan._id) {
+      toast.error("You have already purchased this plan.");
+      return;
+    }
 
     if (!email) {
       toast.error("Please fill in email field.");
@@ -99,14 +110,23 @@ const PaymentModal = ({
           setPaymentModal(false);
           toast.success("Payment successful! Your plan has been upgraded.");
           setPaymentData({ email: "" });
+          if (onPlanPurchased) onPlanPurchased(response.plan); // Call parent callback
         } else {
           throw new Error(response.message || "Payment failed");
         }
       } catch (error) {
         console.error("API Error:", error);
-        toast.error(
-          error.response?.data?.message || error.message || "Payment failed. Please try again."
-        );
+        const errorMsg = error.response?.data?.message || error.message || "";
+        // Check for the specific error message
+        if (
+          errorMsg ===
+          "You already have an active plan. Please wait until it expires before purchasing a new one."
+        ) {
+          setActivePlanModalError(errorMsg);
+          setActivePlanModalOpen(true);
+        } else {
+          toast.error(errorMsg || "Payment failed. Please try again.");
+        }
         throw error;
       }
     } catch (error) {
@@ -219,6 +239,23 @@ const PaymentModal = ({
         onClose={() => setSuccessModal(false)}
         purchasedPlan={purchasedPlan}
       />
+
+      <Modal
+        open={activePlanModalOpen}
+        onClose={() => setActivePlanModalOpen(false)}
+        className="modal-p-0 w-full select-none lg:max-w-[900px]"
+      >
+        <div className="p-6 text-center">
+          <h4 className="mb-4 text-lg font-semibold text-red-600">{activePlanModalError}</h4>
+          <PreviousPlanCard companyId={companyId} />
+          <button
+            className="bg-primary hover:bg-primary/80 mt-6 rounded px-4 py-2 text-white"
+            onClick={() => setActivePlanModalOpen(false)}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };

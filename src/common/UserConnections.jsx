@@ -15,7 +15,15 @@ const UserConnections = ({ title }) => {
   const userType = Cookies.get("userRole");
   const router = useRouter();
   const { data, isLoading, isError, error } = useConnections("User", 1, 6);
+  console.log(data, "data@@@@@......");
+
   const displayData = connections?.length ? connections : data?.connections;
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
 
   const getItemConfig = (item) => {
     const type = item?.connectionType;
@@ -27,6 +35,7 @@ const UserConnections = ({ title }) => {
         image: item?.details?.profile?.photo,
         name: item?.details?.profile?.fullName,
         subtitle: item?.details?.preferences?.jobRole,
+        availabilty: item?.details?.profile?.availabilty,
         showOnline: true,
         online: item?.online,
         type: "User",
@@ -37,6 +46,7 @@ const UserConnections = ({ title }) => {
         image: item.details && item.details.logoUrl ? item.details.logoUrl : undefined,
         name: item.details?.companyName,
         subtitle: item.details?.industryType,
+        availabilty: item?.details?.profile?.availabilty,
         isLGBTQFriendly: item.details?.isLGBTQFriendly,
         showOnline: false,
         online: false,
@@ -114,6 +124,11 @@ const UserConnections = ({ title }) => {
                       onClick={() => handleUserProfile(user)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.availabilty && (
+                      <span className="text-primary text-[9px]">
+                        {availabilityIcons[config?.availabilty] || ""}
+                      </span>
+                    )}
                     {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />

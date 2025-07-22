@@ -132,27 +132,37 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
             <div className="block gap-2">
               {AppliedStatus === "0" && (
                 <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-                  Reviewed
+                  New
                 </span>
               )}
               {AppliedStatus === "1" && (
+                <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                  New
+                </span>
+              )}
+              {AppliedStatus === "2" && (
                 <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
                   Interviewing
                 </span>
               )}
-              {AppliedStatus === "2" && (
+              {AppliedStatus === "3" && (
                 <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
                   Approved
                 </span>
               )}
-              {AppliedStatus === "3" && (
+              {AppliedStatus === "4" && (
                 <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
                   Rejected
                 </span>
               )}
-              {AppliedStatus === "4" && (
-                <span className="inline-block rounded bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+              {AppliedStatus === "5" && (
+                <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
                   Hired
+                </span>
+              )}
+              {AppliedStatus === "6" && (
+                <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
+                  Reviewed
                 </span>
               )}
             </div>

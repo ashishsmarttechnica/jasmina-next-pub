@@ -121,27 +121,37 @@ const AppliedJobsMainPage = () => {
                         <div className="block gap-2">
                           {job?.Appliedstatus === "0" && (
                             <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-                              Reviewed
+                              New
                             </span>
                           )}
                           {job?.Appliedstatus === "1" && (
+                            <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                              New
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "2" && (
                             <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
                               Interviewing
                             </span>
                           )}
-                          {job?.Appliedstatus === "2" && (
+                          {job?.Appliedstatus === "3" && (
                             <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
                               Approved
                             </span>
                           )}
-                          {job?.Appliedstatus === "3" && (
+                          {job?.Appliedstatus === "4" && (
                             <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
                               Rejected
                             </span>
                           )}
-                          {job?.Appliedstatus === "4" && (
+                          {job?.Appliedstatus === "5" && (
                             <span className="inline-block rounded bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
                               Hired
+                            </span>
+                          )}
+                          {job?.Appliedstatus === "6" && (
+                            <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
+                              Reviewed
                             </span>
                           )}
                         </div>

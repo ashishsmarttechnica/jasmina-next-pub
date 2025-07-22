@@ -6,7 +6,6 @@ import { useRouter } from "@/i18n/navigation";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { Loader } from "rsuite";
 import TermsCheckbox from "../auth/TermsCheckbox";
 import CompanyBasicInfo from "./companyUpdateForm/CompanyBasicInfo";
@@ -23,6 +22,8 @@ const CreateCompany = () => {
   const [selectedCompanyImageFile, setSelectedCompanyImageFile] = useState(null);
   const [selectedBannerImageFile, setSelectedBannerImageFile] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [termsError, setTermsError] = useState("");
+  const [lgbtqError, setLgbtqError] = useState("");
   const [formData, setFormData] = useState({
     companyName: "",
     firstName: "",
@@ -63,11 +64,21 @@ const CreateCompany = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let hasError = false;
     if (!validateForm(formData)) return;
     if (!isChecked) {
-      toast.warning(t("checkSingUp"));
-      return;
+      setTermsError(t("checkSingUp"));
+      hasError = true;
+    } else {
+      setTermsError("");
     }
+    if (formData.country && !formData.isLGBTQ && formData.isLGBTQ === true) {
+      setLgbtqError("Please confirm your company's LGBTQ+ commitment to proceed.");
+      hasError = true;
+    } else {
+      setLgbtqError("");
+    }
+    if (hasError) return;
 
     const submitData = new FormData();
 
@@ -86,7 +97,7 @@ const CreateCompany = () => {
     } else {
       submitData.append("industryType", formData.industryType);
     }
-
+    console.log(formData.isLGBTQ, "formData.isLGBTQ");
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);
@@ -163,25 +174,30 @@ const CreateCompany = () => {
         setSelectedImage={setSelectedBannerimgImage}
         setSelectedBannerImageFile={setSelectedBannerImageFile}
       />
-      <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
-
+      <TermsCheckbox
+        isChecked={isChecked}
+        setIsChecked={(checked) => {
+          setIsChecked(checked);
+          if (checked) setTermsError("");
+        }}
+        error={termsError}
+      />
+      {/*  */}
       {/* LGBTQ Checkbox Section */}
       {formData.country && formData.isLGBTQ === true && (
         <div className="mt-4">
           <div className="flex items-start gap-2">
             <input
               type="checkbox"
-              id="lgbtq-commitment"
-              className="border-grayBlueText/[50%] focus:ring-primary mt-1 h-4 w-4 border bg-gray-100 text-blue-600 focus:ring-1"
+              id="default-checkbox"
+              className="border-grayBlueText/[50%] mt-1 h-8 w-8 border bg-gray-100 text-blue-600"
               checked={formData.isLGBTQ}
               onChange={(e) => {
-                // Only allow checking, prevent unchecking
-                if (e.target.checked) {
-                  setFormData((prev) => ({ ...prev, isLGBTQ: true }));
-                }
+                setFormData((prev) => ({ ...prev, isLGBTQ: e.target.checked }));
+                if (e.target.checked) setLgbtqError("");
               }}
             />
-            <label htmlFor="lgbtq-commitment" className="text-sm text-gray-600">
+            <label htmlFor="default-checkbox" className="text-sm text-gray-600">
               <p className="text-grayBlueText text-sm text-[13px] leading-[21px]">
                 By activating this, Our company commits to being LGBTQ+ inclusive and operating in a
                 country that respects LGBTQ+ rights. We agree to provide documentation upon request
@@ -189,6 +205,7 @@ const CreateCompany = () => {
               </p>
             </label>
           </div>
+          {lgbtqError && <div className="mt-1 text-[13px] text-red-600">{lgbtqError}</div>}
         </div>
       )}
 

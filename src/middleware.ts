@@ -12,6 +12,7 @@ const publicRoutes = [
   "/verify-otp",
   "/post",
   "/post/:postId",
+  
 ];
 
 // Define profile creation routes
@@ -23,6 +24,7 @@ const profileCreationRoutes = {
 // Define shared routes accessible by both user and company
 const sharedRoutes = [
   "/chat",
+  "/notifications",
   "/connections",
   "/single-user",
   "/applicationjob/:id",

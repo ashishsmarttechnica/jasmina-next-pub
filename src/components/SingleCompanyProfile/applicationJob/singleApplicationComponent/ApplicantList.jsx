@@ -21,9 +21,9 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         return (
           <div
             key={applicant._id || applicant.id}
-            className={`flex cursor-pointer flex-col border-b border-gray-100 p-4 hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between ${
-              selectedApplicant?._id === applicant._id || selectedApplicant?.id === applicant.id
-                ? "bg-gray-50"
+            className={`flex cursor-pointer flex-col border-b border-gray-100 p-4 transition-colors duration-150 hover:bg-gray-100 sm:flex-row sm:items-center sm:justify-between ${
+              selectedApplicant?._id === applicant._id
+                ? "border-l-4 border-[#0a66c2] bg-[#e7f3ff]"
                 : ""
             }`}
             onClick={() => {
@@ -31,7 +31,13 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
             }}
           >
             <div className="flex-1">
-              <h3 className="text-[15px] font-medium">{applicant.name || "Unknown"}</h3>
+              <h3
+                className={`text-[15px] font-medium ${
+                  selectedApplicant?._id === applicant._id ? "font-bold text-[#0a66c2]" : ""
+                }`}
+              >
+                {applicant.name || "Unknown"}
+              </h3>
               <p className="text-sm text-gray-500">{applicant.location || "No location"}</p>
             </div>
             <div className="mt-2 flex items-center justify-between gap-4 sm:mt-0">

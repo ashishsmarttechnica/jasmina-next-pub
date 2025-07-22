@@ -60,3 +60,14 @@ export const removeConnection = async (data) => {
     throw error;
   }
 };
+
+export const getOthersConnection = async ({ viewerId, profileId }) => {
+  try {
+    const res = await axios.get(
+      `/get/others/connection?viewerId=${viewerId}&profileId=${profileId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -43,7 +43,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const { mutate: removeConnection } = useRemoveConnection();
 
   const handleConnectionClick = () => {
-    router.push("/en/connections");
+    if (userData?._id) {
+      router.push(`/en/connections?profileId=${userData._id}&type=Company&tab=company`);
+    } else {
+      router.push("/en/connections");
+    }
   };
   const handleResentPassword = () => {
     setIsPasswordModalOpen(true);

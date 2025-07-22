@@ -1,4 +1,9 @@
-import { createConnection, getCompanyConnections, getConnections, removeConnection } from "@/api/connection.api";
+import {
+  createConnection,
+  getCompanyConnections,
+  getConnections,
+  removeConnection,
+} from "@/api/connection.api";
 import capitalize from "@/lib/capitalize";
 import useConnectionsStore, { useCompanyConnectionsStore } from "@/store/connections.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -6,8 +11,8 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 export const useConnections = (connectionType, page, limit, options = {}) => {
-  const userId = Cookies.get("userId");
-  const userType = capitalize(Cookies.get("userRole"));
+  const userId = options.userId || Cookies.get("userId");
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
 
   return useQuery({
@@ -41,8 +46,8 @@ export const useConnections = (connectionType, page, limit, options = {}) => {
   });
 };
 export const useCompanyConnections = (connectionType, page, limit, options = {}) => {
-  const userId = Cookies.get("userId");
-  const userType = capitalize(Cookies.get("userRole"));
+  const userId = options.userId || Cookies.get("userId");
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useCompanyConnectionsStore();
 
   return useQuery({

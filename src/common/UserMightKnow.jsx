@@ -16,7 +16,12 @@ import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 const UserMightKnow = () => {
   const userType = capitalize(Cookies.get("userRole"));
   console.log(userType, "userType+++++++++++++++++");
-
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
   // Conditionally use the correct store and hook
   let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;
   if (userType === "Company") {
@@ -49,6 +54,7 @@ const UserMightKnow = () => {
         name: item.profile?.fullName,
         subtitle: item.preferences?.jobRole,
         showOnline: true,
+        availabilty: item.profile?.availabilty,
         online: item.online,
         type: "User",
         typeColor: "text-blue-600",
@@ -60,6 +66,7 @@ const UserMightKnow = () => {
         subtitle: item.industryType,
         isLGBTQFriendly: item.isLGBTQFriendly,
         showOnline: false,
+        availabilty: item.profile?.availabilty,
         online: false,
         type: "Company",
         typeColor: "text-green-600",
@@ -158,6 +165,11 @@ const UserMightKnow = () => {
                       onClick={() => handleUserProfile(item)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.availabilty && (
+                      <span className="text-primary text-[9px]">
+                        {availabilityIcons[config?.availabilty] || ""}
+                      </span>
+                    )}
                     {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />

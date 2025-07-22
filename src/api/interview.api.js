@@ -19,3 +19,13 @@ export const scheduleInterview = async (data) => {
     throw error;
   }
 };
+
+export const cancelInterview = async (interviewId) => {
+  try {
+    const response = await axios.delete(`cancel/interview?interviewId=${interviewId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+

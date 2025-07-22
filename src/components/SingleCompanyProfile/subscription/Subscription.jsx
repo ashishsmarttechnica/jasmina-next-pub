@@ -3,7 +3,7 @@ import { getAllMemberships } from "@/api/membership.api";
 import { loadStripe } from "@stripe/stripe-js";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import PaymentModal from "../../../modal/PaymentModal";
 import SubscriptionCard from "./SubscriptionCard";
@@ -27,6 +27,7 @@ const Subscription = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
   const [stripeElement, setStripeElement] = useState(null);
+  const [currentPlan, setCurrentPlan] = useState(null);
 
   const handleUpgrade = (plan) => {
     const formattedPlan = {
@@ -41,6 +42,14 @@ const Subscription = () => {
     setSelectedPlan(formattedPlan);
     setPaymentScreen(true);
   };
+
+  const handlePlanPurchased = useCallback((plan) => {
+    setCurrentPlan(plan);
+    setPaymentScreen(false);
+    setSuccessModal(true);
+    // Save purchased plan to localStorage for persistence
+    localStorage.setItem("currentPlan", JSON.stringify(plan));
+  }, []);
 
   // Initialize Stripe elements when modal is opened
   useEffect(() => {
@@ -99,6 +108,23 @@ const Subscription = () => {
     initializeStripeElement();
   }, [paymentScreen, selectedPlan]);
 
+  useEffect(() => {
+    // Check localStorage first for current plan, then fall back to API data
+    const storedPlan = localStorage.getItem("currentPlan");
+    if (storedPlan) {
+      try {
+        const parsedPlan = JSON.parse(storedPlan);
+        setCurrentPlan(parsedPlan);
+      } catch (error) {
+        console.error("Error parsing stored plan:", error);
+        localStorage.removeItem("currentPlan"); // Clear invalid data
+      }
+    } else if (membershipData?.data) {
+      // Fall back to API data if no stored plan
+      setCurrentPlan(membershipData.data.find((plan) => plan.isActive) || membershipData.data[0]);
+    }
+  }, [membershipData]);
+
   if (isLoading) {
     return (
       <div className="flex h-[400px] items-center justify-center">Loading subscriptions...</div>
@@ -131,28 +157,29 @@ const Subscription = () => {
             eligibility={plan.eligibility}
             employeeRange={plan.employeeRange}
             isActive={plan.isActive}
+            isCurrentPlan={currentPlan && plan._id === currentPlan._id}
             handleUpgrade={() => handleUpgrade(plan)}
           />
         ))}
       </div>
 
-      {subscriptionPlans.length > 0 && (
+      {/* {currentPlan && (
         <div className="mt-8 rounded-lg bg-white px-20 py-4">
           <h3 className="mb-4 text-center text-xl font-semibold">Current Plan</h3>
           <div className="bg-primary flex items-center justify-between rounded-lg p-4 text-white">
             <div>
-              <div className="font-semibold">{subscriptionPlans[0].title}</div>
+              <div className="font-semibold">{currentPlan.title}</div>
               <div className="text-sm">
-                Eligibility: {subscriptionPlans[0].employeeRange.min} to{" "}
-                {subscriptionPlans[0].employeeRange.max} employees
+                Eligibility: {currentPlan.employeeRange.min} to {currentPlan.employeeRange.max}{" "}
+                employees
               </div>
             </div>
             <div className="text-primary hover:bg-primary rounded-sm bg-white px-6 py-2 text-[18px] hover:text-white">
-              €{subscriptionPlans[0].price}
+              €{currentPlan.price}
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <PaymentModal
         stripePromise={stripePromise}
@@ -163,7 +190,9 @@ const Subscription = () => {
         successModal={successModal}
         stripeElement={stripeElement}
         loginUser={membershipData?.user}
-        companyId={companyId} // Pass the companyId from URL params
+        companyId={companyId}
+        onPlanPurchased={handlePlanPurchased}
+        currentPlan={currentPlan}
       />
     </div>
   );

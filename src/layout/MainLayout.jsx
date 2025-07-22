@@ -3,9 +3,9 @@ import React from "react";
 const MainLayout = ({ children, leftComponents = [], rightComponents = [] }) => {
   return (
     <div className="container mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         {/* Left Sidebar */}
-        <aside className="lg:col-span-3 hidden lg:block">
+        <aside className="hidden lg:col-span-3 lg:block">
           <div className="sticky top-18 space-y-4">
             {leftComponents.map((component, index) => (
               <React.Fragment key={index}>{component}</React.Fragment>
@@ -14,10 +14,10 @@ const MainLayout = ({ children, leftComponents = [], rightComponents = [] }) => 
         </aside>
 
         {/* Main Content */}
-        <main className="lg:col-span-6 col-span-12">{children}</main>
+        <main className="col-span-12 lg:col-span-6">{children}</main>
 
         {/* Right Sidebar */}
-        <aside className="lg:col-span-3 hidden lg:block">
+        <aside className="hidden lg:col-span-3 lg:block">
           <div className="sticky top-18 space-y-4">
             {rightComponents.map((component, index) => (
               <React.Fragment key={index}>{component}</React.Fragment>

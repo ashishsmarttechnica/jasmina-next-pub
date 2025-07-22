@@ -1,14 +1,18 @@
 "use client";
-import { getAllInterviews } from "@/api/interview.api";
-import { useQuery } from "@tanstack/react-query";
+import { cancelInterview, getAllInterviews } from "@/api/interview.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useRef, useState } from "react";
+import SetInterviewModal from "../../../modal/SetInterviewModal";
 
 const Interviews = () => {
   const dropdownRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Upcoming");
   const [page, setPage] = useState(1);
+  const [isSetInterviewOpen, setIsSetInterviewOpen] = useState(false);
+  const [selectedApplicant, setSelectedApplicant] = useState(null);
   const limit = 10;
+  const queryClient = useQueryClient();
 
   const getStatusNumber = (status) => {
     switch (status) {
@@ -38,6 +42,16 @@ const Interviews = () => {
   });
 
   const interviews = interviewData?.data?.jobs || [];
+  console.log(interviews, "interviews");
+
+  const handleCancelInterview = async (interviewId) => {
+    try {
+      await cancelInterview(interviewId);
+      queryClient.invalidateQueries({ queryKey: ["interviews"] });
+    } catch (error) {
+      console.error("Error canceling interview:", error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -93,13 +107,25 @@ const Interviews = () => {
                 </div>
               </div>
               <div className="flex items-center">
-                <button className="bg-primary hover:text-primary hover:border-primary mx-2 w-full rounded-sm px-3 py-2 text-[13px] text-white hover:border hover:bg-white sm:mx-2 sm:w-auto">
+                <button
+                  className="bg-primary hover:text-primary hover:border-primary mx-2 w-full rounded-sm px-3 py-2 text-[13px] text-white hover:border hover:bg-white sm:mx-2 sm:w-auto"
+                  onClick={() => setIsSetInterviewOpen(true)}
+                >
                   Reschedule
                 </button>
-                <button className="text-primary border-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+                <button
+                  className="text-primary border-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                  onClick={() => handleCancelInterview(interview._id)}
+                >
                   Cancel
                 </button>
               </div>
+              <SetInterviewModal
+                isOpen={isSetInterviewOpen}
+                onClose={() => setIsSetInterviewOpen(false)}
+                jobId={interview.jobId}
+                candidateData={selectedApplicant}
+              />
             </div>
           ))}
           {interviews.length === 0 && (

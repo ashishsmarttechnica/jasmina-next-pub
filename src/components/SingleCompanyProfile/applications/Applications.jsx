@@ -51,7 +51,44 @@ const Applications = () => {
   };
 
   if (isGetCompanyAppliedJobLoading) return <div>Loading...</div>;
-  if (isGetCompanyAppliedJobError) return <div>Error: {getCompanyAppliedJobError?.message}</div>;
+  if (isGetCompanyAppliedJobError)
+    return (
+      <div className="mx-auto flex h-[512px] min-h-[512px] w-[828px] min-w-[828px] items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border border-gray-100 bg-white shadow-md">
+          {/* Modern illustration icon */}
+          <svg
+            className="text-primary-500 mb-4 h-16 w-16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            viewBox="0 0 48 48"
+          >
+            <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2" fill="#f3f4f6" />
+            <path
+              d="M16 28c0-4 8-4 8-8s-8-4-8-8"
+              stroke="#a5b4fc"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+            <path
+              d="M32 20c0 4-8 4-8 8s8 4 8 8"
+              stroke="#818cf8"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+          <p className="mb-2 text-center text-[20px] font-semibold text-gray-700">Error Occurred</p>
+          <p className="mb-6 max-w-xs text-center text-[15px] text-gray-500">
+            {getCompanyAppliedJobError?.message ||
+              "Something went wrong while fetching applications. Please try again later."}
+          </p>
+        </div>
+      </div>
+    );
 
   const jobListings = getCompanyAppliedJob;
   console.log(jobListings, "jobListings");

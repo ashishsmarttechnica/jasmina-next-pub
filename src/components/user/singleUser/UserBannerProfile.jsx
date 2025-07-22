@@ -108,7 +108,11 @@ const UserBannerProfile = ({
   };
 
   const handleConnectionClick = () => {
-    router.push("/en/connections");
+    if (userData?._id) {
+      router.push(`/en/connections?profileId=${userData._id}&type=User&tab=people`);
+    } else {
+      router.push("/en/connections");
+    }
   };
 
   const handleRemoveConnection = () => {
@@ -196,7 +200,7 @@ const UserBannerProfile = ({
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
             <h2 className="text-lg font-bold text-black md:text-xl">
-              {userData?.profile?.fullName || t("fullName")} 
+              {userData?.profile?.fullName || t("fullName")}
             </h2>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.preferences?.jobRole || t("jobRole")}

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getCompanyConnections = exports.getConnections = exports.createConnection = void 0;
+exports.getOthersConnection = exports.removeConnection = exports.rejectConnection = exports.acceptConnection = exports.getCompanyConnections = exports.getConnections = exports.createConnection = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -174,3 +174,33 @@ var removeConnection = function removeConnection(data) {
 };
 
 exports.removeConnection = removeConnection;
+
+var getOthersConnection = function getOthersConnection(_ref3) {
+  var viewerId, profileId, res;
+  return regeneratorRuntime.async(function getOthersConnection$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          viewerId = _ref3.viewerId, profileId = _ref3.profileId;
+          _context7.prev = 1;
+          _context7.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/others/connection?viewerId=".concat(viewerId, "&profileId=").concat(profileId)));
+
+        case 4:
+          res = _context7.sent;
+          return _context7.abrupt("return", res.data);
+
+        case 8:
+          _context7.prev = 8;
+          _context7.t0 = _context7["catch"](1);
+          throw _context7.t0;
+
+        case 11:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+};
+
+exports.getOthersConnection = getOthersConnection;

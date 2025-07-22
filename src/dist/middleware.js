@@ -58,6 +58,7 @@ var profileCreationRoutes = {
 // Define shared routes accessible by both user and company
 var sharedRoutes = [
     "/chat",
+    "/notifications",
     "/connections",
     "/single-user",
     "/applicationjob/:id",

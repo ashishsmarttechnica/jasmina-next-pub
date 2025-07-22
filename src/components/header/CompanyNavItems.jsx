@@ -57,7 +57,11 @@ const CompanyNavItems = ({ onLinkClick }) => {
       </Link>
 
       <Link
-        href="/connections"
+        href={
+          user && user._id
+            ? `/connections?profileId=${user._id}&type=Company&tab=company`
+            : "/connections"
+        }
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
         onClick={onLinkClick}
       >

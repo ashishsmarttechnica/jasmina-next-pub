@@ -16,7 +16,12 @@ const CompanyConnections = ({ title }) => {
   const router = useRouter();
   const { data, isLoading, isError, error } = useCompanyConnections("Company", 1, 6);
   const displayData = connections?.length ? connections : data?.connections;
-
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
   const getItemConfig = (item) => {
     const type = item?.connectionType;
     if (!type || (type !== "User" && type !== "Company")) {
@@ -29,6 +34,7 @@ const CompanyConnections = ({ title }) => {
         subtitle: item?.details?.preferences?.jobRole,
         showOnline: true,
         online: item?.online,
+        availabilty: item?.details?.profile?.availabilty,
         type: "User",
         typeColor: "text-blue-600",
         icon: <FaUser className="h-3 w-3" />,
@@ -40,6 +46,7 @@ const CompanyConnections = ({ title }) => {
         isLGBTQFriendly: item.details?.isLGBTQFriendly,
         showOnline: false,
         online: false,
+        availabilty: item?.details?.profile?.availabilty,
         type: "Company",
         typeColor: "text-green-600",
         icon: <FaBuilding className="h-3 w-3" />,
@@ -114,6 +121,11 @@ const CompanyConnections = ({ title }) => {
                       onClick={() => handleUserProfile(user)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.availabilty && (
+                      <span className="text-primary text-[9px]">
+                        {availabilityIcons[config?.availabilty] || ""}
+                      </span>
+                    )}
                     {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />
