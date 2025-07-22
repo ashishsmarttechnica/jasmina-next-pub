@@ -16,7 +16,7 @@ const usePreferencesForm = () => {
     // }
 
     // Only require salaryRange if availabilty is 'Open to Work' or 'Available for Freelance'
-    if (["Open to Work", "Available for Freelance"].includes(availabilty)) {
+    if (["Open to Work", "Available for Freelance", " "].includes(availabilty)) {
       if (!formData.salaryRange) {
         newErrors.salaryRange = t("SalaryRangeError");
       }

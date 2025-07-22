@@ -192,6 +192,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
               ref={jobRef}
               initialData={descriptionData?.preferences}
               errors={errors?.job || {}}
+              availability={availability}
               clearFieldError={clearError}
               className="grid grid-cols-1 gap-4 md:grid-cols-2"
             />

@@ -137,7 +137,7 @@ const Preferences = ({ setActiveTab, availabilty }) => {
             </div>
           </div>
 
-          {["Open to Work", "Available for Freelance"].includes(availabilty) && (
+          {["Open to Work", "Available for Freelance", " "].includes(availabilty) && (
             <div className="flex flex-col">
               <InputField
                 label={`${t("salaryrange")}*`}
