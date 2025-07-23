@@ -1,9 +1,13 @@
 "use client";
 import ConnectionSkeleton from "@/common/skeleton/ConnectionSkeleton";
 import useTabUnderlineAnimation from "@/hooks/connections/animation/useTabUnderlineAnimation";
-import { useConnections } from "@/hooks/connections/useConnections";
+import {
+  useOthersCompanyConnections,
+  useOthersUserConnections,
+} from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
 import { AnimatePresence, motion } from "framer-motion";
+import Cookies from "js-cookie";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ConnectionHeader from "./ConnectionHeader";
@@ -14,7 +18,9 @@ import TabsWithUnderline from "./TabsWithUnderline";
 
 const ConnectionsContent = () => {
   const searchParams = useSearchParams();
-  const profileId = searchParams.get("profileId");
+  // userId = logged-in user, profileId = profile being viewed
+  const viewerId = Cookies.get("userId");
+  const profileId = searchParams.get("profileId") || viewerId;
   const profileType = searchParams.get("type") || "User";
   const tabParam = searchParams.get("tab");
   const peopleRef = useRef(null);
@@ -50,9 +56,10 @@ const ConnectionsContent = () => {
     error: userError,
     refetch: refetchUser,
     isFetching: isUserFetching,
-  } = useConnections("User", userPage, undefined, {
+  } = useOthersUserConnections(userPage, undefined, {
     enabled: activeTab === "people",
-    userId: profileId,
+    userId: viewerId,
+    profileId: profileId,
     userType: profileType,
   });
 
@@ -63,9 +70,10 @@ const ConnectionsContent = () => {
     error: companyError,
     refetch: refetchCompany,
     isFetching: isCompanyFetching,
-  } = useConnections("Company", companyPage, undefined, {
+  } = useOthersCompanyConnections(companyPage, undefined, {
     enabled: activeTab === "company",
-    userId: profileId,
+    userId: viewerId,
+    profileId: profileId,
     userType: profileType,
   });
 

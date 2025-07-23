@@ -10,6 +10,12 @@ import { toast } from "react-toastify";
 
 const CompanyCard = ({ company }) => {
   const [isRemoving, setIsRemoving] = useState(false);
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
   const { mutate: removeConnection, isPending } = useRemoveConnection();
   const { connections, setConnections } = useConnectionsStore();
   const router = useRouter();
@@ -19,6 +25,7 @@ const CompanyCard = ({ company }) => {
       `/company/single-company/${company._id}?fromConnections=true&fromNetworkInvites=true`
     );
   };
+  // console.log(company, "helllooooooooo....");
 
   const handleRemove = (company) => {
     setIsRemoving(true);
@@ -45,7 +52,6 @@ const CompanyCard = ({ company }) => {
     );
   };
 
-
   return (
     <div
       className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
@@ -65,18 +71,25 @@ const CompanyCard = ({ company }) => {
           className="h-12 w-12 rounded-lg object-cover"
         />
         <div className="min-w-0 flex-1">
-          <div
-            className="text-custBlack cursor-pointer truncate font-semibold"
-            onClick={() => handleProfile(company?.details)}
-          >
-            {company?.details?.companyName}
+          <div className="flex gap-2">
+            <div
+              className="text-custBlack cursor-pointer truncate font-semibold"
+              onClick={() => handleProfile(company?.details)}
+            >
+              {company?.details?.companyName}
+            </div>
+
+            {company?.details?.isLGBTQFriendly && (
+              <span className="text-primary mt-1 text-xs">🌈</span>
+            )}
           </div>
           <div className="text-grayBlueText truncate text-sm">{company?.details?.industryType}</div>
+
           <div className="text-grayBlueText mt-0.5 flex items-center gap-1 text-xs">
             <FaMapMarkerAlt className="text-primary" />
             <span className="truncate">
               {" "}
-              {company?.details?.city}, {company?.details?.country}
+              {company?.details?.city} {company?.details?.country}
             </span>
           </div>
         </div>

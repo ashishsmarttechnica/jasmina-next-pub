@@ -2,6 +2,8 @@ import {
   createConnection,
   getCompanyConnections,
   getConnections,
+  getOthersCompanyConnections,
+  getOthersUserConnections,
   removeConnection,
 } from "@/api/connection.api";
 import capitalize from "@/lib/capitalize";
@@ -140,5 +142,69 @@ export const useRemoveConnection = () => {
       const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
+  });
+};
+
+// New: useOthersUserConnections
+export const useOthersUserConnections = (page, limit, options = {}) => {
+  const userId = options.userId || Cookies.get("userId"); // viewer
+  const profileId = options.profileId;
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+
+  return useQuery({
+    queryKey: ["othersUserConnections", userId, profileId, userType, page],
+    queryFn: async () => {
+      const res = await getOthersUserConnections({ userId, profileId, userType, page, limit });
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!profileId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
+  });
+};
+
+// New: useOthersCompanyConnections
+export const useOthersCompanyConnections = (page, limit, options = {}) => {
+  const userId = options.userId || Cookies.get("userId"); // viewer
+  const profileId = options.profileId;
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+
+  return useQuery({
+    queryKey: ["othersCompanyConnections", userId, profileId, userType, page],
+    queryFn: async () => {
+      const res = await getOthersCompanyConnections({ userId, profileId, userType, page, limit });
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!profileId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
   });
 };

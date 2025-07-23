@@ -34,6 +34,9 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const [isShareLoading, setIsShareLoading] = useState(false);
+
+  console.log(userData, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)");
+
   // Check if user came from connections page
   // const fromConnections =
   //   searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;

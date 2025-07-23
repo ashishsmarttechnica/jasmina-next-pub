@@ -3,7 +3,7 @@ import { getSeoMeta } from "@/lib/seoMetadata";
 
 export const metadata = getSeoMeta({
   title: "Feed | Jasmina",
-  path: "/notification",
+  path: "/notifications",
 });
 
 const page = () => {

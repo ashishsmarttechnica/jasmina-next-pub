@@ -87,8 +87,9 @@ const UserBannerProfile = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  console.log(userData?.isConnected, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)");
   const [showConnect, setShowConnect] = useState(
-    !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
+    !(searchParams?.get("fromConnections") === "true")
   );
 
   // const { mutate: acceptConnection, isPending } = useAcceptConnection();
@@ -99,7 +100,7 @@ const UserBannerProfile = ({
   } = useCreateConnection();
   // Check if user came from connections page
   const fromConnections =
-    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
+    searchParams?.get("fromConnections") === "true" ;
 
   const { mutate: removeConnection } = useRemoveConnection();
 

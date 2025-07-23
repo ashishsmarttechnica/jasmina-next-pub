@@ -14,10 +14,16 @@ const PeopleCard = ({ person }) => {
   const { connections, setConnections } = useConnectionsStore();
   const router = useRouter();
   const t = useTranslations("CompanyProfile.singleCompanyTab");
-
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
   const handleProfile = (user) => {
     router.push(`/single-user/${user._id}?fromConnections=true`);
   };
+  console.log(person, "sdfffffffffffffffffffffffffffffffffff");
 
   const handleRemove = (user) => {
     setIsRemoving(true);
@@ -63,11 +69,18 @@ const PeopleCard = ({ person }) => {
           className="h-12 w-12 rounded-full object-cover"
         />
         <div className="min-w-0 flex-1">
-          <div
-            className="text-custBlack cursor-pointer truncate font-semibold"
-            onClick={() => handleProfile(person?.details)}
-          >
-            {person?.details?.profile?.fullName}
+          <div className="flex items-center">
+            <div
+              className="text-custBlack cursor-pointer truncate font-semibold"
+              onClick={() => handleProfile(person?.details)}
+            >
+              {person?.details?.profile?.fullName}
+            </div>
+            {person?.details?.profile?.availabilty && (
+              <span className="text-primary mx-2 text-[9px]">
+                {availabilityIcons[person?.details?.profile?.availabilty] || ""}
+              </span>
+            )}
           </div>
           <div className="text-grayBlueText truncate text-sm">
             {person?.details?.preferences?.jobRole}
