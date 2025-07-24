@@ -1,5 +1,6 @@
-import { getMembership } from "@/api/membership.api";
+import { getAllMemberships, getPreviousPlans } from "@/api/membership.api";
 import Selecter from "@/common/Selecter";
+import { useRouter } from "@/i18n/navigation";
 import { useIndustryTypeOptions } from "@/utils/selectOptions";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
@@ -7,16 +8,30 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
-const CompanySizeForm = ({ formData, errors, handleChange }) => {
+const EditCompanySizeForm = ({ formData, errors, handleChange }) => {
   const t = useTranslations("CompanyProfile.industry");
   const params = useParams();
   // Get company ID from URL params or from cookies if creating new company
   const companyId = params?.id || Cookies.get("userId");
 
   const { data: membershipData, isLoading } = useQuery({
-    queryKey: ["memberships"],
-    queryFn: () => getMembership(),
+    queryKey: ["memberships", companyId],
+    queryFn: () => getAllMemberships(companyId),
+    enabled: !!companyId,
   });
+
+  const { data: previousPlansData, isLoading: isPreviousPlansLoading } = useQuery({
+    queryKey: ["previousPlans", companyId],
+    queryFn: () => getPreviousPlans(companyId),
+    enabled: !!companyId,
+  });
+
+  const hasPreviousPlan =
+    previousPlansData && Array.isArray(previousPlansData.data) && previousPlansData.data.length > 0;
+
+  console.log(previousPlansData, "previousPlansData");
+  const router = useRouter();
+
   const companyTypeOptions = [
     { label: `${t("companyTypeOption.startup")}`, value: "startup" },
     { label: `${t("companyTypeOption.smallBusiness")}`, value: "small business" },
@@ -27,15 +42,14 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
   const industryTypeOptions = useIndustryTypeOptions();
 
   const employeesOption = useMemo(() => {
-    if (!membershipData?.data) return [];
-    return membershipData.data.map((plan) => ({
-      label: `${plan.employeeRange.min}-${plan.employeeRange.max === 0 ? "+" : plan.employeeRange.max} `,
+    if (!membershipData?.data?.memberships) return [];
+    return membershipData.data.memberships.map((plan) => ({
+      label: `${plan.employeeRange.min}-${plan.employeeRange.max === 0 ? "+" : plan.employeeRange.max}`,
       value: `${plan.employeeRange.min}-${plan.employeeRange.max === 0 ? "+" : plan.employeeRange.max}`,
-      eligibility: plan.eligibility, // add eligibility as a property if you need it elsewhere
     }));
   }, [membershipData]);
 
-  if (isLoading) {
+  if (isLoading || isPreviousPlansLoading) {
     return <div>Loading...</div>;
   }
 
@@ -49,7 +63,7 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
         <div className="col-span-2">
           <Selecter
             name="industryType"
-            label={`${t("industryType")}*`}
+            label={`${t("industryType")}`} // No * in edit
             placeholder={t("industryPlaceholder")}
             value={formData.industryType}
             onChange={handleChange}
@@ -61,7 +75,7 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
         </div>
         <Selecter
           name="companyType"
-          label={`${t("companyType")}*`}
+          label={`${t("companyType")}`}
           placeholder={t("companyTypePlaceholder")}
           value={formData.companyType}
           onChange={handleChange}
@@ -70,16 +84,34 @@ const CompanySizeForm = ({ formData, errors, handleChange }) => {
         />
         <Selecter
           name="employees"
-          label={`${t("employees")}*`}
+          label={`${t("employees")}`}
           placeholder={t("employeesPlaceholder")}
           value={formData.employees}
           onChange={handleChange}
           options={employeesOption}
           error={errors.employees}
+          disabled={hasPreviousPlan}
         />
       </div>
+      {hasPreviousPlan && (
+        <div
+          className="mt-2 cursor-pointer text-sm text-red-500 hover:underline"
+          onClick={() => {
+            const userId = Cookies.get("userId");
+            if (userId) {
+              router.push(`/company/single-company/${userId}/subscription`);
+            } else {
+              // fallback: use companyId from params or show error
+              router.push(`/company/single-company/${companyId}/subscription`);
+            }
+          }}
+        >
+          Your subscription is based on the number of employees. To change it, go to the
+          subscription page and request the needed plan from the admin.
+        </div>
+      )}
     </>
   );
 };
 
-export default CompanySizeForm;
+export default EditCompanySizeForm;

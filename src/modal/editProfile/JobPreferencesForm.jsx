@@ -104,7 +104,7 @@ const JobPreferencesForm = forwardRef(
             </div>
             {errors.jobType && <p className="mt-1 text-sm text-red-500">{errors.jobType}</p>}
           </div>
-          {["Open to Work", "Available for Freelance", ""].includes(availability) && (
+          {["Open to Work", "Available for Freelance"].includes(availability) && (
             <div>
               <InputField
                 name="salaryRange"

@@ -33,7 +33,7 @@ export default function UserHeader() {
           {/* Logo & Search */}
           <div className="flex w-full max-w-sm items-center gap-3">
             <HeaderLogoLink logoHref={logoHref} />
-            <div className="w-full max-w-[242px]">
+            <div className="w-full max-w-[342px]">
               <SearchBar placeholder={t("searchPlaceholder")} />
             </div>
           </div>

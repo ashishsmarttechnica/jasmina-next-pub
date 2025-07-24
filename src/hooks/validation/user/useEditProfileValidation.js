@@ -215,7 +215,11 @@ const useEditProfileValidation = () => {
 
     // Skip job preferences validation if availability is "Not Available"
     let jobErrors = {};
-    if (personalData?.availabilty !== "Not Available") {
+    if (
+      personalData?.availabilty !== "Not Available" &&
+      personalData?.availabilty !== "" &&
+      personalData?.availabilty?.trim() !== ""
+    ) {
       jobErrors = validateJobPreferences(preferencesData || {});
     }
 

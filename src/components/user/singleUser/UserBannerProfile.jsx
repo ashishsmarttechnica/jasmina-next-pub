@@ -181,7 +181,7 @@ const UserBannerProfile = ({
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
-  console.log(userData.profile.availabilty, "userData.profile.availabilty");
+  // console.log(userData.profile.availabilty, "userData.profile.availabilty");
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div className="flex h-40 items-center justify-between rounded-[5px] bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:h-48 md:px-16 lg:h-56 lg:px-24">

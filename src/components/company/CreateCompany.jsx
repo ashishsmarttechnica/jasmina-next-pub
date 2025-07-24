@@ -13,11 +13,16 @@ import CompanyLocationForm from "./companyUpdateForm/CompanyLocationForm";
 import CompanyMediaForm from "./companyUpdateForm/CompanyMediaForm";
 import CompanySizeForm from "./companyUpdateForm/CompanySizeForm";
 import LGBTQCheckbox from "./LGBTQCheckbox";
+import { useParams } from "next/navigation";
+import { getAllMemberships } from "@/api/membership.api";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateCompany = () => {
   const t = useTranslations("CompanyProfile.industry");
   const { mutate: updateProfile, isPending, error } = useUpdateCompanyProfile();
   const router = useRouter();
+
+  
 
   const [selectedBannerimgImage, setSelectedBannerimgImage] = useState(Bannerimg);
   const [selectedCompanyImageFile, setSelectedCompanyImageFile] = useState(null);

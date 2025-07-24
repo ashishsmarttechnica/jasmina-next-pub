@@ -2,6 +2,7 @@
 
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
+import WhoCanSeeYourProfileWrapper from "@/components/user/createUserProfile/WhoCanSeeYourProfileWrapper";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import useEditProfileValidation from "@/hooks/validation/user/useEditProfileValidation";
 import getImg from "@/lib/getImg";
@@ -29,12 +30,13 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const personalRef = useRef();
   const jobRef = useRef();
   const educationSkillsRef = useRef();
+  const whoCanSeeRef = useRef();
 
   // Image state
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
-
+  console.log(descriptionData?.profile?.availabilty, "availabilit0---------y");
   // Proficiency options for skills/languages
   const proficiencyOptions = useProficiencyOptions();
   const categoryOptions = useSkillCategoryOptions();
@@ -82,7 +84,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.email", personalData.email);
 
     // Preferences fields - only append if availability is not "Not Available"
-    if (availability !== "Not Available") {
+    if (availability !== "Not Available" && availability !== "" && availability?.trim() !== "") {
       formData.append("preferences.jobRole", preferencesData.jobRole);
       formData.append("preferences.jobType", preferencesData.jobType);
       formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
@@ -129,6 +131,17 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     // Photo
     if (selectedUserImageFile instanceof File && selectedImage !== Uploadimg) {
       formData.append("profile.photo", selectedUserImageFile);
+    }
+
+    // Visibility (WhoCanSeeYourProfile)
+    const whoCanSeeData = whoCanSeeRef.current?.getData?.();
+    if (whoCanSeeData) {
+      formData.append("visibility.isPublic", whoCanSeeData.isPublic);
+      formData.append(
+        "visibility.onlyLGBTQFriendlyCompanies",
+        whoCanSeeData.onlyLGBTQFriendlyCompanies
+      );
+      formData.append("visibility.visibleTo", whoCanSeeData.visibleTo);
     }
 
     updateProfile(formData, {
@@ -186,7 +199,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           />
         </div>
-        {availability !== "Not Available" && (
+        {availability !== "Not Available" && availability !== "" && availability?.trim() !== "" && (
           <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
             <JobPreferencesForm
               ref={jobRef}
@@ -212,6 +225,12 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             clearFieldError={clearError}
             proficiencyOptions={proficiencyOptions}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          />
+        </div>
+        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+          <WhoCanSeeYourProfileWrapper
+            ref={whoCanSeeRef}
+            initialData={descriptionData?.visibility}
           />
         </div>
       </Modal.Body>

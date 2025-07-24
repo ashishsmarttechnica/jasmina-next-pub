@@ -193,7 +193,11 @@ const SearchBar = ({ placeholder = "Search..." }) => {
         break;
 
       case "job":
-        router.push(`/jobs/${suggestion._id}`);
+        {
+          userRole === "Company"
+            ? router.push(`/jobs`)
+            : router.push(`/company/single-company/${userId}/applications`);
+        }
         break;
 
       default:
@@ -254,7 +258,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
           )}
         </div>
         <div>
-          {showConnect ? (
+          {/* {showConnect ? (
             <button className="connect-btn" onClick={handleConnect}>
               connect
             </button>
@@ -266,7 +270,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
             >
               {isRemoving ? "Removing..." : "Remove"}
             </button>
-          )}
+          )} */}
         </div>
       </div>
     ));
@@ -342,14 +346,14 @@ const SearchBar = ({ placeholder = "Search..." }) => {
                 </div>
               )}
 
-              <div className="border-t border-[#e0e0e0] p-3">
+              {/* <div className="border-t border-[#e0e0e0] p-3">
                 <button
                   onClick={() => setShowSuggestions(false)}
                   className="w-full text-center text-[14px] text-[#0a66c2] hover:underline"
                 >
                   See all results
                 </button>
-              </div>
+              </div> */}
             </div>
           ) : (
             <div className="p-3 text-center text-[#666666]">No results found</div>

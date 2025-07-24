@@ -17,9 +17,8 @@ const PaymentModal = ({
   companyId, // Add companyId to props
   onPlanPurchased, // Add callback prop
   currentPlan, // Add currentPlan to props
+  queryClient, // <-- add queryClient prop
 }) => {
-
-
   const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState({
     email: "",
@@ -114,6 +113,9 @@ const PaymentModal = ({
           toast.success("Payment successful! Your plan has been upgraded.");
           setPaymentData({ email: "" });
           if (onPlanPurchased) onPlanPurchased(response.plan); // Call parent callback
+          if (queryClient && companyId) {
+            queryClient.invalidateQueries(["memberships", companyId]); // <-- refetch memberships
+          }
         } else {
           throw new Error(response.message || "Payment failed");
         }

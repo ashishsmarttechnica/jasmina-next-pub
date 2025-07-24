@@ -3,7 +3,7 @@ import Bannerimg from "@/assets/form/Bannerimg.png";
 import CompanyBasicInfo from "@/components/company/companyUpdateForm/CompanyBasicInfo";
 import CompanyLocationForm from "@/components/company/companyUpdateForm/CompanyLocationForm";
 import CompanyMediaForm from "@/components/company/companyUpdateForm/CompanyMediaForm";
-import CompanySizeForm from "@/components/company/companyUpdateForm/CompanySizeForm";
+import EditCompanySizeForm from "@/components/company/companyUpdateForm/EditCompanySizeForm";
 import useUpdateCompanyProfile from "@/hooks/company/useUpdateCompanyProfile";
 import useCompanyProfileForm from "@/hooks/validation/company/useCompanyProfileForm";
 import { useRouter } from "@/i18n/navigation";
@@ -162,7 +162,7 @@ const EditCompany = ({ userData, onClose }) => {
         clearFieldError={clearFieldError}
       />
 
-      <CompanySizeForm formData={formData} errors={errors} handleChange={handleChange} />
+      <EditCompanySizeForm formData={formData} errors={errors} handleChange={handleChange} />
 
       <CompanyMediaForm
         formData={formData}

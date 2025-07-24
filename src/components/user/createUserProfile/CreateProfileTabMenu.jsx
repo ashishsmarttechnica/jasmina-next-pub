@@ -34,11 +34,12 @@ const VerificationBar = () => {
       component: <CreateProfile isLoading={isLoading} setActiveTab={setActiveTab} />,
     },
 
-    availabilty !== "Not Available" && {
-      label: t("preferences"),
-      icon: (isActive) => <Preference isActive={isActive} />,
-      component: <Preferences setActiveTab={setActiveTab} availabilty={availabilty} />,
-    },
+    availabilty !== "Not Available" &&
+      availabilty !== "" && {
+        label: t("preferences"),
+        icon: (isActive) => <Preference isActive={isActive} />,
+        component: <Preferences setActiveTab={setActiveTab} availabilty={availabilty} />,
+      },
     // {
     //   label: t("preferences"),
     //   icon: (isActive) => <Preference isActive={isActive} />,

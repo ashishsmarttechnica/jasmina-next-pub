@@ -10,7 +10,7 @@ import FeedProfileLeftSkeleton from "./skeleton/FeedProfileLeftSkeleton";
 
 function UserCompanyProfile() {
   const { user, isAuthLoading } = useAuthStore();
-  // console.log(user, "usersdfsd");
+  console.log(user, "usersdfsd+++++++++++");
   const t = useTranslations("FeedProfileLeft");
   const router = useRouter();
   if (isAuthLoading && !user) {
@@ -39,13 +39,12 @@ function UserCompanyProfile() {
             {user?.firstName
               ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
               : ""}{" "}
-            {user?.lastName
-              ? user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)
-              : ""}
+            {user?.lastName ? user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : ""}
+
           </h2>
           <p className="mb-0 text-center text-[13px]">
             {/* {user?.companyType} {user?.companyName} */}
-            {user?.country} {user?.city}
+            {user?.country} {user?.city} 
           </p>
         </div>
         <div className="flex w-full justify-around border-y border-black/10">

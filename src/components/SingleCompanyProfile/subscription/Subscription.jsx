@@ -1,7 +1,7 @@
 "use client";
 import { getAllMemberships } from "@/api/membership.api";
 import { loadStripe } from "@stripe/stripe-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 const Subscription = () => {
   const params = useParams();
   const companyId = params?.id; // Get companyId from URL params
+  const queryClient = useQueryClient();
 
   const {
     data: membershipData,
@@ -143,7 +144,8 @@ const Subscription = () => {
     );
   }
 
-  const subscriptionPlans = membershipData?.data || [];
+  // const subscriptionPlans = membershipData?.data || [];
+  const subscriptionPlans = membershipData?.data?.memberships || [];
 
   return (
     <div className="p-2">
@@ -160,9 +162,14 @@ const Subscription = () => {
             price={plan.price}
             eligibility={plan.eligibility}
             employeeRange={plan.employeeRange}
+            suitable={plan.suitable}
+            membershipActive={plan.membershipActive}
             isActive={plan.isActive}
             isCurrentPlan={currentPlan && plan._id === currentPlan._id}
             handleUpgrade={() => handleUpgrade(plan)}
+            newMembershipId={plan._id}
+            queryClient={queryClient} // <-- pass queryClient
+            companyId={companyId} // <-- pass companyId
           />
         ))}
       </div>
@@ -197,6 +204,7 @@ const Subscription = () => {
         companyId={companyId}
         onPlanPurchased={handlePlanPurchased}
         currentPlan={currentPlan}
+        queryClient={queryClient} // <-- pass queryClient
       />
     </div>
   );

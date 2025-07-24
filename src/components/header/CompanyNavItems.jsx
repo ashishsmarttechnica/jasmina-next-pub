@@ -88,7 +88,7 @@ const CompanyNavItems = ({ onLinkClick }) => {
       </Link>
 
       <Link
-        href="/notifications"
+        href="/addnotifi"
         className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${
           isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
         }`}
