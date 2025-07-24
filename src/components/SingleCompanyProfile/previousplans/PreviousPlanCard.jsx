@@ -19,7 +19,7 @@ const PreviousPlanCard = ({ companyId }) => {
     return (
       <div className="mx-auto flex h-[512px] min-h-[512px] w-[828px] min-w-[828px] items-center justify-center">
         <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border border-gray-100 bg-white shadow-md">
-          {/* Modern illustration icon */}
+    
           <svg
             className="text-primary-500 mb-4 h-16 w-16"
             fill="none"

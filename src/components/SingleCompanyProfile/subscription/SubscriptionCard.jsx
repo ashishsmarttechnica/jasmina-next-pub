@@ -50,7 +50,7 @@ const SubscriptionCard = ({
             text: "Your request has been sent to admin.",
           });
           if (queryClient && companyId) {
-            queryClient.invalidateQueries(["memberships", companyId]); // <-- refetch memberships
+            queryClient.invalidateQueries(["memberships", companyId]); 
           }
         } else {
           Swal.fire({
@@ -63,7 +63,7 @@ const SubscriptionCard = ({
         Swal.fire({
           icon: "warning",
           title: "Message",
-          text: err?.response?.data?.message || err.message || "Failed to send request.",
+          text: err?.response?.data?.message  || err.message ||  "Failed to send request.",
         });
       }
     }
