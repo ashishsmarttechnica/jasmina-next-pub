@@ -46,10 +46,10 @@ const PaymentModal = ({
     const { email } = paymentData;
 
     // Prevent purchasing the same plan again
-    if (currentPlan && selectedPlan && selectedPlan._id === currentPlan._id) {
-      toast.error("You have already purchased this plan.");
-      return;
-    }
+    // if (currentPlan && selectedPlan && selectedPlan._id === currentPlan._id) {
+    //   toast.error("You have already purchased this plan.");
+    //   return;
+    // }
 
     if (!email) {
       toast.error("Please fill in email field.");
