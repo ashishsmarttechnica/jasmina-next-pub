@@ -124,9 +124,12 @@ const Subscription = () => {
         console.error("Error parsing stored plan:", error);
         localStorage.removeItem("currentPlan"); // Clear invalid data
       }
-    } else if (membershipData?.data) {
+    } else if (membershipData?.data?.memberships) {
       // Fall back to API data if no stored plan
-      setCurrentPlan(membershipData.data.find((plan) => plan.isActive) || membershipData.data[0]);
+      setCurrentPlan(
+        membershipData.data.memberships.find((plan) => plan.isActive) ||
+          membershipData.data.memberships[0]
+      );
     }
   }, [membershipData]);
 
