@@ -180,7 +180,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
             </button>
           </div>
 
-          {/*  {!formData.isRemote && ( */}
+           {!formData.isRemote && (
           <>
             <div className="col-span-2 space-y-1">
               <label className="block text-sm font-medium text-gray-700">{t("JobLocation")}</label>
@@ -202,7 +202,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
               error={errors.jobArea}
             />
           </>
-          {/* )} */}
+           )} 
 
           <div className="col-span-2">
             <button type="submit" className="btn-fill">
