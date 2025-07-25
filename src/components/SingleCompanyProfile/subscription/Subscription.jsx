@@ -162,6 +162,7 @@ const Subscription = () => {
           <SubscriptionCard
             key={plan._id}
             title={plan.title}
+            rejectReason={plan.rejectReason}
             price={plan.price}
             eligibility={plan.eligibility}
             employeeRange={plan.employeeRange}

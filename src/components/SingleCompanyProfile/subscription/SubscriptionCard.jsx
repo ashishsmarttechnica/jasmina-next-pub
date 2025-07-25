@@ -11,6 +11,7 @@ const SubscriptionCard = ({
   eligibility,
   employeeRange,
   isActive,
+  rejectReason,
   isCurrentPlan,
   suitable,
   membershipActive,
@@ -50,7 +51,7 @@ const SubscriptionCard = ({
             text: "Your request has been sent to admin.",
           });
           if (queryClient && companyId) {
-            queryClient.invalidateQueries(["memberships", companyId]); 
+            queryClient.invalidateQueries(["memberships", companyId]);
           }
         } else {
           Swal.fire({
@@ -63,7 +64,7 @@ const SubscriptionCard = ({
         Swal.fire({
           icon: "warning",
           title: "Message",
-          text: err?.response?.data?.message  || err.message ||  "Failed to send request.",
+          text: err?.response?.data?.message || err.message || "Failed to send request.",
         });
       }
     }
@@ -114,6 +115,9 @@ const SubscriptionCard = ({
           >
             Request admin
           </button>
+        )}
+        {rejectReason && (
+          <div className="mt-2 max-w-[350px] truncate text-center text-red-600">{`Reason: ${rejectReason}`}</div>
         )}
       </div>
     </div>
