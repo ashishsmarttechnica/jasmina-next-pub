@@ -7,7 +7,9 @@ const useMembershipStore = create((set) => ({
   isLoading: false,
   error: null,
 
-  // Get all memberships
+
+
+
   getMemberships: async (companyId) => {
     try {
       set({ isLoading: true, error: null });
