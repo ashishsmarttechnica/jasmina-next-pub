@@ -25,6 +25,7 @@ export default function useLogin() {
         Cookies.set("profileCreated", profileComplete);
         Cookies.set("userId", data.data._id);
         Cookies.set("stripeCustomerId", data.data.stripeCustomerId);
+        localStorage.setItem("stripeCustomerId", data.data.stripeCustomerId);
 
         // Zustand update
         setToken(token);

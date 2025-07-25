@@ -24,7 +24,14 @@ const PaymentModal = ({
     email: "",
   });
   const [purchasedPlan, setPurchasedPlan] = useState(null); // Add state for purchased plan
-  const stripeCustomerId = Cookies.get("stripeCustomerId");
+  // Try to get from cookie, fallback to localStorage
+  let stripeCustomerId = Cookies.get("stripeCustomerId");
+  if (!stripeCustomerId) {
+    stripeCustomerId = localStorage.getItem("stripeCustomerId");
+    if (stripeCustomerId) {
+      Cookies.set("stripeCustomerId", stripeCustomerId, { expires: 30 }); // Optionally restore cookie
+    }
+  }
   const [activePlanModalOpen, setActivePlanModalOpen] = useState(false);
   const [activePlanModalError, setActivePlanModalError] = useState("");
 
