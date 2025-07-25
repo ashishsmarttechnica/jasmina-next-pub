@@ -158,24 +158,29 @@ const Subscription = () => {
       </p>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {subscriptionPlans.map((plan) => (
-          <SubscriptionCard
-            key={plan._id}
-            title={plan.title}
-            rejectReason={plan.rejectReason}
-            price={plan.price}
-            eligibility={plan.eligibility}
-            employeeRange={plan.employeeRange}
-            suitable={plan.suitable}
-            membershipActive={plan.membershipActive}
-            isActive={plan.isActive}
-            isCurrentPlan={currentPlan && plan._id === currentPlan._id}
-            handleUpgrade={() => handleUpgrade(plan)}
-            newMembershipId={plan._id}
-            queryClient={queryClient} // <-- pass queryClient
-            companyId={companyId} // <-- pass companyId
-          />
-        ))}
+        {subscriptionPlans.map(
+          (plan) => (
+            console.log(plan, "plan 546546"),
+            (
+              <SubscriptionCard
+                key={plan._id}
+                title={plan.title}
+                rejectReason={plan.adminReason}
+                price={plan.price}
+                eligibility={plan.eligibility}
+                employeeRange={plan.employeeRange}
+                suitable={plan.suitable}
+                membershipActive={plan.membershipActive}
+                isActive={plan.isActive}
+                isCurrentPlan={currentPlan && plan._id === currentPlan._id}
+                handleUpgrade={() => handleUpgrade(plan)}
+                newMembershipId={plan._id}
+                queryClient={queryClient} // <-- pass queryClient
+                companyId={companyId} // <-- pass companyId
+              />
+            )
+          )
+        )}
       </div>
 
       {/* {currentPlan && (
