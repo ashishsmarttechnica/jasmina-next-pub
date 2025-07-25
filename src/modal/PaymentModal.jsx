@@ -45,12 +45,6 @@ const PaymentModal = ({
     event.preventDefault();
     const { email } = paymentData;
 
-    // Prevent purchasing the same plan again
-    // if (currentPlan && selectedPlan && selectedPlan._id === currentPlan._id) {
-    //   toast.error("You have already purchased this plan.");
-    //   return;
-    // }
-
     if (!email) {
       toast.error("Please fill in email field.");
       return;
@@ -68,77 +62,77 @@ const PaymentModal = ({
 
     try {
       setLoading(true);
-
-      // 1. Create payment intent with Stripe
       const stripe = await stripePromise;
       if (!stripe) {
         throw new Error("Failed to initialize Stripe");
       }
-
-      // 2. Process the payment - Create payment method directly from the card element
-      const { error: paymentError, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: stripeElement,
-        billing_details: {
-          email: email,
-        },
+      // Use createToken instead of createPaymentMethod
+      const { token, error } = await stripe.createToken(stripeElement, {
+        name: paymentData.name || "",
+        email: paymentData.email,
+        address_line1: paymentData.address_line1 || "",
+        address_city: paymentData.address_city || "",
+        address_country: paymentData.country || "",
+        address_state: paymentData.address_state || "",
+        address_zip: paymentData.address_zip || "",
       });
-
-      if (paymentError) {
-        toast.error(paymentError.message);
-        return;
+      if (error) {
+        toast.error(error.message);
+        setLoading(false);
+      } else {
+        await sendTokenToBackend(token);
       }
+    } catch (error) {
+      console.error("Error creating token:", error);
+      toast.error(
+        error.response?.data?.message || error.message || "Payment failed. Please try again."
+      );
+      setLoading(false);
+    }
+  };
 
-      // 3. Call your backend API to process the purchase
+  // Add sendTokenToBackend function
+  const sendTokenToBackend = async (token) => {
+    try {
       const purchaseData = {
         membershipId: selectedPlan?._id,
-        companyId: companyId, // Use the passed companyId instead of loginUser._id
+        companyId: companyId,
         title: selectedPlan?.title || "",
         price: Number(selectedPlan?.price) || 0,
         employeeRange: `${selectedPlan?.employeeRange?.min || 0}-${selectedPlan?.employeeRange?.max || 0}`,
         eligibility: selectedPlan?.eligibility || "Basic support",
-        custId: stripeCustomerId, // Static value as requested
-        email: email,
+        custId: stripeCustomerId,
+        email: paymentData.email,
         payment_status: "success",
-        transactionId: paymentMethod?.id || `txn_${Date.now()}`,
+        transactionId: token?.id || `txn_${Date.now()}`,
+        tokenId: token?.id, // Add tokenId to send to /purchase-plan
       };
-
-      try {
-        const response = await purchasePlan(purchaseData);
-
-        if (response.success && response.plan) {
-          setPurchasedPlan(response.plan); // Store the plan details
-          setSuccessModal(true);
-          setPaymentModal(false);
-          toast.success("Payment successful! Your plan has been upgraded.");
-          setPaymentData({ email: "" });
-          if (onPlanPurchased) onPlanPurchased(response.plan); // Call parent callback
-          if (queryClient && companyId) {
-            queryClient.invalidateQueries(["memberships", companyId]); // <-- refetch memberships
-          }
-        } else {
-          throw new Error(response.message || "Payment failed");
+      const response = await purchasePlan(purchaseData);
+      if (response.success && response.plan) {
+        setPurchasedPlan(response.plan);
+        setSuccessModal(true);
+        setPaymentModal(false);
+        toast.success("Payment successful! Your plan has been upgraded.");
+        setPaymentData({ email: "" });
+        if (onPlanPurchased) onPlanPurchased(response.plan);
+        if (queryClient && companyId) {
+          queryClient.invalidateQueries(["memberships", companyId]);
         }
-      } catch (error) {
-        console.error("API Error:", error);
-        const errorMsg = error.response?.data?.message || error.message || "";
-        // Check for the specific error message
-        if (
-          errorMsg ===
-          "You already have an active plan. Please wait until it expires before purchasing a new one."
-        ) {
-          setActivePlanModalError(errorMsg);
-          setActivePlanModalOpen(true);
-        } else {
-          toast.error(errorMsg || "Payment failed. Please try again.");
-        }
-        throw error;
+      } else {
+        throw new Error(response.message || "Payment failed");
       }
     } catch (error) {
-      console.error("Payment error:", error);
-      toast.error(
-        error.response?.data?.message || error.message || "Payment failed. Please try again."
-      );
+      console.error("API Error:", error);
+      const errorMsg = error.response?.data?.message || error.message || "";
+      if (
+        errorMsg ===
+        "You already have an active plan. Please wait until it expires before purchasing a new one."
+      ) {
+        setActivePlanModalError(errorMsg);
+        setActivePlanModalOpen(true);
+      } else {
+        toast.error(errorMsg || "Payment failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
