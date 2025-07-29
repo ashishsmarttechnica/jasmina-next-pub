@@ -975,7 +975,9 @@
     "failedToRemoveJob": "N'a pas réussi à supprimer le travail.",
     "Errorfetchingsavedjob": "Erreur récupérant le travail enregistré:",
     "SavedJobFetched": "Économiser le travail récupéré avec succès",
-    "Failedtosavejob": "N'a pas réussi à supprimer le travail."
+    "Failedtosavejob": "N'a pas réussi à supprimer le travail.",
+    "ApplyLinkexternal": "Appliquer le lien (URL externe)",
+    "Applytocompany": "Postuler sur le site Web de l'entreprise"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",

@@ -976,7 +976,9 @@
     "failedToRemoveJob": "Ich habe den Job nicht entfernen.",
     "Errorfetchingsavedjob": "Fehler beim Abholen gespeicherter Jobs:",
     "SavedJobFetched": "Rettete Job erfolgreich abgeholt",
-    "Failedtosavejob": "Ich habe den Job nicht entfernen."
+    "Failedtosavejob": "Ich habe den Job nicht entfernen.",
+    "ApplyLinkexternal": "Link anwenden (externe URL)",
+    "Applytocompany": "Bewerben Sie sich bei der Unternehmenswebsite"
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",

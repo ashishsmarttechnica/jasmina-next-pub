@@ -40,14 +40,14 @@ const MainCompanyProfile = ({ title, userData }) => {
       path: `/company/single-company/${userId}`,
       count: null,
     },
-    {
-      icon: (isActive) => (
-        <MdWork className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
-      ),
-      label: t('PostaJob'),
-      path: `/company/single-company/${userId}/postjob`,
-      // count: 3,
-    },
+    // {
+    //   icon: (isActive) => (
+    //     <MdWork className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+    //   ),
+    //   label: t('PostaJob'),
+    //   path: `/company/single-company/${userId}/postjob`,
+    //   // count: 3,
+    // },
     {
       icon: (isActive) => (
         <BsFileEarmarkText className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />

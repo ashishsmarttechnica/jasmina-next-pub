@@ -10,7 +10,10 @@ export const useUpdateJobStatus = () => {
     onSuccess: (data) => {
       if (data?.success) {
         toast.success("Status updated successfully");
-        // Invalidate and refetch applicants data
+        // Invalidate and refetch all relevant queries
+        queryClient.invalidateQueries(["singleCompanyAppliedJob"]);
+        queryClient.invalidateQueries(["jobs"]);
+        queryClient.invalidateQueries(["recentJobs"]);
         queryClient.invalidateQueries(["applicants"]);
       } else {
         toast.error(data?.message || "Failed to update status");

@@ -9,11 +9,11 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("LGBTQ+");
+  const [selected, setSelected] = useState("All");
   const [searchInput, setSearchInput] = useState(filters.search || "");
   const [locationInput, setLocationInput] = useState(filters.location || "");
   const t = useTranslations("Jobs");
-  const options = [t("lgbtqOption"), t("nonLgbtqOption")];
+  const options = [t("lgbtqOption"), t("All")];
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
@@ -57,8 +57,8 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
             className="bg-uiLight shadow-job-dropdown flex w-full items-center justify-between rounded-md px-3 py-1"
           >
             <div className="text-grayBlueText flex items-center gap-2 text-[16px]">
+              {selected === "All" && <Bar className="h-5 w-5" />}
               {selected === "LGBTQ+" && <Colors className="h-5 w-5" />}
-              {selected === "Non-LGBTQ+" && <Bar className="h-5 w-5" />}
               <span>{selected}</span>
             </div>
             <FaChevronDown

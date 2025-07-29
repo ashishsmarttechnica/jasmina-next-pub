@@ -60,6 +60,13 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
     }
   }, [job, appliedJobs]);
 
+  const handleApplyLink = () => {
+    if (job?._raw?.careerWebsite) {
+      window.open(job?._raw?.careerWebsite, "_blank");
+    } else {
+      toast.error("No career website link available");
+    }
+  };
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
     if (!userId) {
@@ -205,17 +212,25 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         </div>
       </div>
 
-      {!hideApplyButton && (
+      <div className="flex items-center gap-2">
+        {!hideApplyButton && (
+          <button
+            className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
+              hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+            }`}
+            onClick={handleApplyNow}
+            disabled={hasApplied}
+          >
+            {hasApplied ? t("alreadyApplied") : t("applyNow")}
+          </button>
+        )}
         <button
-          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
-            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-          }`}
-          onClick={handleApplyNow}
-          disabled={hasApplied}
+          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+          onClick={handleApplyLink}
         >
-          {hasApplied ? t("alreadyApplied") : t("applyNow")}
+          {t("Applytocompany")}
         </button>
-      )}
+      </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
         <h4 className="mb-2 font-medium">{t("QuickInfoSection")}</h4>

@@ -8,6 +8,7 @@ import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import { useRouter } from "@/i18n/navigation";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -17,18 +18,16 @@ import { toast } from "react-toastify";
 import { removeJob } from "../../api/job.api";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
-import ImageFallback from "../../common/shared/ImageFallback";
-import { useTranslations } from "next-intl";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
-  // console.log(job, "job");
+  console.log(job, "job");
   const t = useTranslations("Jobs");
   const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
   const saveJob = useJobStore((s) => s.saveJob);
   const savedJobs = useJobStore((s) => s.savedJobs);
   const router = useRouter();
-  
+
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -45,7 +44,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
     if (!userId) {
-       toast.error(t('Usernotloggedin'));
+      toast.error(t("Usernotloggedin"));
       return;
     }
 
@@ -53,11 +52,11 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       // 🔁 Call removeJob API
       removeJob({ jobId: job?._id, userId })
         .then(() => {
-          toast.success(t('Jobremoved'));
+          toast.success(t("Jobremoved"));
           setBookmarked(false);
         })
         .catch((error) => {
-          toast.error(error?.response?.data?.message || t('Failedtosavejob'));
+          toast.error(error?.response?.data?.message || t("Failedtosavejob"));
         });
     } else {
       // Save the job only if not already bookmarked
@@ -65,11 +64,11 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         jobId: job?._id,
         userId,
         onSuccess: () => {
-         toast.success(t('Jobsaved'));
+          toast.success(t("Jobsaved"));
           setBookmarked(true);
         },
         onError: (error) => {
-          toast.error(error?.response?.data?.message || t('Failedtosavejob'));
+          toast.error(error?.response?.data?.message || t("Failedtosavejob"));
         },
       });
     }
@@ -80,8 +79,16 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
     router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
 
+  const handleApplyLink = () => {
+    if (job?._raw?.careerWebsite) {
+      window.open(job?._raw?.careerWebsite, "_blank");
+    } else {
+      toast.error("No career website link available");
+    }
+  };
+
   return (
-    <div className="w-full overflow-hidden rounded-lg border  mt-5 md:mt-0 border-gray-200 bg-white p-5 shadow-sm">
+    <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-5 shadow-sm md:mt-0">
       {/* <button
         className="text-sm text-blue-600 underline mb-3"
         onClick={onBack}
@@ -116,13 +123,20 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
           <span>{job?.genderPrefereance}</span>
         </div>
       </div>
-
-      <button
-        className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
-        onClick={handleApplyNow}
-      >
-        {t('ApplyNow')}
-      </button>
+      <div className="flex items-center gap-2">
+        <button
+          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+          onClick={handleApplyNow}
+        >
+          {t("ApplyNow")}
+        </button>
+        <button
+          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+          onClick={handleApplyLink}
+        >
+          {t("Applytocompany")}
+        </button>
+      </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
         <h4 className="mb-2 font-medium">Quick Info Section</h4>
@@ -133,40 +147,40 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            {t('experience')}: {job?.experience}
+            {t("experience")}: {job?.experience}
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            {t('Education')}: {job?.education}
+            {t("Education")}: {job?.education}
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            {t('Salary')}: {job?.salary}
+            {t("Salary")}: {job?.salary}
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            {t('Seniority')}: {job?.seniority}
+            {t("Seniority")}: {job?.seniority}
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            {t('Applicants')}: {job?.applicants}
+            {t("Applicants")}: {job?.applicants}
           </li>
         </ul>
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
-        <h4 className="mb-2 font-medium text-black">{t('JobDescription')}</h4>
+        <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
         <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.description }} />
         <div
           className="mt-2 max-w-md"
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t('JobResponsibilities')}</h4>
+          <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
           <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t('JobRequirements')}</h4>
+          <h4 className="mb-2 font-medium text-black">{t("JobRequirements")}</h4>
           <ul className="mt-2 grid max-w-md list-disc grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-const SkillsInput = ({ onSkillsChange, initialSkills = [] }) => {
+const SkillsInput = ({ onSkillsChange, initialSkills = [], placeholder = "Enter a skill" }) => {
   const [skills, setSkills] = useState(initialSkills);
   const [skillInput, setSkillInput] = useState("");
   const [error, setError] = useState("");
@@ -47,7 +47,7 @@ const SkillsInput = ({ onSkillsChange, initialSkills = [] }) => {
               setError("");
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Enter a skill"
+            placeholder={placeholder}
             className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 w-full rounded border p-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
           />
           {error && <p className="mt-1 text-sm text-red-500">{error}</p>}

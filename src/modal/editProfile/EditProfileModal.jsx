@@ -91,7 +91,10 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       formData.append("preferences.currency", preferencesData.currency);
       formData.append("preferences.availableFrom", preferencesData.joindate);
       formData.append("preferences.preferredLocation", preferencesData.workLocation);
-      formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      // Experience field is optional - only send if it has a valid value
+      if (preferencesData.experience && preferencesData.experience.trim() !== "") {
+        formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      }
       if (preferencesData.industry)
         formData.append("preferences.preferredIndustry", preferencesData.industry);
     }

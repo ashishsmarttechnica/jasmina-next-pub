@@ -56,7 +56,7 @@ export const applyJob = async (data) => {
 };
 
 export const updateJobStatus = async ({ jobId, status }) => {
-  const res = await axios.put(`/update/job?jobId=${jobId}&status=${status}`);
+  const res = await axios.post(`/update/job?jobId=${jobId}`, { status });
   return res.data;
 };
 

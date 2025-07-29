@@ -36,6 +36,12 @@ const initialFormState = {
   applicants: "",
   email: "",
   careerWebsite: "",
+  contactNumber: "",
+  contactEmail: "",
+  workMode: "",
+  negotiable: false,
+  requiredLanguages: [],
+  jobTags: [],
 };
 
 // Storage keys
@@ -139,6 +145,12 @@ const CreateJobTabMenu = () => {
         genderPrefereance: formData.genderPreference,
         applyVia: formData.applyVia,
         careerWebsite: formData.careerWebsite,
+        contactNumber: formData.contactNumber,
+        contactEmail: formData.contactEmail,
+        workMode: formData.workMode,
+        negotiable: formData.negotiable,
+        requiredLanguages: formData.requiredLanguages,
+        jobTags: formData.jobTags,
       };
 
       // Submit the job data

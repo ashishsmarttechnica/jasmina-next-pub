@@ -43,10 +43,11 @@ const JobPreferencesForm = forwardRef(
           joindate: initialData.availableFrom || "",
           workLocation: initialData.preferredLocation || "",
           currency: initialData.currency || "USD",
-          experience:
-            initialData.yearsOfExperience !== undefined
-              ? String(initialData.yearsOfExperience)
-              : "",
+          // experience:
+          //   initialData.yearsOfExperience !== undefined
+          //     ? String(initialData.yearsOfExperience)
+          //     : "",
+          experience: initialData.yearsOfExperience || undefined,
           industry: initialData.preferredIndustry || "",
         });
       }
@@ -58,7 +59,15 @@ const JobPreferencesForm = forwardRef(
 
     const handleChange = (e) => {
       const { name, value } = e.target;
-      setLocalData((prev) => ({ ...prev, [name]: value }));
+      // For experience field, only set value if it's not empty
+      if (name === "experience") {
+        setLocalData((prev) => ({
+          ...prev,
+          [name]: value.trim() === "" ? undefined : value,
+        }));
+      } else {
+        setLocalData((prev) => ({ ...prev, [name]: value }));
+      }
       if (clearFieldError) clearFieldError(name);
     };
 
@@ -98,11 +107,11 @@ const JobPreferencesForm = forwardRef(
                   type={type}
                   selectedType={localData.jobType || ""}
                   onClick={() => handleJobTypeChange(type)}
-                  error={errors.jobType}
+                  // error={errors.jobType}
                 />
               ))}
             </div>
-            {errors.jobType && <p className="mt-1 text-sm text-red-500">{errors.jobType}</p>}
+            {/* {errors.jobType && <p className="mt-1 text-sm text-red-500">{errors.jobType}</p>} */}
           </div>
           {["Open to Work", "Available for Freelance"].includes(availability) && (
             <div>
@@ -111,7 +120,7 @@ const JobPreferencesForm = forwardRef(
                 label={`${t("salaryrange")}`}
                 value={localData.salaryRange}
                 onChange={handleChange}
-                error={errors.salaryRange}
+                // error={errors.salaryRange}
                 placeholder="Enter salary range"
                 className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
               />
@@ -135,7 +144,7 @@ const JobPreferencesForm = forwardRef(
             <InputField
               name="experience"
               label={`${t("experience")}`}
-              value={localData.experience}
+              value={localData.experience || ""}
               onChange={handleChange}
               // error={errors.experience}
               type="number"
@@ -143,7 +152,7 @@ const JobPreferencesForm = forwardRef(
               placeholder="Enter years of experience"
               className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
             />
-            <p className="text-xs text-gray-500 md:col-span-2">{t("experienceError")}</p>
+            {/* <p className="text-xs text-gray-500 md:col-span-2">{t("experienceError")}</p> */}
           </div>
           {/* <CustomDatePicker
           name="joindate"
@@ -158,7 +167,7 @@ const JobPreferencesForm = forwardRef(
             name="workLocation"
             value={localData.workLocation}
             onChange={handleChange}
-            error={errors.workLocation}
+            // error={errors.workLocation}
             options={workLocationOptions}
             placeholder={t("SelectWorkLocation")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"
@@ -168,7 +177,7 @@ const JobPreferencesForm = forwardRef(
             name="industry"
             value={localData.industry}
             onChange={handleChange}
-            error={errors.industry}
+            // error={errors.industry}
             options={industryOptions}
             placeholder={t("SelectIndustry")}
             className="focus:border-primary-500 focus:ring-primary-500 rounded-lg border-gray-300"

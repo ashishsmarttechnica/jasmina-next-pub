@@ -1017,7 +1017,12 @@
     "failedToRemoveJob": "Failed to remove job.",
     "Errorfetchingsavedjob": "Error fetching saved job:",
     "SavedJobFetched": "Saved job fetched successfully",
-    "Failedtosavejob": "Failed to remove job."
+    "Failedtosavejob": "Failed to remove job.",
+    "all": "all",
+    "All": "All",
+    "ApplyLink": "Apply Link",
+    "ApplyLinkexternal": "Apply Link (External URL)",
+    "Applytocompany": "Apply To Company Website"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",

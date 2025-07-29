@@ -90,8 +90,11 @@ const useEditProfileValidation = () => {
     return newErrors;
   };
 
-  const validateJobPreferences = (data) => {
-    // If availability is "Not Available", skip all job preference validations
+  const validateJobPreferences = (data, availability) => {
+    // If availability is "Not Available", empty, or only whitespace, skip all job preference validations
+    if (availability === "Not Available" || !availability || availability.trim() === "") {
+      return {};
+    }
 
     const newErrors = {};
 
@@ -99,17 +102,17 @@ const useEditProfileValidation = () => {
       newErrors.jobRole = t("job.jobRoleRequired");
     }
 
-    if (!data?.jobType) {
-      newErrors.jobType = t("job.jobTypeRequired");
-    }
+    // if (!data?.jobType) {
+    //   newErrors.jobType = t("job.jobTypeRequired");
+    // }
 
-    if (!data?.salaryRange) {
-      newErrors.salaryRange = t("job.salaryRangeRequired");
-    }
+    // if (!data?.salaryRange) {
+    //   newErrors.salaryRange = t("job.salaryRangeRequired");
+    // }
 
-    if (!data?.workLocation?.trim()) {
-      newErrors.workLocation = t("job.workLocationRequired");
-    }
+    // if (!data?.workLocation?.trim()) {
+    //   newErrors.workLocation = t("job.workLocationRequired");
+    // }
 
     // if (!data?.experience) {
     //   newErrors.experience = t("job.experienceRequired");
@@ -215,13 +218,7 @@ const useEditProfileValidation = () => {
 
     // Skip job preferences validation if availability is "Not Available"
     let jobErrors = {};
-    if (
-      personalData?.availabilty !== "Not Available" &&
-      personalData?.availabilty !== "" &&
-      personalData?.availabilty?.trim() !== ""
-    ) {
-      jobErrors = validateJobPreferences(preferencesData || {});
-    }
+    jobErrors = validateJobPreferences(preferencesData || {}, personalData?.availabilty);
 
     const educationErrors = validateEducationAndSkills(educationSkillsData || {});
 
@@ -245,10 +242,11 @@ const useEditProfileValidation = () => {
     let section = "personal";
     if (
       fieldName.startsWith("job") ||
-      fieldName === "experience" ||
-      fieldName === "workLocation" ||
-      fieldName === "salaryRange" ||
-      fieldName === "joindate"
+      // fieldName === "experience" ||
+      // fieldName === "workLocation" ||
+      // fieldName === "salaryRange" ||
+      // fieldName === "joindate"
+      fieldName === "jobRole"
     ) {
       section = "job";
     } else if (

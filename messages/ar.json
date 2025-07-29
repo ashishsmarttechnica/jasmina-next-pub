@@ -977,7 +977,9 @@
     "failedToRemoveJob": "فشل في إزالة الوظيفة.",
     "Errorfetchingsavedjob": "خطأ جلب الوظيفة المحفوظة:",
     "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح",
-    "Failedtosavejob": "فشل في إزالة الوظيفة."
+    "Failedtosavejob": "فشل في إزالة الوظيفة.",
+    "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
+    "Applytocompany": "تقدم بطلب إلى موقع الشركة"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",

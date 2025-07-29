@@ -66,7 +66,7 @@ const PostNewJob = ({
           />
 
           <InputField
-            label="Career Website"
+            label="Apply Link(external URL)"
             name="careerWebsite"
             type="text"
             value={formData.careerWebsite}

@@ -1,12 +1,12 @@
 "use client";
 import Selecter from "@/common/Selecter";
 import useSingleCompanyAppliedJob from "@/hooks/company/singleCompany/useSingleCompanyAppliedJob";
+import useUpdateJobStatus from "@/hooks/company/singleCompany/useUpdateJobStatus";
 import { Link, useRouter } from "@/i18n/navigation";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
-import { IoChevronDownOutline } from "react-icons/io5";
 import { getRelativeTime } from "../../../utils/dateUtils";
 import SearchBar from "./SearchBar";
 
@@ -16,6 +16,9 @@ const Applications = () => {
   const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
 
   const [selectedStatus, setSelectedStatus] = useState("All Status");
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const dropdownRef = useRef(null);
+
   const {
     data: getCompanyAppliedJob,
     isLoading: isGetCompanyAppliedJobLoading,
@@ -23,30 +26,66 @@ const Applications = () => {
     error: getCompanyAppliedJobError,
   } = useSingleCompanyAppliedJob(params.id);
 
+  // Add the update job status mutation
+  const { mutate: updateJobStatus, isPending: isUpdatingStatus } = useUpdateJobStatus();
+
   const statusOptions = [
     { value: "All Status", label: "All Status" },
     { value: "Open", label: "Open" },
     { value: "Closed", label: "Closed" },
-    { value: "In Progress", label: "In Progress" },
   ];
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case 0:
-        return "Open";
-      case 1:
-        return "Closed";
-      case 2:
-        return "In Progress";
-      default:
-        return "Unknown";
-    }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdownId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const getStatusLabel = (status, jobId) => {
+    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Unknown";
+    return label;
   };
+
+  const handleStatusClick = (e, jobId, currentStatus) => {
+    e.stopPropagation();
+    // Call API to toggle status
+    updateJobStatus({
+      jobId: jobId,
+      status: currentStatus === 0 ? 1 : currentStatus === 1 ? 0 : 0,
+    });
+  };
+
+  const handleStatusChange = (jobId, newStatus, currentStatus) => {
+    console.log("Current Status:", currentStatus, "New Status:", newStatus); // For debugging
+
+    // Call the API to update job status
+    updateJobStatus({
+      jobId: jobId,
+      status: newStatus,
+    });
+
+    // Close dropdown immediately for better UX
+    setOpenDropdownId(null);
+  };
+
+  const toggleDropdown = (jobId) => {
+    setOpenDropdownId(openDropdownId === jobId ? null : jobId);
+  };
+
   //
   const handleJobClick = (item) => {
     setSelectedJob(item); // Store the selected job data
     router.push(`/company/single-company/${params.id}/applications/${item._id}`);
   };
-  const handleStatusChange = (e) => {
+  const handleStatusChangeFilter = (e) => {
     setSelectedStatus(e.target.value);
   };
 
@@ -114,7 +153,7 @@ const Applications = () => {
           <Selecter
             name="status"
             value={selectedStatus}
-            onChange={handleStatusChange}
+            onChange={handleStatusChangeFilter}
             options={statusOptions}
             placeholder="Select Status"
           />
@@ -154,20 +193,70 @@ const Applications = () => {
 
             {/* Applicants count */}
             <div className="flex-1 text-right">
-              <span
-                className={`inline-flex items-center rounded-[4px] px-3 py-1 text-[13px] font-medium ${
-                  getStatusLabel(item.status) === "Open"
-                    ? "bg-[#DCFCE7] text-[#166534]"
-                    : getStatusLabel(item.status) === "Closed"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-yellow-100 text-yellow-700"
-                }`}
-              >
-                {getStatusLabel(item.status)}
-                <IoChevronDownOutline className="ml-1 text-xs" />
-              </span>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleStatusClick(e, item._id, item.status);
+                  }}
+                  disabled={isUpdatingStatus}
+                  className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 hover:opacity-80 ${
+                    getStatusLabel(item.status) === "Open"
+                      ? "bg-[#DCFCE7] text-[#166534]"
+                      : getStatusLabel(item.status) === "Closed"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"
+                  } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
+                >
+                  {isUpdatingStatus && item._id === openDropdownId ? (
+                    <>
+                      <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Updating...
+                    </>
+                  ) : (
+                    <>{getStatusLabel(item.status)}</>
+                  )}
+                </button>
+
+                {/* Dropdown Menu */}
+                {openDropdownId === item._id && (
+                  <div className="absolute top-full right-0 z-50 mt-1 min-w-[120px] rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="py-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const newStatus = item.status === 0 ? 1 : item.status === 1 ? 0 : 0;
+                          handleStatusChange(item._id, newStatus, item.status);
+                        }}
+                        disabled={isUpdatingStatus}
+                        className={`block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 ${
+                          isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""
+                        }`}
+                      >
+                        {item.status === 0 ? "Close" : item.status === 1 ? "Open" : "Unknown"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
+            {/* Rest of the item JSX */}
             <div className="flex-1 text-center">
               <Link
                 href={`/applicationjob/${item._id}`}
@@ -186,9 +275,6 @@ const Applications = () => {
               </Link>
             </div>
 
-            {/* Status */}
-
-            {/* Actions */}
             <div className="ml-6">
               <button className="p-1 text-gray-500 hover:text-black">
                 <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
@@ -200,5 +286,5 @@ const Applications = () => {
     </div>
   );
 };
-//
+
 export default Applications;
