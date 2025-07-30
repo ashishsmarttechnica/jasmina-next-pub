@@ -2,7 +2,7 @@ import { getAllApplicants } from "@/api/company.api";
 import useSingleApplicationApplicantStore from "@/store/singleApplicationApplicant.store";
 import { useQuery } from "@tanstack/react-query";
 
-export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") => {
+export const useAllApplicants = (jobId, page = 1, limit = 10, status) => {
   const setApplicants = useSingleApplicationApplicantStore((s) => s.setApplicants);
   const applicants = useSingleApplicationApplicantStore((s) => s.applicants);
   const setPagination = useSingleApplicationApplicantStore((s) => s.setPagination);

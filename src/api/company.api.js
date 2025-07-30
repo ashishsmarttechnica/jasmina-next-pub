@@ -26,13 +26,17 @@ export const getCompany = async (id) => {
 //   return res.data;
 // };
 
-export const getCompanyAppliedJob = async (id) => {
-  const res = await axios.get(`/getcompany/job?id=${id}`);
+export const getCompanyAppliedJob = async (id, search = "", status, page = 1, limit = 100) => {
+  const res = await axios.get(
+    `/getcompany/job?id=${id}&search=${search}&status=${status}&page=${page}&limit=${limit}`
+  );
   return res.data;
 };
 
-export const getAllApplicants = async (jobId, page = 1, limit = 10, status = "all") => {
-  const res = await axios.get(`/job/applications?jobId=${jobId}&page=${page}&limit=${limit}`);
+export const getAllApplicants = async (jobId, page = 1, limit = 10, status) => {
+  const res = await axios.get(
+    `/job/applications?jobId=${jobId}&page=${page}&limit=${limit}&status=${status}`
+  );
   return res.data;
 };
 

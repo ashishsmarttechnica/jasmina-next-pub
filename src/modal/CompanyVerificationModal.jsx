@@ -5,8 +5,13 @@ import useAuthStore from "../store/auth.store";
 const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   const subscriptionMessage =
     "You've used your 2 free job post. To post more, please upgrade your plan.";
-  const title = message === subscriptionMessage ? "Subscription Required" : "Verification Required";
-  const router = useRouter();  
+  const expiredPlanMessage = "Your plan has expired. Please upgrade to continue.";
+  const title =
+    message === subscriptionMessage || message === expiredPlanMessage
+      ? "Subscription Required"
+      : "Verification Required";
+
+  const router = useRouter();
   const { user } = useAuthStore();
   const userId = user?._id;
   const handleSubscriptionClick = () => {
@@ -27,7 +32,7 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
       <Modal.Body className="space-y-4 bg-white px-6 py-4">
         <p className="text-gray-600">{message}</p>
         <div className="flex justify-end">
-          {message === subscriptionMessage ? (
+          {message === subscriptionMessage || message === expiredPlanMessage ? (
             <button
               onClick={handleSubscriptionClick}
               className="bg-primary hover:bg-primary/90 rounded px-4 py-2 text-white transition-colors"

@@ -2,12 +2,12 @@ import { getCompanyAppliedJob } from "@/api/company.api";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useQuery } from "@tanstack/react-query";
 
-const useSingleCompanyAppliedJob = (id) => {
+const useSingleCompanyAppliedJob = (id, searchQuery = "", status = "") => {
   const { appliedJobs, setAppliedJobs, setPagination } = useSingleCompanyAppliedJobStore();
   return useQuery({
-    queryKey: ["singleCompanyAppliedJob", id],
+    queryKey: ["singleCompanyAppliedJob", id, searchQuery, status],
     queryFn: async () => {
-      const res = await getCompanyAppliedJob(id);
+      const res = await getCompanyAppliedJob(id, searchQuery, status, 1, 100);
 
       if (res.success) {
         const newData = res.data.jobs || [];

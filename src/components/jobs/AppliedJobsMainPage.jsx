@@ -235,6 +235,7 @@ const AppliedJobsMainPage = () => {
                   <div className="sticky top-12 px-2">
                     <SingleJobDetail
                       job={selectedJob}
+                      logoImage={selectedJob?.logoImage}
                       onBack={() => setSelectedJob(null)}
                       hideApplyButton={true}
                     />

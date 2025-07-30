@@ -130,12 +130,14 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         >
           {t("ApplyNow")}
         </button>
-        <button
-          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
-          onClick={handleApplyLink}
-        >
-          {t("Applytocompany")}
-        </button>
+        {job?._raw?.careerWebsite && (
+          <button
+            className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+            onClick={handleApplyLink}
+          >
+            {t("Applytocompany")}
+          </button>
+        )}
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">

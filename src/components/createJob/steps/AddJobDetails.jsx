@@ -188,7 +188,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
                 value={formData.jobLocation}
                 onChange={handleLocationChange}
                 onFieldChange={handleLocationFieldChange}
-                // error={errors.jobLocation}
+                error={errors.jobLocation}
               />
             </div>
 

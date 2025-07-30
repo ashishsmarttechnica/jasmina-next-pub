@@ -206,7 +206,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Application Deadline
+                Application Deadline *
               </label>
               <CustomDatePicker
                 value={formData.applicationDeadline}
@@ -244,7 +244,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
               />
             </div>
 
-            <div>
+            {/* <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
                 Number of Open Positions
               </label>
@@ -256,27 +256,27 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
                 placeholder="Enter number of positions"
                 min="1"
               />
+              </div> */}
+            <div>
+              <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
+                Required Languages
+              </label>
+              <Selecter
+                name="requiredLanguages"
+                value={formData.requiredLanguages}
+                onChange={handleChange}
+                options={languageOptions}
+                isMulti={true}
+                isOther={true}
+              />
             </div>
           </div>
 
           {/* Languages */}
-          <div>
-            <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Required Languages
-            </label>
-            <Selecter
-              name="requiredLanguages"
-              value={formData.requiredLanguages}
-              onChange={handleChange}
-              options={languageOptions}
-              isMulti={true}
-              isOther={true}
-            />
-          </div>
 
           <div>
             <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Applicants
+              Number of Open Positions
             </label>
             <InputField
               type="number"

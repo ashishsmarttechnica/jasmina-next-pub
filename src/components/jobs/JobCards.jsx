@@ -76,7 +76,7 @@ const JobCards = ({ filters }) => {
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
-      
+
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
     website: job?.company?.website,
     logoImage: job?.company?.logoUrl,
@@ -101,82 +101,84 @@ const JobCards = ({ filters }) => {
   return (
     <div className="flex w-full flex-col gap-1 md:flex-row">
       <div className="mb-4 w-full md:mb-0 md:w-[35%] md:pr-2">
-        <div className="flex flex-col gap-4">
-          <div className="text-sm text-gray-500">
-            {totalJobs === 0 && <p>{t("Nojobsfound")}</p>}
-          </div>
+        {/* <div className="flex flex-col gap-4"> */}
+        <div className="text-sm text-gray-500">{totalJobs === 0 && <p>{t("Nojobsfound")}</p>}</div>
 
-          {mappedJobs.length > 0 ? (
-            mappedJobs.slice(0, visibleCount).map((job, index) => (
-              <Card
-                key={`${job._id}-${index}`}
-                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                  selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
-                }`}
-                onClick={() => setSelectedJob(job)}
-              >
-                <div className="p-4">
-                  <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <IoClipboardOutline className="h-4 w-4" />
-                    {job.experience}
+        {mappedJobs.length > 0 ? (
+          mappedJobs.slice(0, visibleCount).map((job, index) => (
+            <Card
+              key={`${job._id}-${index}`}
+              className={`mb-3 w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
+                selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
+              }`}
+              onClick={() => setSelectedJob(job)}
+            >
+              <div className="p-4">
+                <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                  <IoClipboardOutline className="h-4 w-4" />
+                  {job.experience}
+                </p>
+                <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                  <HiOutlineLocationMarker className="h-4 w-4" />
+                  {job.location}
+                </p>
+                <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
+                <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+                  <p>
+                    {t("Posted")} {getRelativeTime(job.posted)}
                   </p>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <HiOutlineLocationMarker className="h-4 w-4" />
-                    {job.location}
-                  </p>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>
-                      {t("Posted")} {getRelativeTime(job.posted)}
-                    </p>
-                  </div>
-                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
-                    <ImageFallback
-                      src={job?.logoImage ? getImg(job.logoImage) : undefined}
-                      fallbackSrc={noPostImage}
-                      alt="logo"
-                      width={28}
-                      height={28}
-                      className="mt-1 rounded-md"
-                    />
-                    <div className="flex w-full flex-col">
-                      <div className="text-sm text-gray-500">
-                        {job.company || t("unknownCompany")}
-                      </div>
-                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
-                        {job.website}
-                      </div>
+                </div>
+                <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                  <ImageFallback
+                    src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                    fallbackSrc={noPostImage}
+                    alt="logo"
+                    width={28}
+                    height={28}
+                    className="mt-1 rounded-md"
+                  />
+                  <div className="flex w-full flex-col">
+                    <div className="text-sm text-gray-500">
+                      {job.company || t("unknownCompany")}
+                    </div>
+                    <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                      {job.website}
                     </div>
                   </div>
                 </div>
-              </Card>
-            ))
-          ) : (
-            <div>{t("noJobsMatchingCriteria")}</div>
-          )}
+              </div>
+            </Card>
+          ))
+        ) : (
+          <div>{t("noJobsMatchingCriteria")}</div>
+        )}
 
-          {visibleCount < mappedJobs.length && (
-            <button
-              className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
-              onClick={() => setVisibleCount((prev) => prev + 3)}
-            >
-              {t("loadMore")}
-            </button>
-          )}
+        {visibleCount < mappedJobs.length && (
+          <button
+            className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+            onClick={() => setVisibleCount((prev) => prev + 3)}
+          >
+            {t("loadMore")}
+          </button>
+        )}
 
-          {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
-            <div className="mt-2 text-center text-gray-500">
-              <p>{t("noMoreJobsToLoad")}</p>
-            </div>
-          )}
-        </div>
+        {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
+          <div className="mt-2 text-center text-gray-500">
+            <p>{t("noMoreJobsToLoad")}</p>
+          </div>
+        )}
       </div>
+      {/* </div> */}
       {/* Right Column: Job Detail */}
       {selectedJob && (
         <div className="w-full md:w-[65%]">
           <div className="sticky top-12 px-2">
-            <SingleJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
+            <SingleJobDetail
+              job={selectedJob}
+              logoImage={selectedJob?.logoImage}
+              onBack={() => setSelectedJob(null)}
+            />
           </div>
         </div>
       )}

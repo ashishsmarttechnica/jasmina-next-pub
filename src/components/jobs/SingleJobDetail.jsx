@@ -22,8 +22,9 @@ import Share from "../../assets/svg/feed/Share";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
+import getImg from "../../lib/getImg";
 
-const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
+const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
   console.log(job?._raw?.application?.status, "job");
   const [bookmarked, setBookmarked] = useState(false);
@@ -123,6 +124,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
     }
   };
 
+  console.log(job, "job");
   return (
     <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 md:mt-0">
       {/* <button
@@ -224,12 +226,14 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
             {hasApplied ? t("alreadyApplied") : t("applyNow")}
           </button>
         )}
-        <button
-          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
-          onClick={handleApplyLink}
-        >
-          {t("Applytocompany")}
-        </button>
+        {job?._raw?.careerWebsite && (
+          <button
+            className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+            onClick={handleApplyLink}
+          >
+            {t("Applytocompany")}
+          </button>
+        )}
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
@@ -295,16 +299,16 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         <div>
           <div className="mt-3 flex flex-col items-start gap-2 border-t border-slate-100 pt-3 sm:flex-row">
             <ImageFallback
-              src={job.company.logoUrl}
+              src={
+                job?._raw?.companyId?.logoUrl ? getImg(job?._raw?.companyId?.logoUrl) : undefined
+              }
               alt="logo"
               width={28}
               height={28}
               className="mt-1 rounded-md"
             />
             <div className="flex w-full flex-col">
-              <div className="text-sm text-gray-500">
-                {job.company?.companyName || "Unknown Company"}{" "}
-              </div>
+              <div className="text-sm text-gray-500">{job.company || "Unknown Company"} </div>
               <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
                 {job.website}
               </div>

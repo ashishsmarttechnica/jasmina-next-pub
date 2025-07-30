@@ -1,5 +1,4 @@
 "use client";
-import Bar from "@/assets/svg/jobs/Bar";
 import Colors from "@/assets/svg/jobs/colors";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -57,7 +56,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
             className="bg-uiLight shadow-job-dropdown flex w-full items-center justify-between rounded-md px-3 py-1"
           >
             <div className="text-grayBlueText flex items-center gap-2 text-[16px]">
-              {selected === "All" && <Bar className="h-5 w-5" />}
+              {selected === "All"}
               {selected === "LGBTQ+" && <Colors className="h-5 w-5" />}
               <span>{selected}</span>
             </div>
