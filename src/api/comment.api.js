@@ -1,8 +1,8 @@
 import axios from "@/lib/axios";
 
-export const getAllComments = async (postId, page, limit = 10) => {
+export const getAllComments = async (postId, viewerId, page, limit = 10) => {
   const res = await axios.get(
-    `/get/comments?postId=${postId}&page=${page}&limit=${limit}`
+    `/get/comments?postId=${postId}&viewerId=${viewerId}&page=${page}&limit=${limit}`
   );
   return res.data;
 };

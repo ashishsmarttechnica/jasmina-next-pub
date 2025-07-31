@@ -76,26 +76,8 @@ const ApplyNowForm = ({ jobId }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Validate file extension
-      const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
-      const fileExtension = file.name.split(".").pop().toLowerCase();
-      if (!validExtensions.includes(`.${fileExtension}`)) {
-        setErrors((prev) => ({
-          ...prev,
-          cv: t("InvalidFileFormatError"),
-        }));
-        setSelectedFile(null);
-        return;
-      } else {
-        clearFieldError(t("cv"));
-      }
       setSelectedFile(file);
-    } else {
-      setErrors((prev) => ({
-        ...prev,
-        cv: t("InvalidFileFormatErrorFile"),
-      }));
-      setSelectedFile(null);
+      clearFieldError(t("cv"));
     }
   };
 
@@ -127,10 +109,11 @@ const ApplyNowForm = ({ jobId }) => {
       return;
     }
 
-    const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
+    // Validate file extension
+    const validExtensions = [".pdf", ".doc", ".docx", ".tex", ".webp"];
     const fileExtension = selectedFile?.name.split(".").pop();
 
-    if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
+    if (selectedFile && !validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
       setErrors({ ...errors, cv: t("InvalidFileFormatError") });
       return;
     }
@@ -245,7 +228,7 @@ const ApplyNowForm = ({ jobId }) => {
                 type="file"
                 id="cv"
                 name="cv"
-                accept=".pdf,.doc,.docx,.tex,.webp"
+                accept=".pdf,.doc,.docx,.tex"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="absolute inset-0 cursor-pointer opacity-0"

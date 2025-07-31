@@ -259,16 +259,23 @@ var updateJobStatus = function updateJobStatus(_ref5) {
       switch (_context10.prev = _context10.next) {
         case 0:
           jobId = _ref5.jobId, status = _ref5.status;
-          _context10.next = 3;
+          console.log("updateJobStatus API called with:", {
+            jobId: jobId,
+            status: status
+          }); // Debug log
+
+          _context10.next = 4;
           return regeneratorRuntime.awrap(_axios["default"].post("/update/job?jobId=".concat(jobId), {
             status: status
           }));
 
-        case 3:
+        case 4:
           res = _context10.sent;
+          console.log("updateJobStatus API response:", res.data); // Debug log
+
           return _context10.abrupt("return", res.data);
 
-        case 5:
+        case 7:
         case "end":
           return _context10.stop();
       }

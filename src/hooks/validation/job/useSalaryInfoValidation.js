@@ -25,9 +25,9 @@ const useSalaryInfoValidation = () => {
     }
 
     // Salary validation (mandatory)
-    if (!formData.salaryRange && formData.isNegotiable !== "yes") {
-      newErrors.salaryRange = "Salary range is required when not negotiable";
-    } else if (formData.salaryRange && formData.isNegotiable !== "yes") {
+    if (!formData.salaryRange) {
+      newErrors.salaryRange = "Salary range is required";
+    } else if (!formData.salaryRange) {
       // Check if the salary format is correct based on the pattern
       const isRangeFormat = /^\d+\s*-\s*\d+\s+[A-Za-z]+$/.test(formData.salaryRange); // e.g., 5000 - 8000 INR
       const isLpaFormat = /^\d+\s*-\s*\d+\s+LPA$/i.test(formData.salaryRange); // e.g., 5-7 LPA

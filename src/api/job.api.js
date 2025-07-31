@@ -56,7 +56,9 @@ export const applyJob = async (data) => {
 };
 
 export const updateJobStatus = async ({ jobId, status }) => {
+  console.log("updateJobStatus API called with:", { jobId, status }); // Debug log
   const res = await axios.post(`/update/job?jobId=${jobId}`, { status });
+  console.log("updateJobStatus API response:", res.data); // Debug log
   return res.data;
 };
 

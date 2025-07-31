@@ -65,10 +65,10 @@ const Applications = () => {
 
   const handleStatusClick = (e, jobId, currentStatus) => {
     e.stopPropagation();
-    // Don't toggle dropdown if status is Closed
+    // Don't do anything if status is Closed
     if (currentStatus === 1) return;
-    // Toggle dropdown
-    toggleDropdown(jobId);
+    // Directly change status to Closed when clicking on Open
+    handleStatusChange(jobId, 1, currentStatus);
   };
 
   const handleStatusChange = (jobId, newStatus, currentStatus) => {
@@ -85,7 +85,8 @@ const Applications = () => {
   };
 
   const toggleDropdown = (jobId) => {
-    // Don't allow dropdown to open if status is Closed
+    // This function is no longer needed since we're not using dropdowns
+    // Keeping it for potential future use
     const job = jobListings.find((item) => item._id === jobId);
     if (job?.status === 1) return;
     setOpenDropdownId(openDropdownId === jobId ? null : jobId);
@@ -259,31 +260,13 @@ const Applications = () => {
                     ) : (
                       <>
                         <span>{getStatusLabel(item.status)}</span>
-                        {/* Only show dropdown icon if status is not Closed */}
-                        {item.status !== 1 && <FiChevronDown className="ml-1" size={16} />}
+                        {/* Show dropdown icon only for Open status */}
+                        {item.status === 0 && <FiChevronDown className="ml-1" size={16} />}
                       </>
                     )}
                   </button>
 
-                  {/* Dropdown Menu - Only show if status is not Closed */}
-                  {openDropdownId === item._id && item.status !== 1 && (
-                    <div className="absolute top-full right-0 z-50 mt-1 min-w-[120px] rounded-md border border-gray-200 bg-white shadow-lg">
-                      <div className="py-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleStatusChange(item._id, 1, item.status);
-                          }}
-                          disabled={isUpdatingStatus}
-                          className={`block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 ${
-                            isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""
-                          }`}
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  {/* Dropdown Menu - Removed since we're not using dropdowns anymore */}
                 </div>
               </div>
 

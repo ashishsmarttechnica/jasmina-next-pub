@@ -6,8 +6,12 @@ export const useUpdateJobStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ jobId, status }) => updateJobStatus({ jobId, status }),
+    mutationFn: ({ jobId, status }) => {
+      console.log("useUpdateJobStatus mutationFn called with:", { jobId, status }); // Debug log
+      return updateJobStatus({ jobId, status });
+    },
     onSuccess: (data) => {
+      console.log("useUpdateJobStatus onSuccess:", data); // Debug log
       if (data?.success) {
         toast.success("Status updated successfully");
         // Invalidate and refetch all relevant queries
@@ -20,6 +24,7 @@ export const useUpdateJobStatus = () => {
       }
     },
     onError: (error) => {
+      console.log("useUpdateJobStatus onError:", error); // Debug log
       toast.error(error?.response?.data?.message || "Error updating status");
     },
   });

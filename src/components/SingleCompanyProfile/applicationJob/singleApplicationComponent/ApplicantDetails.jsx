@@ -28,6 +28,8 @@ const getStatusText = (status) => {
 };
 
 const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
+  console.log(selectedApplicant, "selectedApplicant++++++++++");
+
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
@@ -99,7 +101,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
     }
   };
 
-  console.log(selectedApplicant, "Status updated successfully");
+  console.log(selectedApplicant, "Status updated successfully++++++++++");
   return (
     <div className="w-full lg:w-[60%]">
       <div className="rounded-lg bg-white p-2 shadow-md sm:p-6">

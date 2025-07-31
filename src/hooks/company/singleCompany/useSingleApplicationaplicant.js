@@ -2,13 +2,13 @@ import { getAllApplicants } from "@/api/company.api";
 import useSingleApplicationApplicantStore from "@/store/singleApplicationApplicant.store";
 import { useQuery } from "@tanstack/react-query";
 
-export const useAllApplicants = (jobId, page = 1, limit = 10, status) => {
+export const useAllApplicants = (jobId, page = 1, limit = 10) => {
   const setApplicants = useSingleApplicationApplicantStore((s) => s.setApplicants);
   const applicants = useSingleApplicationApplicantStore((s) => s.applicants);
   const setPagination = useSingleApplicationApplicantStore((s) => s.setPagination);
 
   return useQuery({
-    queryKey: ["applicants", jobId, page, status],
+    queryKey: ["applicants", jobId, page],
     queryFn: async () => {
       if (!jobId) {
         return {
@@ -19,7 +19,7 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status) => {
       }
 
       try {
-        const res = await getAllApplicants(jobId, page, limit, status);
+        const res = await getAllApplicants(jobId, page, limit);
 
         // Check if the response indicates an error
         if (!res.success) {

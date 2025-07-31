@@ -2,6 +2,7 @@
 import useCompanyVerification from "@/hooks/company/useCompanyVerification";
 import { useRouter } from "@/i18n/navigation";
 import CompanyVerificationModal from "@/modal/CompanyVerificationModal";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Loader } from "rsuite";
@@ -9,17 +10,27 @@ import useNewJobPostStore from "../../store/newjobpost.store";
 
 const CreateJobButton = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const t = useTranslations("CompanyMainFeed");
   const meassage = useNewJobPostStore((s) => s.meassage);
   const isverified = useNewJobPostStore((s) => s.isverified);
-  const { data: verificationData, isLoading: isVerificationLoading } = useCompanyVerification();
+  const {
+    data: verificationData,
+    isLoading: isVerificationLoading,
+    refetch: refetchVerification,
+  } = useCompanyVerification();
+
   console.log("verificationData in CreateJobButton:", meassage);
 
   const handlePostJobClick = async () => {
     setIsLoading(true);
     try {
+      // Invalidate and refetch verification data to ensure we have the latest state
+      await queryClient.invalidateQueries({ queryKey: ["companyVerification"] });
+      await refetchVerification();
+
       // Check if company is verified
       if (!isverified) {
         setShowVerificationModal(true);
@@ -35,7 +46,7 @@ const CreateJobButton = () => {
       setIsLoading(false);
     }
   };
-// 
+
   return (
     <>
       <button

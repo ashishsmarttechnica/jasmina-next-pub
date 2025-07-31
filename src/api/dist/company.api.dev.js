@@ -103,7 +103,6 @@ exports.getCompanyAppliedJob = getCompanyAppliedJob;
 var getAllApplicants = function getAllApplicants(jobId) {
   var page,
       limit,
-      status,
       res,
       _args4 = arguments;
   return regeneratorRuntime.async(function getAllApplicants$(_context4) {
@@ -112,15 +111,14 @@ var getAllApplicants = function getAllApplicants(jobId) {
         case 0:
           page = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : 1;
           limit = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : 10;
-          status = _args4.length > 3 ? _args4[3] : undefined;
-          _context4.next = 5;
-          return regeneratorRuntime.awrap(_axios["default"].get("/job/applications?jobId=".concat(jobId, "&page=").concat(page, "&limit=").concat(limit, "&status=").concat(status)));
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].get("/job/applications?jobId=".concat(jobId, "&page=").concat(page, "&limit=").concat(limit)));
 
-        case 5:
+        case 4:
           res = _context4.sent;
           return _context4.abrupt("return", res.data);
 
-        case 7:
+        case 6:
         case "end":
           return _context4.stop();
       }

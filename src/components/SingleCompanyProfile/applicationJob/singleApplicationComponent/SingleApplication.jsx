@@ -2,9 +2,9 @@
 
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
+import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSingleCompanyAppliedJob from "../../../../hooks/company/singleCompany/useSingleCompanyAppliedJob";
 import SearchBar from "../../applications/SearchBar";
 import ApplicantDetails from "./ApplicantDetails";
 import ApplicantList from "./ApplicantList";
@@ -13,32 +13,19 @@ import JobHeader from "./JobHeader";
 const SingleApplication = () => {
   const params = useParams();
 
-  // Remove selectedJobFromStore and jobData state
-  // const selectedJobFromStore = useSingleCompanyAppliedJobStore((state) => state.selectedJob);
-  // const [jobData, setJobData] = useState(null);
+  // Get the selected job from the store
+  const selectedJobFromStore = useSingleCompanyAppliedJobStore((state) => state.selectedJob);
 
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [isSetInterviewOpen, setIsSetInterviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [page, setPage] = useState(1);
 
-  // Remove jobData effect
-  // useEffect(() => {
-  //   if (selectedJobFromStore) {
-  //     setJobData(selectedJobFromStore);
-  //   }
-  // }, [selectedJobFromStore]);
+  // Use selected job data from store
+  const jobData = selectedJobFromStore;
 
-  // Use getCompanyAppliedJob as jobData
-  const {
-    data: getCompanyAppliedJob,
-    isLoading: isGetCompanyAppliedJobLoading,
-    isError: isGetCompanyAppliedJobError,
-    error: getCompanyAppliedJobError,
-  } = useSingleCompanyAppliedJob(params.id);
-
-  // Get job ID from getCompanyAppliedJob or URL params
-  const jobId = getCompanyAppliedJob?.id || getCompanyAppliedJob?._id || params?.subid;
+  // Get job ID from selected job data or URL params
+  const jobId = jobData?._id || params?.subid;
 
   // Fetch applicants data using our custom hook
   const {
@@ -47,12 +34,11 @@ const SingleApplication = () => {
     isError,
     error,
   } = useAllApplicants(
-    jobId, // Job ID from parsed data or URL
+    jobId, // Job ID from selected job or URL
     page, // Current page
     10, // Limit per page
     activeTab // Status filter
   );
-  // console.log("Current jobId:", jobId);
 
   // Get applicants from the fetched data or use empty array if loading/error
   const applicants = applicantsData?.newApplicants || [];
@@ -80,17 +66,15 @@ const SingleApplication = () => {
   const handleApplicantClick = (applicant) => {
     setSelectedApplicant(applicant);
   };
-  // Remove jobData console.log
-  // console.log("jobData", jobData);
 
   // Handle loading and error states for job data
-  if (isGetCompanyAppliedJobLoading) {
-    return <div className="flex justify-center p-10">Loading job data...</div>;
-  }
-  if (isGetCompanyAppliedJobError) {
+  if (!jobData) {
     return (
-      <div className="flex justify-center p-10 text-red-500">
-        Error loading job data: {getCompanyAppliedJobError?.message || "Unknown error"}
+      <div className="flex justify-center p-10">
+        <div className="text-center">
+          <h3 className="mb-2 text-lg font-semibold text-gray-700">No Job Selected</h3>
+          <p className="text-sm text-gray-500">Please select a job from the applications list.</p>
+        </div>
       </div>
     );
   }
@@ -104,19 +88,10 @@ const SingleApplication = () => {
             <SearchBar />
           </div>
         </div>
-        <div>
-          <button className="bg-primary mx-2 w-full rounded-sm px-3 py-2 text-[13px] text-white sm:mx-2 sm:mt-2 sm:w-auto">
-            Post a Job
-          </button>
-        </div>
       </div>
 
       {/* Job Header */}
-      <JobHeader
-        jobData={
-          Array.isArray(getCompanyAppliedJob) ? getCompanyAppliedJob[0] : getCompanyAppliedJob
-        }
-      />
+      <JobHeader jobData={jobData} />
 
       {/* Filter Tabs */}
       {/* <FilterTabs activeTab={activeTab} setActiveTab={handleTabChange} /> */}

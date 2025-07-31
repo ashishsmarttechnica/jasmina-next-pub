@@ -4,7 +4,7 @@ import PostSkeleton from "@/common/skeleton/PostSkeleton";
 import { useAllPosts } from "@/hooks/post/usePosts";
 import usePostStore from "@/store/post.store";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DynamicPost from "./DynamicPost";
 import RecentJobs from "./RecentJobs";
 
@@ -13,7 +13,18 @@ const FeedPost = ({ isUser = false }) => {
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
+  const resetPosts = usePostStore((s) => s.resetPosts);
+  console.log(pagination, "pagination||||||");
+  console.log("Current page:", page);
+  console.log("Posts length:", posts?.length);
+
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);
+
+  // Reset store when component mounts
+  useEffect(() => {
+    resetPosts();
+  }, [resetPosts]);
+
   // Function to render skeleton loaders
   const renderSkeletons = (count = 3) => {
     return (

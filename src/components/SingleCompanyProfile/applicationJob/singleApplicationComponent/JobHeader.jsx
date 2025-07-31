@@ -1,7 +1,15 @@
-import { formatDate, getJobStatusLabel } from "@/utils/singleApplicationUtils";
+import { formatDate } from "@/utils/singleApplicationUtils";
 import { FiMoreVertical } from "react-icons/fi";
 
 const JobHeader = ({ jobData }) => {
+  console.log(jobData, "jobData++++++++++||||||||||||||||");
+
+  // Same getStatusLabel function as in Applications.jsx
+  const getStatusLabel = (status) => {
+    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Unknown";
+    return label;
+  };
+
   return (
     <div className="border-primary mt-4 mb-4 rounded-lg border bg-[#F0FDF4] p-4 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -23,13 +31,15 @@ const JobHeader = ({ jobData }) => {
         </div>
         <div className="flex items-center gap-4">
           <span
-            className={`rounded-md px-3 py-1 text-sm ${
-              jobData?.status === "Closed" || jobData?.status === 1
-                ? "bg-red-50 text-red-600"
-                : "bg-green-50 text-green-600"
+            className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 ${
+              getStatusLabel(jobData?.status) === "Open"
+                ? "bg-[#DCFCE7] text-[#166534]"
+                : getStatusLabel(jobData?.status) === "Closed"
+                  ? "bg-red-100 text-red-700"
+                  : "bg-yellow-100 text-yellow-700"
             }`}
           >
-            {getJobStatusLabel(jobData?.status)}
+            {getStatusLabel(jobData?.status)}
           </span>
           <span className="">Applicant {jobData?.applicants}</span>
           <button className="text-gray-400">

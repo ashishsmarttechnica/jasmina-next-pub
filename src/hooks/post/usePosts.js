@@ -16,20 +16,32 @@ export const useAllPosts = (page = 1) => {
   const setPagination = usePostStore((s) => s.setPagination);
 
   return useQuery({
-    queryKey: ["posts", page],
+    queryKey: ["allPosts", page],
     queryFn: async () => {
       const res = await getAllPosts(page);
 
       // Your API directly returns the structure we need
       const data = res?.data || {};
       const newPosts = data?.posts || [];
-      const pagination = data?.pagination || {};
+
+      // Extract pagination info from the data object (not nested pagination)
+      const pagination = {
+        total: data?.total || 0,
+        totalPages: data?.totalPages || 1,
+        currentPage: data?.currentPage || page,
+        pageSize: data?.pageSize || 10,
+      };
 
       // If it's the first page, replace posts, otherwise append
       const mergedPosts = page === 1 ? newPosts : [...posts, ...newPosts];
 
       setPagination(pagination);
       setPosts(mergedPosts);
+
+      // Debug logging
+      console.log("API Response:", res);
+      console.log("Extracted data:", data);
+      console.log("Pagination object:", pagination);
 
       // Calculate if we're on the last page based on pagination info
       const isLastPage = page >= pagination.totalPages;

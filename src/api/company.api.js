@@ -33,9 +33,9 @@ export const getCompanyAppliedJob = async (id, search = "", status, page = 1, li
   return res.data;
 };
 
-export const getAllApplicants = async (jobId, page = 1, limit = 10, status) => {
+export const getAllApplicants = async (jobId, page = 1, limit = 10) => {
   const res = await axios.get(
-    `/job/applications?jobId=${jobId}&page=${page}&limit=${limit}&status=${status}`
+    `/job/applications?jobId=${jobId}&page=${page}&limit=${limit}`
   );
   return res.data;
 };

@@ -11,6 +11,7 @@ import { IoClipboardOutline } from "react-icons/io5";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useSingleCompanyAppliedJob from "../../../../hooks/company/singleCompany/useSingleCompanyAppliedJob";
+
 const JobTab = () => {
   const t = useTranslations("CompanyProfile.singleCompanyTab");
   const router = useRouter();
@@ -28,10 +29,16 @@ const JobTab = () => {
   } = useSingleCompanyAppliedJob(params.id);
   const jobListings = getCompanyAppliedJob;
   const { user } = useAuthStore();
+  const userId = user?._id;
 
   const handleApplyNow = () => {
     // const locale = window.location.pathname.split("/")[1];
     router.push(`/jobs/apply-now/${jobListings?._id}/${jobListings?.jobTitle}`);
+  };
+
+  // Add click handler for job cards
+  const handleJobCardClick = (job) => {
+    router.push(`/company/single-company/${userId}/applications`);
   };
 
   return (
@@ -48,7 +55,10 @@ const JobTab = () => {
           <Swiper spaceBetween={20} slidesPerView="auto" className="h-full">
             {jobListings?.map((job, index) => (
               <SwiperSlide key={index} className="z-5 !w-auto">
-                <div className="border-grayBlueText/50 z-5 flex h-[199px] w-[180px] min-w-[180px] flex-col justify-between overflow-hidden rounded-md border px-0 shadow-sm">
+                <div
+                  className="border-grayBlueText/50 z-5 flex h-[199px] w-[180px] min-w-[180px] cursor-pointer flex-col justify-between overflow-hidden rounded-md border px-0 shadow-sm transition-all hover:shadow-md"
+                  onClick={() => handleJobCardClick(job)}
+                >
                   <div className="block bg-white p-2.5 text-left transition-all hover:shadow">
                     <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black">
                       {job.jobTitle}
@@ -75,7 +85,10 @@ const JobTab = () => {
                     <div className="flex items-center gap-1.5 border-t border-black/10 p-2.5 text-left">
                       <a
                         // href={job.careerWebsite || "#"}
-                        onClick={handleApplyNow}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click when clicking Apply Now
+                          handleApplyNow();
+                        }}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-primary rounded px-4 py-1 text-center text-white"
@@ -102,6 +115,7 @@ const JobTab = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[10px] text-[#007BFF]"
+                          onClick={(e) => e.stopPropagation()} // Prevent card click when clicking website link
                         >
                           {job.companyId?.website}
                         </a>
