@@ -17,6 +17,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         const statusText = getStatusText(applicant.status);
 
         // Debug the applicant data
+        console.log("Applicant Status:", applicant.status, "Status Text:", statusText);
 
         return (
           <div

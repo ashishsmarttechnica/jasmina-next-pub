@@ -4,6 +4,7 @@ import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useResentJobStore from "@/store/resentjob.store";
+import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -31,6 +32,9 @@ const JobTab = () => {
   const { user } = useAuthStore();
   const userId = user?._id;
 
+  // Get the setSelectedJob function from the store
+  const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
+
   const handleApplyNow = () => {
     // const locale = window.location.pathname.split("/")[1];
     router.push(`/jobs/apply-now/${jobListings?._id}/${jobListings?.jobTitle}`);
@@ -38,7 +42,8 @@ const JobTab = () => {
 
   // Add click handler for job cards
   const handleJobCardClick = (job) => {
-    router.push(`/company/single-company/${userId}/applications`);
+    setSelectedJob(job); // Store the selected job data in the store
+    router.push(`/company/single-company/${userId}/applications/${job._id}`);
   };
 
   return (

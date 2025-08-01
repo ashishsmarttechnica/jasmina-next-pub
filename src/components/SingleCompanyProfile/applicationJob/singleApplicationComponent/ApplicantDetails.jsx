@@ -1,8 +1,14 @@
 import { updateApplicationStatus } from "@/api/job.api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { FaCalendarCheck } from "react-icons/fa6";
-import { RxDownload } from "react-icons/rx";
+import {
+  FaCalendarCheck,
+  FaDownload,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaPaperclip,
+  FaPhone,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
 import getImg from "../../../../lib/getImg";
 
@@ -23,28 +29,25 @@ const getStatusText = (status) => {
     case 6:
       return "Reviewed";
     default:
-      return "Interviewing";
+      return "New";
   }
 };
 
-const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
-  console.log(selectedApplicant, "selectedApplicant++++++++++");
-
+const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants }) => {
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
   const queryClient = useQueryClient();
-  const resume = selectedApplicant?.resume;
+  const resume = selectedApplicant?.resume || selectedApplicant?.appliedCV;
+
+  console.log(applicants, "applicantsData___________________");
   useEffect(() => {
     if (resume) {
-      // Log the resume URL for debugging
       setResumeUrl(resume);
     }
   }, [resume]);
 
   if (!selectedApplicant) return null;
-
-  // Log the selected applicant for debugging
 
   const isInterviewFixed = selectedApplicant.status === "2";
 
@@ -56,10 +59,11 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
     }
     return `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=false`;
   };
+
   let fileName, fileUrl, fileExtension;
-  if (typeof selectedApplicant?.resume === "string") {
-    fileName = selectedApplicant.resume.split("/").pop();
-    fileUrl = getImg(selectedApplicant.resume); // Directly use resume URL
+  if (typeof resume === "string") {
+    fileName = resume.split("/").pop();
+    fileUrl = getImg(resume);
     fileExtension = fileName.split(".").pop()?.toLowerCase();
   }
 
@@ -76,21 +80,16 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
       setIsLoadingViewResume(false);
     }
   };
+
   const handleStatusChange = async (e) => {
     const newStatus = parseInt(e.target.value);
     setIsUpdating(true);
-    // console.log("Updating application status with:", {
-    //   userId: selectedApplicant.userId,
-    //   jobId: selectedApplicant.jobId,
-    //   status: newStatus,
-    // });
     try {
       await updateApplicationStatus({
         userId: selectedApplicant.userId,
         jobId: selectedApplicant.jobId,
         status: newStatus,
       });
-      // Invalidate and refetch the applicants query
       queryClient.invalidateQueries(["applicants"]);
       toast.success("Status updated successfully");
     } catch (error) {
@@ -101,47 +100,69 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
     }
   };
 
-  console.log(selectedApplicant, "Status updated successfully++++++++++");
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const formatPreferredStartDate = (dateString) => {
+    if (!dateString) return "Not specified";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="w-full lg:w-[60%]">
-      <div className="rounded-lg bg-white p-2 shadow-md sm:p-6">
-        <div className="flex items-start justify-between border-b border-slate-200 py-2">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <h2 className="text-xl font-semibold text-gray-900 sm:text-xl">
-                {selectedApplicant.name || "Unknown"}
+      <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
+        {/* Header Section */}
+        <div className="border-b border-gray-100 p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h2 className="mb-1 text-xl font-bold text-gray-900">
+                {selectedApplicant?.fullName
+                  ? selectedApplicant.fullName.charAt(0).toUpperCase() +
+                    selectedApplicant.fullName.slice(1)
+                  : selectedApplicant?.name ||
+                    selectedApplicant?.userName?.charAt(0).toUpperCase() +
+                      selectedApplicant?.userName?.slice(1) ||
+                    "Unknown"}
               </h2>
-              <h3 className="text-base font-medium text-gray-900 sm:text-lg">
-                {selectedApplicant.title || ""}
-              </h3>
-              <p className="text-sm text-blue-600 sm:text-base">
-                {selectedApplicant.email || "No email provided"}
-              </p>
-              <p className="text-sm text-gray-500 sm:text-base">
-                {selectedApplicant.experience
-                  ? `${selectedApplicant.experience} years experience`
-                  : "Experience not specified"}
-              </p>
-              {selectedApplicant?.resume && (
-                <div className="mt-5 mb-4 flex items-center justify-between">
-                  <button
-                    onClick={handleView}
-                    target="_blank"
-                    type="button"
-                    rel="noopener noreferrer"
-                    className="text-md flex items-center gap-2 font-bold text-blue-600"
-                  >
-                    Download CV <RxDownload />
-                  </button>
-                </div>
-              )}
+
+              {/* Contact Info */}
+              <div className="block flex-wrap gap-4 text-sm text-gray-600">
+                {selectedApplicant.email && (
+                  <div className="flex items-center gap-2">
+                    <FaEnvelope className="text-blue-500" />
+                    <span>{selectedApplicant.email}</span>
+                  </div>
+                )}
+
+                {selectedApplicant.phone && (
+                  <div className="flex items-center gap-2">
+                    <FaPhone className="text-green-500" />
+                    <span>{selectedApplicant.phone}</span>
+                  </div>
+                )}
+                {selectedApplicant.location && (
+                  <div className="flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-red-500" />
+                    <span>{selectedApplicant.location}</span>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="flex flex-col items-end">
+
+            {/* Status and Actions */}
+            <div className="flex flex-col items-end gap-3">
               <select
-                className="mb-3 rounded-md border border-none bg-slate-100 px-6 py-2"
-                value={selectedApplicant.originalData?.status}
+                className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                value={selectedApplicant.originalData?.status || selectedApplicant.status}
                 onChange={handleStatusChange}
                 disabled={isUpdating}
               >
@@ -152,57 +173,183 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen }) => {
                 <option value={5}>Hired</option>
                 <option value={6}>Reviewed</option>
               </select>
+
               <button
-                className={`mt-12 flex items-center rounded-md px-4 py-2 text-white ${
-                  isInterviewFixed ? "bg-primary cursor-not-allowed" : "bg-primary"
+                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  isInterviewFixed
+                    ? "cursor-not-allowed bg-gray-100 text-gray-500"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
                 }`}
                 onClick={() => {
                   if (!isInterviewFixed) {
                     setIsSetInterviewOpen({
-                      name: selectedApplicant.name,
+                      name:
+                        selectedApplicant.fullName ||
+                        selectedApplicant.name ||
+                        selectedApplicant.userName,
                       email: selectedApplicant.email,
                       jobRole: selectedApplicant.title,
                       experience: selectedApplicant.experience,
-                      resume: selectedApplicant.resume,
+                      resume: resume,
                       userId: selectedApplicant.userId,
                     });
                   }
                 }}
                 disabled={isInterviewFixed}
               >
-                <FaCalendarCheck className="mr-2" />
+                <FaCalendarCheck />
                 {isInterviewFixed ? "Interview Fixed" : "Set Interview"}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Additional applicant information */}
-        {/* {selectedApplicant.originalData && (
-          <div className="mt-4 border-t border-gray-200 pt-4">
-            <h3 className="mb-2 text-lg font-medium">Additional Information</h3>
-
-            {selectedApplicant.phone && (
-              <div className="mb-2">
-                <span className="font-medium">Phone:</span> {selectedApplicant.phone}
+        {/* Resume Section */}
+        {resume && (
+          <div className="border-b border-gray-100 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-md mb-1 font-semibold text-gray-900">Resume/CV</h3>
+                <p className="text-sm text-gray-600">{fileName}</p>
               </div>
-            )}
-
-            {selectedApplicant.originalData.message && (
-              <div className="mb-2">
-                <span className="font-medium">Message:</span>{" "}
-                {selectedApplicant.originalData.message}
-              </div>
-            )}
-
-            {selectedApplicant.createdAt && (
-              <div className="mb-2">
-                <span className="font-medium">Applied on:</span>{" "}
-                {new Date(selectedApplicant.createdAt).toLocaleDateString()}
-              </div>
-            )}
+              <button
+                onClick={handleView}
+                className="flex items-center gap-2 rounded-lg bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                <FaDownload />
+                View Resume
+              </button>
+            </div>
           </div>
-        )} */}
+        )}
+        {selectedApplicant.originalData?.attechments &&
+          selectedApplicant.originalData?.attechments.length > 0 && (
+            <div className="border-b border-gray-100 p-4">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Attachments</h3>
+
+              <div className="space-y-2">
+                {selectedApplicant.originalData.attechments.map((attachment, index) => {
+                  const fileName =
+                    typeof attachment === "string"
+                      ? attachment.split("/").pop()
+                      : attachment.url?.split("/").pop() || "Attachment";
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FaPaperclip className="text-gray-500" />
+                        <span className="text-xs font-medium text-gray-700">{fileName}</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const fileUrl =
+                            typeof attachment === "string"
+                              ? getImg(attachment)
+                              : getImg(attachment.url);
+                          window.open(fileUrl, "_blank");
+                        }}
+                        className="flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100"
+                      >
+                        <FaDownload />
+                        View
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+        {/* Application Details */}
+        <div className="border-b border-gray-100 p-4">
+          <h3 className="mb-3 text-base font-semibold text-gray-900">Application Details</h3>
+
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {/* Personal Information */}
+            <div className="space-y-2">
+              <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
+                Personal Information
+              </h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50">
+                    <FaEnvelope className="text-xs text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Email</p>
+                    <p className="text-xs font-medium text-gray-900">
+                      {selectedApplicant.email || "Not provided"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-50">
+                    <span className="text-xs font-bold text-indigo-600">$</span>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Salary</p>
+                    <p className="text-xs font-medium text-gray-900">
+                      {selectedApplicant.originalData?.salaryExpectation || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Application Information */}
+            <div className="space-y-2">
+              <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
+                Application Information
+              </h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-50">
+                    <FaCalendarCheck className="text-xs text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Start Date</p>
+                    <p className="text-xs font-medium text-gray-900">
+                      {selectedApplicant.originalData?.preferredStartDate
+                        ? formatPreferredStartDate(
+                            selectedApplicant.originalData.preferredStartDate
+                          )
+                        : "Not specified"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-50">
+                    <FaCalendarCheck className="text-xs text-yellow-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Availability</p>
+                    <p className="text-xs font-medium text-gray-900">
+                      {selectedApplicant.originalData?.currentAvailability || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Message Section */}
+          {selectedApplicant.originalData?.message && (
+            <div className="mt-3">
+              <h4 className="mb-2 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                Cover Message
+              </h4>
+              <div className="rounded bg-gray-50 p-3">
+                <p className="text-xs leading-relaxed text-gray-700">
+                  {selectedApplicant.originalData.message}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

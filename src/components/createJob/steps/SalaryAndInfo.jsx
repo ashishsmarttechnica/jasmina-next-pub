@@ -280,8 +280,8 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
             </label>
             <InputField
               type="number"
-              name="applicants"
-              value={formData.applicants}
+              name="numOfEmployee"
+              value={formData.numOfEmployee}
               onChange={handleChange}
               placeholder="Enter number of applicants"
               min="1"

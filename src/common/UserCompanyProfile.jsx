@@ -36,15 +36,15 @@ function UserCompanyProfile() {
             className="mb-[25px] h-[130px] w-[130px] rounded-full"
           />
           <h2 className="mb-2 text-center text-xl leading-[1.3] font-bold tracking-[0px]">
-            {user?.firstName
+            {/* {user?.firstName
               ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
-              : ""}{" "}
-            {user?.lastName ? user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : ""}
-
+              : ""}{" "} */}
+            {/* {user?.lastName ? user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : ""} */}
+            {user?.companyName.charAt(0).toUpperCase() + user?.companyName.slice(1)}
           </h2>
           <p className="mb-0 text-center text-[13px]">
             {/* {user?.companyType} {user?.companyName} */}
-            {user?.country} {user?.city} 
+            {user?.country} {user?.city}
           </p>
         </div>
         <div className="flex w-full justify-around border-y border-black/10">

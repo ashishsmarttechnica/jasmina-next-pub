@@ -2,6 +2,7 @@
 import { cancelInterview, getAllInterviews } from "@/api/interview.api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
+import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import SetInterviewModal from "../../../modal/SetInterviewModal";
 
@@ -38,6 +39,7 @@ const Interviews = () => {
         page,
         limit,
         status: getStatusNumber(activeTab),
+        companyId: Cookies.get("userId"),
       }),
   });
 

@@ -19,7 +19,7 @@ const Applications = () => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRefs = useRef({});
 
   const statusOptions = [
     { value: "All Status", label: "All Status", numericValue: "" },
@@ -44,20 +44,6 @@ const Applications = () => {
   // Add the update job status mutation
   const { mutate: updateJobStatus, isPending: isUpdatingStatus } = useUpdateJobStatus();
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdownId(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const getStatusLabel = (status, jobId) => {
     const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Unknown";
     return label;
@@ -67,8 +53,8 @@ const Applications = () => {
     e.stopPropagation();
     // Don't do anything if status is Closed
     if (currentStatus === 1) return;
-    // Directly change status to Closed when clicking on Open
-    handleStatusChange(jobId, 1, currentStatus);
+    // Toggle dropdown for Open status
+    toggleDropdown(jobId);
   };
 
   const handleStatusChange = (jobId, newStatus, currentStatus) => {
@@ -84,9 +70,11 @@ const Applications = () => {
     setOpenDropdownId(null);
   };
 
+  const handleCloseJob = (jobId, currentStatus) => {
+    handleStatusChange(jobId, 1, currentStatus);
+  };
+
   const toggleDropdown = (jobId) => {
-    // This function is no longer needed since we're not using dropdowns
-    // Keeping it for potential future use
     const job = jobListings.find((item) => item._id === jobId);
     if (job?.status === 1) return;
     setOpenDropdownId(openDropdownId === jobId ? null : jobId);
@@ -157,8 +145,26 @@ const Applications = () => {
   //     </div>
   //   );
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is outside any open dropdown
+      const isOutsideAllDropdowns = Object.values(dropdownRefs.current).every(
+        (ref) => !ref || !ref.contains(event.target)
+      );
+
+      if (isOutsideAllDropdowns && openDropdownId) {
+        setOpenDropdownId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openDropdownId]);
+
   const jobListings = getCompanyAppliedJob || [];
-  console.log(jobListings, "jobListings");
 
   return (
     <div>
@@ -222,7 +228,7 @@ const Applications = () => {
 
               {/* Applicants count */}
               <div className="flex-1 text-right">
-                <div className="relative" ref={dropdownRef}>
+                <div className="relative" ref={(el) => (dropdownRefs.current[item._id] = el)}>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -266,7 +272,43 @@ const Applications = () => {
                     )}
                   </button>
 
-                  {/* Dropdown Menu - Removed since we're not using dropdowns anymore */}
+                  {/* Dropdown Menu */}
+                  {openDropdownId === item._id && item.status === 0 && (
+                    <div className="absolute top-full right-0 z-10 mt-1 min-w-[120px] rounded-md border border-gray-200 bg-white shadow-lg">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCloseJob(item._id, item.status);
+                        }}
+                        disabled={isUpdatingStatus}
+                        className="flex w-full items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {isUpdatingStatus && item._id === openDropdownId ? (
+                          <>
+                            <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                fill="none"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              />
+                            </svg>
+                            Closing...
+                          </>
+                        ) : (
+                          "Closed"
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 

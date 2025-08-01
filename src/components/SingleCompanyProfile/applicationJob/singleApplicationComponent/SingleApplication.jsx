@@ -126,6 +126,7 @@ const SingleApplication = () => {
                   ...selectedApplicant,
                   jobId: jobId, // Explicitly pass the jobId
                 }}
+                applicants={applicantsData}
                 setIsSetInterviewOpen={setIsSetInterviewOpen}
               />
             ) : (
