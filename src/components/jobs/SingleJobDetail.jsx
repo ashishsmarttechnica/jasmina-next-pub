@@ -9,6 +9,7 @@ import useAppliedJobStore from "@/store/appliedJob.store";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 // import { useRouter } from "next/navigation";
+import noPostImage from "@/assets/feed/no-post.svg";
 import { useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -26,7 +27,9 @@ import getImg from "../../lib/getImg";
 
 const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
   // if (!job) return <div>Loading job details...</div>;
-  console.log(job?._raw?.application?.status, "job");
+  console.log(job, "joblogoImagelogoImagelogoImagelogoImagelogoImagelogoImage");
+  console.log(job?.logo, "job?.logoImage");
+
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
@@ -299,9 +302,8 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
         <div>
           <div className="mt-3 flex flex-col items-start gap-2 border-t border-slate-100 pt-3 sm:flex-row">
             <ImageFallback
-              src={
-                job?._raw?.companyId?.logoUrl ? getImg(job?._raw?.companyId?.logoUrl) : undefined
-              }
+              src={job?.logoImage ? getImg(job?.logoImage) : undefined}
+              fallbackSrc={noPostImage}
               alt="logo"
               width={28}
               height={28}

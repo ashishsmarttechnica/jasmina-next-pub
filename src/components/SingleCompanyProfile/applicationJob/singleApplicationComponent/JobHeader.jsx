@@ -6,7 +6,7 @@ const JobHeader = ({ jobData }) => {
 
   // Same getStatusLabel function as in Applications.jsx
   const getStatusLabel = (status) => {
-    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Unknown";
+    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Closed";
     return label;
   };
 
@@ -36,7 +36,7 @@ const JobHeader = ({ jobData }) => {
                 ? "bg-[#DCFCE7] text-[#166534]"
                 : getStatusLabel(jobData?.status) === "Closed"
                   ? "bg-red-100 text-red-700"
-                  : "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
             }`}
           >
             {getStatusLabel(jobData?.status)}

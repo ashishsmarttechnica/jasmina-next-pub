@@ -33,14 +33,29 @@ const getStatusText = (status) => {
   }
 };
 
-const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants }) => {
+const ApplicantDetails = ({
+  selectedApplicant,
+  setIsSetInterviewOpen,
+  applicants,
+  onStatusChange,
+}) => {
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(null);
   const queryClient = useQueryClient();
   const resume = selectedApplicant?.resume || selectedApplicant?.appliedCV;
 
   console.log(applicants, "applicantsData___________________");
+
+  // Update current status when selectedApplicant changes
+  useEffect(() => {
+    if (selectedApplicant) {
+      const status = selectedApplicant.originalData?.status || selectedApplicant.status;
+      setCurrentStatus(parseInt(status) || 1);
+    }
+  }, [selectedApplicant]);
+
   useEffect(() => {
     if (resume) {
       setResumeUrl(resume);
@@ -49,7 +64,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants
 
   if (!selectedApplicant) return null;
 
-  const isInterviewFixed = selectedApplicant.status === "2";
+  const isInterviewFixed = currentStatus === 2;
 
   const getGoogleDocsViewerUrl = (url) => {
     let absoluteUrl = url;
@@ -84,6 +99,10 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants
   const handleStatusChange = async (e) => {
     const newStatus = parseInt(e.target.value);
     setIsUpdating(true);
+
+    // Immediately update local state for real-time UI update
+    setCurrentStatus(newStatus);
+
     try {
       await updateApplicationStatus({
         userId: selectedApplicant.userId,
@@ -92,8 +111,13 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants
       });
       queryClient.invalidateQueries(["applicants"]);
       toast.success("Status updated successfully");
+      onStatusChange?.(newStatus); // Notify parent component
     } catch (error) {
       console.error("Error updating status:", error);
+      // Revert to previous status if API call fails
+      const previousStatus = selectedApplicant.originalData?.status || selectedApplicant.status;
+      setCurrentStatus(previousStatus);
+      onStatusChange?.(previousStatus); // Notify parent to revert
       toast.error(error?.response?.data?.message || "Failed to update status");
     } finally {
       setIsUpdating(false);
@@ -162,7 +186,7 @@ const ApplicantDetails = ({ selectedApplicant, setIsSetInterviewOpen, applicants
             <div className="flex flex-col items-end gap-3">
               <select
                 className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                value={selectedApplicant.originalData?.status || selectedApplicant.status}
+                value={currentStatus}
                 onChange={handleStatusChange}
                 disabled={isUpdating}
               >

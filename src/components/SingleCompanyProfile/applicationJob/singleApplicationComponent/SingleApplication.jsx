@@ -1,5 +1,6 @@
 "use client";
 
+import { getCompanyAppliedJob } from "@/api/company.api";
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
@@ -15,16 +16,57 @@ const SingleApplication = () => {
 
   // Get the selected job from the store
   const selectedJobFromStore = useSingleCompanyAppliedJobStore((state) => state.selectedJob);
+  const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
 
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [isSetInterviewOpen, setIsSetInterviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [page, setPage] = useState(1);
+  const [jobData, setJobData] = useState(null);
+  const [isJobLoading, setIsJobLoading] = useState(false);
 
-  // Use selected job data from store
-  const jobData = selectedJobFromStore;
+  // Fetch job details if not available in store
+  useEffect(() => {
+    const fetchJobDetails = async () => {
+      // If we have job data in store, use it
+      if (selectedJobFromStore && selectedJobFromStore._id) {
+        setJobData(selectedJobFromStore);
+        return;
+      }
 
-  // Get job ID from selected job data or URL params
+      // If no job in store but we have job ID in URL params, fetch it
+      const jobIdFromParams = params?.subid;
+      if (jobIdFromParams && !selectedJobFromStore) {
+        setIsJobLoading(true);
+        try {
+          const response = await getCompanyAppliedJob(jobIdFromParams, "", "", 1, 1);
+
+          if (response.success && response.data.jobs && response.data.jobs.length > 0) {
+            const jobDetails = response.data.jobs[0];
+            setJobData(jobDetails);
+            setSelectedJob(jobDetails); // Save to store for persistence
+          }
+        } catch (error) {
+          console.error("Error fetching job details:", error);
+        } finally {
+          setIsJobLoading(false);
+        }
+      } else if (selectedJobFromStore) {
+        // If we have some job data in store, use it
+        setJobData(selectedJobFromStore);
+      }
+    };
+
+    fetchJobDetails();
+  }, [selectedJobFromStore, params?.subid, setSelectedJob]);
+
+  useEffect(() => {
+    if (selectedJobFromStore) {
+      setSelectedApplicant(null);
+    }
+  }, [selectedJobFromStore]);
+
+  // Get job ID from job data or URL params
   const jobId = jobData?._id || params?.subid;
 
   // Fetch applicants data using our custom hook
@@ -67,7 +109,31 @@ const SingleApplication = () => {
     setSelectedApplicant(applicant);
   };
 
+  const handleStatusChange = (newStatus) => {
+    // Update the selected applicant's status immediately
+    if (selectedApplicant) {
+      setSelectedApplicant({
+        ...selectedApplicant,
+        status: newStatus,
+        originalData: {
+          ...selectedApplicant.originalData,
+          status: newStatus,
+        },
+      });
+    }
+  };
+
   // Handle loading and error states for job data
+  if (isJobLoading) {
+    return (
+      <div className="flex justify-center p-10">
+        <div className="text-center">
+          <h3 className="mb-2 text-lg font-semibold text-gray-700">Loading Job Details...</h3>
+        </div>
+      </div>
+    );
+  }
+
   if (!jobData) {
     return (
       <div className="flex justify-center p-10">
@@ -128,6 +194,7 @@ const SingleApplication = () => {
                 }}
                 applicants={applicantsData}
                 setIsSetInterviewOpen={setIsSetInterviewOpen}
+                onStatusChange={handleStatusChange}
               />
             ) : (
               <div className="hidden w-full rounded-lg bg-white p-6 text-center shadow-md lg:block lg:w-[60%]">

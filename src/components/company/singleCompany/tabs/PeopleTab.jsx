@@ -1,26 +1,41 @@
 "use client";
 import ImageFallback from "@/common/shared/ImageFallback";
-import UserMightKnowSkeleton from "@/common/skeleton/UserMightKnowSkeleton";
 import { useCreateConnection } from "@/hooks/connections/useConnections";
-import { useUserSuggestions } from "@/hooks/user/useUserSuggestions";
+import { useCompanySuggestions, useUserSuggestions } from "@/hooks/user/useUserSuggestions";
 import { useRouter } from "@/i18n/navigation";
+import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
-import useUserMightKnowStore from "@/store/userMightKnow.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaBuilding, FaUser } from "react-icons/fa";
 
 const PeopleTab = () => {
-  const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
-  const { data, isLoading, isError, error ,refetch} = useUserSuggestions();
+  const userType = capitalize(Cookies.get("userRole"));
+  console.log(userType, "userType+++++++++++++++++");
+
+  // Conditionally use the correct store and hook
+  let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;
+  if (userType === "Company") {
+    // Only call company suggestions and store
+    const companyStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = companyStore.useCompanySuggestionsStore());
+    ({ data, isLoading, isError, error, refetch } = useCompanySuggestions());
+  } else {
+    // Only call user suggestions and store
+    const userStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = userStore.default());
+    ({ data, isLoading, isError, error, refetch } = useUserSuggestions());
+  }
+
   const {
     mutate: createConnection,
     isPending,
     isLoading: isCreateConnectionLoading,
   } = useCreateConnection();
-  
-  const t= useTranslations("CompanyProfile.singleCompany");
+
+  const t = useTranslations("CompanyProfile.singleCompany");
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
   const getItemConfig = (item) => {
@@ -73,11 +88,21 @@ const PeopleTab = () => {
     );
   };
   const handleUserProfile = (user) => {
-    router.push(`/single-user/${user._id}`);
+    if (capitalize(user.role) === "User") {
+      router.push(`/single-user/${user._id}`);
+    } else {
+      router.push(`/company/single-company/${user._id}?fromNetworkInvites=true`);
+    }
   };
 
   if (isLoading || !displayData) {
-    return <UserMightKnowSkeleton />;
+    return (
+      <div className="w-full px-2 py-4">
+        <p className="my-20 text-center text-gray-500">
+          Company is not verified. Please wait for approval
+        </p>
+      </div>
+    );
   }
 
   if (isError) {
@@ -163,10 +188,11 @@ const PeopleTab = () => {
                     </button>
                   </>
                 ) : (
-                  <button className="bg-primary hover:text-primary hover:border-primary rounded-xs border border-transparent px-4 py-1 text-[12px] text-white transition-colors duration-300 hover:bg-transparent sm:text-[14px]"
-                  onClick={() => handleContactClick(item)}
+                  <button
+                    className="bg-primary hover:text-primary hover:border-primary rounded-xs border border-transparent px-4 py-1 text-[12px] text-white transition-colors duration-300 hover:bg-transparent sm:text-[14px]"
+                    onClick={() => handleContactClick(item)}
                   >
-                     {t("connect")}
+                    {t("connect")}
                   </button>
                 )}
               </div>

@@ -45,7 +45,7 @@ const Applications = () => {
   const { mutate: updateJobStatus, isPending: isUpdatingStatus } = useUpdateJobStatus();
 
   const getStatusLabel = (status, jobId) => {
-    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Unknown";
+    const label = status === 0 ? "Open" : status === 1 ? "Closed" : "Closed";
     return label;
   };
 

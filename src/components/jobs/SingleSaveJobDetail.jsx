@@ -1,4 +1,5 @@
 "use client";
+import noPostImage from "@/assets/feed/no-post.svg";
 import BookEducation from "@/assets/svg/jobs/BookEducation";
 import ClockSvg from "@/assets/svg/jobs/ClockSvg";
 import Dollar from "@/assets/svg/jobs/Dollar";
@@ -6,6 +7,7 @@ import Experience from "@/assets/svg/jobs/Experience";
 import Graph from "@/assets/svg/jobs/Graph";
 import PeopleSvg from "@/assets/svg/jobs/PeopleSvg";
 import { useRouter } from "@/i18n/navigation";
+import useAppliedJobStore from "@/store/appliedJob.store";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -18,14 +20,18 @@ import { toast } from "react-toastify";
 import { removeJob } from "../../api/job.api";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
+import ImageFallback from "../../common/shared/ImageFallback";
+import getImg from "../../lib/getImg";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
   console.log(job, "job");
   const t = useTranslations("Jobs");
   const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
+  const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
   const savedJobs = useJobStore((s) => s.savedJobs);
+  const appliedJobs = useAppliedJobStore((s) => s.appliedJobs);
   const router = useRouter();
 
   // Check if this job is already saved when component mounts or job changes
@@ -40,6 +46,16 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       setBookmarked(isAlreadySaved);
     }
   }, [job, savedJobs]);
+
+  // Check if user has already applied to this job
+  useEffect(() => {
+    if (job && appliedJobs && Array.isArray(appliedJobs)) {
+      const isAlreadyApplied = appliedJobs.some(
+        (appliedJob) => appliedJob.jobId?._id === job._id || appliedJob.jobId === job._id
+      );
+      setHasApplied(isAlreadyApplied);
+    }
+  }, [job, appliedJobs]);
 
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
@@ -125,10 +141,13 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       </div>
       <div className="flex items-center gap-2">
         <button
-          className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
+            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+          }`}
           onClick={handleApplyNow}
+          disabled={hasApplied}
         >
-          {t("ApplyNow")}
+          {hasApplied ? t("alreadyApplied") : t("ApplyNow")}
         </button>
         {job?._raw?.careerWebsite && (
           <button
@@ -193,6 +212,24 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
                 </li>
               ))}
           </ul>
+        </div>
+        <div>
+          <div className="mt-3 flex flex-col items-start gap-2 border-t border-slate-100 pt-3 sm:flex-row">
+            <ImageFallback
+              src={job?.logoImage ? getImg(job?.logoImage) : undefined}
+              fallbackSrc={noPostImage}
+              alt="logo"
+              width={28}
+              height={28}
+              className="mt-1 rounded-md"
+            />
+            <div className="flex w-full flex-col">
+              <div className="text-sm text-gray-500">{job.company || "Unknown Company"} </div>
+              <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
+                {job.website}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
