@@ -32,7 +32,7 @@ const MainSingleCompany = () => {
 
   // Conditionally include MainCompanyProfile based on query parameter
   const rightComponents = [];
-  
+
   if (!fromNetworkInvites) {
     rightComponents.push(
       <MainCompanyProfile
@@ -43,13 +43,11 @@ const MainSingleCompany = () => {
       />
     );
   }
-  
+
   rightComponents.push(<UserMightKnow key="right1" />);
 
   return (
-    <CompanyConnectionsLayout
-      RightComponents={rightComponents}
-    >
+    <CompanyConnectionsLayout RightComponents={rightComponents}>
       <div className="space-y-5">
         {mainContent ? (
           mainContent

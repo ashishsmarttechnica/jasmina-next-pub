@@ -822,7 +822,9 @@
     "connections": "الاتصالات",
     "postjob": "انشر وظيفة",
     "loading": "تحميل",
-    "postJob": "انشر وظيفة"
+    "postJob": "انشر وظيفة",
+    "userConnections": "اتصالات المستخدم",
+    "companyConnections": "اتصالات الشركة"
   },
   "FeedProfileLeft": {
     "connections": "الاتصالات",
@@ -979,7 +981,8 @@
     "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح",
     "Failedtosavejob": "فشل في إزالة الوظيفة.",
     "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
-    "Applytocompany": "تقدم بطلب إلى موقع الشركة"
+    "Applytocompany": "تقدم بطلب إلى موقع الشركة",
+    "ApplyOncompany": "تقدم بطلب على موقع الشركة"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",

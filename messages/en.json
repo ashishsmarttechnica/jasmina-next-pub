@@ -1022,7 +1022,8 @@
     "All": "All",
     "ApplyLink": "Apply Link",
     "ApplyLinkexternal": "Apply Link (External URL)",
-    "Applytocompany": "Apply To Company Website"
+    "Applytocompany": "Apply To Company Website",
+    "ApplyOncompany": "\t\tApply On Company Website"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",

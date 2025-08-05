@@ -821,7 +821,9 @@
     "connections": "Verbindungen",
     "postjob": "Einen Job veröffentlichen",
     "loading": "Laden",
-    "postJob": "Einen Job veröffentlichen"
+    "postJob": "Einen Job veröffentlichen",
+    "userConnections": "Benutzerverbindungen",
+    "companyConnections": "Unternehmensverbindungen"
   },
   "FeedProfileLeft": {
     "connections": "Verbindungen",
@@ -978,7 +980,8 @@
     "SavedJobFetched": "Rettete Job erfolgreich abgeholt",
     "Failedtosavejob": "Ich habe den Job nicht entfernen.",
     "ApplyLinkexternal": "Link anwenden (externe URL)",
-    "Applytocompany": "Bewerben Sie sich bei der Unternehmenswebsite"
+    "Applytocompany": "Bewerben Sie sich bei der Unternehmenswebsite",
+    "ApplyOncompany": "Bewerben Sie sich auf der Website der Firma"
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",

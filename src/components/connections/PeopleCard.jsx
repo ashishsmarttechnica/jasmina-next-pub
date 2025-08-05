@@ -1,7 +1,9 @@
 import ImageFallback from "@/common/shared/ImageFallback";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
 import useConnectionsStore from "@/store/connections.store";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -11,19 +13,24 @@ import { toast } from "react-toastify";
 const PeopleCard = ({ person }) => {
   const [isRemoving, setIsRemoving] = useState(false);
   const { mutate: removeConnection, isPending } = useRemoveConnection();
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
   const { connections, setConnections } = useConnectionsStore();
+  const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("CompanyProfile.singleCompanyTab");
+
   const availabilityIcons = {
     "Open to Work": "🟢",
     "Available for Freelance": "🟡",
     "Not Available": "🔴",
     " Open for Remote Worldwide": "🌍",
   };
+
   const handleProfile = (user) => {
     router.push(`/single-user/${user._id}?fromConnections=true`);
   };
-  console.log(person, "sdfffffffffffffffffffffffffffffffffff");
+
+  // console.log(person, "sdfffffffffffffffffffffffffffffffffff");
 
   const handleRemove = (user) => {
     setIsRemoving(true);
@@ -48,6 +55,33 @@ const PeopleCard = ({ person }) => {
         },
       }
     );
+  };
+
+  const handleMessage = (user) => {
+    // Get current user ID and the person's ID for the chat API
+    const currentUserId = user?._id;
+    const profileId = person?.details?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              // Navigate to chat with the generated room
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
+    }
   };
 
   return (
@@ -95,8 +129,12 @@ const PeopleCard = ({ person }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <button className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto">
-              {t("message")}
+            <button
+              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              onClick={() => handleMessage(person?.details)}
+              disabled={isGeneratingChat}
+            >
+              {isGeneratingChat ? "Generating..." : t("message")}
             </button>
             <button
               onClick={() => handleRemove(person)}

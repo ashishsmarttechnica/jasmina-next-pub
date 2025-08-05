@@ -3,10 +3,12 @@ import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import useConnectionsStore from "@/store/connections.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { generateChatRoom } from "../../api/chat.api";
 
 const CompanyCard = ({ company }) => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -52,6 +54,32 @@ const CompanyCard = ({ company }) => {
     );
   };
 
+  const handleMessage = (company) => {
+    // Get current user ID and the person's ID for the chat API
+    const currentUserId = Cookies.get("userId");
+    const profileId = company?.details?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              // Navigate to chat with the generated room
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
+    }
+  };
   return (
     <div
       className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
@@ -98,7 +126,10 @@ const CompanyCard = ({ company }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <button className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto">
+            <button
+              onClick={() => handleMessage(company)}
+              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto"
+            >
               {t("message")}
             </button>
             <button

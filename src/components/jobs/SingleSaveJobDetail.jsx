@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { IoClipboardOutline } from "react-icons/io5";
+import { IoClipboardOutline, IoMailOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { removeJob } from "../../api/job.api";
@@ -131,6 +131,14 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         <HiOutlineLocationMarker className="h-4 w-4" />
         {job?.location}
       </div>
+      <div>
+        {job?._raw?.contactEmail && (
+          <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+            <IoMailOutline className="h-4 w-4" />
+            {job?._raw?.contactEmail}
+          </div>
+        )}
+      </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         {/* <Colors width={13} height={13} /> */}
         <div className="mb-2 flex items-center gap-3 text-sm text-[#888DA8]">
@@ -154,7 +162,7 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
             className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
             onClick={handleApplyLink}
           >
-            {t("Applytocompany")}
+            {t("ApplyOncompany")}
           </button>
         )}
       </div>

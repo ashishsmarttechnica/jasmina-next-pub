@@ -820,7 +820,9 @@
     "connections": "Relations",
     "postjob": "Poster un emploi",
     "loading": "Chargement",
-    "postJob": "Poster un emploi"
+    "postJob": "Poster un emploi",
+    "userConnections": "Connexions utilisateur",
+    "companyConnections": "Connexions de l'entreprise"
   },
   "FeedProfileLeft": {
     "connections": "Relations",
@@ -977,7 +979,8 @@
     "SavedJobFetched": "Économiser le travail récupéré avec succès",
     "Failedtosavejob": "N'a pas réussi à supprimer le travail.",
     "ApplyLinkexternal": "Appliquer le lien (URL externe)",
-    "Applytocompany": "Postuler sur le site Web de l'entreprise"
+    "Applytocompany": "Postuler sur le site Web de l'entreprise",
+    "ApplyOncompany": "Postuler sur le site Web de l'entreprise"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",

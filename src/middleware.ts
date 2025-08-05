@@ -12,7 +12,6 @@ const publicRoutes = [
   "/verify-otp",
   "/post",
   "/post/:postId",
-  
 ];
 
 // Define profile creation routes
@@ -34,7 +33,7 @@ const sharedRoutes = [
   "/company/single-company/:id/subscription",
   "/company/single-company/:id/applications",
   "/company/single-company/:id/applications/:subid",
-  "/company/single-company/:id/previousplans"
+  "/company/single-company/:id/previousplans",
 ];
 // Define role-specific routes
 const roleBasedRoutes = {

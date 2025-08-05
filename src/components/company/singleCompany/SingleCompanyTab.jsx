@@ -1,24 +1,23 @@
 "use client";
 
-import SingleUserTabSkeleton from "@/common/skeleton/SingleUserTabSkeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import AboutTab from "./tabs/AboutTab";
 import JobTab from "./tabs/JobTab";
-import PeopleTab from "./tabs/PeopleTab";
+// import PeopleTab from "./tabs/PeopleTab";
 
 const SingleCompanyTab = ({ userData, isLoading }) => {
   const t = useTranslations("CompanyProfile.singleCompanyTab");
   const [isRTL, setIsRTL] = useState(false);
   const tabRefs = useRef({});
 
-  const tabs = [t("about"), t("job"), t("people")];
+  const tabs = [t("about"), t("job")];
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   useEffect(() => {
     // Detect RTL from document
-    setIsRTL(typeof document !== 'undefined' && document.documentElement.dir === 'rtl');
+    setIsRTL(typeof document !== "undefined" && document.documentElement.dir === "rtl");
   }, []);
 
   return (
@@ -26,16 +25,17 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
       {/* Desktop Tabs */}
       <div
         className="relative hidden border-b border-black/10 text-[14px] font-medium text-gray-500 sm:flex"
-        dir={isRTL ? 'rtl' : 'ltr'}
+        dir={isRTL ? "rtl" : "ltr"}
       >
-        <div className={`flex ${isRTL ? 'flex-row-reverse' : ''} gap-6 `}>
+        <div className={`flex ${isRTL ? "flex-row-reverse" : ""} gap-6`}>
           {tabs.map((tab) => (
             <button
               key={tab}
-              ref={el => tabRefs.current[tab] = el}
+              ref={(el) => (tabRefs.current[tab] = el)}
               onClick={() => setActiveTab(tab)}
-              className={`relative whitespace-nowrap py-3.5 px-2 capitalize outline-none ${activeTab === tab ? "text-primary" : ""
-                }`}
+              className={`relative px-2 py-3.5 whitespace-nowrap capitalize outline-none ${
+                activeTab === tab ? "text-primary" : ""
+              }`}
             >
               {tab}
               {activeTab === tab && (
@@ -44,9 +44,9 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
                   className="bg-primary absolute bottom-0 h-[3px]"
                   initial={false}
                   animate={{
-                    width: tabRefs.current[tab]?.scrollWidth || 'auto',
-                    left: isRTL ? 'unset' : 0,
-                    right: isRTL ? 0 : 'unset'
+                    width: tabRefs.current[tab]?.scrollWidth || "auto",
+                    left: isRTL ? "unset" : 0,
+                    right: isRTL ? 0 : "unset",
                   }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
@@ -57,22 +57,26 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
       </div>
 
       {/* Mobile Dropdown */}
-      <div className="p-4 sm:hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="p-4 sm:hidden" dir={isRTL ? "rtl" : "ltr"}>
         <div className="relative">
           <select
             value={activeTab}
             onChange={(e) => setActiveTab(e.target.value)}
-            className={`focus:ring-primary/20 focus:border-primary w-full appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 focus:ring-2 focus:outline-none ${isRTL ? 'text-right' : 'text-left'
-              }`}
+            className={`focus:ring-primary/20 focus:border-primary w-full appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 focus:ring-2 focus:outline-none ${
+              isRTL ? "text-right" : "text-left"
+            }`}
           >
             {tabs.map((tab) => (
-              <option key={tab} value={tab} className=" py-3">
+              <option key={tab} value={tab} className="py-3">
                 {tab}
               </option>
             ))}
           </select>
-          <div className={`pointer-events-none absolute inset-y-0 ${isRTL ? 'left-0' : 'right-0'
-            } flex items-center px-4`}>
+          <div
+            className={`pointer-events-none absolute inset-y-0 ${
+              isRTL ? "left-0" : "right-0"
+            } flex items-center px-4`}
+          >
             <svg
               className="h-5 w-5 text-gray-500"
               fill="none"
@@ -100,11 +104,11 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="min-h-[200px]"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={isRTL ? "rtl" : "ltr"}
         >
           {activeTab === tabs[0] && <AboutTab userData={userData} />}
           {activeTab === tabs[1] && <JobTab userData={userData} />}
-          {activeTab === tabs[2] && <PeopleTab userData={userData} />}
+          {/* {activeTab === tabs[2] && <PeopleTab userData={userData} />} */}
         </motion.div>
       </AnimatePresence>
     </div>

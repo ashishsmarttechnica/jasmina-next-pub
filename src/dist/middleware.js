@@ -68,7 +68,7 @@ var sharedRoutes = [
     "/company/single-company/:id/subscription",
     "/company/single-company/:id/applications",
     "/company/single-company/:id/applications/:subid",
-    "/company/single-company/:id/previousplans"
+    "/company/single-company/:id/previousplans",
 ];
 // Define role-specific routes
 var roleBasedRoutes = {

@@ -1,5 +1,7 @@
-"use client"
+"use client";
+import { getMessages } from "@/api/chat.api";
 import { format, isSameDay } from "date-fns";
+import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaCamera } from "react-icons/fa6";
@@ -7,28 +9,56 @@ import { FiLink } from "react-icons/fi";
 import { RiGalleryLine } from "react-icons/ri";
 import ChatWindowHeader from "./ChatWindowHeader";
 
-
 export default function ChatWindow({ chat, onBack }) {
   const [messageOptionsIdx, setMessageOptionsIdx] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
   const chatEndRef = useRef(null);
+
+  // Get current user ID from cookies
+  const currentUserId = Cookies.get("userId");
+
   if (!chat || !chat.id) {
     return <div>Error: Chat not found.</div>;
   }
 
-  const [messages, setMessages] = useState(() => {
-    const savedChat = chat ? localStorage.getItem(`chat-${chat.id}`) : null;
-    return savedChat ? JSON.parse(savedChat) : chat?.messages || [];
-  });
-
+  // Fetch messages when chat changes
   useEffect(() => {
-    if (chat?.id) {
-      localStorage.setItem(`chat-${chat.id}`, JSON.stringify(messages));
-    }
-  }, [messages, chat?.id]);
+    const fetchMessages = async () => {
+      if (!chat.roomId) return;
+
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await getMessages(chat.roomId);
+        if (response.success) {
+          // Transform API messages to match the expected format
+          const transformedMessages = response.data.messages.map((msg) => ({
+            from: msg.sender === currentUserId ? "user" : "other",
+            text: msg.content,
+            timestamp: msg.createdAt,
+            _id: msg._id,
+            seen: msg.seen,
+          }));
+          setMessages(transformedMessages);
+        } else {
+          setError("Failed to fetch messages");
+        }
+      } catch (err) {
+        console.error("Error fetching messages:", err);
+        setError(err.message || "Failed to fetch messages");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, [chat.roomId, currentUserId]);
 
   useEffect(() => {
     if (chatEndRef.current) {
@@ -113,130 +143,150 @@ export default function ChatWindow({ chat, onBack }) {
   };
 
   return (
-    <div className="w-full flex flex-col bg-gray-50 relative h-screen md:h-[464px]">
+    <div className="relative flex h-screen w-full flex-col bg-gray-50 md:h-[464px]">
       <ChatWindowHeader chat={chat} onBack={onBack} />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar bg-[#D9D9D9]/[10%]">
-        {(() => {
-          let lastDate = null;
-          return messages.map((msg, idx) => {
-            const msgDate = msg.timestamp
-              ? new Date(msg.timestamp)
-              : new Date();
-            if (isNaN(msgDate.getTime())) return null;
+      <div className="no-scrollbar flex-1 space-y-6 overflow-y-auto bg-[#D9D9D9]/[10%] p-4">
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <div className="text-gray-500">Loading messages...</div>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center py-8">
+            <div className="text-red-500">
+              Error: {error}
+              <button
+                className="ml-2 text-blue-500 underline"
+                onClick={() => window.location.reload()}
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        ) : messages.length === 0 ? (
+          <div className="flex justify-center py-8">
+            <div className="text-gray-500">No messages yet. Start a conversation!</div>
+          </div>
+        ) : (
+          (() => {
+            let lastDate = null;
+            return messages.map((msg, idx) => {
+              const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
+              if (isNaN(msgDate.getTime())) return null;
 
-            const showDate =
-              !lastDate || !isSameDay(new Date(lastDate), msgDate);
-            lastDate = msgDate;
+              const showDate = !lastDate || !isSameDay(new Date(lastDate), msgDate);
+              lastDate = msgDate;
 
-            return (
-              <div key={idx} className="space-y-1 relative group">
-                {showDate && (
-                  <div className="sticky top-0 z-10 flex justify-center my-4">
-                    <span className="bg-white text-xs text-gray-500 px-4 py-1 rounded-md shadow">
-                      {format(msgDate, "MMM dd, yyyy")}
-                    </span>
-                  </div>
-                )}
+              return (
+                <div key={idx} className="group relative space-y-1">
+                  {showDate && (
+                    <div className="sticky top-0 z-10 my-4 flex justify-center">
+                      <span className="rounded-md bg-white px-4 py-1 text-xs text-gray-500 shadow">
+                        {format(msgDate, "MMM dd, yyyy")}
+                      </span>
+                    </div>
+                  )}
 
-                <div className="flex justify-between items-start space-x-3">
-                  <div className="flex flex-row gap-5 items-start">
-                    <img
-                      src={
-                        msg.from === "user"
-                          ? "/src/assets/CompanyHome/Profile.png"
-                          : chat.avatar
-                      }
-                      alt="avatar"
-                      className="w-9 h-9 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="font-medium text-black text-sm">
-                        {chat.name}
-                      </div>
-                      <div className="py-3 mt-1 max-w-md">
-                        {msg.text && (
-                          <div className="text-gray-700 text-sm whitespace-pre-line">
-                            {formatText(msg.text)}
-                          </div>
-                        )}
-                        {msg.image && (
-                          <img
-                            src={msg.image}
-                            alt="sent"
-                            className="mt-2 rounded-md max-w-xs border border-slate-200 cursor-pointer"
-                            onClick={() => setSelectedImage(msg.image)}
-                          />
-                        )}
-                        {msg.file && (
-                          <div className="mt-2 flex items-center gap-2 border rounded-md p-2 max-w-xs bg-white text-sm">
-                            <span className="font-medium">{msg.file.name}</span>
-                            <a
-                              href="#"
-                              className="text-blue-600 underline text-xs"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              Open
-                            </a>
-                          </div>
-                        )}
+                  <div className="flex items-start justify-between space-x-3">
+                    <div className="flex flex-row items-start gap-5">
+                      <img
+                        src={
+                          msg.from === "user"
+                            ? "/src/assets/CompanyHome/Profile.png"
+                            : chat.avatar || "/src/assets/CompanyHome/Profile.png"
+                        }
+                        alt="avatar"
+                        className="h-9 w-9 rounded-full object-cover"
+                        onError={(e) => {
+                          e.target.src = "/src/assets/CompanyHome/Profile.png";
+                        }}
+                      />
+                      <div>
+                        <div className="text-sm font-medium text-black">
+                          {msg.from === "user" ? "You" : chat.name}
+                        </div>
+                        <div className="mt-1 max-w-md py-3">
+                          {msg.text && (
+                            <div className="text-sm whitespace-pre-line text-gray-700">
+                              {formatText(msg.text)}
+                            </div>
+                          )}
+                          {msg.image && (
+                            <img
+                              src={msg.image}
+                              alt="sent"
+                              className="mt-2 max-w-xs cursor-pointer rounded-md border border-slate-200"
+                              onClick={() => setSelectedImage(msg.image)}
+                            />
+                          )}
+                          {msg.file && (
+                            <div className="mt-2 flex max-w-xs items-center gap-2 rounded-md border bg-white p-2 text-sm">
+                              <span className="font-medium">{msg.file.name}</span>
+                              <a
+                                href="#"
+                                className="text-xs text-blue-600 underline"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                Open
+                              </a>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400 mt-2">
-                      {format(msgDate, "hh:mm a")}
-                    </span>
-                    <div className="relative">
-                      <button
-                        className="text-gray-400 hover:text-gray-600"
-                        onClick={() =>
-                          setMessageOptionsIdx(
-                            messageOptionsIdx === idx ? null : idx
-                          )
-                        }
-                      >
-                        <BsThreeDotsVertical  />
-                      </button>
-                      {messageOptionsIdx === idx && (
-                        <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow z-10">
-                          <button
-                            className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 text-sm"
-                            onClick={() => handleDeleteMessage(idx)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      )}
+                    <div className="flex items-center gap-2">
+                      <span className="mt-2 text-xs text-gray-400">
+                        {format(msgDate, "hh:mm a")}
+                      </span>
+                      <div className="relative">
+                        <button
+                          className="text-gray-400 hover:text-gray-600"
+                          onClick={() =>
+                            setMessageOptionsIdx(messageOptionsIdx === idx ? null : idx)
+                          }
+                        >
+                          <BsThreeDotsVertical />
+                        </button>
+                        {messageOptionsIdx === idx && (
+                          <div className="absolute right-0 z-10 mt-2 w-32 rounded border bg-white shadow">
+                            <button
+                              className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                              onClick={() => handleDeleteMessage(idx)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          });
-        })()}
+              );
+            });
+          })()
+        )}
         <div ref={chatEndRef} />
       </div>
 
-      <div className="bg-[#D9D9D9]/[10%] flex flex-col sticky bottom-0 gap-2">
-        <div className="flex border-y border-black/10 py-4 items-center gap-2 px-4">
+      <div className="sticky bottom-0 flex flex-col gap-2 bg-[#D9D9D9]/[10%]">
+        <div className="flex items-center gap-2 border-y border-black/10 px-4 py-4">
           <input
             type="text"
             placeholder="Write a message..."
-            className="flex-1 pb-2 font-normal text-[13px] bg-[#D9D9D9]/[10%] outline-none px-2"
+            className="flex-1 bg-[#D9D9D9]/[10%] px-2 pb-2 text-[13px] font-normal outline-none"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyDown}
           />
         </div>
 
-        <div className="flex justify-between items-center px-4 py-2 pb-3">
+        <div className="flex items-center justify-between px-4 py-2 pb-3">
           <div className="flex gap-1">
             <div
-              className="bg-[#CFE6CC] cursor-pointer border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-[#0F8200]"
+              className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
               onClick={() => fileInputRef.current.click()}
             >
-              <RiGalleryLine className="text-primary"/>
+              <RiGalleryLine className="text-primary" />
               {/* <Image /> */}
               <input
                 type="file"
@@ -249,10 +299,10 @@ export default function ChatWindow({ chat, onBack }) {
             </div>
 
             <div
-              className="bg-[#CFE6CC] cursor-pointer border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-[#0F8200]"
+              className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
               onClick={() => docInputRef.current.click()}
-              >
-                <FiLink className="text-primary"/>
+            >
+              <FiLink className="text-primary" />
               {/* <Pin /> */}
               <input
                 type="file"
@@ -260,18 +310,18 @@ export default function ChatWindow({ chat, onBack }) {
                 ref={docInputRef}
                 onChange={handleDocUpload}
                 className="hidden"
-                />
+              />
             </div>
 
-            <div className="bg-[#CFE6CC] cursor-pointer border border-transparent rounded-sm py-2 px-2 hover:bg-transparent hover:border-[#0F8200]">
+            <div className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent">
               {/* <Camara /> */}
-                <FaCamera className="text-primary"/> 
+              <FaCamera className="text-primary" />
             </div>
           </div>
 
           <button
             onClick={handleSend}
-            className="bg-[#0F8200] text-white text-[13px] font-normal px-4 py-1 rounded-[2px] hover:bg-green-700"
+            className="rounded-[2px] bg-[#0F8200] px-4 py-1 text-[13px] font-normal text-white hover:bg-green-700"
           >
             Send
           </button>
@@ -280,7 +330,7 @@ export default function ChatWindow({ chat, onBack }) {
 
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
+          className="bg-opacity-90 fixed inset-0 z-50 flex items-center justify-center bg-black"
           onClick={() => setSelectedImage(null)}
         >
           <img
