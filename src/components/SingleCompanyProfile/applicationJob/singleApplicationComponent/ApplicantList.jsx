@@ -1,7 +1,57 @@
+import ViewJobModal from "@/modal/ViewJobModal";
 import { getStatusColor, getStatusText } from "@/utils/singleApplicationUtils";
+import { useEffect, useRef, useState } from "react";
+import { FaEye } from "react-icons/fa6";
 import { FiMoreVertical } from "react-icons/fi";
 
 const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) => {
+  const [moreOptionsDropdownId, setMoreOptionsDropdownId] = useState(null);
+  const moreOptionsRefs = useRef({});
+
+  // State for view job modal
+  const [viewJobModalOpen, setViewJobModalOpen] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState(null);
+
+  const handleMoreOptionsClick = (e, applicantId) => {
+    e.stopPropagation();
+    console.log("More options clicked for applicant:", applicantId);
+    console.log("Current dropdown ID:", moreOptionsDropdownId);
+    setMoreOptionsDropdownId(moreOptionsDropdownId === applicantId ? null : applicantId);
+  };
+
+  const handleCloseMoreOptions = () => {
+    setMoreOptionsDropdownId(null);
+  };
+
+  const handleViewJob = (jobId) => {
+    setSelectedJobId(jobId);
+    setViewJobModalOpen(true);
+    setMoreOptionsDropdownId(null); // Close dropdown
+  };
+
+  const closeViewJobModal = () => {
+    setViewJobModalOpen(false);
+    setSelectedJobId(null);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isOutsideMoreOptionsDropdowns = Object.values(moreOptionsRefs.current).every(
+        (ref) => !ref || !ref.contains(event.target)
+      );
+
+      if (isOutsideMoreOptionsDropdowns && moreOptionsDropdownId) {
+        setMoreOptionsDropdownId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [moreOptionsDropdownId]);
+
   if (!applicants || applicants.length === 0) {
     return (
       <div className="w-full rounded-lg bg-white p-6 text-center shadow-md lg:w-[40%]">
@@ -47,13 +97,12 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                   {statusText}
                 </span>
               </div>
-              <button className="text-gray-400">
-                <FiMoreVertical size={20} className="bg-secondary p-1 text-[50px] text-black" />
-              </button>
+              <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
             </div>
           </div>
         );
       })}
+      <ViewJobModal isOpen={viewJobModalOpen} onClose={closeViewJobModal} jobId={selectedJobId} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 import { useScheduleInterview } from "@/hooks/interview/useScheduleInterview";
+import { useUpdateInterview } from "@/hooks/interview/useUpdateInterview";
 import useInterviewValidation from "@/hooks/validation/company/useInterviewValidation";
 import getImg from "@/lib/getImg";
 import { useTimeZonesOptions } from "@/utils/selectOptions";
@@ -7,7 +8,14 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { DatePicker, Input, Modal, SelectPicker } from "rsuite";
 
-const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
+const SetInterviewModal = ({
+  isOpen,
+  onClose,
+  jobId,
+  candidateData,
+  interviewId,
+  isReschedule = false,
+}) => {
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -16,28 +24,44 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
   const timeZones = useTimeZonesOptions();
 
   const { errors, validateField, validateForm } = useInterviewValidation();
-  const { mutate: scheduleInterview, isLoading } = useScheduleInterview(onClose);
+  const { mutate: scheduleInterview, isLoading: isScheduleLoading } = useScheduleInterview(onClose);
+  const { mutate: updateInterview, isLoading: isUpdateLoading } = useUpdateInterview(onClose);
+
+  const isLoading = isScheduleLoading || isUpdateLoading;
 
   const handleSend = () => {
     const formData = { date, startTime, address, timeZone };
     if (validateForm(formData)) {
-      const interviewData = {
-        companyId: Cookies.get("userId"),
-        userId: candidateData?.userId,
-        jobId,
-        email: candidateData?.email,
-        jobRole: candidateData?.jobRole || candidateData?.title,
-        date: date.toISOString().split("T")[0],
-        name: candidateData?.name,
-        startTime,
-        interviewAddress: address,
-        timeZone,
-        experience: candidateData?.experience,
-        resume: candidateData?.resume,
-      };
-      scheduleInterview(interviewData);
+      if (isReschedule && interviewId) {
+        // Update existing interview for reschedule
+        const updateData = {
+          date: date.toISOString().split("T")[0],
+          startTime,
+          interviewAddress: address,
+          timezone: timeZone,
+        };
+        updateInterview({ interviewId, data: updateData });
+      } else {
+        // Create new interview
+        const newInterviewData = {
+          companyId: Cookies.get("userId"),
+          userId: candidateData?.userId,
+          jobId,
+          email: candidateData?.email,
+          jobRole: candidateData?.jobRole || candidateData?.title,
+          date: date.toISOString().split("T")[0],
+          name: candidateData?.name,
+          startTime,
+          interviewAddress: address,
+          timeZone,
+          experience: candidateData?.experience,
+          resume: candidateData?.resume,
+        };
+        scheduleInterview(newInterviewData);
+      }
     }
   };
+
   // Resume view logic (like ResumeTab)
   let fileName, fileUrl, fileExtension;
   if (typeof candidateData?.resume === "string") {
@@ -69,6 +93,7 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
       setIsLoadingViewResume(false);
     }
   };
+
   useEffect(() => {
     if (isOpen) {
       setDate(null);
@@ -77,6 +102,7 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
       setTimeZone("Asia/Kolkata");
     }
   }, [isOpen]);
+
   console.log(candidateData, "candidateData");
   return (
     <Modal
@@ -198,7 +224,13 @@ const SetInterviewModal = ({ isOpen, onClose, jobId, candidateData }) => {
             disabled={isLoading}
             className="bg-primary hover:text-primary hover:border-primary rounded-sm px-6 py-2 text-[13px] text-white hover:border hover:bg-white"
           >
-            {isLoading ? "Scheduling..." : "Send Interview"}
+            {isLoading
+              ? isReschedule
+                ? "Re-scheduling..."
+                : "Scheduling..."
+              : isReschedule
+                ? "Re-schedule Interview"
+                : "Send Interview"}
           </button>
         </div>
       </Modal.Footer>

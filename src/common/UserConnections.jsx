@@ -142,7 +142,14 @@ const UserConnections = ({ title }) => {
         {displayData.length > 5 && (
           <div className="flex justify-center border-t border-gray-200 pt-2">
             <button
-              onClick={() => router.push("/connections")}
+              onClick={() => {
+                const currentUserId = Cookies.get("userId");
+                if (userType === "company") {
+                  router.push(`/connections?profileId=${currentUserId}&type=Company&tab=company`);
+                } else {
+                  router.push("/connections");
+                }
+              }}
               className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
             >
               View More

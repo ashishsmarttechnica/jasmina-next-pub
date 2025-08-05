@@ -3,6 +3,7 @@ import noPostImage from "@/assets/feed/no-post.svg";
 import CardHeading from "@/common/card/CardHeading";
 import ImageFallback from "@/common/shared/ImageFallback";
 import useGetResentJob from "@/hooks/job/useGetResentJob";
+import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import useResentJobStore from "@/store/resentjob.store";
 import Cookies from "js-cookie";
@@ -18,7 +19,12 @@ const RecentJobs = () => {
   const userId = Cookies.get("userId");
   const { data, isLoading, error } = useGetResentJob(userId);
   const { resentJobs } = useResentJobStore();
+  const router = useRouter();
   console.log(data, isLoading, error, "recent/job");
+
+  const handleJobCardClick = () => {
+    router.push(`/jobs`);
+  };
 
   return (
     <div className="cust-card">
@@ -36,7 +42,10 @@ const RecentJobs = () => {
             {data?.data?.recentJobs?.map((job, index) => (
               <SwiperSlide key={job._id || index} className="z-5 !w-auto">
                 <div className="border-grayBlueText/50 z-5 h-auto w-auto min-w-[172px] overflow-hidden rounded-md border px-0 shadow-sm">
-                  <div className="block justify-between bg-white p-2.5 text-left transition-all hover:shadow">
+                  <div
+                    className="block justify-between bg-white p-2.5 text-left transition-all hover:shadow"
+                    onClick={() => handleJobCardClick()}
+                  >
                     <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black">
                       {job.jobTitle}
                     </h3>

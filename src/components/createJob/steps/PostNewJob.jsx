@@ -55,13 +55,12 @@ const PostNewJob = ({
       <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-4 border-gray-200">
           <InputField
-            label="Apply via Email"
-            name="email"
+            label="Apply via Email "
+            name="applyVia"
             type="email"
-            value={formData.email}
+            value={formData.applyVia}
             onChange={handleChange}
             placeholder="hr@company.com"
-            error={errors.email}
             disabled={isSubmitting}
           />
 
@@ -72,7 +71,6 @@ const PostNewJob = ({
             value={formData.careerWebsite}
             onChange={handleChange}
             placeholder="https://company.com/careers"
-            error={errors.careerWebsite}
             disabled={isSubmitting}
           />
         </div>

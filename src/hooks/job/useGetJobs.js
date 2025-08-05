@@ -1,8 +1,8 @@
-import { createJob, getJobs, getRecentJobs } from "@/api/job.api";
+import { createJob, getJobs, getRecentJobs, getSingleJob } from "@/api/job.api";
 import useJobStore from "@/store/job.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit = 10 } = {}) => {
+export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit = 100 } = {}) => {
   const setJobs = useJobStore((s) => s.setJobs);
   const jobs = useJobStore((s) => s.jobs);
   const setLoading = useJobStore((s) => s.setLoading);
@@ -14,6 +14,7 @@ export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit 
     queryFn: async () => {
       try {
         setLoading(true);
+        console.log("Calling getJobs with params:", { search, location, lgbtq, page, limit });
         const res = await getJobs({ search, location, lgbtq, page, limit });
 
         // Extract data from response
@@ -40,12 +41,19 @@ export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit 
         // Calculate if we're on the last page based on pagination info
         const isLastPage = page >= pagination.totalPages;
 
+        console.log("API Response:", {
+          jobs: mergedJobs.length,
+          pagination,
+          isLastPage,
+        });
+
         return {
           jobs: mergedJobs,
           pagination,
           isLastPage,
         };
       } catch (error) {
+        console.error("Error fetching jobs:", error);
         setError(error);
         setLoading(false);
         throw error;
@@ -108,8 +116,21 @@ export const useCreateJob = () => {
   });
 };
 
+export const useSingleJob = (jobId) => {
+  return useQuery({
+    queryKey: ["singleJob", jobId],
+    queryFn: async () => {
+      const res = await getSingleJob(jobId);
+      return res;
+    },
+    enabled: !!jobId,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+};
+
 // Legacy hook for backward compatibility
-const useGetJobs = ({ search = "", location = "", lgbtq, page = 1, limit = 10 } = {}) => {
+const useGetJobs = ({ search = "", location = "", lgbtq, page = 1, limit = 100 } = {}) => {
   const { data, isLoading, error } = useAllJobs({ search, location, lgbtq, page, limit });
   return { data, isLoading, error };
 };

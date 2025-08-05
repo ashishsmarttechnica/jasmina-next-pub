@@ -3,12 +3,14 @@ import Selecter from "@/common/Selecter";
 import useSingleCompanyAppliedJob from "@/hooks/company/singleCompany/useSingleCompanyAppliedJob";
 import useUpdateJobStatus from "@/hooks/company/singleCompany/useUpdateJobStatus";
 import { Link, useRouter } from "@/i18n/navigation";
+import ViewJobModal from "@/modal/ViewJobModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown, FiMoreVertical } from "react-icons/fi";
 import { getRelativeTime } from "../../../utils/dateUtils";
 import SearchBar from "./SearchBar";
+import { FaEye } from "react-icons/fa6";
 
 const Applications = () => {
   const router = useRouter();
@@ -20,6 +22,12 @@ const Applications = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const dropdownRefs = useRef({});
+
+  // New state for view job modal and dropdown
+  const [viewJobModalOpen, setViewJobModalOpen] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState(null);
+  const [moreOptionsDropdownId, setMoreOptionsDropdownId] = useState(null);
+  const moreOptionsRefs = useRef({});
 
   const statusOptions = [
     { value: "All Status", label: "All Status", numericValue: "" },
@@ -105,6 +113,23 @@ const Applications = () => {
     });
   };
 
+  // New handlers for view job functionality
+  const handleViewJob = (jobId) => {
+    setSelectedJobId(jobId);
+    setViewJobModalOpen(true);
+    setMoreOptionsDropdownId(null); // Close dropdown
+  };
+
+  const handleMoreOptionsClick = (e, jobId) => {
+    e.stopPropagation();
+    setMoreOptionsDropdownId(moreOptionsDropdownId === jobId ? null : jobId);
+  };
+
+  const closeViewJobModal = () => {
+    setViewJobModalOpen(false);
+    setSelectedJobId(null);
+  };
+
   // if (isGetCompanyAppliedJobLoading) return <div>Loading...</div>;
   // if (isGetCompanyAppliedJobError)
   //   return (
@@ -152,9 +177,16 @@ const Applications = () => {
       const isOutsideAllDropdowns = Object.values(dropdownRefs.current).every(
         (ref) => !ref || !ref.contains(event.target)
       );
+      const isOutsideMoreOptionsDropdowns = Object.values(moreOptionsRefs.current).every(
+        (ref) => !ref || !ref.contains(event.target)
+      );
 
       if (isOutsideAllDropdowns && openDropdownId) {
         setOpenDropdownId(null);
+      }
+
+      if (isOutsideMoreOptionsDropdowns && moreOptionsDropdownId) {
+        setMoreOptionsDropdownId(null);
       }
     };
 
@@ -162,7 +194,7 @@ const Applications = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [openDropdownId]);
+  }, [openDropdownId, moreOptionsDropdownId]);
 
   const jobListings = getCompanyAppliedJob || [];
 
@@ -332,9 +364,30 @@ const Applications = () => {
               </div>
 
               <div className="ml-6">
-                <button className="p-1 text-gray-500 hover:text-black">
-                  <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
-                </button>
+                <div className="relative" ref={(el) => (moreOptionsRefs.current[item._id] = el)}>
+                  <button
+                    onClick={(e) => handleMoreOptionsClick(e, item._id)}
+                    className="p-1 text-gray-500 transition-colors hover:text-black"
+                  >
+                    <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
+                  </button>
+
+                  {/* More Options Dropdown */}
+                  {moreOptionsDropdownId === item._id && (
+                    <div className="absolute top-full right-0 z-20 mt-1 min-w-[140px] rounded-md border border-gray-200 bg-white shadow-lg">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewJob(item._id);
+                        }}
+                        className="flex w-full items-center px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                      >
+                        <FaEye className="mr-2 h-4 w-4" />
+                        View Job
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))
@@ -375,6 +428,9 @@ const Applications = () => {
           </div>
         )}
       </div>
+
+      {/* View Job Modal */}
+      <ViewJobModal isOpen={viewJobModalOpen} onClose={closeViewJobModal} jobId={selectedJobId} />
     </div>
   );
 };

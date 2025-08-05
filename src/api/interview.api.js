@@ -29,3 +29,11 @@ export const cancelInterview = async (interviewId) => {
   }
 };
 
+export const updateInterview = async ({ interviewId, data }) => {
+  try {
+    const response = await axios.put(`/update/interview?interviewId=${interviewId}`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

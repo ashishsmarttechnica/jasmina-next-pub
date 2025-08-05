@@ -837,7 +837,9 @@
     "Failedtosharepost": "Failed to share post",
     "Sharecancelledorfailed": "Share cancelled or failed",
     "Shareunsupported": "Share not supported on this device",
-    "PreviousPlans": "Previous Plans"
+    "PreviousPlans": "Previous Plans",
+    "Jobarea": "Area",
+    "fulladdress": "Full Address"
   },
   "Common": {
     "country": "Country",

@@ -26,10 +26,6 @@ const useJobDetailsValidation = () => {
       } else if (!locationComplete) {
         newErrors.jobLocation = "Please select country, state, and city";
       }
-
-      if (!formData.jobArea?.trim()) {
-        newErrors.jobArea = "Job area is required";
-      }
     }
 
     setErrors(newErrors);

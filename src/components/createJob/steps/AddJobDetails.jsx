@@ -194,12 +194,11 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
             <InputField
               name="jobArea"
-              label={t("JobArea")}
+              label={t("fulladdress")}
               value={formData.jobArea}
               onChange={handleChange}
               placeholder={t("EnterJobArea")}
               parentClassName="col-span-2"
-              error={errors.jobArea}
             />
           </>
            )} 

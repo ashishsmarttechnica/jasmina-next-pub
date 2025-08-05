@@ -768,7 +768,9 @@
     "Failedtosharepost": "Versäumte den Beitrag zu teilen",
     "Sharecancelledorfailed": "Aktien storniert oder fehlgeschlagen",
     "Shareunsupported": "Teilen Sie auf diesem Gerät nicht unterstützt",
-    "PreviousPlans": "Vorherige Pläne"
+    "PreviousPlans": "Vorherige Pläne",
+    "Jobarea": "Bereich",
+    "fulladdress": "Vollständige Adresse"
   },
   "Next": "",
   "UserHeader": {

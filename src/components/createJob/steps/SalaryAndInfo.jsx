@@ -159,48 +159,35 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
               className="mt-2 flex-shrink-0"
             />
           </div>
+          {!formData.isRemote && (
+            <div>
+              <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
+                Work Mode *
+              </label>
+              <Selecter
+                name="workMode"
+                value={formData.workMode}
+                onChange={handleChange}
+                options={workModeOptions}
+                error={errors.workMode}
+                placeholder="Select work mode"
+              />
+            </div>
+          )}
+
+          {/* Contact Number - Mandatory */}
           <div>
             <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Work Mode *
+              Contact Number *
             </label>
-            <Selecter
-              name="workMode"
-              value={formData.workMode}
+            <InputField
+              type="number"
+              name="contactNumber"
+              value={formData.contactNumber}
               onChange={handleChange}
-              options={workModeOptions}
-              error={errors.workMode}
-              placeholder="Select work mode"
+              placeholder="Enter contact number"
+              error={errors.contactNumber}
             />
-          </div>
-
-          {/* Contact Person/Email - Mandatory */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Contact Email *
-              </label>
-              <InputField
-                type="email"
-                name="contactEmail"
-                value={formData.contactEmail}
-                onChange={handleChange}
-                placeholder="Enter contact email"
-                error={errors.contactEmail}
-              />
-            </div>
-            <div>
-              <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Contact Number *
-              </label>
-              <InputField
-                type="number"
-                name="contactNumber"
-                value={formData.contactNumber}
-                onChange={handleChange}
-                placeholder="Enter contact number"
-                error={errors.contactNumber}
-              />
-            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

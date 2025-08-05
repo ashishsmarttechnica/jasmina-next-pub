@@ -6,17 +6,17 @@ const useSalaryInfoValidation = () => {
   const validateForm = (formData) => {
     const newErrors = {};
 
-    // Work Mode validation (mandatory)
-    if (!formData.workMode) {
+    // Work Mode validation (mandatory) - only if not remote
+    if (!formData.isRemote && !formData.workMode) {
       newErrors.workMode = "Work mode is required";
     }
 
     // Contact Email validation (mandatory)
-    if (!formData.contactEmail) {
-      newErrors.contactEmail = "Contact email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail)) {
-      newErrors.contactEmail = "Please enter a valid email address";
-    }
+    // if (!formData.contactEmail) {
+    //   newErrors.contactEmail = "Contact email is required";
+    // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail)) {
+    //   newErrors.contactEmail = "Please enter a valid email address";
+    // }
 
     if (!formData.contactNumber) {
       newErrors.contactNumber = "Contact number is required";

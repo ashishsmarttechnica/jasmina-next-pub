@@ -12,19 +12,18 @@ const Interviews = () => {
   const [page, setPage] = useState(1);
   const [isSetInterviewOpen, setIsSetInterviewOpen] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
+  const [selectedInterview, setSelectedInterview] = useState(null);
   const limit = 10;
   const queryClient = useQueryClient();
 
   const getStatusNumber = (status) => {
     switch (status) {
       case "Upcoming":
-        return 0;
-      case "Pending":
         return 1;
       case "Past":
         return 2;
       default:
-        return 0;
+        return 1;
     }
   };
 
@@ -55,6 +54,19 @@ const Interviews = () => {
     }
   };
 
+  const handleReschedule = (interview) => {
+    setSelectedInterview(interview);
+    setSelectedApplicant({
+      userId: interview.userId,
+      name: interview.fullName,
+      email: interview.email,
+      jobRole: interview.jobRole,
+      experience: interview.experience,
+      resume: interview.resume,
+    });
+    setIsSetInterviewOpen(true);
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-[400px] items-center justify-center">
@@ -75,7 +87,7 @@ const Interviews = () => {
     <div className="p-2">
       {/* Tabs */}
       <div className="flex gap-2">
-        {["Upcoming", "Pending", "Past"].map((tab) => (
+        {["Upcoming", "Past"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -111,7 +123,7 @@ const Interviews = () => {
               <div className="flex items-center">
                 <button
                   className="bg-primary hover:text-primary hover:border-primary mx-2 w-full rounded-sm px-3 py-2 text-[13px] text-white hover:border hover:bg-white sm:mx-2 sm:w-auto"
-                  onClick={() => setIsSetInterviewOpen(true)}
+                  onClick={() => handleReschedule(interview)}
                 >
                   Reschedule
                 </button>
@@ -124,9 +136,15 @@ const Interviews = () => {
               </div>
               <SetInterviewModal
                 isOpen={isSetInterviewOpen}
-                onClose={() => setIsSetInterviewOpen(false)}
+                onClose={() => {
+                  setIsSetInterviewOpen(false);
+                  setSelectedInterview(null);
+                  setSelectedApplicant(null);
+                }}
                 jobId={interview.jobId}
                 candidateData={selectedApplicant}
+                interviewId={selectedInterview?._id}
+                isReschedule={true}
               />
             </div>
           ))}

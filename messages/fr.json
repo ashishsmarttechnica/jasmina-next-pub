@@ -767,7 +767,9 @@
     "Failedtosharepost": "Échec de partager le poste",
     "Sharecancelledorfailed": "Partager annulé ou échoué",
     "Shareunsupported": "Partager non pris en charge sur cet appareil",
-    "PreviousPlans": "Plans précédents"
+    "PreviousPlans": "Plans précédents",
+    "Jobarea": "Zone",
+    "fulladdress": "Adresse complète"
   },
   "Next": "",
   "UserHeader": {

@@ -10,14 +10,20 @@ import { IoClipboardOutline } from "react-icons/io5";
 import getImg from "../../lib/getImg";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleJobDetail from "./SingleJobDetail";
+
 const JobCards = ({ filters }) => {
   const [page, setPage] = useState(1);
   const [visibleCount, setVisibleCount] = useState(3);
   const t = useTranslations("Jobs");
-  const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
 
-  // Use standard pagination with the API
-  const searchParams = isDefaultFilters ? { page, limit: 10 } : { ...filters, page, limit: 10 };
+  // Always use filters for search, with default values
+  const searchParams = {
+    search: filters.search || "",
+    location: filters.location || "",
+    lgbtq: filters.lgbtq !== undefined ? filters.lgbtq : true,
+    page: page,
+    limit: 100, // Increased limit to 100 as requested
+  };
 
   const { data, isLoading, error } = useAllJobs(searchParams);
   const jobs = data?.jobs || [];
@@ -40,7 +46,10 @@ const JobCards = ({ filters }) => {
       setSelectedJob(null);
     }
   }, [jobs, selectedJob]);
-  console.log(jobs, "jobs======");
+
+  console.log("Search Params:", searchParams);
+  console.log("Filters:", filters);
+
   // Map API job data to UI job shape
   const mappedJobs = jobs.map((job) => ({
     _id: job._id,
@@ -49,7 +58,7 @@ const JobCards = ({ filters }) => {
     location: job.jobLocation || job.location || "-",
     tag: job.company?.isLGBTQFriendly ? t("lgbtqFriendly") : "",
     skills: job.requiredSkills || [],
-    company: job.company?.companyName || "-",
+    company: job.companyId?.companyName || "-",
     url: job.company?.website || "",
     logo: job.company?.logoUrl
       ? job.company.logoUrl.startsWith("http")
@@ -78,8 +87,8 @@ const JobCards = ({ filters }) => {
       : [],
 
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
-    website: job?.company?.website,
-    logoImage: job?.company?.logoUrl,
+    website: job?.companyId?.website,
+    logoImage: job?.companyId?.logoUrl,
     _raw: job,
   }));
 
@@ -105,51 +114,58 @@ const JobCards = ({ filters }) => {
         <div className="text-sm text-gray-500">{totalJobs === 0 && <p>{t("Nojobsfound")}</p>}</div>
 
         {mappedJobs.length > 0 ? (
-          mappedJobs.slice(0, visibleCount).map((job, index) => (
-            <Card
-              key={`${job._id}-${index}`}
-              className={`mb-3 w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
-              }`}
-              onClick={() => setSelectedJob(job)}
-            >
-              <div className="p-4">
-                <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
-                <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                  <IoClipboardOutline className="h-4 w-4" />
-                  {job.experience}
-                </p>
-                <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                  <HiOutlineLocationMarker className="h-4 w-4" />
-                  {job.location}
-                </p>
-                <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
-                <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                  <p>
-                    {t("Posted")} {getRelativeTime(job.posted)}
-                  </p>
-                </div>
-                <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
-                  <ImageFallback
-                    src={job?.logoImage ? getImg(job.logoImage) : undefined}
-                    fallbackSrc={noPostImage}
-                    alt="logo"
-                    width={28}
-                    height={28}
-                    className="mt-1 rounded-md"
-                  />
-                  <div className="flex w-full flex-col">
-                    <div className="text-sm text-gray-500">
-                      {job.company || t("unknownCompany")}
+          mappedJobs.slice(0, visibleCount).map(
+            (job, index) => (
+              console.log("Jobs:======================", job),
+              (
+                <Card
+                  key={`${job._id}-${index}`}
+                  className={`mb-3 w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
+                    selectedJob?._id === job._id
+                      ? "border-green-700 bg-green-200"
+                      : "border-gray-300"
+                  }`}
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className="p-4">
+                    <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                    <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                      <IoClipboardOutline className="h-4 w-4" />
+                      {job.experience}
+                    </p>
+                    <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                      <HiOutlineLocationMarker className="h-4 w-4" />
+                      {job.location}
+                    </p>
+                    <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
+                    <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+                      <p>
+                        {t("Posted")} {getRelativeTime(job.posted)}
+                      </p>
                     </div>
-                    <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
-                      {job.website}
+                    <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                      <ImageFallback
+                        src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                        fallbackSrc={noPostImage}
+                        alt="logo"
+                        width={28}
+                        height={28}
+                        className="mt-1 rounded-md"
+                      />
+                      <div className="flex w-full flex-col">
+                        <div className="text-sm text-gray-500">
+                          {job?.company || t("unknownCompany")}
+                        </div>
+                        <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                          {job?.website}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </Card>
-          ))
+                </Card>
+              )
+            )
+          )
         ) : (
           <div>{t("noJobsMatchingCriteria")}</div>
         )}
@@ -178,6 +194,7 @@ const JobCards = ({ filters }) => {
               job={selectedJob}
               logoImage={selectedJob?.logoImage}
               onBack={() => setSelectedJob(null)}
+              searchFilters={filters}
             />
           </div>
         </div>

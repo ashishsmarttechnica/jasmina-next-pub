@@ -42,6 +42,7 @@ const initialFormState = {
   negotiable: false,
   requiredLanguages: [],
   jobTags: [],
+  applyVia: "",
 };
 
 // Storage keys
@@ -146,8 +147,8 @@ const CreateJobTabMenu = () => {
         applyVia: formData.applyVia,
         careerWebsite: formData.careerWebsite,
         contactNumber: formData.contactNumber,
-        contactEmail: formData.contactEmail,
-        workMode: formData.workMode,
+        // contactEmail: formData.contactEmail,
+        ...(!formData.isRemote && { workMode: formData.workMode }),
         negotiable: formData.negotiable,
         requiredLanguages: formData.requiredLanguages,
         jobTags: formData.jobTags,

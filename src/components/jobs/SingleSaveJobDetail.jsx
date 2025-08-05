@@ -132,10 +132,15 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         {job?.location}
       </div>
       <div>
-        {job?._raw?.contactEmail && (
+        {job?._raw?.applyVia && (
           <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
             <IoMailOutline className="h-4 w-4" />
-            {job?._raw?.contactEmail}
+            <a
+              href={`mailto:${job?._raw?.applyVia}`}
+              className="cursor-pointer underline hover:text-blue-800 hover:underline"
+            >
+              {job?._raw?.applyVia}
+            </a>
           </div>
         )}
       </div>

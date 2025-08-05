@@ -1,18 +1,46 @@
 "use client";
 import Colors from "@/assets/svg/jobs/colors";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
-const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
+const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("All");
+  const [selected, setSelected] = useState("All"); // Default to All
   const [searchInput, setSearchInput] = useState(filters.search || "");
   const [locationInput, setLocationInput] = useState(filters.location || "");
   const t = useTranslations("Jobs");
   const options = [t("lgbtqOption"), t("All")];
+
+  // Trigger initial search with lgbtq=false when component mounts
+  useEffect(() => {
+    const initialFilters = {
+      search: searchInput,
+      location: locationInput,
+      lgbtq: false, // Default to false for "All" jobs
+    };
+    setFilters(initialFilters);
+    if (onFindJob) {
+      onFindJob(initialFilters);
+    }
+  }, []); // Empty dependency array means this runs once on mount
+
+  const handleFindJob = () => {
+    const newFilters = {
+      search: searchInput,
+      location: locationInput,
+      lgbtq: selected === "All" ? false : true,
+    };
+    console.log("Setting filters:", newFilters);
+    setFilters(newFilters);
+
+    // Call the onFindJob callback if provided
+    if (onFindJob) {
+      onFindJob(newFilters);
+    }
+  };
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
@@ -95,14 +123,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           )} */}
           <button
             className="rounded-sm border border-white bg-[#0F8200] px-2 py-1.5 text-[13px] !leading-[15px] font-medium whitespace-nowrap text-white transition-all duration-200 hover:border hover:border-[#0F8200] hover:bg-transparent hover:text-[#0F8200]"
-            onClick={() => {
-              const filtersInput = {
-                search: searchInput,
-                location: locationInput,
-                lgbtq: selected === "LGBTQ+",
-              };
-              setFilters(filtersInput);
-            }}
+            onClick={handleFindJob}
           >
             {t("FindJob")}
           </button>

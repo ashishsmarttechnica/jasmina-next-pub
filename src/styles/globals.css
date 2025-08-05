@@ -276,3 +276,67 @@ button {
   /* Limit to approximately 8 words */
   max-width: calc(15ch * 1.5);
 }
+
+.customList ul,
+.customList li {
+  list-style: disc !important;
+  list-style-position: inside !important;
+  /* color: #1f5cd6 !important; */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px !important;
+}
+
+.customList ul {
+  padding-left: 20px !important;
+}
+
+.customList strong {
+  font-weight: 700;
+}
+
+.customList ul strong {
+  font-size: 18px;
+}
+
+.customList h1 {
+  font-size: 40px !important;
+  padding: 10px 0 !important;
+  font-weight: bold;
+  text-align: center;
+  color: #7c81eb;
+}
+
+.customList h2 {
+  font-size: 25px !important;
+  color: #7c81eb;
+  font-weight: 600;
+  /* margin-bottom: 5px;
+  padding: 10px 0 !important; */
+}
+
+.customList h3 {
+  font-size: 20px !important;
+  /* color:#7c81eb; */
+  font-weight: 600;
+  /* margin-bottom: 5px;
+    padding: 10px 0 !important; */
+}
+
+.customList p {
+  margin-left: 10px;
+  font-size: 17px !important;
+  margin-top: 0;
+  margin-bottom: 0;
+  /* color: #6b7280 !important; */
+}
+
+.customList a {
+  color: #7c81eb !important;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+  }
+}

@@ -108,7 +108,7 @@ const MainCompanyProfile = ({ title }) => {
         <div className="border-b border-slate-100 px-5 py-3">
           <div className="flex items-center gap-3">
             <ImageFallback
-              src={userData?.logoUrl && getImg(userData.logoUrl)}
+              src={user?.logoUrl && getImg(user.logoUrl)}
               loading="lazy"
               width={128}
               height={128}
@@ -119,7 +119,7 @@ const MainCompanyProfile = ({ title }) => {
                 e.currentTarget.src = "/default-company-logo.png";
               }}
             />
-            <span className="text-lg font-semibold">{userData?.companyName}</span>
+            <span className="text-lg font-semibold">{user?.companyName}</span>
           </div>
         </div>
 

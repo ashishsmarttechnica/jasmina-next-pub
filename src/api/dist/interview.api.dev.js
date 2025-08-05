@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cancelInterview = exports.scheduleInterview = exports.getAllInterviews = void 0;
+exports.updateInterview = exports.cancelInterview = exports.scheduleInterview = exports.getAllInterviews = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -97,3 +97,33 @@ var cancelInterview = function cancelInterview(interviewId) {
 };
 
 exports.cancelInterview = cancelInterview;
+
+var updateInterview = function updateInterview(_ref2) {
+  var interviewId, data, response;
+  return regeneratorRuntime.async(function updateInterview$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          interviewId = _ref2.interviewId, data = _ref2.data;
+          _context4.prev = 1;
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].put("/update/interview?interviewId=".concat(interviewId), data));
+
+        case 4:
+          response = _context4.sent;
+          return _context4.abrupt("return", response.data);
+
+        case 8:
+          _context4.prev = 8;
+          _context4.t0 = _context4["catch"](1);
+          throw _context4.t0;
+
+        case 11:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+};
+
+exports.updateInterview = updateInterview;

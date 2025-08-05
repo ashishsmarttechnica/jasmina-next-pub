@@ -769,7 +769,9 @@
     "Failedtosharepost": "فشل مشاركة المنشور",
     "Sharecancelledorfailed": "مشاركة إلغاء أو فشل",
     "Shareunsupported": "مشاركة غير مدعومة على هذا الجهاز",
-    "PreviousPlans": "الخطط السابقة"
+    "PreviousPlans": "الخطط السابقة",
+    "Jobarea": "منطقة",
+    "fulladdress": "العنوان الكامل"
   },
   "Next": "",
   "UserHeader": {

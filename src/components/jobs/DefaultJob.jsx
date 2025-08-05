@@ -8,7 +8,7 @@ const DefaultJob = () => {
   const [filters, setFilters] = useState({
     search: "",
     location: "",
-    lgbtq: true,
+    lgbtq: true, // Default to LGBTQ+ to match JobHeader's default selection
   });
   // This state is for the input fields (controlled by JobHeader)
   const [filtersInput, setFiltersInput] = useState({
@@ -17,16 +17,17 @@ const DefaultJob = () => {
     lgbtq: true, // Default to LGBTQ+ to match JobHeader's default selection
   });
 
-  // Only update filters (and thus trigger search) when Find Job is clicked
-  const handleFindJob = () => {
-    setFilters(filtersInput);
+  // Handle Find Job button click
+  const handleFindJob = (newFilters) => {
+    console.log("Find Job clicked with filters:", newFilters);
+    setFilters(newFilters);
   };
 
   return (
     <div className="w-full">
       <JobHeader filters={filtersInput} setFilters={setFiltersInput} onFindJob={handleFindJob} />
       <div className="mt-4 flex flex-col gap-4">
-      <div className="">
+        <div className="">
           <JobCards filters={filters} />
         </div>
       </div>

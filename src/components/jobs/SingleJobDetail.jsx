@@ -25,10 +25,11 @@ import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
 import getImg from "../../lib/getImg";
 
-const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
+const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilters = {} }) => {
   // if (!job) return <div>Loading job details...</div>;
   console.log(job, "joblogoImagelogoImagelogoImagelogoImagelogoImagelogoImage");
   console.log(job?.logo, "job?.logoImage");
+  console.log("Search Filters in SingleJobDetail:", searchFilters);
 
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
@@ -41,6 +42,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
   const [isShareLoading, setIsShareLoading] = useState(false);
   const [totalShare, setTotalShare] = useState(job?.totalShare || 0);
   const AppliedStatus = job?._raw?.application?.status;
+
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -209,10 +211,15 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
         {job?.location}
       </div>
       <div>
-        {job?._raw?.contactEmail && (
+        {job?._raw?.applyVia && (
           <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
             <IoMailOutline className="h-4 w-4" />
-            {job?._raw?.contactEmail}
+            <a
+              href={`mailto:${job?._raw?.applyVia}`}
+              className="cursor-pointer text-blue-600 hover:text-blue-800 hover:underline"
+            >
+              {job?._raw?.applyVia}
+            </a>
           </div>
         )}
       </div>
@@ -280,20 +287,22 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton }) => {
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
         <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
         <div
-          className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
+          className="customList w-full max-w-full text-[13px] break-words whitespace-normal"
           dangerouslySetInnerHTML={{ __html: job?.description }}
         />
-        <div
-          className="indesc mt-2 w-full max-w-full text-[13px] break-words whitespace-normal"
-          dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
-        />
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
-          <div
-            className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
-            dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
-          />
-        </div>
+        {job?.responsibilities && (
+          <div className="mt-4 border-t border-slate-100 pt-3">
+            <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
+
+            <div className="customList">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: job?.responsibilities || "No content available",
+                }}
+              ></div>
+            </div>
+          </div>
+        )}
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">{t("JobRequirements")}</h4>
           <ul className="mt-2 grid max-w-full list-disc grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

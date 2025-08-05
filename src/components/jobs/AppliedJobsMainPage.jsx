@@ -39,7 +39,10 @@ const AppliedJobsMainPage = () => {
   const handlePageChange = async (page) => {
     setCurrentPage(page);
   };
-
+  const handleFindJob = (newFilters) => {
+    console.log("Find Job clicked with filters:", newFilters);
+    setFilters(newFilters);
+  };
   // Map API job data to UI job shape
   const mappedJobs = appliedJobs.map((appliedJob) => {
     const job = appliedJob.jobId || {};
@@ -90,7 +93,7 @@ const AppliedJobsMainPage = () => {
   return (
     <JobsLayout leftComponents={[<MyJobs key="left1" />]}>
       <div className="w-full">
-        <JobHeader filters={filters} setFilters={setFilters} showSaveJobsLink={false} />
+        <JobHeader filters={filters} setFilters={setFilters} showSaveJobsLink={false}  onFindJob={handleFindJob} />
         <div className="mt-4 flex flex-col gap-4">
           {isLoading ? (
             <div>{t("Loadingappliedjobs")}</div>

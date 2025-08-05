@@ -21,62 +21,24 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var useSalaryInfoValidation = function useSalaryInfoValidation() {
+var useJobApplicationValidation = function useJobApplicationValidation() {
   var _useState = (0, _react.useState)({}),
       _useState2 = _slicedToArray(_useState, 2),
       errors = _useState2[0],
       setErrors = _useState2[1];
 
   var validateForm = function validateForm(formData) {
-    var newErrors = {}; // Work Mode validation (mandatory) - only if not remote
-
-    if (!formData.isRemote && !formData.workMode) {
-      newErrors.workMode = "Work mode is required";
-    } // Contact Email validation (mandatory)
-    // if (!formData.contactEmail) {
-    //   newErrors.contactEmail = "Contact email is required";
-    // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail)) {
-    //   newErrors.contactEmail = "Please enter a valid email address";
+    var newErrors = {}; // Check if at least one contact method is provided
+    // if (!formData.applyVia?.trim() && !formData.applyVia?.trim()) {
+    //   newErrors.applyVia = "Either email or career website is required";
+    //   newErrors.applyVia = "Either email or career website is required";
+    // } else {
+    //   // Validate email format if provided
+    //   if (formData.applyVia?.trim() && !/\S+@\S+\.\S+/.test(formData.applyVia)) {
+    //     newErrors.applyVia = "Please enter a valid email address";
+    //   }
+    //   // Validate website URL if provided
     // }
-
-
-    if (!formData.contactNumber) {
-      newErrors.contactNumber = "Contact number is required";
-    } else if (!/^\d{10,15}$/.test(formData.contactNumber.replace(/[+\s-]/g, ""))) {
-      newErrors.contactNumber = "Please enter a valid phone number (10-15 digits)";
-    } // Salary validation (mandatory)
-
-
-    if (!formData.salaryRange) {
-      newErrors.salaryRange = "Salary range is required";
-    } else if (!formData.salaryRange) {
-      // Check if the salary format is correct based on the pattern
-      var isRangeFormat = /^\d+\s*-\s*\d+\s+[A-Za-z]+$/.test(formData.salaryRange); // e.g., 5000 - 8000 INR
-
-      var isLpaFormat = /^\d+\s*-\s*\d+\s+LPA$/i.test(formData.salaryRange); // e.g., 5-7 LPA
-
-      if (!isRangeFormat && !isLpaFormat) {
-        newErrors.salaryRange = "Please enter a valid salary format (e.g., 5000 - 8000 INR or 5-7 LPA)";
-      }
-    }
-
-    if (!formData.applicationDeadline) {
-      newErrors.applicationDeadline = "Application deadline is required";
-    } else {
-      var deadlineDate = new Date(formData.applicationDeadline);
-      var today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (deadlineDate < today) {
-        newErrors.applicationDeadline = "Deadline cannot be in the past";
-      }
-    } // Optional fields - no validation required
-    // - education
-    // - experience
-    // - openPositions
-    // - languages
-    // - tags
-
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -99,5 +61,5 @@ var useSalaryInfoValidation = function useSalaryInfoValidation() {
   };
 };
 
-var _default = useSalaryInfoValidation;
+var _default = useJobApplicationValidation;
 exports["default"] = _default;

@@ -118,8 +118,12 @@ const UserNetworkInvites = ({ title }) => {
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
-      <div className="flex w-full flex-col gap-4 px-2 py-4">
-        {displayData.slice(0, 5).map((item) => {
+      <div
+        className={`flex w-full flex-col gap-4 px-2 py-4 ${
+          displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+        }`}
+      >
+        {displayData.map((item) => {
           const config = getItemConfig(item);
 
           return (

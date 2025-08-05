@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-export const useNetworkInvites = (page = 1, limit = 5) => {
+export const useNetworkInvites = (page = 1, limit = 100000) => {
   const { data, setData } = useNetworkInvitesStore();
 
   return useQuery({
