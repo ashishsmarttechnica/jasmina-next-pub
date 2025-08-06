@@ -54,9 +54,9 @@ const AppliedJobsMainPage = () => {
       location: job.jobLocation || "-",
       tag: job.genderPrefereance === "nonlgbtq" ? "" : "LGBTQ Friendly",
       skills: job.requiredSkills || [],
-      company: job.companyId.companyName || "-", // Need to add company name if available
+      company: job?.companyId?.companyName || "-", // Need to add company name if available
       url: job.careerWebsite || "",
-      logo: job.companyId.logoUrl || "https://logo.clearbit.com/placeholder.com", // Placeholder logo
+      logo: job?.companyId?.logoUrl || "https://logo.clearbit.com/placeholder.com", // Placeholder logo
       type: job.employeeType || "-",
       genderPrefereance: job.genderPrefereance || "-",
       education: job.education || "-",
@@ -93,7 +93,12 @@ const AppliedJobsMainPage = () => {
   return (
     <JobsLayout leftComponents={[<MyJobs key="left1" />]}>
       <div className="w-full">
-        <JobHeader filters={filters} setFilters={setFilters} showSaveJobsLink={false}  onFindJob={handleFindJob} />
+        <JobHeader
+          filters={filters}
+          setFilters={setFilters}
+          showSaveJobsLink={false}
+          onFindJob={handleFindJob}
+        />
         <div className="mt-4 flex flex-col gap-4">
           {isLoading ? (
             <div>{t("Loadingappliedjobs")}</div>

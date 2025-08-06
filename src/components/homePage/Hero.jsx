@@ -1,6 +1,6 @@
 "use client";
 import leftImg from "@/assets/homePage/LeftBannerImage.png";
-import rightImg from "@/assets/homePage/rightBannerImage.png";
+import rightImg from "@/assets/homePage/p3.png";
 import Location from "@/assets/svg/homePage/Location";
 import Search from "@/assets/svg/homePage/Search";
 import PostJobModal from "@/modal/PostJobModal";

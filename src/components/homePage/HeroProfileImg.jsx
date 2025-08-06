@@ -1,8 +1,9 @@
-import Employe12 from "@/assets/homePage/Employe12.png";
+import Employe12 from "@/assets/homePage/p1.png";
 import Employe23 from "@/assets/homePage/Employe23.png";
 import Employe34 from "@/assets/homePage/Employe34.png";
-import Employe45 from "@/assets/homePage/Employe45.png";
+import Employe45 from "@/assets/homePage/p2.png";
 import Employe56 from "@/assets/homePage/Employe56.png";
+
 import Image from "next/image";
 const HeroProfileImg = () => {
   return (

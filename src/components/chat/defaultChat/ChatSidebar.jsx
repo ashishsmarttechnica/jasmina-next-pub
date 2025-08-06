@@ -54,13 +54,15 @@ export default function ChatSidebar({ onSelect, activeChat }) {
   });
 
   const handleChatSelect = async (conversation) => {
-    console.log("conversation:", conversation);
+    console.log("=== ChatSidebar: Conversation Clicked ===");
+    console.log("Raw conversation data:", conversation);
 
     // Determine which user to display (sender or receiver)
     // Since we don't know which user is current, we'll show the receiver by default
     // or you can implement logic to determine current user from the conversation
     const otherUser = conversation.receiver;
-    
+    console.log("Other user data:", otherUser);
+
     // Create chat object with conversation data
     const selectedChat = {
       id: conversation.roomId,
@@ -75,6 +77,16 @@ export default function ChatSidebar({ onSelect, activeChat }) {
       conversationId: conversation._id,
       roomId: conversation.roomId, // Add roomId for fetching messages
     };
+
+    console.log("=== ChatSidebar: Selected Chat Object ===");
+    console.log("Selected chat being passed to ChatWindow:", selectedChat);
+    console.log("Room ID:", selectedChat.roomId);
+    console.log("Chat ID:", selectedChat.id);
+    console.log("User Name:", selectedChat.name);
+    console.log("User Role:", selectedChat.role);
+    console.log("Avatar URL:", selectedChat.avatar);
+    console.log("Conversation ID:", selectedChat.conversationId);
+    console.log("=== ChatSidebar: End ===");
 
     onSelect(selectedChat);
   };
@@ -108,7 +120,7 @@ export default function ChatSidebar({ onSelect, activeChat }) {
         filteredConversations.map((conversation) => {
           // For now, display the receiver as the other user
           // You can implement logic to determine current user vs other user
-          const otherUser = conversation.sender;
+          const otherUser = conversation.receiver;
 
           return (
             <div

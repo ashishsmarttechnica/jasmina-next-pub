@@ -112,9 +112,9 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         ← Back to job list
       </button> */}
 
-      <h3 className="mb-2 flex justify-between text-lg font-semibold text-black">
-        {job?.title}
-        <span onClick={toggleBookmark} className="cursor-pointer">
+      <h3 className="mb-2 flex justify-between gap-2 text-lg font-semibold text-black">
+        <div className="w-full max-w-[90%] text-lg break-words whitespace-normal">{job?.title}</div>
+        <span onClick={toggleBookmark} className="shrink-0 cursor-pointer">
           {bookmarked ? (
             <FaBookmark className="text-xl text-[#888DA8]" />
           ) : (

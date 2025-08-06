@@ -128,7 +128,9 @@ const JobCards = ({ filters }) => {
                   onClick={() => setSelectedJob(job)}
                 >
                   <div className="p-4">
-                    <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
+                    <h3 className="mb-2 truncate text-lg font-semibold text-gray-800">
+                      {job.title}
+                    </h3>
                     <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                       <IoClipboardOutline className="h-4 w-4" />
                       {job.experience}

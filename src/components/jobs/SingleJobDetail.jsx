@@ -140,7 +140,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
       </button> */}
 
       <h3 className="mb-2 flex justify-between px-2 text-lg font-semibold text-black">
-        {job?.title}
+      <div className="w-full max-w-[90%] text-lg break-words whitespace-normal">{job?.title}</div>
         <div className="flex items-center gap-1">
           <div className="flex items-center gap-1">
             <div className="block gap-2">

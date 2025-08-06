@@ -1,5 +1,5 @@
 "use client";
-import { getMessages } from "@/api/chat.api";
+import { getMessages, sendMessage } from "@/api/chat.api";
 import { format, isSameDay } from "date-fns";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +19,7 @@ export default function ChatWindow({ chat, onBack }) {
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
   const chatEndRef = useRef(null);
-
+  console.log(messages, "messages");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
 
@@ -37,12 +37,15 @@ export default function ChatWindow({ chat, onBack }) {
       try {
         const response = await getMessages(chat.roomId);
         if (response.success) {
+          console.log(response.data.messages, "response.data.messages");
+
           // Transform API messages to match the expected format
           const transformedMessages = response.data.messages.map((msg) => ({
             from: msg.sender === currentUserId ? "user" : "other",
             text: msg.content,
             timestamp: msg.createdAt,
             _id: msg._id,
+
             seen: msg.seen,
           }));
           setMessages(transformedMessages);
@@ -72,7 +75,7 @@ export default function ChatWindow({ chat, onBack }) {
     setMessageOptionsIdx(null);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const trimmed = newMessage.trim();
     if (!trimmed) return;
 
@@ -84,8 +87,20 @@ export default function ChatWindow({ chat, onBack }) {
       timestamp,
     };
 
+    // Optimistically add the message to the UI
     setMessages((prev) => [...prev, messageObj]);
     setNewMessage("");
+
+    try {
+      await sendMessage({
+        senderId: currentUserId,
+        receiverId: chat.id, // Update this if your chat object uses a different field for receiver
+        content: trimmed,
+      });
+      // Optionally, refetch messages or update the last message with server data
+    } catch (error) {
+      setError("Failed to send message");
+    }
   };
 
   const handleKeyDown = (e) => {

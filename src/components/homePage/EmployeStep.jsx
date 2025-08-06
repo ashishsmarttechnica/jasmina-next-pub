@@ -12,7 +12,7 @@ const EmployeStep = () => {
   return (
     <section className="mt-5 mb-10 sm:mt-10 xl:mt-32">
       <div className="container mx-auto px-2 sm:px-0">
-        <MainTitle title={t("employeStep.title")} subTitle={t("employeStep.subtitle")} />
+        <MainTitle title={t("employeSteps.title")} subTitle={t("employeSteps.subtitle")} />
         <div className="mt-10">
           <div className="flex flex-col items-center justify-center gap-10 md:flex-row">
             <div>

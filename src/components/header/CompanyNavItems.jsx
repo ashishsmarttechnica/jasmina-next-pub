@@ -47,14 +47,14 @@ const CompanyNavItems = ({ onLinkClick }) => {
         <span>{t("home")}</span>
       </Link>
 
-      <Link
+      {/* <Link
         href="/jobs"
         className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
         onClick={onLinkClick}
       >
         <FiBriefcase className="h-5 w-5 text-white" />
         <span>{t("jobs")}</span>
-      </Link>
+      </Link> */}
 
       <Link
         href={

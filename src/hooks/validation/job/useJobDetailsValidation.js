@@ -9,6 +9,8 @@ const useJobDetailsValidation = () => {
     // Required fields validation
     if (!formData.jobTitle?.trim()) {
       newErrors.jobTitle = "Job title is required";
+    } else if (formData.jobTitle.trim().length > 50) {
+      newErrors.jobTitle = "Job title must be 50 characters ";
     }
 
     if (!formData.jobType?.trim()) {
