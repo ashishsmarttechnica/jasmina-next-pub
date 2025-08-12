@@ -31,6 +31,8 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
   console.log(job?.logo, "job?.logoImage");
   console.log("Search Filters in SingleJobDetail:", searchFilters);
 
+
+
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
@@ -140,7 +142,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
       </button> */}
 
       <h3 className="mb-2 flex justify-between px-2 text-lg font-semibold text-black">
-      <div className="w-full max-w-[90%] text-lg break-words whitespace-normal">{job?.title}</div>
+        <div className="w-full max-w-[90%] text-lg break-words whitespace-normal">{job?.title}</div>
         <div className="flex items-center gap-1">
           <div className="flex items-center gap-1">
             <div className="block gap-2">
@@ -231,13 +233,11 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
           <span>{job?.genderPrefereance}</span>
         </div>
       </div>
-
       <div className="flex items-center gap-2">
         {!hideApplyButton && (
           <button
-            className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
-              hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-            }`}
+            className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+              }`}
             onClick={handleApplyNow}
             disabled={hasApplied}
           >
@@ -286,19 +286,29 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
         <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
-        <div
-          className="customList w-full max-w-full text-[13px] break-words whitespace-normal"
-          dangerouslySetInnerHTML={{ __html: job?.description }}
-        />
+        <div className="leading-relaxed job-description text-gray-700">
+          {job.description ? (
+            <div className="prose dark:prose-invert max-w-none">
+              {job.description.includes('<') ? (
+                <div dangerouslySetInnerHTML={{ __html: job.description }} />
+              ) : (
+                <p className="whitespace-pre-wrap">{job.description}</p>
+              )}
+            </div>
+          ) : (
+            <p className="text-gray-500">No description available</p>
+          )}
+        </div>
         {job?.responsibilities && (
           <div className="mt-4 border-t border-slate-100 pt-3">
             <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
 
-            <div className="customList">
+            <div className="job-description ">
               <div
                 dangerouslySetInnerHTML={{
                   __html: job?.responsibilities || "No content available",
                 }}
+                className="job-description prose prose-sm dark:prose-invert"
               ></div>
             </div>
           </div>
@@ -336,6 +346,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
         </div>
       </div>
     </div>
+    // </div >
   );
 };
 

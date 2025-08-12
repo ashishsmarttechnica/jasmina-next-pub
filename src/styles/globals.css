@@ -341,3 +341,114 @@ button {
     font-weight: 600 !important;
   }
 }
+
+/* Job Description Styling */
+.job-description strong {
+  font-weight: bold !important;
+  color: #1f2937 !important;
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  margin: 0 2px !important;
+  display: inline-block !important;
+}
+
+.job-description ul {
+  list-style-type: disc !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description ol {
+  list-style-type: decimal !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description li {
+  margin: 4px 0 !important;
+  line-height: 1.5 !important;
+}
+
+.job-description p {
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+}
+
+.job-description br {
+  margin: 4px 0 !important;
+}
+
+.job-description h1,
+.job-description h2,
+.job-description h3,
+.job-description h4,
+.job-description h5,
+.job-description h6 {
+  font-weight: bold !important;
+  margin: 12px 0 8px 0 !important;
+  color: #1f2937 !important;
+}
+
+.job-description h1 {
+  font-size: 1.5em !important;
+}
+
+.job-description h2 {
+  font-size: 1.3em !important;
+}
+
+.job-description h3 {
+  font-size: 1.1em !important;
+}
+
+.job-description a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+.job-description a:hover {
+  color: #1d4ed8 !important;
+}
+
+.job-description blockquote {
+  border-left: 4px solid #e5e7eb !important;
+  padding-left: 16px !important;
+  margin: 12px 0 !important;
+  font-style: italic !important;
+  color: #6b7280 !important;
+}
+
+.job-description code {
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: monospace !important;
+  font-size: 0.9em !important;
+}
+
+.job-description pre {
+  background-color: #f9fafb !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  overflow-x: auto !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.job-description table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 12px 0 !important;
+}
+
+.job-description th,
+.job-description td {
+  border: 1px solid #e5e7eb !important;
+  padding: 8px 12px !important;
+  text-align: left !important;
+}
+
+.job-description th {
+  background-color: #f9fafb !important;
+  font-weight: bold !important;
+}

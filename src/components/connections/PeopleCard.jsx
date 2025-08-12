@@ -12,6 +12,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const PeopleCard = ({ person }) => {
+  console.log(person, "person||||");
   const [isRemoving, setIsRemoving] = useState(false);
   const { mutate: removeConnection, isPending } = useRemoveConnection();
   const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();

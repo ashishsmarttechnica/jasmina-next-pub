@@ -11,6 +11,12 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const CompanyCard = ({ company }) => {
+  // Current logged in user id from cookies
+  const currentUserId = Cookies.get("userId");
+  console.log(company, "company||||");
+  const CompanyId = company?.details?._id;
+  const isOwnCompany =
+    Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);
   const [isRemoving, setIsRemoving] = useState(false);
   const availabilityIcons = {
     "Open to Work": "🟢",
@@ -124,13 +130,24 @@ const CompanyCard = ({ company }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <button
-              onClick={() => handleMessage(company)}
-              disabled={isGeneratingChat}
-              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-            >
-              {isGeneratingChat ? "Generating..." : t("message")}
-            </button>
+            <div>
+              <button
+                onClick={() => handleMessage(company)}
+                disabled={isGeneratingChat}
+                className="text-primary invisible border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              >
+                {isGeneratingChat ? "Generating..." : t("message")}
+              </button>
+            </div>
+            {!isOwnCompany && (
+              <button
+                onClick={() => handleMessage(company)}
+                disabled={isGeneratingChat}
+                className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              >
+                {isGeneratingChat ? "Generating..." : t("message")}
+              </button>
+            )}
             <button
               onClick={() => handleRemove(company)}
               disabled={isPending}
