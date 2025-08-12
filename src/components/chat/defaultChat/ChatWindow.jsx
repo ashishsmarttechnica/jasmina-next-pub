@@ -3,10 +3,11 @@ import { getMessages, sendMessage } from "@/api/chat.api";
 import { format, isSameDay } from "date-fns";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaCamera } from "react-icons/fa6";
 import { FiLink } from "react-icons/fi";
 import { RiGalleryLine } from "react-icons/ri";
+import ImageFallback from "../../../common/shared/ImageFallback";
+import getImg from "../../../lib/getImg";
 import ChatWindowHeader from "./ChatWindowHeader";
 
 export default function ChatWindow({ chat, onBack }) {
@@ -19,9 +20,11 @@ export default function ChatWindow({ chat, onBack }) {
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
   const chatEndRef = useRef(null);
-  console.log(messages, "messages");
+  console.log(chat, "messages++++++++++++++");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
+  // Get current user avatar from cookies (ensure this is set at login)
+  const currentUserAvatar = Cookies.get("userAvatar");
 
   if (!chat || !chat.id) {
     return <div>Error: Chat not found.</div>;
@@ -45,7 +48,8 @@ export default function ChatWindow({ chat, onBack }) {
             text: msg.content,
             timestamp: msg.createdAt,
             _id: msg._id,
-
+            receiver: msg.receiver,
+            sender: msg.sender,
             seen: msg.seen,
           }));
           setMessages(transformedMessages);
@@ -94,10 +98,10 @@ export default function ChatWindow({ chat, onBack }) {
     try {
       await sendMessage({
         senderId: currentUserId,
-        receiverId: chat.id, // Update this if your chat object uses a different field for receiver
+        receiverId: chat?.conversationId, // Update this if your chat object uses a different field for receiver
         content: trimmed,
       });
-      // Optionally, refetch messages or update the last message with server data
+
     } catch (error) {
       setError("Failed to send message");
     }
@@ -186,6 +190,8 @@ export default function ChatWindow({ chat, onBack }) {
           (() => {
             let lastDate = null;
             return messages.map((msg, idx) => {
+              console.log(msg, "sdfsdkfhjksdhfksdfklsd;;;;;;;;;;");
+
               const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
               if (isNaN(msgDate.getTime())) return null;
 
@@ -202,27 +208,34 @@ export default function ChatWindow({ chat, onBack }) {
                     </div>
                   )}
 
-                  <div className="flex items-start justify-between space-x-3">
-                    <div className="flex flex-row items-start gap-5">
-                      <img
+                  <div
+                    className={`flex items-start justify-between space-x-3 ${msg.from === "user" ? "flex-row-reverse" : ""}`}
+                  >
+                    <div
+                      className={`flex flex-row items-start gap-5 ${msg.from === "user" ? "flex-row-reverse" : ""}`}
+                    >
+                      <ImageFallback
                         src={
                           msg.from === "user"
-                            ? "/src/assets/CompanyHome/Profile.png"
-                            : chat.avatar || "/src/assets/CompanyHome/Profile.png"
+                            ? currentUserAvatar || "/no-img.png"
+                            : chat.avatar
+                              ? getImg(chat.avatar)
+                              : "/no-img.png"
                         }
                         alt="avatar"
-                        className="h-9 w-9 rounded-full object-cover"
-                        onError={(e) => {
-                          e.target.src = "/src/assets/CompanyHome/Profile.png";
-                        }}
+                        className="h-10 w-10 rounded-full object-cover"
                       />
-                      <div>
+                      <div className={`${msg.from === "user" ? "items-end" : "items-start"}`}>
                         <div className="text-sm font-medium text-black">
                           {msg.from === "user" ? "You" : chat.name}
                         </div>
-                        <div className="mt-1 max-w-md py-3">
+                        <div
+                          className={`mt-1 max-w-md py-3 ${msg.from === "user" ? "text-right" : "text-left"}`}
+                        >
                           {msg.text && (
-                            <div className="text-sm whitespace-pre-line text-gray-700">
+                            <div
+                              className={`inline-block rounded-lg px-3 py-2 text-sm whitespace-pre-line text-gray-700 ${msg.from === "user" ? "bg-green-100" : "bg-white"}`}
+                            >
                               {formatText(msg.text)}
                             </div>
                           )}
@@ -250,10 +263,10 @@ export default function ChatWindow({ chat, onBack }) {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="mt-2 text-xs text-gray-400">
+                      {/* <span className="mt-2 text-xs text-gray-400">
                         {format(msgDate, "hh:mm a")}
-                      </span>
-                      <div className="relative">
+                      </span> */}
+                      {/* <div className="relative">
                         <button
                           className="text-gray-400 hover:text-gray-600"
                           onClick={() =>
@@ -272,7 +285,7 @@ export default function ChatWindow({ chat, onBack }) {
                             </button>
                           </div>
                         )}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -312,7 +325,7 @@ export default function ChatWindow({ chat, onBack }) {
                 className="hidden"
               />
             </div>
-
+            {/*  */}
             <div
               className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
               onClick={() => docInputRef.current.click()}

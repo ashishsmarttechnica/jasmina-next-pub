@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import DynamicPost from "./DynamicPost";
 import RecentJobs from "./RecentJobs";
-
+import Cookies from "js-cookie";
 const FeedPost = ({ isUser = false }) => {
   const t = useTranslations("FeedComment");
   const [page, setPage] = useState(1);
@@ -17,6 +17,7 @@ const FeedPost = ({ isUser = false }) => {
   console.log(pagination, "pagination||||||");
   console.log("Current page:", page);
   console.log("Posts length:", posts?.length);
+  const userType = Cookies.get("userRole");
 
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);
 
@@ -88,7 +89,7 @@ const FeedPost = ({ isUser = false }) => {
       <div className="w-full space-y-6 xl:max-w-[547px]">
         {posts.map((post, index) => (
           <React.Fragment key={post._id + index}>
-            {index === 1 && <RecentJobs post={post} />}
+            {index === 1 && userType=="user" && <RecentJobs post={post} />}
             <DynamicPost post={post} />
           </React.Fragment>
         ))}

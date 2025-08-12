@@ -1,4 +1,5 @@
 import ImageFallback from "@/common/shared/ImageFallback";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useRemoveConnection } from "@/hooks/connections/useConnections";
 import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
@@ -8,7 +9,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { generateChatRoom } from "../../api/chat.api";
 
 const CompanyCard = ({ company }) => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -19,6 +19,7 @@ const CompanyCard = ({ company }) => {
     " Open for Remote Worldwide": "🌍",
   };
   const { mutate: removeConnection, isPending } = useRemoveConnection();
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
   const { connections, setConnections } = useConnectionsStore();
   const router = useRouter();
   const t = useTranslations("UserProfile.profile.singleprofileTab");
@@ -55,17 +56,15 @@ const CompanyCard = ({ company }) => {
   };
 
   const handleMessage = (company) => {
-    // Get current user ID and the person's ID for the chat API
     const currentUserId = Cookies.get("userId");
     const profileId = company?.details?._id;
 
     if (currentUserId && profileId) {
       generateChatRoom(
-        { userId: currentUserId, profileId: profileId },
+        { userId: currentUserId, profileId },
         {
           onSuccess: (res) => {
             if (res.success) {
-              // Navigate to chat with the generated room
               router.push(`/chat?roomId=${res.data?.roomId || ""}`);
             } else {
               toast.error("Failed to generate chat room");
@@ -82,9 +81,8 @@ const CompanyCard = ({ company }) => {
   };
   return (
     <div
-      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
-        isRemoving ? "translate-x-full transform opacity-0" : ""
-      }`}
+      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
+        }`}
     >
       {/* Logo and Info */}
       <div
@@ -128,9 +126,10 @@ const CompanyCard = ({ company }) => {
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <button
               onClick={() => handleMessage(company)}
-              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white sm:w-auto"
+              disabled={isGeneratingChat}
+              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
-              {t("message")}
+              {isGeneratingChat ? "Generating..." : t("message")}
             </button>
             <button
               onClick={() => handleRemove(company)}

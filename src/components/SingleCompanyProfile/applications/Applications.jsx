@@ -7,20 +7,22 @@ import ViewJobModal from "@/modal/ViewJobModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { FaEye } from "react-icons/fa6";
 import { FiChevronDown, FiMoreVertical } from "react-icons/fi";
 import { getRelativeTime } from "../../../utils/dateUtils";
 import SearchBar from "./SearchBar";
-import { FaEye } from "react-icons/fa6";
 
 const Applications = () => {
   const router = useRouter();
   const params = useParams();
   const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
+  const pagination = useSingleCompanyAppliedJobStore((state) => state.pagination);
 
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [page, setPage] = useState(1);
   const dropdownRefs = useRef({});
 
   // New state for view job modal and dropdown
@@ -44,10 +46,11 @@ const Applications = () => {
   const {
     data: getCompanyAppliedJob,
     isLoading: isGetCompanyAppliedJobLoading,
+    isFetching: isFetchingJobs,
     isError: isGetCompanyAppliedJobError,
     error: getCompanyAppliedJobError,
     refetch: refetchJobs,
-  } = useSingleCompanyAppliedJob(params.id, searchQuery, getStatusValue(selectedStatus));
+  } = useSingleCompanyAppliedJob(params.id, searchQuery, getStatusValue(selectedStatus), page, 4);
 
   // Add the update job status mutation
   const { mutate: updateJobStatus, isPending: isUpdatingStatus } = useUpdateJobStatus();
@@ -96,6 +99,7 @@ const Applications = () => {
 
   const handleStatusChangeFilter = (e) => {
     setSelectedStatus(e.target.value);
+    setPage(1);
     // Trigger search when status changes
     setTimeout(() => {
       refetchJobs();
@@ -108,9 +112,16 @@ const Applications = () => {
 
   const handleSearchSubmit = () => {
     setIsSearching(true);
+    setPage(1);
     refetchJobs().finally(() => {
       setIsSearching(false);
     });
+  };
+
+  const handleLoadMore = () => {
+    if (pagination?.totalPages && page < pagination.totalPages) {
+      setPage((prev) => prev + 1);
+    }
   };
 
   // New handlers for view job functionality
@@ -428,6 +439,18 @@ const Applications = () => {
           </div>
         )}
       </div>
+
+      {jobListings.length > 0 && pagination?.totalPages > page && (
+        <div className="mt-4 flex w-full justify-center">
+          <button
+            onClick={handleLoadMore}
+            disabled={isFetchingJobs}
+            className="rounded-md bg-[#0B5CFF] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isFetchingJobs ? "Loading..." : "Load more"}
+          </button>
+        </div>
+      )}
 
       {/* View Job Modal */}
       <ViewJobModal isOpen={viewJobModalOpen} onClose={closeViewJobModal} jobId={selectedJobId} />

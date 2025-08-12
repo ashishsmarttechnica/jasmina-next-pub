@@ -98,7 +98,7 @@ const ChatConnection = () => {
 
             <div className={`w-full md:w-full ${activeChat ? "block" : "hidden"} h-full md:block`}>
               {activeChat ? (
-                <ChatWindow chat={activeChat}  onBack={handleBackToSidebar} />
+                <ChatWindow chat={activeChat}  onBack={handleBackToSidebar}  />
               ) : (
                 <DefaultChatView />
               )}

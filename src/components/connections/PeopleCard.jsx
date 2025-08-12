@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import useConnectionsStore from "@/store/connections.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -59,8 +60,8 @@ const PeopleCard = ({ person }) => {
 
   const handleMessage = (user) => {
     // Get current user ID and the person's ID for the chat API
-    const currentUserId = user?._id;
-    const profileId = person?.details?._id;
+    const currentUserId = Cookies.get("userId");
+    const profileId = user?._id;
 
     if (currentUserId && profileId) {
       generateChatRoom(
@@ -86,9 +87,8 @@ const PeopleCard = ({ person }) => {
 
   return (
     <div
-      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${
-        isRemoving ? "translate-x-full transform opacity-0" : ""
-      }`}
+      className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
+        }`}
     >
       {/* Avatar and Info */}
       <div

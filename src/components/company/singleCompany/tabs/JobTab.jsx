@@ -43,7 +43,16 @@ const JobTab = () => {
   // Add click handler for job cards
   const handleJobCardClick = (job) => {
     setSelectedJob(job); // Store the selected job data in the store
-    router.push(`/company/single-company/${userId}/applications/${job._id}`);
+
+    // Check if URL contains fromConnections=true or fromNetworkInvites=true
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromConnections = urlParams.get("fromConnections");
+    const fromNetworkInvites = urlParams.get("fromNetworkInvites");
+
+    // Only navigate if neither fromConnections nor fromNetworkInvites is true
+    if (fromConnections !== "true" && fromNetworkInvites !== "true") {
+      router.push(`/company/single-company/${userId}/applications/${job._id}`);
+    }
   };
 
   return (

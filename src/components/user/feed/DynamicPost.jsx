@@ -9,19 +9,24 @@ import { useLikePost, usePostShare, useUnlikePost } from "@/hooks/post/usePosts"
 import { useRouter } from "@/i18n/navigation";
 import { formatRelativeTime } from "@/lib/commondate";
 import getImg from "@/lib/getImg";
+import useAuthStore from "@/store/auth.store";
 import usePostStore from "@/store/post.store";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import Flag from "../../../assets/svg/user/Flag";
+import PostReportModel from "../../../modal/PostReportModel";
 import FeedComment from "./comment/FeedComment";
 
 const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, isUnliking }) => {
   const [showComments, setShowComments] = useState(false);
   const [shoeCommentBoxId, setShowCommentBoxId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const locale = useLocale();
   const isCompanyPost = post.userId?.role === "company"; // ya jo bhi aapke data me ho
+
   // Get store functions
   const posts = usePostStore((s) => s.posts);
   const setPosts = usePostStore((s) => s.setPosts);
@@ -36,6 +41,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
   const fullName = post?.userId?.profile?.fullName || "Unknown User";
   const title = post?.userId?.preferences?.jobRole || "";
   const postTime = formatRelativeTime(post.createdAt);
+  const { user: currentUser } = useAuthStore();
 
   const handleShowComments = (id) => {
     setShowCommentBoxId(id);
@@ -48,13 +54,13 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
       const updatedPosts = posts.map((p) =>
         p._id === postId
           ? {
-              ...p,
-              isLiked: isLike,
-              totalLike: isLike ? (p.totalLike || 0) + 1 : Math.max((p.totalLike || 0) - 1, 0),
-              likedBy: isLike
-                ? [...(p.likedBy || []), userId]
-                : (p.likedBy || []).filter((id) => id !== userId),
-            }
+            ...p,
+            isLiked: isLike,
+            totalLike: isLike ? (p.totalLike || 0) + 1 : Math.max((p.totalLike || 0) - 1, 0),
+            likedBy: isLike
+              ? [...(p.likedBy || []), userId]
+              : (p.likedBy || []).filter((id) => id !== userId),
+          }
           : p
       );
       setPosts(updatedPosts);
@@ -183,7 +189,7 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
       </div>
       <div className="flex items-center justify-between border-t border-black/10 px-4 py-4 text-[13px] text-gray-500">
         <div className="flex flex-wrap items-center gap-5 select-none">
-          {(post.isLiked || post.isLike) ? (
+          {post.isLiked || post.isLike ? (
             <span
               className={`flex items-center gap-1 ${(isSinglePost ? isUnliking : isUnlikingMutation) ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
               onClick={() => handleUnlike(post._id)}
@@ -207,8 +213,21 @@ const DynamicPost = ({ post, isSinglePost = false, onLike, onUnlike, isLiking, i
           >
             <Comment isActive={shoeCommentBoxId == post._id && showComments} /> {post.totalComment}
           </span>
+          {(!currentUser || post?.userId?._id !== currentUser?._id) && (
+            <span>
+              <button onClick={() => setIsModalOpen(true)}>
+                <Flag className="mt-1 text-[20px] stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
+              </button>
+              <PostReportModel
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                post={post}
+                postId={post._id}
+              />
+            </span>
+          )}
           {isCompanyPost && (
-             <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1">
               <button
                 onClick={() => handleShare(post._id)}
                 disabled={isShareLoading}

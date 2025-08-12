@@ -12,6 +12,8 @@ const useGetNotifications = () => {
     fetchNotifications(viewerId, 1, limit, false);
   }, [fetchNotifications, viewerId]);
 
+
+
   return { notifications, loading, error };
 };
 

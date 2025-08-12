@@ -1,6 +1,7 @@
 "use client";
 import { getConversations } from "@/api/chat.api";
 import getImg from "@/lib/getImg";
+
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import ImageFallback from "../../../common/shared/ImageFallback";
@@ -15,6 +16,29 @@ export default function ChatSidebar({ onSelect, activeChat }) {
 
   // Get userId from cookies
   const userId = Cookies.get("userId");
+
+  const getOtherUser = (conversation) => {
+    if (!conversation) return null;
+    const sender = conversation.sender;
+    const receiver = conversation.receiver;
+    // Compare against possible id fields as string
+    const currentId = String(userId || "");
+    const senderId = sender?.id || sender?._id;
+    const receiverId = receiver?.id || receiver?._id;
+    if (String(senderId || "") === currentId) return receiver;
+    if (String(receiverId || "") === currentId) return sender;
+    return receiver || sender;
+  };
+
+  const toLowerSafe = (value) => {
+    if (typeof value === "string") return value.toLowerCase();
+    if (value === null || value === undefined) return "";
+    try {
+      return String(value).toLowerCase();
+    } catch {
+      return "";
+    }
+  };
 
   // Fetch conversations
   const fetchConversations = async () => {
@@ -42,26 +66,22 @@ export default function ChatSidebar({ onSelect, activeChat }) {
   }, [userId]);
 
   const filteredConversations = conversations.filter((conversation) => {
-    console.log("conversation:-----", conversations);
-    const senderName = conversation.sender?.userName || "";
-    const receiverName = conversation.receiver?.userName || "";
-    const searchTerm = searchQuery.toLowerCase();
-
-    return (
-      senderName.toLowerCase().includes(searchTerm) ||
-      receiverName.toLowerCase().includes(searchTerm)
-    );
+    const searchTerm = toLowerSafe(searchQuery);
+    const otherUser = getOtherUser(conversation);
+    const name = toLowerSafe(otherUser?.userName) || toLowerSafe(otherUser?.companyName);
+    const role = toLowerSafe(otherUser?.jobRole) || toLowerSafe(otherUser?.industryType);
+    return name.includes(searchTerm) || role.includes(searchTerm);
   });
 
   const handleChatSelect = async (conversation) => {
     console.log("=== ChatSidebar: Conversation Clicked ===");
-    console.log("Raw conversation data:", conversation);
+    console.log("Raw conversation data000000000==========:", conversation);
 
     // Determine which user to display (sender or receiver)
     // Since we don't know which user is current, we'll show the receiver by default
     // or you can implement logic to determine current user from the conversation
-    const otherUser = conversation.receiver;
-    console.log("Other user data:", otherUser);
+    const otherUser = getOtherUser(conversation);
+    console.log("Other user data:", conversation);
 
     // Create chat object with conversation data
     const selectedChat = {
@@ -72,9 +92,9 @@ export default function ChatSidebar({ onSelect, activeChat }) {
         ? getImg(otherUser.photo)
         : otherUser?.logoUrl
           ? getImg(otherUser.logoUrl)
-          : "/default-avatar.png",
+          : "/no-img.png",
       messages: [],
-      conversationId: conversation._id,
+      conversationId: otherUser?.id || otherUser?._id,
       roomId: conversation.roomId, // Add roomId for fetching messages
     };
 
@@ -118,17 +138,14 @@ export default function ChatSidebar({ onSelect, activeChat }) {
         <div className="p-4 text-center text-gray-400">No conversations found.</div>
       ) : (
         filteredConversations.map((conversation) => {
-          // For now, display the receiver as the other user
-          // You can implement logic to determine current user vs other user
-          const otherUser = conversation.receiver;
+          const otherUser = getOtherUser(conversation);
 
           return (
             <div
               key={conversation._id}
               onClick={() => handleChatSelect(conversation)}
-              className={`flex cursor-pointer items-center gap-3 border-b border-slate-200 p-3 py-4 hover:bg-gray-100 ${
-                activeChat?.id === conversation.roomId ? "bg-gray-100" : ""
-              }`}
+              className={`flex cursor-pointer items-center gap-3 border-b border-slate-200 p-3 py-4 hover:bg-gray-100 ${activeChat?.id === conversation.roomId ? "bg-gray-100" : ""
+                }`}
             >
               <ImageFallback
                 src={
@@ -136,7 +153,7 @@ export default function ChatSidebar({ onSelect, activeChat }) {
                     ? getImg(otherUser.photo)
                     : otherUser?.logoUrl
                       ? getImg(otherUser.logoUrl)
-                      : "/default-avatar.png"
+                      : "/no-img.png"
                 }
                 alt="avatar"
                 className="h-10 w-10 rounded-full object-cover"
