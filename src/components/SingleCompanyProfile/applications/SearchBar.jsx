@@ -1,13 +1,15 @@
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { FiSearch, FiX } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 
 const SearchBar = ({
-  placeholder = "Search job post",
+  placeholder,
   searchValue = "",
   onSearch,
   onSearchSubmit,
   isSearching = false,
 }) => {
+  const t = useTranslations("Applications");
   const [localSearchValue, setLocalSearchValue] = useState(searchValue);
 
   const handleInputChange = (e) => {
@@ -46,7 +48,7 @@ const SearchBar = ({
         <FiSearch className="mr-2 text-xl text-gray-500 sm:text-2xl" />
         <input
           type="text"
-          placeholder={placeholder}
+          placeholder={placeholder || t("search.placeholder")}
           value={localSearchValue}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
@@ -66,11 +68,10 @@ const SearchBar = ({
         <button
           onClick={handleSearchClick}
           disabled={isSearching}
-          className={`bg-primary mx-3 rounded-sm px-3 py-2 text-[13px] text-white sm:mt-2 ${
-            isSearching ? "cursor-not-allowed opacity-50" : "hover:bg-primary/90"
-          }`}
+          className={`bg-primary mx-3 rounded-sm px-3 py-2 text-[13px] text-white sm:mt-2 ${isSearching ? "cursor-not-allowed opacity-50" : "hover:bg-primary/90"
+            }`}
         >
-          {isSearching ? "Searching..." : "Search"}
+          {isSearching ? t("search.searching") : t("search.button")}
         </button>
       </div>
     </div>

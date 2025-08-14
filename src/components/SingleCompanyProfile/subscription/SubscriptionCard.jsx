@@ -1,6 +1,7 @@
 import { planRequest } from "@/api/membership.api";
 import back from "@/assets/Subscription/back.png";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
@@ -20,22 +21,23 @@ const SubscriptionCard = ({
   companyId, // <-- add companyId
 }) => {
   console.log(suitable, "suitablesuitablesuitablesuitable");
+  const t = useTranslations("Subscription");
 
   // Add a handler for Request Admin
   const handleRequestAdmin = async () => {
     const companyId = Cookies.get("userId");
     if (!companyId) {
-      Swal.fire({ icon: "error", title: "No company ID found", text: "Please login again." });
+      Swal.fire({ icon: "error", title: t("noCompanyIdTitle"), text: t("noCompanyIdText") });
       return;
     }
     const { value: reason } = await Swal.fire({
-      title: "Request Admin Approval",
+      title: t("requestAdminTitle"),
       input: "textarea",
-      inputLabel: "Reason for plan request",
-      inputPlaceholder: "Enter your reason here...",
+      inputLabel: t("requestAdminReasonLabel"),
+      inputPlaceholder: t("requestAdminReasonPlaceholder"),
       inputAttributes: { "aria-label": "Reason" },
       showCancelButton: true,
-      confirmButtonText: "Submit",
+      confirmButtonText: t("submit"),
     });
     if (reason) {
       try {
@@ -47,8 +49,8 @@ const SubscriptionCard = ({
         if (res?.success) {
           Swal.fire({
             icon: "success",
-            title: "Request sent",
-            text: "Your request has been sent to admin.",
+            title: t("requestSentTitle"),
+            text: t("requestSentText"),
           });
           if (queryClient && companyId) {
             queryClient.invalidateQueries(["memberships", companyId]);
@@ -56,15 +58,15 @@ const SubscriptionCard = ({
         } else {
           Swal.fire({
             icon: "warning",
-            title: "Message",
-            text: res?.message || "Failed to send request.",
+            title: t("message"),
+            text: res?.message || t("requestFailed"),
           });
         }
       } catch (err) {
         Swal.fire({
           icon: "warning",
-          title: "Message",
-          text: err?.response?.data?.message || err.message || "Failed to send request.",
+          title: t("message"),
+          text: err?.response?.data?.message || err.message || t("requestFailed"),
         });
       }
     }
@@ -92,20 +94,20 @@ const SubscriptionCard = ({
             {eligibility}
             {employeeRange && (
               <span className="block text-sm">
-                ({employeeRange.min} to {employeeRange.max} employees)
+                ({employeeRange.min} {t("to")} {employeeRange.max} {t("employees")})
               </span>
             )}
           </p>
         </div>
         {suitable === true ? (
           membershipActive === true ? (
-            <div className="text-center font-semibold text-green-600">This plan has active</div>
+            <div className="text-center font-semibold text-green-600">{t("planActive")}</div>
           ) : (
             <button
               className="bg-primary mx-auto flex items-center justify-center rounded-md px-6 py-2 text-white hover:bg-green-700"
               onClick={handleUpgrade}
             >
-              Upgrade
+              {t("upgrade")}
             </button>
           )
         ) : (
@@ -113,11 +115,11 @@ const SubscriptionCard = ({
             className="bg-primary mx-auto flex items-center justify-center rounded-md px-6 py-2 text-white hover:bg-green-700"
             onClick={handleRequestAdmin}
           >
-            Request admin
+            {t("requestAdmin")}
           </button>
         )}
         {rejectReason && (
-          <div className="mt-2 max-w-[350px] truncate text-center text-red-600">{`Reason: ${rejectReason}`}</div>
+          <div className="mt-2 max-w-[350px] truncate text-center text-red-600">{`${t("reason")}: ${rejectReason}`}</div>
         )}
       </div>
     </div>

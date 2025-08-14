@@ -41,7 +41,7 @@ const MyJobs = () => {
 
   return (
     <Card className="w-full sm:w-auto sm:max-w-full md:sticky md:top-4 md:max-w-[236px] xl:w-[256px] xl:max-w-[266px]">
-      <CardHeading title={"My jobs"} />
+      <CardHeading title={t("myJobs")} />
 
       <div className="w-full text-[#888DA8] sm:max-w-full md:max-w-[1000px]">
         <Link

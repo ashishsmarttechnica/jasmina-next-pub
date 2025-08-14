@@ -1,4 +1,5 @@
 import { formatDate } from "@/utils/singleApplicationUtils";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { FaEye } from "react-icons/fa6";
 import { FiMoreVertical } from "react-icons/fi";
@@ -8,6 +9,7 @@ const JobHeader = ({ jobData }) => {
   console.log(jobData, "jobData++++++++++||||||||||||||||");
   const [moreOptionsDropdownId, setMoreOptionsDropdownId] = useState(null);
   const moreOptionsRefs = useRef({});
+  const t = useTranslations("Applications");
 
   const handleMoreOptionsClick = (e, jobId) => {
     e.stopPropagation();
@@ -72,17 +74,16 @@ const JobHeader = ({ jobData }) => {
         </div>
         <div className="flex items-center gap-4">
           <span
-            className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 ${
-              getStatusLabel(jobData?.status) === "Open"
+            className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 ${getStatusLabel(jobData?.status) === "Open"
                 ? "bg-[#DCFCE7] text-[#166534]"
                 : getStatusLabel(jobData?.status) === "Closed"
                   ? "bg-red-100 text-red-700"
                   : "bg-red-100 text-red-700"
-            }`}
+              }`}
           >
-            {getStatusLabel(jobData?.status)}
+            {t(`jobStatus.${getStatusLabel(jobData?.status).toLowerCase()}`)}
           </span>
-          <span className="">Applicant {jobData?.applicants}</span>
+          <span className="">{t("applicant")} {jobData?.applicants}</span>
           <div className="relative">
             <div ref={(el) => (moreOptionsRefs.current[jobData._id] = el)}>
               <button
@@ -103,7 +104,7 @@ const JobHeader = ({ jobData }) => {
                       }}
                     >
                       <FaEye className="mr-2 h-4 w-4" />
-                      View Job
+                      {t("viewJob")}
                     </button>
                   </div>
                 )}

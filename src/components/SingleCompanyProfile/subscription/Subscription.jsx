@@ -2,6 +2,7 @@
 import { getAllMemberships } from "@/api/membership.api";
 import { loadStripe } from "@stripe/stripe-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -14,6 +15,7 @@ const Subscription = () => {
   const params = useParams();
   const companyId = params?.id; // Get companyId from URL params
   const queryClient = useQueryClient();
+  const t = useTranslations("Subscription");
 
   const {
     data: membershipData,
@@ -128,21 +130,21 @@ const Subscription = () => {
       // Fall back to API data if no stored plan
       setCurrentPlan(
         membershipData.data.memberships.find((plan) => plan.isActive) ||
-          membershipData.data.memberships[0]
+        membershipData.data.memberships[0]
       );
     }
   }, [membershipData]);
 
   if (isLoading) {
     return (
-      <div className="flex h-[400px] items-center justify-center">Loading subscriptions...</div>
+      <div className="flex h-[400px] items-center justify-center">{t("loading")}</div>
     );
   }
 
   if (error) {
     return (
       <div className="flex h-[400px] items-center justify-center text-red-500">
-        Error loading subscriptions.
+        {t("error")}
       </div>
     );
   }
@@ -152,10 +154,8 @@ const Subscription = () => {
 
   return (
     <div className="p-2">
-      <h2 className="mb-2 text-center text-[22px] font-medium">Choose the Right Plan</h2>
-      <p className="mx-auto mb-8 max-w-[400px] text-center text-[13px] text-gray-600">
-        Flexible monthly subscriptions for your company.
-      </p>
+      <h2 className="mb-2 text-center text-[22px] font-medium">{t("title")}</h2>
+      <p className="mx-auto mb-8 max-w-[400px] text-center text-[13px] text-gray-600">{t("subtitle")}</p>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {subscriptionPlans.map(

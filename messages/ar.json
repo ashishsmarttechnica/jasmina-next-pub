@@ -871,7 +871,8 @@
     "stateRequired": "الدولة مطلوبة",
     "cityRequired": "المدينة مطلوبة",
     "enterOtherValue": "أدخل قيمة أخرى",
-    "other": "آخر"
+    "other": "آخر",
+    "viewMore": "عرض المزيد"
   },
   "Validation": {
     "personal": {
@@ -965,11 +966,11 @@
     "noJobsMatchingCriteria": "لم يتم العثور على وظائف مطابقة معاييرك.",
     "loadingMoreJobs": "تحميل المزيد من الوظائف ...",
     "noMoreJobsToLoad": "لا المزيد من الوظائف للتحميل",
-    "lgbtqOption": "LGBTQ",
+    "lgbtqOption": "LGBTQ+",
     "nonLgbtqOption": "غير المثليين",
     "jobTitleOrCompanyPlaceholder": "المسمى الوظيفي أو الشركة",
-    "Location": "موقع",
-    "FindJob": "ابحث عن الوظيفة",
+    "location": "موقع",
+    "findJob": "ابحث عن الوظيفة",
     "Loadingjobs": "تحميل الوظائف ...",
     "Errorloadingjobs": "خطأ في تحميل الوظائف.",
     "NoSavedjobsfound": "لم يتم العثور على وظائف محفوظة.",
@@ -986,6 +987,9 @@
     "Errorfetchingsavedjob": "خطأ جلب الوظيفة المحفوظة:",
     "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح",
     "Failedtosavejob": "فشل في إزالة الوظيفة.",
+    "all": "الكل",
+    "All": "الكل",
+    "saved": "محفوظ",
     "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
     "Applytocompany": "تقدم بطلب إلى موقع الشركة",
     "ApplyOncompany": "تقدم بطلب على موقع الشركة"
@@ -1005,5 +1009,203 @@
   "GoogleSignInFailed": "فشل المصادقة مع Google",
   "Auth": {
     "GoogleSignInSuccess": "قامت بتسجيل الدخول بنجاح مع Google!"
+  },
+  "Messaging": "المراسلة",
+  "Chat": {
+    "title": "المراسلة",
+    "dndLabel": "عدم الإزعاج",
+    "dndUpdateFailed": "فشل في تحديث وضع عدم الإزعاج",
+    "dndEnabled": "تم تمكين وضع عدم الإزعاج بنجاح",
+    "dndDisabled": "تم تعطيل وضع عدم الإزعاج بنجاح",
+    "sidebar": {
+      "searchPlaceholder": "ابحث في المحادثات",
+      "loading": "جارٍ تحميل المحادثات...",
+      "error": "خطأ",
+      "retry": "إعادة المحاولة",
+      "empty": "لا توجد محادثات."
+    },
+    "defaultView": {
+      "title": "مرحبًا بك في البريد الوارد",
+      "description": "حدد محادثة من اللوحة اليسرى لبدء المراسلة أو اختر جهة اتصال لبدء محادثة جديدة."
+    },
+    "window": {
+      "chatNotFound": "خطأ: لم يتم العثور على المحادثة.",
+      "loading": "جارٍ التحميل...",
+      "error": "خطأ",
+      "retry": "إعادة المحاولة",
+      "empty": "لا توجد رسائل بعد. ابدأ المحادثة!",
+      "inputPlaceholder": "اكتب رسالة...",
+      "send": "إرسال",
+      "dndOnTitle": "قامت الشركة بتفعيل وضع عدم الإزعاج",
+      "dndOnSubtitle": "الرسائل معطلة مؤقتًا"
+    }
+  },
+  "Applications": {
+    "search": {
+      "placeholder": "ابحث عن منشور وظيفة",
+      "button": "بحث",
+      "searching": "جارٍ البحث..."
+    },
+    "statusFilter": {
+      "all": "كل الحالات"
+    },
+    "jobStatus": {
+      "open": "مفتوح",
+      "closed": "مغلق"
+    },
+    "applicant": "المتقدم",
+    "viewJob": "عرض الوظيفة",
+    "noJobs": {
+      "titleWhenSearch": "لا توجد وظائف",
+      "titleNoData": "لا توجد وظائف متاحة",
+      "descWhenSearch": "لا توجد وظائف مطابقة لـ \"{query}\". جرّب عبارة بحث مختلفة.",
+      "descNoData": "لا توجد طلبات توظيف متاحة حاليًا."
+    },
+    "loading": "جارٍ التحميل...",
+    "loadMore": "تحميل المزيد",
+    "noApplicants": "لا يوجد متقدمون",
+    "common": {
+      "unknown": "غير معروف",
+      "notProvided": "غير متوفر",
+      "notSpecified": "غير محدد"
+    },
+    "statusLabels": {
+      "new": "جديد",
+      "interviewing": "قيد المقابلة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "hired": "تم التوظيف",
+      "reviewed": "تمت المراجعة"
+    },
+    "interviewFixed": "تم تحديد المقابلة",
+    "setInterview": "تحديد مقابلة",
+    "resumeSection": {
+      "title": "السيرة الذاتية",
+      "view": "عرض السيرة الذاتية"
+    },
+    "attachments": {
+      "title": "المرفقات",
+      "view": "عرض"
+    },
+    "applicationDetails": {
+      "title": "تفاصيل الطلب",
+      "personalInfo": "المعلومات الشخصية",
+      "email": "البريد الإلكتروني",
+      "salary": "الراتب",
+      "applicationInfo": "معلومات الطلب",
+      "startDate": "تاريخ البدء",
+      "availability": "التوفر",
+      "coverMessage": "رسالة الغلاف"
+    },
+    "tabs": {
+      "all": "الكل",
+      "new": "جديد",
+      "reviewed": "تمت المراجعة",
+      "interviewed": "تمت المقابلة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "hired": "تم التوظيف"
+    },
+    "singleApplication": {
+      "loadingJob": "جارٍ تحميل تفاصيل الوظيفة...",
+      "noJobSelectedTitle": "لم يتم اختيار وظيفة",
+      "noJobSelectedDesc": "يرجى اختيار وظيفة من قائمة الطلبات.",
+      "totalApplicants": "إجمالي المتقدمين: {count}",
+      "loadingApplicants": "جارٍ تحميل المتقدمين...",
+      "errorLoadingApplicants": "خطأ في تحميل المتقدمين",
+      "unknownError": "خطأ غير معروف",
+      "noApplicantsForJob": "لا يوجد متقدمون لهذه الوظيفة",
+      "selectApplicantPlaceholder": "اختر متقدمًا لعرض التفاصيل"
+    },
+    "companyNamePlaceholder": "اسم الشركة"
+  },
+  "Interviews": {
+    "loading": "جارٍ تحميل المقابلات...",
+    "error": "حدث خطأ أثناء تحميل المقابلات. يرجى المحاولة لاحقًا.",
+    "tabs": {
+      "upcoming": "قادمة",
+      "past": "سابقة"
+    },
+    "reschedule": "إعادة الجدولة",
+    "cancel": "إلغاء",
+    "empty": "لا توجد مقابلات في هذه الفئة."
+  },
+  "PreviousPlans": {
+    "loading": "جارٍ التحميل...",
+    "emptyTitle": "لا توجد خطط سابقة متاحة",
+    "emptyDesc": "لم تقم بشراء أي خطط بعد. استكشف خياراتنا المرنة للبدء!",
+    "title": "الخطط السابقة",
+    "subtitle": "اشتراكات شهرية مرنة تلائم حجم شركتك واحتياجات التوظيف."
+  },
+  "Subscription": {
+    "loading": "جارٍ تحميل الاشتراكات...",
+    "error": "خطأ في تحميل الاشتراكات.",
+    "title": "اختر الخطة المناسبة",
+    "subtitle": "اشتراكات شهرية مرنة لشركتك.",
+    "noCompanyIdTitle": "لم يتم العثور على معرّف الشركة",
+    "noCompanyIdText": "يرجى تسجيل الدخول مرة أخرى.",
+    "requestAdminTitle": "طلب موافقة المسؤول",
+    "requestAdminReasonLabel": "سبب طلب الخطة",
+    "requestAdminReasonPlaceholder": "أدخل السبب هنا...",
+    "submit": "إرسال",
+    "requestSentTitle": "تم إرسال الطلب",
+    "requestSentText": "تم إرسال طلبك إلى المسؤول.",
+    "message": "رسالة",
+    "requestFailed": "فشل إرسال الطلب.",
+    "to": "إلى",
+    "employees": "موظفين",
+    "planActive": "هذه الخطة نشطة",
+    "upgrade": "ترقية",
+    "requestAdmin": "طلب من المسؤول",
+    "reason": "السبب"
+  },
+  "Payment": {
+    "planDetails": "تفاصيل خطة الاشتراك",
+    "employeeRange": "نطاق الموظفين",
+    "eligibility": "الأهلية",
+    "price": "السعر",
+    "cardDetails": "تفاصيل البطاقة",
+    "email": "عنوان البريد الإلكتروني",
+    "emailPlaceholder": "عنوان البريد الإلكتروني",
+    "processing": "جارٍ المعالجة...",
+    "payNow": "ادفع الآن",
+    "close": "إغلاق",
+    "success": {
+      "planUpgraded": "تم الدفع بنجاح! تم ترقية خطتك."
+    },
+    "errors": {
+      "emailRequired": "يرجى ملء حقل البريد الإلكتروني.",
+      "formNotInitialized": "نموذج الدفع لم تتم تهيئته بشكل صحيح.",
+      "stripeNotConfigured": "لم يتم تكوين Stripe بشكل صحيح.",
+      "stripeInitFailed": "فشل في تهيئة Stripe",
+      "paymentFailed": "فشل الدفع",
+      "paymentFailedGeneric": "فشل الدفع. يرجى المحاولة مرة أخرى.",
+      "activePlanExistsExact": "لديك بالفعل خطة نشطة. يرجى الانتظار حتى تنتهي قبل شراء خطة جديدة."
+    }
+  },
+  "Settings": {
+    "changePassword": "تغيير كلمة المرور",
+    "preference": "التفضيلات",
+    "billingInfo": "معلومات الفواتير",
+    "termsAndConditions": "الشروط والأحكام"
+  },
+  "SetInterviewModal": {
+    "candidateName": "اسم المرشح",
+    "jobRole": "دور الوظيفة",
+    "email": "البريد الإلكتروني",
+    "experienceYears": "{years} سنوات من الخبرة",
+    "experienceNotSpecified": "الخبرة غير محددة",
+    "opening": "جارٍ الفتح...",
+    "viewResume": "عرض السيرة الذاتية",
+    "date": "التاريخ",
+    "selectDate": "اختر التاريخ",
+    "startTime": "وقت البدء",
+    "timeZone": "المنطقة الزمنية",
+    "interviewAddress": "عنوان المقابلة",
+    "close": "إغلاق",
+    "rescheduling": "إعادة الجدولة...",
+    "scheduling": "الجدولة...",
+    "rescheduleInterview": "إعادة جدولة المقابلة",
+    "sendInterview": "إرسال المقابلة"
   }
 }

@@ -1,4 +1,4 @@
-import noPostImage from "@/assets/feed/no-post.svg";
+import noImage2 from "@/assets/feed/no-img.png";
 import ImageFallback from "@/common/shared/ImageFallback";
 import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
@@ -68,6 +68,7 @@ const JobTab = () => {
         ) : Array.isArray(jobListings) && jobListings.length > 0 ? (
           <Swiper spaceBetween={20} slidesPerView="auto" className="h-full">
             {jobListings?.map((job, index) => (
+              console.log(job, "job"),
               <SwiperSlide key={index} className="z-5 !w-auto">
                 <div
                   className="border-grayBlueText/50 z-5 flex h-[199px] w-[180px] min-w-[180px] cursor-pointer flex-col justify-between overflow-hidden rounded-md border px-0 shadow-sm transition-all hover:shadow-md"
@@ -113,9 +114,9 @@ const JobTab = () => {
                   ) : user?.role === "company" ? (
                     <div className="flex items-center gap-1.5 border-t border-black/10 p-2.5 text-left">
                       <ImageFallback
-                        src={job?.logoUrl ? getImg(job.logoUrl) : undefined}
-                        fallbackSrc={noPostImage}
-                        alt={job?.company || "company"}
+                        src={job?.companyId?.logoUrl && getImg(job?.companyId?.logoUrl)}
+                        fallbackSrc={noImage2}
+                        alt={job?.companyId?.companyName || "company"}
                         width={24}
                         height={24}
                         className="h-6 w-6 rounded-full border border-gray-400 object-cover"

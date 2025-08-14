@@ -102,8 +102,8 @@
       "ContactUs": "Contactez-nous"
     },
     "socialMenu": {
-      "LinkedIn": "Liendin",
-      "twitter": "gazouillement",
+      "LinkedIn": "LinkedIn",
+      "twitter": "twitter",
       "Facebook": "Facebook",
       "Instagram": "Instagram"
     },
@@ -869,7 +869,8 @@
     "stateRequired": "L'état est requis",
     "cityRequired": "La ville est requise",
     "enterOtherValue": "Entrez une autre valeur",
-    "other": "autre"
+    "other": "autre",
+    "viewMore": "Voir plus"
   },
   "Validation": {
     "personal": {
@@ -963,11 +964,11 @@
     "noJobsMatchingCriteria": "Aucun travail trouvé correspondant à vos critères.",
     "loadingMoreJobs": "Chargement plus d'emplois ...",
     "noMoreJobsToLoad": "Plus d'emplois à charger",
-    "lgbtqOption": "LGBTQ",
+    "lgbtqOption": "LGBTQ+",
     "nonLgbtqOption": "Non LGBTQ",
     "jobTitleOrCompanyPlaceholder": "Titre ou entreprise",
-    "Location": "Emplacement",
-    "FindJob": "Trouver un emploi",
+    "location": "Emplacement",
+    "findJob": "Trouver un emploi",
     "Loadingjobs": "Chargement des emplois ...",
     "Errorloadingjobs": "Erreur de chargement des travaux.",
     "NoSavedjobsfound": "Aucun travail économisé trouvé.",
@@ -984,6 +985,9 @@
     "Errorfetchingsavedjob": "Erreur récupérant le travail enregistré:",
     "SavedJobFetched": "Économiser le travail récupéré avec succès",
     "Failedtosavejob": "N'a pas réussi à supprimer le travail.",
+    "all": "Tous",
+    "All": "Tous",
+    "saved": "Enregistré",
     "ApplyLinkexternal": "Appliquer le lien (URL externe)",
     "Applytocompany": "Postuler sur le site Web de l'entreprise",
     "ApplyOncompany": "Postuler sur le site Web de l'entreprise"
@@ -1003,5 +1007,203 @@
   "GoogleSignInFailed": "Échec de l'authentification avec Google",
   "Auth": {
     "GoogleSignInSuccess": "Connecté avec succès avec Google!"
+  },
+  "Messaging": "Messagerie",
+  "Chat": {
+    "title": "Messagerie",
+    "dndLabel": "Ne pas déranger",
+    "dndUpdateFailed": "Échec de la mise à jour du mode Ne pas déranger",
+    "dndEnabled": "Mode Ne pas déranger activé avec succès",
+    "dndDisabled": "Mode Ne pas déranger désactivé avec succès",
+    "sidebar": {
+      "searchPlaceholder": "Rechercher des conversations",
+      "loading": "Chargement des conversations...",
+      "error": "Erreur",
+      "retry": "Réessayer",
+      "empty": "Aucune conversation trouvée."
+    },
+    "defaultView": {
+      "title": "Bienvenue dans votre boîte de réception",
+      "description": "Sélectionnez une discussion dans le panneau de gauche pour commencer à envoyer des messages ou choisissez un contact pour démarrer une nouvelle conversation."
+    },
+    "window": {
+      "chatNotFound": "Erreur : discussion introuvable.",
+      "loading": "Chargement...",
+      "error": "Erreur",
+      "retry": "Réessayer",
+      "empty": "Pas encore de messages. Commencez une conversation !",
+      "inputPlaceholder": "Écrire un message...",
+      "send": "Envoyer",
+      "dndOnTitle": "L'entreprise a activé le mode Ne pas déranger",
+      "dndOnSubtitle": "Les messages sont temporairement désactivés"
+    }
+  },
+  "Applications": {
+    "search": {
+      "placeholder": "Rechercher une offre d'emploi",
+      "button": "Rechercher",
+      "searching": "Recherche..."
+    },
+    "statusFilter": {
+      "all": "Tous les statuts"
+    },
+    "jobStatus": {
+      "open": "Ouvert",
+      "closed": "Fermé"
+    },
+    "applicant": "Candidat",
+    "viewJob": "Voir l'offre",
+    "noJobs": {
+      "titleWhenSearch": "Aucun emploi trouvé",
+      "titleNoData": "Aucun emploi disponible",
+      "descWhenSearch": "Aucun emploi correspondant à \"{query}\". Essayez un autre terme.",
+      "descNoData": "Aucune candidature n'est disponible pour le moment."
+    },
+    "loading": "Chargement...",
+    "loadMore": "Charger plus",
+    "noApplicants": "Aucun candidat trouvé",
+    "common": {
+      "unknown": "Inconnu",
+      "notProvided": "Non fourni",
+      "notSpecified": "Non spécifié"
+    },
+    "statusLabels": {
+      "new": "Nouveau",
+      "interviewing": "En entretien",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "hired": "Embauché",
+      "reviewed": "Examiné"
+    },
+    "interviewFixed": "Entretien fixé",
+    "setInterview": "Fixer un entretien",
+    "resumeSection": {
+      "title": "CV",
+      "view": "Voir le CV"
+    },
+    "attachments": {
+      "title": "Pièces jointes",
+      "view": "Voir"
+    },
+    "applicationDetails": {
+      "title": "Détails de la candidature",
+      "personalInfo": "Informations personnelles",
+      "email": "E-mail",
+      "salary": "Salaire",
+      "applicationInfo": "Informations sur la candidature",
+      "startDate": "Date de début",
+      "availability": "Disponibilité",
+      "coverMessage": "Lettre de motivation"
+    },
+    "tabs": {
+      "all": "Tous",
+      "new": "Nouveau",
+      "reviewed": "Examiné",
+      "interviewed": "En entretien",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "hired": "Embauché"
+    },
+    "singleApplication": {
+      "loadingJob": "Chargement des détails du poste...",
+      "noJobSelectedTitle": "Aucun poste sélectionné",
+      "noJobSelectedDesc": "Veuillez sélectionner un poste dans la liste des candidatures.",
+      "totalApplicants": "Nombre total de candidats : {count}",
+      "loadingApplicants": "Chargement des candidats...",
+      "errorLoadingApplicants": "Erreur de chargement des candidats",
+      "unknownError": "Erreur inconnue",
+      "noApplicantsForJob": "Aucun candidat pour ce poste",
+      "selectApplicantPlaceholder": "Sélectionnez un candidat pour voir les détails"
+    },
+    "companyNamePlaceholder": "Nom de l'entreprise"
+  },
+  "Interviews": {
+    "loading": "Chargement des entretiens...",
+    "error": "Erreur lors du chargement des entretiens. Veuillez réessayer plus tard.",
+    "tabs": {
+      "upcoming": "À venir",
+      "past": "Passés"
+    },
+    "reschedule": "Reprogrammer",
+    "cancel": "Annuler",
+    "empty": "Aucun entretien dans cette catégorie."
+  },
+  "PreviousPlans": {
+    "loading": "Chargement...",
+    "emptyTitle": "Aucun plan précédent disponible",
+    "emptyDesc": "Vous n'avez pas encore acheté de plans. Découvrez nos options flexibles pour commencer !",
+    "title": "Plans précédents",
+    "subtitle": "Abonnements mensuels flexibles adaptés à la taille de votre entreprise et à vos besoins en recrutement."
+  },
+  "Subscription": {
+    "loading": "Chargement des abonnements...",
+    "error": "Erreur lors du chargement des abonnements.",
+    "title": "Choisissez le bon plan",
+    "subtitle": "Abonnements mensuels flexibles pour votre entreprise.",
+    "noCompanyIdTitle": "Aucun ID d'entreprise trouvé",
+    "noCompanyIdText": "Veuillez vous reconnecter.",
+    "requestAdminTitle": "Demander l'approbation de l'admin",
+    "requestAdminReasonLabel": "Raison de la demande de plan",
+    "requestAdminReasonPlaceholder": "Entrez votre raison ici...",
+    "submit": "Soumettre",
+    "requestSentTitle": "Demande envoyée",
+    "requestSentText": "Votre demande a été envoyée à l'administrateur.",
+    "message": "Message",
+    "requestFailed": "Échec de l'envoi de la demande.",
+    "to": "à",
+    "employees": "employés",
+    "planActive": "Ce plan est actif",
+    "upgrade": "Mettre à niveau",
+    "requestAdmin": "Demander à l'admin",
+    "reason": "Raison"
+  },
+  "Payment": {
+    "planDetails": "Détails du plan d'abonnement",
+    "employeeRange": "Plage d'employés",
+    "eligibility": "Éligibilité",
+    "price": "Prix",
+    "cardDetails": "Détails de la carte",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "Adresse e-mail",
+    "processing": "Traitement...",
+    "payNow": "Payer maintenant",
+    "close": "Fermer",
+    "success": {
+      "planUpgraded": "Paiement réussi ! Votre plan a été mis à niveau."
+    },
+    "errors": {
+      "emailRequired": "Veuillez remplir le champ e-mail.",
+      "formNotInitialized": "Le formulaire de paiement n'est pas correctement initialisé.",
+      "stripeNotConfigured": "Stripe n'est pas correctement configuré.",
+      "stripeInitFailed": "Échec de l'initialisation de Stripe",
+      "paymentFailed": "Paiement échoué",
+      "paymentFailedGeneric": "Le paiement a échoué. Veuillez réessayer.",
+      "activePlanExistsExact": "Vous avez déjà un plan actif. Veuillez attendre qu'il expire avant d'en acheter un nouveau."
+    }
+  },
+  "Settings": {
+    "changePassword": "Changer le mot de passe",
+    "preference": "Préférences",
+    "billingInfo": "Informations de facturation",
+    "termsAndConditions": "Conditions générales"
+  },
+  "SetInterviewModal": {
+    "candidateName": "Nom du candidat",
+    "jobRole": "Rôle du poste",
+    "email": "E-mail",
+    "experienceYears": "{years} années d'expérience",
+    "experienceNotSpecified": "Expérience non spécifiée",
+    "opening": "Ouverture...",
+    "viewResume": "Voir le CV",
+    "date": "Date",
+    "selectDate": "Sélectionner la date",
+    "startTime": "Heure de début",
+    "timeZone": "Fuseau horaire",
+    "interviewAddress": "Adresse de l'entretien",
+    "close": "Fermer",
+    "rescheduling": "Reprogrammation...",
+    "scheduling": "Planification...",
+    "rescheduleInterview": "Reprogrammer l'entretien",
+    "sendInterview": "Envoyer l'entretien"
   }
 }

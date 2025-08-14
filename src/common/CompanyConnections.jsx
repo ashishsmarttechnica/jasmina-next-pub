@@ -4,6 +4,7 @@ import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import { useCompanyConnectionsStore } from "@/store/connections.store";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa6";
 import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import Card from "./card/Card";
@@ -14,6 +15,7 @@ const CompanyConnections = ({ title }) => {
   const { connections } = useCompanyConnectionsStore();
   const userType = Cookies.get("userRole");
   const router = useRouter();
+  const t = useTranslations("Common");
   const { data, isLoading, isError, error } = useCompanyConnections("Company", 1, 6);
   const displayData = connections?.length ? connections : data?.connections;
   const availabilityIcons = {
@@ -149,7 +151,7 @@ const CompanyConnections = ({ title }) => {
               }}
               className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
             >
-              View More
+              {t("viewMore")}
             </button>
           </div>
         )}

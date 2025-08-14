@@ -1,5 +1,6 @@
 import { purchasePlan } from "@/api/membership.api";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Modal } from "rsuite";
@@ -20,6 +21,7 @@ const PaymentModal = ({
   queryClient, // <-- add queryClient prop
 }) => {
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("Payment");
   const [paymentData, setPaymentData] = useState({
     email: "",
   });
@@ -53,17 +55,17 @@ const PaymentModal = ({
     const { email } = paymentData;
 
     if (!email) {
-      toast.error("Please fill in email field.");
+      toast.error(t("errors.emailRequired"));
       return;
     }
 
     if (!stripeElement) {
-      toast.error("Payment form not initialized properly.");
+      toast.error(t("errors.formNotInitialized"));
       return;
     }
 
     if (!stripePromise) {
-      toast.error("Stripe is not properly configured.");
+      toast.error(t("errors.stripeNotConfigured"));
       return;
     }
 
@@ -71,7 +73,7 @@ const PaymentModal = ({
       setLoading(true);
       const stripe = await stripePromise;
       if (!stripe) {
-        throw new Error("Failed to initialize Stripe");
+        throw new Error(t("errors.stripeInitFailed"));
       }
       // Use createToken instead of createPaymentMethod
       const { token, error } = await stripe.createToken(stripeElement, {
@@ -91,9 +93,7 @@ const PaymentModal = ({
       }
     } catch (error) {
       console.error("Error creating token:", error);
-      toast.error(
-        error.response?.data?.message || error.message || "Payment failed. Please try again."
-      );
+      toast.error(error.response?.data?.message || error.message || t("errors.paymentFailedGeneric"));
       setLoading(false);
     }
   };
@@ -119,14 +119,14 @@ const PaymentModal = ({
         setPurchasedPlan(response.plan);
         setSuccessModal(true);
         setPaymentModal(false);
-        toast.success("Payment successful! Your plan has been upgraded.");
+        toast.success(t("success.planUpgraded"));
         setPaymentData({ email: "" });
         if (onPlanPurchased) onPlanPurchased(response.plan);
         if (queryClient && companyId) {
           queryClient.invalidateQueries(["memberships", companyId]);
         }
       } else {
-        throw new Error(response.message || "Payment failed");
+        throw new Error(response.message || t("errors.paymentFailed"));
       }
     } catch (error) {
       console.error("API Error:", error);
@@ -138,7 +138,7 @@ const PaymentModal = ({
         setActivePlanModalError(errorMsg);
         setActivePlanModalOpen(true);
       } else {
-        toast.error(errorMsg || "Payment failed. Please try again.");
+        toast.error(errorMsg || t("errors.paymentFailedGeneric"));
       }
     } finally {
       setLoading(false);
@@ -169,24 +169,24 @@ const PaymentModal = ({
           <div className="absolute top-0 right-0 z-20 p-2">{/* <SecureBanner /> */}</div>
           <div className="sticky top-0 z-10 bg-white pt-4 pb-4">
             <h4 className="mb-6 text-xl font-semibold text-gray-800">{selectedPlan?.title}</h4>
-            <p className="text-gray-600">Subscription Plan Details</p>
+            <p className="text-gray-600">{t("planDetails")}</p>
           </div>
           <div className="mb-4">
             <div className="grid grid-cols-1 gap-2 text-gray-700">
               <div className="flex items-center justify-between rounded-md border border-slate-200 px-2 py-2">
-                <div className="font-medium">👥 Employee Range:</div>
+                <div className="font-medium">👥 {t("employeeRange")}:</div>
                 <div>
                   {selectedPlan?.employeeRange?.min} - {selectedPlan?.employeeRange?.max}
                 </div>
               </div>
 
               <div className="flex items-center justify-between rounded-md border border-slate-200 px-2 py-2">
-                <div className="font-medium">✨ Eligibility:</div>
+                <div className="font-medium">✨ {t("eligibility")}:</div>
                 <div>{selectedPlan?.eligibility}</div>
               </div>
 
               <div className="flex items-center justify-between rounded-md border border-slate-200 px-2 py-2">
-                <div className="font-medium">💰 Price:</div>
+                <div className="font-medium">💰 {t("price")}:</div>
                 <div className="font-semibold text-green-600">€{selectedPlan?.price}</div>
               </div>
             </div>
@@ -195,7 +195,7 @@ const PaymentModal = ({
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div className="w-full">
               <label htmlFor="card-element" className="mb-1 ml-1 text-sm text-gray-600">
-                Card Details
+                {t("cardDetails")}
               </label>
               <div className="rounded-md border border-gray-300 bg-white p-0">
                 <div
@@ -208,12 +208,12 @@ const PaymentModal = ({
 
             <div className="w-full">
               <label htmlFor="email" className="mb-1 ml-1 text-sm text-gray-600">
-                Email Address
+                {t("email")}
               </label>
               <input
                 type="email"
                 id="email"
-                placeholder="Email Address"
+                placeholder={t("emailPlaceholder")}
                 className="w-full rounded-md border border-gray-300 p-3 text-gray-700 focus:ring-1 focus:ring-black focus:outline-none"
                 value={paymentData.email}
                 onChange={(e) =>
@@ -232,7 +232,7 @@ const PaymentModal = ({
                 className="xm:text-sm bg-primary hover:text-primary border-primary rounded-full border px-4 py-2 text-center text-xs font-medium text-white transition-all duration-300 ease-in-out hover:scale-95 hover:bg-white sm:px-6 sm:leading-[28px] xl:text-[18px]"
                 disabled={loading}
               >
-                {loading ? "Processing..." : "Pay Now"}
+                {loading ? t("processing") : t("payNow")}
               </button>
             </div>
           </form>
@@ -258,7 +258,7 @@ const PaymentModal = ({
             className="bg-primary hover:bg-primary/80 mt-6 rounded px-4 py-2 text-white"
             onClick={() => setActivePlanModalOpen(false)}
           >
-            Close
+            {t("close")}
           </button>
         </div>
       </Modal>

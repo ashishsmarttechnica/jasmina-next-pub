@@ -4,6 +4,7 @@ import { getCompanyAppliedJob } from "@/api/company.api";
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import SearchBar from "../../applications/SearchBar";
@@ -24,6 +25,7 @@ const SingleApplication = () => {
   const [page, setPage] = useState(1);
   const [jobData, setJobData] = useState(null);
   const [isJobLoading, setIsJobLoading] = useState(false);
+  const t = useTranslations("Applications");
 
   // Fetch job details if not available in store
   useEffect(() => {
@@ -128,7 +130,7 @@ const SingleApplication = () => {
     return (
       <div className="flex justify-center p-10">
         <div className="text-center">
-          <h3 className="mb-2 text-lg font-semibold text-gray-700">Loading Job Details...</h3>
+          <h3 className="mb-2 text-lg font-semibold text-gray-700">{t("singleApplication.loadingJob")}</h3>
         </div>
       </div>
     );
@@ -138,8 +140,8 @@ const SingleApplication = () => {
     return (
       <div className="flex justify-center p-10">
         <div className="text-center">
-          <h3 className="mb-2 text-lg font-semibold text-gray-700">No Job Selected</h3>
-          <p className="text-sm text-gray-500">Please select a job from the applications list.</p>
+          <h3 className="mb-2 text-lg font-semibold text-gray-700">{t("singleApplication.noJobSelectedTitle")}</h3>
+          <p className="text-sm text-gray-500">{t("singleApplication.noJobSelectedDesc")}</p>
         </div>
       </div>
     );
@@ -163,17 +165,17 @@ const SingleApplication = () => {
       {/* <FilterTabs activeTab={activeTab} setActiveTab={handleTabChange} /> */}
 
       {/* Applicant Count */}
-      <div className="mb-4 text-sm text-gray-500">Total Applicants: {pagination.total || 0}</div>
+      <div className="mb-4 text-sm text-gray-500">{t("singleApplication.totalApplicants", { count: pagination.total || 0 })}</div>
 
       {isLoading && page === 1 ? (
-        <div className="flex justify-center p-10">Loading applicants...</div>
+        <div className="flex justify-center p-10">{t("singleApplication.loadingApplicants")}</div>
       ) : isError ? (
         <div className="flex justify-center p-10 text-red-500">
-          Error loading applicants: {error?.message || "Unknown error"}
+          {t("singleApplication.errorLoadingApplicants")}: {error?.message || t("singleApplication.unknownError")}
         </div>
       ) : applicants.length === 0 ? (
         <div className="flex justify-center p-10 text-gray-500">
-          No applicants found for this job
+          {t("singleApplication.noApplicantsForJob")}
         </div>
       ) : (
         <>
@@ -198,7 +200,7 @@ const SingleApplication = () => {
               />
             ) : (
               <div className="hidden w-full rounded-lg bg-white p-6 text-center shadow-md lg:block lg:w-[60%]">
-                Select an applicant to view details
+                {t("singleApplication.selectApplicantPlaceholder")}
               </div>
             )}
           </div>
@@ -211,7 +213,7 @@ const SingleApplication = () => {
                 onClick={handleLoadMore}
                 disabled={isLoading}
               >
-                {isLoading ? "Loading..." : "Load More"}
+                {isLoading ? t("loading") : t("loadMore")}
               </button>
             </div>
           )}

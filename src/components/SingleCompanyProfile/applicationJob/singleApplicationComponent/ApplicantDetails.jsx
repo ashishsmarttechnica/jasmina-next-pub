@@ -1,5 +1,6 @@
 import { updateApplicationStatus } from "@/api/job.api";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   FaCalendarCheck,
@@ -39,6 +40,7 @@ const ApplicantDetails = ({
   applicants,
   onStatusChange,
 }) => {
+  const t = useTranslations("Applications");
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
@@ -151,11 +153,11 @@ const ApplicantDetails = ({
               <h2 className="mb-1 text-xl font-bold text-gray-900">
                 {selectedApplicant?.fullName
                   ? selectedApplicant.fullName.charAt(0).toUpperCase() +
-                    selectedApplicant.fullName.slice(1)
+                  selectedApplicant.fullName.slice(1)
                   : selectedApplicant?.name ||
-                    selectedApplicant?.userName?.charAt(0).toUpperCase() +
-                      selectedApplicant?.userName?.slice(1) ||
-                    "Unknown"}
+                  selectedApplicant?.userName?.charAt(0).toUpperCase() +
+                  selectedApplicant?.userName?.slice(1) ||
+                  t("common.unknown")}
               </h2>
 
               {/* Contact Info */}
@@ -190,20 +192,19 @@ const ApplicantDetails = ({
                 onChange={handleStatusChange}
                 disabled={isUpdating}
               >
-                <option value={1}>New</option>
-                <option value={2}>Interviewing</option>
-                <option value={3}>Approved</option>
-                <option value={4}>Rejected</option>
-                <option value={5}>Hired</option>
-                <option value={6}>Reviewed</option>
+                <option value={1}>{t("statusLabels.new")}</option>
+                <option value={2}>{t("statusLabels.interviewing")}</option>
+                <option value={3}>{t("statusLabels.approved")}</option>
+                <option value={4}>{t("statusLabels.rejected")}</option>
+                <option value={5}>{t("statusLabels.hired")}</option>
+                <option value={6}>{t("statusLabels.reviewed")}</option>
               </select>
 
               <button
-                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                  isInterviewFixed
+                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${isInterviewFixed
                     ? "cursor-not-allowed bg-gray-100 text-gray-500"
                     : "bg-blue-600 text-white hover:bg-blue-700"
-                }`}
+                  }`}
                 onClick={() => {
                   if (!isInterviewFixed) {
                     setIsSetInterviewOpen({
@@ -222,7 +223,7 @@ const ApplicantDetails = ({
                 disabled={isInterviewFixed}
               >
                 <FaCalendarCheck />
-                {isInterviewFixed ? "Interview Fixed" : "Set Interview"}
+                {isInterviewFixed ? t("interviewFixed") : t("setInterview")}
               </button>
             </div>
           </div>
@@ -233,7 +234,7 @@ const ApplicantDetails = ({
           <div className="border-b border-gray-100 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-md mb-1 font-semibold text-gray-900">Resume/CV</h3>
+                <h3 className="text-md mb-1 font-semibold text-gray-900">{t("resumeSection.title")}</h3>
                 <p className="text-sm text-gray-600">{fileName}</p>
               </div>
               <button
@@ -241,7 +242,7 @@ const ApplicantDetails = ({
                 className="flex items-center gap-2 rounded-lg bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
               >
                 <FaDownload />
-                View Resume
+                {t("resumeSection.view")}
               </button>
             </div>
           </div>
@@ -249,7 +250,7 @@ const ApplicantDetails = ({
         {selectedApplicant.originalData?.attechments &&
           selectedApplicant.originalData?.attechments.length > 0 && (
             <div className="border-b border-gray-100 p-4">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Attachments</h3>
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">{t("attachments.title")}</h3>
 
               <div className="space-y-2">
                 {selectedApplicant.originalData.attechments.map((attachment, index) => {
@@ -278,7 +279,7 @@ const ApplicantDetails = ({
                         className="flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100"
                       >
                         <FaDownload />
-                        View
+                        {t("attachments.view")}
                       </button>
                     </div>
                   );
@@ -289,13 +290,13 @@ const ApplicantDetails = ({
 
         {/* Application Details */}
         <div className="border-b border-gray-100 p-4">
-          <h3 className="mb-3 text-base font-semibold text-gray-900">Application Details</h3>
+          <h3 className="mb-3 text-base font-semibold text-gray-900">{t("applicationDetails.title")}</h3>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {/* Personal Information */}
             <div className="space-y-2">
               <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
-                Personal Information
+                {t("applicationDetails.personalInfo")}
               </h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -303,9 +304,9 @@ const ApplicantDetails = ({
                     <FaEnvelope className="text-xs text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Email</p>
+                    <p className="text-xs text-gray-500">{t("applicationDetails.email")}</p>
                     <p className="text-xs font-medium text-gray-900">
-                      {selectedApplicant.email || "Not provided"}
+                      {selectedApplicant.email || t("common.notProvided")}
                     </p>
                   </div>
                 </div>
@@ -314,9 +315,9 @@ const ApplicantDetails = ({
                     <span className="text-xs font-bold text-indigo-600">$</span>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Salary</p>
+                    <p className="text-xs text-gray-500">{t("applicationDetails.salary")}</p>
                     <p className="text-xs font-medium text-gray-900">
-                      {selectedApplicant.originalData?.salaryExpectation || "Not specified"}
+                      {selectedApplicant.originalData?.salaryExpectation || t("common.notSpecified")}
                     </p>
                   </div>
                 </div>
@@ -326,7 +327,7 @@ const ApplicantDetails = ({
             {/* Application Information */}
             <div className="space-y-2">
               <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
-                Application Information
+                {t("applicationDetails.applicationInfo")}
               </h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -334,13 +335,13 @@ const ApplicantDetails = ({
                     <FaCalendarCheck className="text-xs text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Start Date</p>
+                    <p className="text-xs text-gray-500">{t("applicationDetails.startDate")}</p>
                     <p className="text-xs font-medium text-gray-900">
                       {selectedApplicant.originalData?.preferredStartDate
                         ? formatPreferredStartDate(
-                            selectedApplicant.originalData.preferredStartDate
-                          )
-                        : "Not specified"}
+                          selectedApplicant.originalData.preferredStartDate
+                        )
+                        : t("common.notSpecified")}
                     </p>
                   </div>
                 </div>
@@ -350,9 +351,9 @@ const ApplicantDetails = ({
                     <FaCalendarCheck className="text-xs text-yellow-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Availability</p>
+                    <p className="text-xs text-gray-500">{t("applicationDetails.availability")}</p>
                     <p className="text-xs font-medium text-gray-900">
-                      {selectedApplicant.originalData?.currentAvailability || "Not specified"}
+                      {selectedApplicant.originalData?.currentAvailability || t("common.notSpecified")}
                     </p>
                   </div>
                 </div>
@@ -364,7 +365,7 @@ const ApplicantDetails = ({
           {selectedApplicant.originalData?.message && (
             <div className="mt-3">
               <h4 className="mb-2 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                Cover Message
+                {t("applicationDetails.coverMessage")}
               </h4>
               <div className="rounded bg-gray-50 p-3">
                 <p className="text-xs leading-relaxed text-gray-700">

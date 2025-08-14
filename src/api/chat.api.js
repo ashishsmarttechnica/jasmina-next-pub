@@ -27,14 +27,35 @@ export const getMessages = async (roomId, limit = 200, page = 1) => {
   }
 };
 
-export const sendMessage = async ({ senderId, receiverId, content }) => {
+export const sendMessage = async ({ senderId, receiverId, content, chatFile, chatFiles }) => {
   try {
     const formData = new FormData();
     formData.append("senderId", senderId);
     formData.append("receiverId", receiverId);
     formData.append("content", content);
+    if (Array.isArray(chatFiles) && chatFiles.length > 0) {
+      chatFiles.forEach((file) => {
+        if (file) formData.append("chatFile", file);
+      });
+    } else if (chatFile) {
+      formData.append("chatFile", chatFile);
+    }
+
 
     const response = await axios.post("/messages", formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Check Do Not Disturb mode
+export const checkDndMode = async ({ senderId, receiverId }) => {
+  try {
+    const response = await axios.post("/checkDndMode", {
+      senderId,
+      receiverId,
+    });
     return response.data;
   } catch (error) {
     throw error;

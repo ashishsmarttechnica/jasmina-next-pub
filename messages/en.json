@@ -861,7 +861,8 @@
     "stateRequired": "State is required",
     "cityRequired": "City is required",
     "enterOtherValue": "Enter Other Value",
-    "other": "other"
+    "other": "other",
+    "viewMore": "View More"
   },
   "Validation": {
     "personal": {
@@ -1006,8 +1007,8 @@
     "lgbtqOption": "LGBTQ+",
     "nonLgbtqOption": "Non-LGBTQ+",
     "jobTitleOrCompanyPlaceholder": "Job title or Company",
-    "Location": "Location",
-    "FindJob": "Find Job",
+    "location": "Location",
+    "findJob": "Find Job",
     "Loadingjobs": "Loading jobs...",
     "Errorloadingjobs": "Error loading jobs.",
     "NoSavedjobsfound": "No Saved jobs found.",
@@ -1024,8 +1025,9 @@
     "Errorfetchingsavedjob": "Error fetching saved job:",
     "SavedJobFetched": "Saved job fetched successfully",
     "Failedtosavejob": "Failed to remove job.",
-    "all": "all",
+    "all": "All",
     "All": "All",
+    "saved": "Saved",
     "ApplyLink": "Apply Link",
     "ApplyLinkexternal": "Apply Link (External URL)",
     "Applytocompany": "Apply To Company Website",
@@ -1046,5 +1048,203 @@
   "GoogleSignInFailed": "Failed to authenticate with Google",
   "Auth": {
     "GoogleSignInSuccess": "Successfully logged in with Google!"
+  },
+  "Messaging": "Messaging",
+  "Chat": {
+    "title": "Messaging",
+    "dndLabel": "DND",
+    "dndUpdateFailed": "Failed to update DND mode",
+    "dndEnabled": "DND mode enabled successfully",
+    "dndDisabled": "DND mode disabled successfully",
+    "sidebar": {
+      "searchPlaceholder": "Search conversations",
+      "loading": "Loading conversations...",
+      "error": "Error",
+      "retry": "Retry",
+      "empty": "No conversations found."
+    },
+    "defaultView": {
+      "title": "Welcome to Your Inbox",
+      "description": "Select a chat from the left panel to start messaging or pick a contact to begin a new conversation."
+    },
+    "window": {
+      "chatNotFound": "Error: Chat not found.",
+      "loading": "Loading...",
+      "error": "Error",
+      "retry": "Retry",
+      "empty": "No messages yet. Start a conversation!",
+      "inputPlaceholder": "Write a message...",
+      "send": "Send",
+      "dndOnTitle": "Company has DND mode enabled",
+      "dndOnSubtitle": "Messages are temporarily disabled"
+    }
+  },
+  "Applications": {
+    "search": {
+      "placeholder": "Search job post",
+      "button": "Search",
+      "searching": "Searching..."
+    },
+    "statusFilter": {
+      "all": "All Status"
+    },
+    "jobStatus": {
+      "open": "Open",
+      "closed": "Closed"
+    },
+    "applicant": "Applicant",
+    "viewJob": "View Job",
+    "noJobs": {
+      "titleWhenSearch": "No jobs found",
+      "titleNoData": "No jobs available",
+      "descWhenSearch": "No jobs found matching \"{query}\". Try a different search term.",
+      "descNoData": "There are no job applications available at the moment."
+    },
+    "loading": "Loading...",
+    "loadMore": "Load more",
+    "noApplicants": "No applicants found",
+    "common": {
+      "unknown": "Unknown",
+      "notProvided": "Not provided",
+      "notSpecified": "Not specified"
+    },
+    "statusLabels": {
+      "new": "New",
+      "interviewing": "Interviewing",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "hired": "Hired",
+      "reviewed": "Reviewed"
+    },
+    "interviewFixed": "Interview Fixed",
+    "setInterview": "Set Interview",
+    "resumeSection": {
+      "title": "Resume/CV",
+      "view": "View Resume"
+    },
+    "attachments": {
+      "title": "Attachments",
+      "view": "View"
+    },
+    "applicationDetails": {
+      "title": "Application Details",
+      "personalInfo": "Personal Information",
+      "email": "Email",
+      "salary": "Salary",
+      "applicationInfo": "Application Information",
+      "startDate": "Start Date",
+      "availability": "Availability",
+      "coverMessage": "Cover Message"
+    },
+    "tabs": {
+      "all": "All",
+      "new": "New",
+      "reviewed": "Reviewed",
+      "interviewed": "Interviewed",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "hired": "Hired"
+    },
+    "singleApplication": {
+      "loadingJob": "Loading Job Details...",
+      "noJobSelectedTitle": "No Job Selected",
+      "noJobSelectedDesc": "Please select a job from the applications list.",
+      "totalApplicants": "Total Applicants: {count}",
+      "loadingApplicants": "Loading applicants...",
+      "errorLoadingApplicants": "Error loading applicants",
+      "unknownError": "Unknown error",
+      "noApplicantsForJob": "No applicants found for this job",
+      "selectApplicantPlaceholder": "Select an applicant to view details"
+    },
+    "companyNamePlaceholder": "Company Name"
+  },
+  "Interviews": {
+    "loading": "Loading Interviews...",
+    "error": "Error loading Interviews. Please try again later.",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "past": "Past"
+    },
+    "reschedule": "Reschedule",
+    "cancel": "Cancel",
+    "empty": "No interviews in this category."
+  },
+  "PreviousPlans": {
+    "loading": "Loading...",
+    "emptyTitle": "No Previous Plans Available",
+    "emptyDesc": "You haven't purchased any plans yet. Explore our flexible options to get started!",
+    "title": "Previous Plans",
+    "subtitle": "Flexible monthly subscriptions tailored to your company's size and hiring needs."
+  },
+  "Subscription": {
+    "loading": "Loading subscriptions...",
+    "error": "Error loading subscriptions.",
+    "title": "Choose the Right Plan",
+    "subtitle": "Flexible monthly subscriptions for your company.",
+    "noCompanyIdTitle": "No company ID found",
+    "noCompanyIdText": "Please login again.",
+    "requestAdminTitle": "Request Admin Approval",
+    "requestAdminReasonLabel": "Reason for plan request",
+    "requestAdminReasonPlaceholder": "Enter your reason here...",
+    "submit": "Submit",
+    "requestSentTitle": "Request sent",
+    "requestSentText": "Your request has been sent to admin.",
+    "message": "Message",
+    "requestFailed": "Failed to send request.",
+    "to": "to",
+    "employees": "employees",
+    "planActive": "This plan has active",
+    "upgrade": "Upgrade",
+    "requestAdmin": "Request admin",
+    "reason": "Reason"
+  },
+  "Payment": {
+    "planDetails": "Subscription Plan Details",
+    "employeeRange": "Employee Range",
+    "eligibility": "Eligibility",
+    "price": "Price",
+    "cardDetails": "Card Details",
+    "email": "Email Address",
+    "emailPlaceholder": "Email Address",
+    "processing": "Processing...",
+    "payNow": "Pay Now",
+    "close": "Close",
+    "success": {
+      "planUpgraded": "Payment successful! Your plan has been upgraded."
+    },
+    "errors": {
+      "emailRequired": "Please fill in email field.",
+      "formNotInitialized": "Payment form not initialized properly.",
+      "stripeNotConfigured": "Stripe is not properly configured.",
+      "stripeInitFailed": "Failed to initialize Stripe",
+      "paymentFailed": "Payment failed",
+      "paymentFailedGeneric": "Payment failed. Please try again.",
+      "activePlanExistsExact": "You already have an active plan. Please wait until it expires before purchasing a new one."
+    }
+  },
+  "Settings": {
+    "changePassword": "Change Password",
+    "preference": "Preference",
+    "billingInfo": "Billing Info",
+    "termsAndConditions": "Terms and Conditions"
+  },
+  "SetInterviewModal": {
+    "candidateName": "Candidate Name",
+    "jobRole": "Job Role",
+    "email": "Email",
+    "experienceYears": "{years} Years of Experience",
+    "experienceNotSpecified": "Experience not specified",
+    "opening": "Opening...",
+    "viewResume": "View Resume",
+    "date": "Date",
+    "selectDate": "Select date",
+    "startTime": "Start time",
+    "timeZone": "Time zone",
+    "interviewAddress": "Interview address",
+    "close": "Close",
+    "rescheduling": "Re-scheduling...",
+    "scheduling": "Scheduling...",
+    "rescheduleInterview": "Re-schedule Interview",
+    "sendInterview": "Send Interview"
   }
 }

@@ -132,12 +132,18 @@ const UserMightKnow = () => {
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={t("mightKnow")} />
       <div
-        className={`flex w-full flex-col gap-2 px-2 py-4 ${
-          displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
-        }`}
+        className={`flex w-full flex-col gap-2 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+          }`}
       >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
+          console.log(config, "configconfig");
+
+          console.log(config.image, "hello jkjkjksdjkfksdk00000");
+          console.log(item?.profile?.fullName
+            , "item");
+
+
           return (
             <div key={item._id} className="flex w-full items-center justify-between p-2">
               <div className="flex min-w-0 items-center gap-2">
@@ -179,11 +185,10 @@ const UserMightKnow = () => {
               <button
                 onClick={() => handleContactClick(item)}
                 disabled={isCreateConnectionLoading}
-                className={`rounded-sm border p-1.5 transition-colors duration-300 ${
-                  isCreateConnectionLoading
-                    ? "cursor-not-allowed bg-gray-300 opacity-50"
-                    : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
-                }`}
+                className={`rounded-sm border p-1.5 transition-colors duration-300 ${isCreateConnectionLoading
+                  ? "cursor-not-allowed bg-gray-300 opacity-50"
+                  : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
+                  }`}
               >
                 <Contact className="h-4 w-4" />
               </button>

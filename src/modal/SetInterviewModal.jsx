@@ -5,6 +5,7 @@ import useInterviewValidation from "@/hooks/validation/company/useInterviewValid
 import getImg from "@/lib/getImg";
 import { useTimeZonesOptions } from "@/utils/selectOptions";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { DatePicker, Input, Modal, SelectPicker } from "rsuite";
 
@@ -16,6 +17,7 @@ const SetInterviewModal = ({
   interviewId,
   isReschedule = false,
 }) => {
+  const t = useTranslations("SetInterviewModal");
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
@@ -109,19 +111,19 @@ const SetInterviewModal = ({
       open={isOpen}
       onClose={onClose}
       size="sm"
-      className="!max-h-[90vh] !w-[95%] overflow-hidden !p-0 sm:!max-h-[85vh] sm:!w-[90%] md:!w-[547px]"
+      className="!max-h-[90vh] !w-[95%] overflow-hidden !p-0 sm:!max-h-[85vh] sm:!w-[90%] md:!w-[547px] bg-white"
     >
-      <Modal.Header>
+      <Modal.Header className="bg-white">
         <div className="mb-2 border-b border-slate-300 py-2">
-          <div className="my-1 text-[20px] font-bold">
-            {candidateData?.name || "Candidate Name"}
+          <div className="my-1 text-[20px] font-bold text-gray-900">
+            {candidateData?.name || t("candidateName")}
           </div>
-          <div className="my-1 text-[14px] font-medium">{candidateData?.jobRole || "Job Role"}</div>
-          <div className="text-[13px] text-[#007BFF]">{candidateData?.email || "Email"}</div>
+          <div className="my-1 text-[14px] font-medium text-gray-700">{candidateData?.jobRole || t("jobRole")}</div>
+          <div className="text-[13px] text-[#007BFF]">{candidateData?.email || t("email")}</div>
           <div className="mb-2 text-[#888DA8]">
             {candidateData?.experience
-              ? `${candidateData.experience} Years of Experience`
-              : "Experience not specified"}
+              ? t("experienceYears", { years: candidateData.experience })
+              : t("experienceNotSpecified")}
           </div>
           {candidateData?.resume && (
             <div className="text-sm text-blue-600">
@@ -131,7 +133,7 @@ const SetInterviewModal = ({
                 disabled={isLoadingViewResume}
                 className="underline disabled:opacity-50"
               >
-                {isLoadingViewResume ? "Opening..." : "View Resume"}
+                {isLoadingViewResume ? t("opening") : t("viewResume")}
               </button>
             </div>
           )}
@@ -142,7 +144,7 @@ const SetInterviewModal = ({
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
-              <label className="font-semibold">Date*</label>
+              <label className="font-semibold text-gray-900">{t("date")}*</label>
               <DatePicker
                 oneTap
                 value={date}
@@ -150,7 +152,7 @@ const SetInterviewModal = ({
                   setDate(value);
                   validateField("date", value);
                 }}
-                placeholder="Select date"
+                placeholder={t("selectDate")}
                 shouldDisableDate={(d) => d < new Date().setHours(0, 0, 0, 0)}
                 className="mt-1 w-full"
                 format="yyyy-MM-dd"
@@ -159,7 +161,7 @@ const SetInterviewModal = ({
             </div>
 
             <div className="flex-1">
-              <label className="font-semibold">Start time*</label>
+              <label className="font-semibold text-gray-900">{t("startTime")}*</label>
               <Input
                 type="time"
                 value={startTime}
@@ -167,7 +169,7 @@ const SetInterviewModal = ({
                   setStartTime(value);
                   validateField("startTime", value);
                 }}
-                placeholder="Start time"
+                placeholder={t("startTime")}
                 className="mt-1 w-full"
               />
               {errors.startTime && <p className="text-sm text-red-500">{errors.startTime}</p>}
@@ -176,7 +178,7 @@ const SetInterviewModal = ({
 
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
-              <label className="font-semibold">Time zone*</label>
+              <label className="font-semibold text-gray-900">{t("timeZone")}*</label>
               <SelectPicker
                 data={timeZones}
                 value={timeZone}
@@ -184,7 +186,7 @@ const SetInterviewModal = ({
                   setTimeZone(value);
                   validateField("timeZone", value);
                 }}
-                placeholder="Time zone"
+                placeholder={t("timeZone")}
                 className="mt-1 w-full"
                 searchable={false}
                 defaultValue="Asia/Kolkata"
@@ -194,7 +196,7 @@ const SetInterviewModal = ({
           </div>
 
           <div className="w-full">
-            <label className="font-semibold">Interview address*</label>
+            <label className="font-semibold text-gray-900">{t("interviewAddress")}*</label>
             <Input
               as="textarea"
               value={address}
@@ -202,7 +204,7 @@ const SetInterviewModal = ({
                 setAddress(value);
                 validateField("address", value);
               }}
-              placeholder="Interview address"
+              placeholder={t("interviewAddress")}
               className="mt-1 w-full"
               rows={4}
             />
@@ -211,13 +213,13 @@ const SetInterviewModal = ({
         </div>
       </Modal.Body>
 
-      <Modal.Footer>
+      <Modal.Footer className="bg-white">
         <div className="my-4 flex justify-end gap-2">
           <button
             onClick={onClose}
             className="text-primary border-primary rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Close
+            {t("close")}
           </button>
           <button
             onClick={handleSend}
@@ -226,11 +228,11 @@ const SetInterviewModal = ({
           >
             {isLoading
               ? isReschedule
-                ? "Re-scheduling..."
-                : "Scheduling..."
+                ? t("rescheduling")
+                : t("scheduling")
               : isReschedule
-                ? "Re-schedule Interview"
-                : "Send Interview"}
+                ? t("rescheduleInterview")
+                : t("sendInterview")}
           </button>
         </div>
       </Modal.Footer>

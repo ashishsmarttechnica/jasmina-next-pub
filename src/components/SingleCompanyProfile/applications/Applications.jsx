@@ -5,6 +5,7 @@ import useUpdateJobStatus from "@/hooks/company/singleCompany/useUpdateJobStatus
 import { Link, useRouter } from "@/i18n/navigation";
 import ViewJobModal from "@/modal/ViewJobModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaEye } from "react-icons/fa6";
@@ -14,11 +15,12 @@ import SearchBar from "./SearchBar";
 
 const Applications = () => {
   const router = useRouter();
+  const t = useTranslations("Applications");
   const params = useParams();
   const setSelectedJob = useSingleCompanyAppliedJobStore((state) => state.setSelectedJob);
   const pagination = useSingleCompanyAppliedJobStore((state) => state.pagination);
 
-  const [selectedStatus, setSelectedStatus] = useState("All Status");
+  const [selectedStatus, setSelectedStatus] = useState(t("statusFilter.all"));
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -32,9 +34,9 @@ const Applications = () => {
   const moreOptionsRefs = useRef({});
 
   const statusOptions = [
-    { value: "All Status", label: "All Status", numericValue: "" },
-    { value: "Open", label: "Open", numericValue: "0" },
-    { value: "Closed", label: "Closed", numericValue: "1" },
+    { value: t("statusFilter.all"), label: t("statusFilter.all"), numericValue: "" },
+    { value: t("jobStatus.open"), label: t("jobStatus.open"), numericValue: "0" },
+    { value: t("jobStatus.closed"), label: t("jobStatus.closed"), numericValue: "1" },
   ];
 
   // Get the numeric status value for API call
@@ -278,13 +280,12 @@ const Applications = () => {
                       handleStatusClick(e, item._id, item.status);
                     }}
                     disabled={isUpdatingStatus}
-                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 hover:opacity-80 ${
-                      getStatusLabel(item.status) === "Open"
+                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 hover:opacity-80 ${getStatusLabel(item.status) === "Open"
                         ? "bg-[#DCFCE7] text-[#166534]"
                         : getStatusLabel(item.status) === "Closed"
                           ? "bg-red-100 text-red-700"
                           : "bg-yellow-100 text-yellow-700"
-                    } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
+                      } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
                   >
                     {isUpdatingStatus && item._id === openDropdownId ? (
                       <>
@@ -308,7 +309,7 @@ const Applications = () => {
                       </>
                     ) : (
                       <>
-                        <span>{getStatusLabel(item.status)}</span>
+                        <span>{t(`jobStatus.${getStatusLabel(item.status).toLowerCase()}`)}</span>
                         {/* Show dropdown icon only for Open status */}
                         {item.status === 0 && <FiChevronDown className="ml-1" size={16} />}
                       </>
@@ -347,7 +348,7 @@ const Applications = () => {
                             Closing...
                           </>
                         ) : (
-                          "Closed"
+                          t("jobStatus.closed")
                         )}
                       </button>
                     </div>
@@ -370,7 +371,7 @@ const Applications = () => {
                   href={`/applicationjob/${item._id}`}
                   className="text-[13px] text-[#0B5CFF] underline hover:underline"
                 >
-                  Applicant {item.applicants}
+                  {t("applicant")} {item.applicants}
                 </Link>
               </div>
 
@@ -394,7 +395,7 @@ const Applications = () => {
                         className="flex w-full items-center px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                       >
                         <FaEye className="mr-2 h-4 w-4" />
-                        View Job
+                        {t("viewJob")}
                       </button>
                     </div>
                   )}
@@ -428,12 +429,12 @@ const Applications = () => {
                 />
               </svg>
               <h3 className="mb-2 text-lg font-semibold text-gray-700">
-                {searchQuery ? "No jobs found" : "No jobs available"}
+                {searchQuery ? t("noJobs.titleWhenSearch") : t("noJobs.titleNoData")}
               </h3>
               <p className="text-sm text-gray-500">
                 {searchQuery
-                  ? `No jobs found matching "${searchQuery}". Try a different search term.`
-                  : "There are no job applications available at the moment."}
+                  ? t("noJobs.descWhenSearch", { query: searchQuery })
+                  : t("noJobs.descNoData")}
               </p>
             </div>
           </div>
@@ -447,7 +448,7 @@ const Applications = () => {
             disabled={isFetchingJobs}
             className="rounded-md bg-[#0B5CFF] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isFetchingJobs ? "Loading..." : "Load more"}
+            {isFetchingJobs ? t("loading") : t("loadMore")}
           </button>
         </div>
       )}

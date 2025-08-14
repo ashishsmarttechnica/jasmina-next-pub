@@ -3,6 +3,7 @@ import { getConversations } from "@/api/chat.api";
 import getImg from "@/lib/getImg";
 
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import Search from "./Search";
@@ -13,6 +14,7 @@ export default function ChatSidebar({ onSelect, activeChat }) {
   console.log("conversations:-----", conversations);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const t = useTranslations("Chat");
 
   // Get userId from cookies
   const userId = Cookies.get("userId");
@@ -96,6 +98,9 @@ export default function ChatSidebar({ onSelect, activeChat }) {
       messages: [],
       conversationId: otherUser?.id || otherUser?._id,
       roomId: conversation.roomId, // Add roomId for fetching messages
+      companyName: otherUser?.companyName, // Add companyName for company detection
+      // For company chats, use the company ID as conversationId
+      companyId: otherUser?.companyName ? (otherUser?.id || otherUser?._id) : null,
     };
 
     console.log("=== ChatSidebar: Selected Chat Object ===");
@@ -114,28 +119,28 @@ export default function ChatSidebar({ onSelect, activeChat }) {
   console.log("filteredConversations:", filteredConversations);
 
   return (
-    <div className="w-full bg-white md:border-r md:border-[#000000]/10 xl:w-[275.5px]">
+    <div className="no-scrollbar h-full w-full overflow-y-auto bg-white md:border-r md:border-[#000000]/10 xl:w-[275.5px]">
       {/* Search */}
       <div className="sticky top-0 z-10 bg-white p-3.5 pb-[20px] md:border-b md:border-[#000000]/10">
         <Search
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search conversations"
+          placeholder={t("sidebar.searchPlaceholder")}
         />
       </div>
 
       {/* Content */}
       {loading ? (
-        <div className="p-4 text-center text-gray-400">Loading conversations...</div>
+        <div className="p-4 text-center text-gray-400">{t("sidebar.loading")}</div>
       ) : error ? (
         <div className="p-4 text-center text-red-500">
-          Error: {error}
+          {t("sidebar.error")}: {error}
           <button className="mt-2 block text-blue-500 underline" onClick={fetchConversations}>
-            Retry
+            {t("sidebar.retry")}
           </button>
         </div>
       ) : filteredConversations.length === 0 ? (
-        <div className="p-4 text-center text-gray-400">No conversations found.</div>
+        <div className="p-4 text-center text-gray-400">{t("sidebar.empty")}</div>
       ) : (
         filteredConversations.map((conversation) => {
           const otherUser = getOtherUser(conversation);

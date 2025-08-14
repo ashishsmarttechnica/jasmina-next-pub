@@ -1,33 +1,54 @@
 "use client";
 import { getMessages, sendMessage } from "@/api/chat.api";
+import useChatDndStore from "@/store/chatDnd.store";
+// import { getChatSocket } from "@/utils/getChatSocket";
 import { format, isSameDay } from "date-fns";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { FaCamera } from "react-icons/fa6";
-import { FiLink } from "react-icons/fi";
-import { RiGalleryLine } from "react-icons/ri";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import getImg from "../../../lib/getImg";
+import useAuthStore from "../../../store/auth.store";
+import { getChatSocket } from "../../../utils/socket";
 import ChatWindowHeader from "./ChatWindowHeader";
 
 export default function ChatWindow({ chat, onBack }) {
+  const { user } = useAuthStore();
+  console.log(user, "useruseruser");
+  const t = useTranslations("Chat");
+
   const [messageOptionsIdx, setMessageOptionsIdx] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [pendingImages, setPendingImages] = useState([]); // File[] max 2
+  const [pendingImagePreviews, setPendingImagePreviews] = useState([]); // string[]
+  const [pendingDoc, setPendingDoc] = useState(null); // File | null
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { switchOn: isDndSwitchOn, checkDnd } = useChatDndStore();
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
-  const chatEndRef = useRef(null);
-  console.log(chat, "messages++++++++++++++");
+  const messagesContainerRef = useRef(null);
+  const textareaRef = useRef(null);
+  const MAX_TEXTAREA_HEIGHT = 160;
+  const hasInitialScrolledRef = useRef(false);
+  const shouldForceScrollRef = useRef(false);
+  // console.log(chat, "messages++++++++++++++");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
   // Get current user avatar from cookies (ensure this is set at login)
   const currentUserAvatar = Cookies.get("userAvatar");
 
+  // Debug: initial props/state
+  console.log("[ChatWindow] init", {
+    chat,
+    currentUserId,
+    currentUserAvatar,
+  });
+
   if (!chat || !chat.id) {
-    return <div>Error: Chat not found.</div>;
+    return <div>{t("window.chatNotFound")}</div>;
   }
 
   // Fetch messages when chat changes
@@ -40,7 +61,7 @@ export default function ChatWindow({ chat, onBack }) {
       try {
         const response = await getMessages(chat.roomId);
         if (response.success) {
-          console.log(response.data.messages, "response.data.messages");
+          console.log("[ChatWindow] fetched messages (raw)", response.data.messages);
 
           // Transform API messages to match the expected format
           const transformedMessages = response.data.messages.map((msg) => ({
@@ -52,12 +73,13 @@ export default function ChatWindow({ chat, onBack }) {
             sender: msg.sender,
             seen: msg.seen,
           }));
+          console.log("[ChatWindow] transformed messages", transformedMessages);
           setMessages(transformedMessages);
         } else {
           setError("Failed to fetch messages");
         }
       } catch (err) {
-        console.error("Error fetching messages:", err);
+        console.error("[ChatWindow] error fetching messages", err);
         setError(err.message || "Failed to fetch messages");
       } finally {
         setLoading(false);
@@ -67,124 +89,329 @@ export default function ChatWindow({ chat, onBack }) {
     fetchMessages();
   }, [chat.roomId, currentUserId]);
 
+  // Fetch DND mode
   useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    // Only fetch DND mode for company chats
+    const isCompanyChat = chat && chat.companyName;
+
+    if (currentUserId && chat?.conversationId && isCompanyChat) {
+      console.log("[ChatWindow] checking DND", {
+        currentUserId,
+        conversationId: chat.conversationId,
+        isCompanyChat,
+      });
+      checkDnd(currentUserId, chat.conversationId);
+    }
+  }, [currentUserId, chat?.conversationId, checkDnd, chat]);
+
+  // Socket: connect and subscribe to incoming messages for this room
+  useEffect(() => {
+    if (!currentUserId || !chat?.roomId) return;
+
+    const socket = getChatSocket(currentUserId);
+    try {
+      console.log("[ChatWindow] socket: connecting", { currentUserId, roomId: chat.roomId });
+      socket.connect();
+    } catch (e) {
+      console.error("[ChatWindow] socket: connect error", e);
+    }
+
+    const onConnect = () => {
+      try {
+        console.log("[ChatWindow] socket: connected, joining room", chat.roomId);
+        socket.emit("join", { roomId: chat.roomId });
+      } catch (e) {
+        console.error("[ChatWindow] socket: join error", e);
+      }
+    };
+
+    const onMessage = (data = {}) => {
+      // Accept messages that either match this room or, if roomId is absent,
+      // match the current conversation participants. This avoids dropping
+      // real-time events when backend doesn't include roomId in payload.
+      const hasRoomId = typeof data.roomId !== "undefined" && data.roomId !== null;
+      const otherParticipantId = chat?.conversationId;
+      const senderId = data.senderId || data.sender;
+      const receiverId = data.receiverId || data.receiver;
+
+      if (hasRoomId && data.roomId !== chat.roomId) return;
+      if (!hasRoomId && otherParticipantId) {
+        const isForThisConversation = senderId === otherParticipantId || receiverId === otherParticipantId;
+        if (!isForThisConversation) return;
+      }
+
+      console.log("[ChatWindow] socket: message received", data);
+      const content = data.text || data.content || data.message;
+      if (!content) return;
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: senderId === currentUserId ? "user" : "other",
+          text: content,
+          timestamp: data.createdAt || new Date().toISOString(),
+          sender: senderId,
+          receiver: receiverId,
+        },
+      ]);
+    };
+
+    socket.on("connect", onConnect);
+    // Listen to backend-aligned event
+    socket.on("receive_message", onMessage);
+    // Backward compatibility if server emits generic 'message'
+    socket.on("message", onMessage);
+
+    // If already connected (e.g., existing instance), join immediately
+    if (socket.connected) {
+      console.log("[ChatWindow] socket already connected, joining room now", chat.roomId);
+      onConnect();
+    }
+
+    return () => {
+      try {
+        console.log("[ChatWindow] socket: cleanup, leaving room", chat.roomId);
+        socket.emit("leave", { roomId: chat.roomId });
+      } catch (e) {
+        console.error("[ChatWindow] socket: leave error", e);
+      }
+      socket.off("connect", onConnect);
+      socket.off("receive_message", onMessage);
+      socket.off("message", onMessage);
+      try {
+        console.log("[ChatWindow] socket: disconnecting");
+        socket.disconnect();
+      } catch (e) {
+        console.error("[ChatWindow] socket: disconnect error", e);
+      }
+    };
+  }, [currentUserId, chat?.roomId]);
+
+  const scrollToBottom = (behavior = "smooth") => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
+    try {
+      container.scrollTo({ top: container.scrollHeight, behavior });
+    } catch (e) {
+      container.scrollTop = container.scrollHeight;
+    }
+  };
+
+  // Reset initial scroll flag when switching chats
+  useEffect(() => {
+    hasInitialScrolledRef.current = false;
+  }, [chat?.roomId]);
+
+  // On first load of messages for a chat, jump to bottom instantly.
+  // Afterwards, only auto-scroll if user is already near the bottom.
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (!container || messages.length === 0) return;
+
+    if (!hasInitialScrolledRef.current) {
+      scrollToBottom("auto");
+      hasInitialScrolledRef.current = true;
+      return;
+    }
+
+    // If we just sent a message, always force scroll to newest
+    if (shouldForceScrollRef.current) {
+      shouldForceScrollRef.current = false;
+      scrollToBottom("smooth");
+      return;
+    }
+
+    const distanceFromBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    const isNearBottom = distanceFromBottom < 100; // px threshold
+    if (isNearBottom) {
+      scrollToBottom("smooth");
     }
   }, [messages]);
 
-  const handleDeleteMessage = (index) => {
-    const updatedMessages = messages.filter((_, i) => i !== index);
-    setMessages(updatedMessages);
-    setMessageOptionsIdx(null);
-  };
+
 
   const handleSend = async () => {
-    const trimmed = newMessage.trim();
-    if (!trimmed) return;
+    const contentToSend = newMessage;
+    const hasText = contentToSend.replace(/\s+/g, "").length > 0;
+    const hasImages = pendingImages.length > 0;
+    const hasDoc = Boolean(pendingDoc);
+    const hasAnyAttachment = hasImages || hasDoc;
+    if (!hasText && !hasAnyAttachment) return;
 
     const timestamp = new Date().toISOString();
 
     const messageObj = {
       from: "user",
-      text: trimmed,
+      text: contentToSend,
       timestamp,
+      ...(hasImages ? { images: pendingImagePreviews.slice(0, 2) } : {}),
+      ...(hasDoc ? { file: { name: pendingDoc?.name, type: pendingDoc?.type } } : {}),
     };
 
     // Optimistically add the message to the UI
     setMessages((prev) => [...prev, messageObj]);
+    // Ensure we scroll to the newest message after render
+    shouldForceScrollRef.current = true;
     setNewMessage("");
+    if (hasAnyAttachment) {
+      setPendingImages([]);
+      setPendingImagePreviews([]);
+      setPendingDoc(null);
+    }
+    console.log("[ChatWindow] sending message", {
+      content: contentToSend,
+      roomId: chat.roomId,
+      receiverId: chat?.conversationId,
+    });
 
     try {
       await sendMessage({
         senderId: currentUserId,
         receiverId: chat?.conversationId, // Update this if your chat object uses a different field for receiver
-        content: trimmed,
+        content: hasText ? contentToSend : "",
+        chatFiles: [
+          ...pendingImages.slice(0, 2),
+          ...(hasDoc ? [pendingDoc] : []),
+        ],
       });
+      console.log("[ChatWindow] message sent via API");
+      // Emit real-time event (ensure socket is connected)
+      try {
+        const socket = getChatSocket(currentUserId);
+        console.log(socket, "socketsocketsocketsocketsocketsocketsocket");
 
+        const payload = {
+          roomId: chat.roomId,
+          senderId: currentUserId,
+          content: contentToSend,
+          receiverId: chat?.conversationId,
+        };
+        if (socket?.connected) {
+          // socket.emit("send_message", payload);
+          console.log("[ChatWindow] socket: emitted send_message (connected)", payload);
+        } else if (socket) {
+          socket.once("connect", () => {
+            try {
+              // socket.emit("send_message", payload);
+              console.log("[ChatWindow] socket: emitted send_message after connect", payload);
+            } catch (e) {
+              console.error("[ChatWindow] socket: emit after connect error", e);
+            }
+          });
+          try {
+            socket.connect();
+          } catch (e) {
+            console.error("[ChatWindow] socket: connect on send error", e);
+          }
+        }
+      } catch (e) {
+        console.error("[ChatWindow] socket: emit error", e);
+      }
     } catch (error) {
+      console.error("[ChatWindow] error sending message", error);
       setError("Failed to send message");
     }
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleSend();
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      console.log("[ChatWindow] Enter key pressed -> send");
+      handleSend();
+    }
   };
 
+  const autoResizeTextarea = () => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const newHeight = Math.min(el.scrollHeight, MAX_TEXTAREA_HEIGHT);
+    el.style.height = `${newHeight}px`;
+    el.style.overflowY = el.scrollHeight > MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
+  };
+
+  useEffect(() => {
+    autoResizeTextarea();
+  }, [newMessage]);
+
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const timestamp = new Date().toISOString();
+    const availableSlots = Math.max(0, 2 - pendingImages.length);
+    const toAdd = files.filter((f) => f.type?.startsWith("image/")).slice(0, availableSlots);
+    if (!toAdd.length) return;
 
-      const messageObj = {
-        from: "user",
-        image: reader.result,
-        timestamp,
+    const newPreviews = [];
+    let processed = 0;
+    toAdd.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newPreviews.push(reader.result);
+        processed += 1;
+        if (processed === toAdd.length) {
+          setPendingImages((prev) => [...prev, ...toAdd]);
+          setPendingImagePreviews((prev) => [...prev, ...newPreviews]);
+        }
       };
-
-      setMessages((prev) => [...prev, messageObj]);
-    };
-
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleDocUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const timestamp = new Date().toISOString();
-
-    const messageObj = {
-      from: "user",
-      file: {
-        name: file.name,
-        type: file.type,
-      },
-      timestamp,
-    };
-
-    setMessages((prev) => [...prev, messageObj]);
+    setPendingDoc(file);
+    console.log("[ChatWindow] document selected", {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    });
   };
 
-  const formatText = (text) => {
-    return text.split(/\s/).map((word, i) =>
-      /\S+@\S+\.\S+/.test(word) ? (
-        <a key={i} href={`mailto:${word}`} className="text-blue-600 underline">
-          {word}
-        </a>
-      ) : (
-        `${word} `
-      )
-    );
-  };
+  // Preserve user's exact input (including Shift+Enter newlines and spaces)
+  const renderRawText = (text) => text;
 
   return (
-    <div className="relative flex h-screen w-full flex-col bg-gray-50 md:h-[464px]">
-      <ChatWindowHeader chat={chat} onBack={onBack} />
+    <div className="relative flex h-full w-full flex-col bg-gray-50">
+      <ChatWindowHeader
+        chat={chat}
+        onBack={onBack}
+        dndSwitchOn={isDndSwitchOn}
+      />
 
-      <div className="no-scrollbar flex-1 space-y-6 overflow-y-auto bg-[#D9D9D9]/[10%] p-4">
+      <div ref={messagesContainerRef} className="no-scrollbar flex-1 space-y-6 overflow-y-auto overflow-x-hidden bg-[#D9D9D9]/[10%] p-4">
         {loading ? (
-          <div className="flex justify-center py-8">
-            <div className="text-gray-500">Loading messages...</div>
+          <div className="flex flex-col gap-6 py-2">
+            {Array.from({ length: 12 }).map((_, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
+                <div className="flex-1">
+                  <div className="h-3 w-28 rounded bg-gray-200 animate-pulse" />
+                  <div className="mt-2 max-w-[80%]">
+                    <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+                    <div className="mt-2 h-4 w-3/4 rounded bg-gray-200 animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : error ? (
           <div className="flex justify-center py-8">
             <div className="text-red-500">
-              Error: {error}
+              {t("window.error")}: {error}
               <button
                 className="ml-2 text-blue-500 underline"
                 onClick={() => window.location.reload()}
               >
-                Retry
+                {t("window.retry")}
               </button>
             </div>
           </div>
         ) : messages.length === 0 ? (
           <div className="flex justify-center py-8">
-            <div className="text-gray-500">No messages yet. Start a conversation!</div>
+            <div className="text-gray-500">{t("window.empty")}</div>
           </div>
         ) : (
           (() => {
@@ -211,55 +438,51 @@ export default function ChatWindow({ chat, onBack }) {
                   <div
                     className={`flex items-start justify-between space-x-3 ${msg.from === "user" ? "flex-row-reverse" : ""}`}
                   >
-                    <div
-                      className={`flex flex-row items-start gap-5 ${msg.from === "user" ? "flex-row-reverse" : ""}`}
-                    >
-                      <ImageFallback
-                        src={
-                          msg.from === "user"
-                            ? currentUserAvatar || "/no-img.png"
-                            : chat.avatar
-                              ? getImg(chat.avatar)
-                              : "/no-img.png"
-                        }
-                        alt="avatar"
-                        className="h-10 w-10 rounded-full object-cover"
-                      />
-                      <div className={`${msg.from === "user" ? "items-end" : "items-start"}`}>
+                    <div className={`flex flex-col ${msg.from === "user" ? "items-end" : "items-start"}`}>
+                      <div className={`flex items-center gap-3 ${msg.from === "user" ? "flex-row-reverse" : ""}`}>
+                        <ImageFallback
+                          src={
+                            msg.from === "user"
+                              ? (user?.logoUrl ? getImg(user.logoUrl) : getImg(user.profile.photo))
+                              : chat?.avatar
+                                ? getImg(chat?.avatar)
+                                : "/no-img.png"
+                          }
+                          alt="avatar"
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
                         <div className="text-sm font-medium text-black">
                           {msg.from === "user" ? "You" : chat.name}
                         </div>
-                        <div
-                          className={`mt-1 max-w-md py-3 ${msg.from === "user" ? "text-right" : "text-left"}`}
-                        >
-                          {msg.text && (
-                            <div
-                              className={`inline-block rounded-lg px-3 py-2 text-sm whitespace-pre-line text-gray-700 ${msg.from === "user" ? "bg-green-100" : "bg-white"}`}
+                      </div>
+                      <div className={`mt-1 max-w-md py-3 text-left ${msg.from === "user" ? "" : ""}`}>
+                        {msg.text && (
+                          <div
+                            className={`inline-block rounded-lg px-3 py-2 text-sm whitespace-pre-wrap break-words break-all text-gray-700 ${msg.from === "user" ? "bg-green-100" : "bg-white"}`}
+                          >
+                            {renderRawText(msg.text)}
+                          </div>
+                        )}
+                        {msg.image && (
+                          <img
+                            src={msg.image}
+                            alt="sent"
+                            className="mt-2 max-w-xs cursor-pointer rounded-md border border-slate-200"
+                            onClick={() => setSelectedImage(msg.image)}
+                          />
+                        )}
+                        {msg.file && (
+                          <div className="mt-2 flex max-w-xs items-center gap-2 rounded-md border bg-white p-2 text-sm">
+                            <span className="font-medium">{msg.file.name}</span>
+                            <a
+                              href="#"
+                              className="text-xs text-blue-600 underline"
+                              onClick={(e) => e.preventDefault()}
                             >
-                              {formatText(msg.text)}
-                            </div>
-                          )}
-                          {msg.image && (
-                            <img
-                              src={msg.image}
-                              alt="sent"
-                              className="mt-2 max-w-xs cursor-pointer rounded-md border border-slate-200"
-                              onClick={() => setSelectedImage(msg.image)}
-                            />
-                          )}
-                          {msg.file && (
-                            <div className="mt-2 flex max-w-xs items-center gap-2 rounded-md border bg-white p-2 text-sm">
-                              <span className="font-medium">{msg.file.name}</span>
-                              <a
-                                href="#"
-                                className="text-xs text-blue-600 underline"
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                Open
-                              </a>
-                            </div>
-                          )}
-                        </div>
+                              Open
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -293,67 +516,112 @@ export default function ChatWindow({ chat, onBack }) {
             });
           })()
         )}
-        <div ref={chatEndRef} />
+
       </div>
 
       <div className="sticky bottom-0 flex flex-col gap-2 bg-[#D9D9D9]/[10%]">
-        <div className="flex items-center gap-2 border-y border-black/10 px-4 py-4">
-          <input
-            type="text"
-            placeholder="Write a message..."
-            className="flex-1 bg-[#D9D9D9]/[10%] px-2 pb-2 text-[13px] font-normal outline-none"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-        </div>
-
-        <div className="flex items-center justify-between px-4 py-2 pb-3">
-          <div className="flex gap-1">
-            <div
-              className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
-              onClick={() => fileInputRef.current.click()}
-            >
-              <RiGalleryLine className="text-primary" />
-              {/* <Image /> */}
-              <input
-                type="file"
-                src="*"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-            </div>
-            {/*  */}
-            <div
-              className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
-              onClick={() => docInputRef.current.click()}
-            >
-              <FiLink className="text-primary" />
-              {/* <Pin /> */}
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.mp4,.mp3"
-                ref={docInputRef}
-                onChange={handleDocUpload}
-                className="hidden"
-              />
-            </div>
-
-            <div className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent">
-              {/* <Camara /> */}
-              <FaCamera className="text-primary" />
+        {(chat.companyName && (isDndSwitchOn === true || isDndSwitchOn === null || isDndSwitchOn === "")) ? (
+          <div className="flex items-center justify-center px-4 py-6">
+            <div className="text-center">
+              <div className="text-sm font-medium text-gray-600 mb-1">{t("window.dndOnTitle")}</div>
+              <div className="text-xs text-gray-500">{t("window.dndOnSubtitle")}</div>
             </div>
           </div>
+        ) : (
+          <>
+            {(pendingImages.length > 0 || pendingDoc) && (
+              <div className="px-4 pt-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  {pendingImages.map((imgFile, index) => (
+                    <div key={index} className="relative inline-block max-w-[160px]">
+                      <img src={pendingImagePreviews[index] || ""} alt={`preview-${index}`} className="w-full rounded-md border border-slate-200" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPendingImages((prev) => prev.filter((_, i) => i !== index));
+                          setPendingImagePreviews((prev) => prev.filter((_, i) => i !== index));
+                        }}
+                        className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-0.5 text-[11px] text-white"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
 
-          <button
-            onClick={handleSend}
-            className="rounded-[2px] bg-[#0F8200] px-4 py-1 text-[13px] font-normal text-white hover:bg-green-700"
-          >
-            Send
-          </button>
-        </div>
+                  {pendingDoc && (
+                    <div className="relative inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm">
+                      <span className="font-medium truncate max-w-[220px]" title={pendingDoc.name}>{pendingDoc.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => setPendingDoc(null)}
+                        className="rounded bg-red-500 px-2 py-0.5 text-[11px] text-white"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            <div className="flex items-center justify-between gap-2 border-y border-black/10 px-4 py-4">
+              <textarea
+                ref={textareaRef}
+                placeholder={t("window.inputPlaceholder")}
+                className="flex-1 bg-[#D9D9D9]/[10%] px-2 pb-2 text-[13px] font-normal outline-none resize-none"
+                rows={1}
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                type="button"
+                onClick={handleSend}
+                className="rounded-[2px] bg-[#0F8200] px-4 py-1 text-[13px] font-normal text-white hover:bg-green-700"
+              >
+                {t("window.send")}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between px-4 py-2 pb-3">
+              {/* <div className="flex gap-1">
+                <div
+                  className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <RiGalleryLine className="text-primary" />
+                  <input
+                    type="file"
+                    src="*"
+                    accept="image/*"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </div>
+                <div
+                  className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
+                  onClick={() => docInputRef.current.click()}
+                >
+                  <FiLink className="text-primary" />
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.mp4,.mp3"
+                    ref={docInputRef}
+                    onChange={handleDocUpload}
+                    className="hidden"
+                  />
+                </div>
+
+                <div className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent">
+                  <FaCamera className="text-primary" />
+                </div>
+              </div> */}
+
+
+            </div>
+          </>
+        )}
       </div>
 
       {selectedImage && (

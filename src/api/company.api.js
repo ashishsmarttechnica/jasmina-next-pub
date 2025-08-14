@@ -5,6 +5,27 @@ export const updateCompanyProfile = async ({ data, userId }) => {
   return res.data;
 };
 
+export const updateCompanyDndMode = async ({ companyId, dndEnabled }) => {
+  try {
+    console.log("Company API - updateCompanyDndMode called with:", { companyId, dndEnabled });
+
+    const formData = new FormData();
+    formData.append("dndEnabled", dndEnabled);
+
+    console.log("Company API - FormData created:", formData);
+    console.log("Company API - Making PUT request to:", `/update/company?id=${companyId}`);
+
+    const response = await axios.put(`/update/company?id=${companyId}`, formData);
+    console.log("Company API - Response received:", response);
+    console.log("Company API - Response data:", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error("Company API - Error in updateCompanyDndMode:", error);
+    throw error;
+  }
+};
+
 export const getCompany = async (id) => {
   const res = await axios.get(`/get/company/profile/?id=${id}`);
   // console.log("API response:", res.data); // log the entire response

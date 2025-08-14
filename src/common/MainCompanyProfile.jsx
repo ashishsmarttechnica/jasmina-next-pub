@@ -16,6 +16,7 @@ import ImageFallback from "./shared/ImageFallback";
 
 const MainCompanyProfile = ({ title }) => {
   const { user } = useAuthStore();
+  console.log(user, "fsdfsduser");
   const router = useRouter();
   const pathname = usePathname(); // <-- Get current route
   const logout = useAuthStore((state) => state.logout);
@@ -113,11 +114,11 @@ const MainCompanyProfile = ({ title }) => {
               width={128}
               height={128}
               fallbackSrc={noImage2}
-              alt="Profile"
+              alt={user?.companyName ?? "Company"}
               className="h-8 w-8 rounded-full"
-              onError={(e) => {
-                e.currentTarget.src = "/default-company-logo.png";
-              }}
+            // onError={(e) => {
+            //   e.currentTarget.src = "/default-company-logo.png";
+            // }}
             />
             <span className="text-lg font-semibold">{user?.companyName}</span>
           </div>

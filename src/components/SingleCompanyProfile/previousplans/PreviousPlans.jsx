@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl";
 
 const PreviousPlans = () => {
+  const t = useTranslations("PreviousPlans");
   return (
     <div>
-      PreviousPlansPreviousPlansPreviousPlansPreviousPlansPreviousPlansPreviousPlans
-
-      PreviousPlansPreviousPlans
+      {t("title")}
     </div>
   )
 }

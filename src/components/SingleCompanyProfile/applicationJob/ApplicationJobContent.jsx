@@ -3,13 +3,15 @@
 import MainCompanyProfile from "@/common/MainCompanyProfile";
 import UserMightKnow from "@/common/UserMightKnow";
 import CompanyConnectionsLayout from "@/layout/CompanyConnectionsLayout";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import Applications from "../applications/Applications";
 
 const ApplicationJobContent = () => {
   const [mainContent, setMainContent] = useState(null);
+  const t = useTranslations("Applications");
   const userData = {
-    companyName: "Company Name",
+    companyName: t("companyNamePlaceholder"),
   };
 
   const handleContentChange = (content) => {
