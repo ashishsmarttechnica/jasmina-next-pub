@@ -33,7 +33,6 @@ export default function ChatWindow({ chat, onBack }) {
   const textareaRef = useRef(null);
   const MAX_TEXTAREA_HEIGHT = 160;
   const hasInitialScrolledRef = useRef(false);
-  const shouldForceScrollRef = useRef(false);
   // console.log(chat, "messages++++++++++++++");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
@@ -202,7 +201,7 @@ export default function ChatWindow({ chat, onBack }) {
   }, [chat?.roomId]);
 
   // On first load of messages for a chat, jump to bottom instantly.
-  // Afterwards, only auto-scroll if user is already near the bottom.
+  // Afterwards, always auto-scroll to bottom for new messages
   useEffect(() => {
     const container = messagesContainerRef.current;
     if (!container || messages.length === 0) return;
@@ -213,19 +212,8 @@ export default function ChatWindow({ chat, onBack }) {
       return;
     }
 
-    // If we just sent a message, always force scroll to newest
-    if (shouldForceScrollRef.current) {
-      shouldForceScrollRef.current = false;
-      scrollToBottom("smooth");
-      return;
-    }
-
-    const distanceFromBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight;
-    const isNearBottom = distanceFromBottom < 100; // px threshold
-    if (isNearBottom) {
-      scrollToBottom("smooth");
-    }
+    // Always scroll to bottom for new messages
+    scrollToBottom("smooth");
   }, [messages]);
 
 
@@ -250,8 +238,6 @@ export default function ChatWindow({ chat, onBack }) {
 
     // Optimistically add the message to the UI
     setMessages((prev) => [...prev, messageObj]);
-    // Ensure we scroll to the newest message after render
-    shouldForceScrollRef.current = true;
     setNewMessage("");
     if (hasAnyAttachment) {
       setPendingImages([]);
