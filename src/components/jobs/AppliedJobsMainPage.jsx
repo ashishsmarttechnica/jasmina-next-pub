@@ -4,9 +4,11 @@ import Card from "@/common/card/Card";
 import noPostImage from "@/assets/feed/no-post.svg";
 import useGetAppliedJobs from "@/hooks/job/useGetAppliedJobs";
 import useAppliedJobStore from "@/store/appliedJob.store";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { CiStopwatch } from "react-icons/ci";
 import { FaRegAddressCard } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
@@ -182,12 +184,14 @@ const AppliedJobsMainPage = () => {
                           {job?._raw?.application?.interviewId?.interviewAddress}
                         </p>
                       )}
-                      {job?._raw?.application?.interviewId?.interviewDate && (
-                        <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                      {job?._raw?.application?.interviewId?.date && (
+                        <p className="mb-1 flex items-center  gap-1 text-sm text-gray-600">
                           <HiOutlineCalendarDateRange className="h-4 w-4" />
 
 
-                          {job?._raw?.application?.interviewId?.interviewDate}
+                          {job?._raw?.application?.interviewId?.date
+                            ? format(new Date(job._raw.application.interviewId.date), "dd/MM/yyyy")
+                            : null} || <CiStopwatch className="h-4 w-4" />{job?._raw?.application?.interviewId?.startTime}
                         </p>
                       )}
                       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
