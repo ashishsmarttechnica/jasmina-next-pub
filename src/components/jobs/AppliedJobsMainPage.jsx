@@ -7,7 +7,9 @@ import useAppliedJobStore from "@/store/appliedJob.store";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaRegAddressCard } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { IoClipboardOutline } from "react-icons/io5";
 import ImageFallback from "../../common/shared/ImageFallback";
 import JobsLayout from "../../layout/JobsLayout";
@@ -68,9 +70,9 @@ const AppliedJobsMainPage = () => {
         ? Array.isArray(job.responsibilities)
           ? job.responsibilities
           : job.responsibilities
-              .replace(/<[^>]+>/g, "")
-              .split("\n")
-              .filter(Boolean)
+            .replace(/<[^>]+>/g, "")
+            .split("\n")
+            .filter(Boolean)
         : [],
       requiredSkills: job.requiredSkills || [],
       posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
@@ -114,15 +116,16 @@ const AppliedJobsMainPage = () => {
                   Your Applied Jobs ({pagination.total || mappedJobs.length})
                 </h2> */}
                 {mappedJobs.slice(0, visibleCount).map((job) => (
+
                   <Card
                     key={`${job._id}-${job._raw.application._id}`}
-                    className={`mb-3 transform cursor-pointer transition duration-200 ${
-                      selectedJob?._id === job._id
-                        ? "border-primary border-1"
-                        : "hover:scale-[1.01]"
-                    }`}
+                    className={`mb-3 transform cursor-pointer transition duration-200 ${selectedJob?._id === job._id
+                      ? "border-primary border-1"
+                      : "hover:scale-[1.01]"
+                      }`}
                     onClick={() => setSelectedJob(job)}
                   >
+                    {console.log(job?._raw?.application?.interviewId, "job999999")}
                     <div className="p-4">
                       <div className="flex items-center justify-between gap-2">
                         <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
@@ -172,6 +175,21 @@ const AppliedJobsMainPage = () => {
                         <HiOutlineLocationMarker className="h-4 w-4" />
                         {job.location}
                       </p>
+                      {job?._raw?.application?.interviewId?.interviewAddress && (
+                        <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                          <FaRegAddressCard className="h-4 w-4" />
+
+                          {job?._raw?.application?.interviewId?.interviewAddress}
+                        </p>
+                      )}
+                      {job?._raw?.application?.interviewId?.interviewDate && (
+                        <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                          <HiOutlineCalendarDateRange className="h-4 w-4" />
+
+
+                          {job?._raw?.application?.interviewId?.interviewDate}
+                        </p>
+                      )}
                       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
                         <p>Posted {getRelativeTime(job.posted)}</p>

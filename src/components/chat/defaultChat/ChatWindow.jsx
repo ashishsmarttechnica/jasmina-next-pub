@@ -6,6 +6,7 @@ import { format, isSameDay } from "date-fns";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { MdErrorOutline } from "react-icons/md";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import getImg from "../../../lib/getImg";
 import useAuthStore from "../../../store/auth.store";
@@ -26,7 +27,7 @@ export default function ChatWindow({ chat, onBack }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { switchOn: isDndSwitchOn, checkDnd } = useChatDndStore();
+  const { switchOn: isDndSwitchOn, checkDnd, error: dndError } = useChatDndStore();
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
   const messagesContainerRef = useRef(null);
@@ -44,6 +45,11 @@ export default function ChatWindow({ chat, onBack }) {
     chat,
     currentUserId,
     currentUserAvatar,
+    isDndSwitchOn,
+    dndError,
+    companyName: chat?.companyName,
+    conversationId: chat?.conversationId,
+    isCompanyChat: chat && chat.companyName
   });
 
   if (!chat || !chat.id) {
@@ -90,18 +96,39 @@ export default function ChatWindow({ chat, onBack }) {
 
   // Fetch DND mode
   useEffect(() => {
-    // Only fetch DND mode for company chats
-    const isCompanyChat = chat && chat.companyName;
-
-    if (currentUserId && chat?.conversationId && isCompanyChat) {
+    // Check DND mode for ALL chats (both company and user chats)
+    if (currentUserId && chat?.conversationId) {
       console.log("[ChatWindow] checking DND", {
         currentUserId,
         conversationId: chat.conversationId,
-        isCompanyChat,
+        isCompanyChat: chat && chat.companyName,
+        chat: chat,
+        companyName: chat?.companyName,
+        timestamp: new Date().toISOString()
       });
       checkDnd(currentUserId, chat.conversationId);
+    } else {
+      console.log("[ChatWindow] DND check skipped", {
+        currentUserId,
+        conversationId: chat?.conversationId,
+        hasChat: !!chat,
+        companyName: chat?.companyName,
+        timestamp: new Date().toISOString()
+      });
     }
   }, [currentUserId, chat?.conversationId, checkDnd, chat]);
+
+  // Debug DND state
+  useEffect(() => {
+    console.log("[ChatWindow] DND state changed:", {
+      isDndSwitchOn,
+      dndError,
+      chat: chat?.companyName,
+      conversationId: chat?.conversationId,
+      currentUserId,
+      timestamp: new Date().toISOString()
+    });
+  }, [isDndSwitchOn, dndError, chat?.companyName, chat?.conversationId, currentUserId]);
 
   // Socket: connect and subscribe to incoming messages for this room
   useEffect(() => {
@@ -438,7 +465,7 @@ export default function ChatWindow({ chat, onBack }) {
                           className="h-10 w-10 rounded-full object-cover"
                         />
                         <div className="text-sm font-medium text-black">
-                          {msg.from === "user" ? "You" : chat.name}
+                          {msg.from === "user" ? t("window.you") : chat.name}
                         </div>
                       </div>
                       <div className={`mt-1 max-w-md py-3 text-left ${msg.from === "user" ? "" : ""}`}>
@@ -465,7 +492,7 @@ export default function ChatWindow({ chat, onBack }) {
                               className="text-xs text-blue-600 underline"
                               onClick={(e) => e.preventDefault()}
                             >
-                              Open
+                              {t("window.open")}
                             </a>
                           </div>
                         )}
@@ -506,11 +533,19 @@ export default function ChatWindow({ chat, onBack }) {
       </div>
 
       <div className="sticky bottom-0 flex flex-col gap-2 bg-[#D9D9D9]/[10%]">
-        {(chat.companyName && (isDndSwitchOn === true || isDndSwitchOn === null || isDndSwitchOn === "")) ? (
+        {(() => {
+          const shouldShowDnd = (isDndSwitchOn === true || isDndSwitchOn === null || isDndSwitchOn === "" || dndError);
+
+          return shouldShowDnd;
+        })() ? (
           <div className="flex items-center justify-center px-4 py-6">
             <div className="text-center">
-              <div className="text-sm font-medium text-gray-600 mb-1">{t("window.dndOnTitle")}</div>
-              <div className="text-xs text-gray-500">{t("window.dndOnSubtitle")}</div>
+              <div className="flex  text-sm text-red-700 font-medium text-gray-600 mb-1">
+                <MdErrorOutline className="mx-2 text-xl" />  {dndError || t("window.dndOnSubtitle")}
+              </div>
+              {/* <div className="text-xs text-gray-500">
+                {dndError || "Messaging is disabled as you have enabled Do Not Disturb."}
+              </div> */}
             </div>
           </div>
         ) : (
@@ -529,7 +564,7 @@ export default function ChatWindow({ chat, onBack }) {
                         }}
                         className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-0.5 text-[11px] text-white"
                       >
-                        Remove
+                        {t("window.remove")}
                       </button>
                     </div>
                   ))}
@@ -542,7 +577,7 @@ export default function ChatWindow({ chat, onBack }) {
                         onClick={() => setPendingDoc(null)}
                         className="rounded bg-red-500 px-2 py-0.5 text-[11px] text-white"
                       >
-                        Remove
+                        {t("window.remove")}
                       </button>
                     </div>
                   )}

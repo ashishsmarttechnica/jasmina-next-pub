@@ -1,4 +1,5 @@
 import Footer from "@/components/footer/Footer";
+import MobileBottomNav from "@/components/header/MobileBottomNav";
 import { routing } from "@/i18n/routing";
 import AppInit from "@/lib/AppInit";
 import QueryProvider from "@/providers/QueryProvider";
@@ -34,7 +35,12 @@ export default async function LocaleLayout({ children, params }) {
           <QueryProvider>
             <NextIntlClientProvider>
               <AppInit />
-              {children}
+              {/* Spacer for mobile bottom nav so content isn't hidden */}
+              <div className="pb-16 md:pb-0">
+                {children}
+              </div>
+              {/* Mobile Bottom Navigation */}
+              <MobileBottomNav />
               <Footer />
             </NextIntlClientProvider>
           </QueryProvider>

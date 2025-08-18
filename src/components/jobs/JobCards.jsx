@@ -76,9 +76,9 @@ const JobCards = ({ filters }) => {
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+          .replace(/<[^>]+>/g, "")
+          .split("\n")
+          .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
@@ -120,11 +120,10 @@ const JobCards = ({ filters }) => {
               (
                 <Card
                   key={`${job._id}-${index}`}
-                  className={`mb-3 w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                    selectedJob?._id === job._id
-                      ? "border-green-700 bg-green-200"
-                      : "border-gray-300"
-                  }`}
+                  className={`mb-3 w-full sm:w-full md:w-full xl:w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id
+                    ? "border-green-700 bg-green-200"
+                    : "border-gray-300"
+                    }`}
                   onClick={() => setSelectedJob(job)}
                 >
                   <div className="p-4">

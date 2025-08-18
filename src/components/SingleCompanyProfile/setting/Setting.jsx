@@ -1,4 +1,5 @@
 "use client";
+import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -14,6 +15,10 @@ const Setting = () => {
   };
   return (
     <div className="space-y-2">
+      {/* Mobile Company Profile - Only visible on small screens */}
+      <div className="lg:hidden mb-6">
+        <MobileCompanyProfile />
+      </div>
       <div className="flex cursor-pointer items-center justify-between rounded-sm border-b border-gray-100 bg-white px-5 py-4 hover:bg-gray-50">
         <div className="block" onClick={() => handleResentPassword()}>
           <h3 className="text-[14px] font-medium"></h3>

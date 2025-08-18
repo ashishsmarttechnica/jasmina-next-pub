@@ -16,7 +16,7 @@ const page = () => {
         ]}
       >
         <div className="space-y-5">
-          <SingleApplication  />
+          <SingleApplication />
         </div>
       </CompanyConnectionsLayout>
     </div>

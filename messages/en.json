@@ -663,6 +663,7 @@
       "logoUrlError": "Logo Image is required."
     },
     "singleCompany": {
+      "removing": "Removing...",
       "editProfile": "Edit Profile",
       "connect": "Connect",
       "remove": "Remove",
@@ -846,6 +847,10 @@
     "fulladdress": "Full Address"
   },
   "Common": {
+    "loading": "Loading...",
+    "people": "People",
+    "companies": "Companies",
+    "jobs": "Jobs",
     "country": "Country",
     "state": "State",
     "city": "City",
@@ -1075,6 +1080,9 @@
       "empty": "No messages yet. Start a conversation!",
       "inputPlaceholder": "Write a message...",
       "send": "Send",
+      "open": "Open",
+      "remove": "Remove",
+      "you": "You",
       "dndOnTitle": "Company has DND mode enabled",
       "dndOnSubtitle": "Messages are temporarily disabled"
     }
@@ -1246,5 +1254,112 @@
     "scheduling": "Scheduling...",
     "rescheduleInterview": "Re-schedule Interview",
     "sendInterview": "Send Interview"
+  },
+  "CreateJobForm": {
+    "common": {
+      "subtitle": "Fill in the details below and find the right candidate.",
+      "back": "Back",
+      "next": "Next",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "detailsStep": {
+      "jobTitleRequired": "Job title is required",
+      "jobTitleMax": "Job title must be at most 50 characters",
+      "jobTypeRequired": "Employment type is required",
+      "departmentRequired": "Department is required",
+      "jobLocationRequired": "Job location is required",
+      "jobLocationIncomplete": "Please select country, state, and city"
+    },
+    "requirementsStep": {
+      "title": "Add Job Details",
+      "descriptionLabel": "Description",
+      "seniorityTitle": "Seniority Level",
+      "seniorityOptions": {
+        "intern": "Intern",
+        "entryLevel": "Entry Level",
+        "midLevel": "Associate / Mid-Level",
+        "senior": "Senior",
+        "leadManager": "Lead / Manager",
+        "directorVp": "Director / VP",
+        "cLevel": "C-Level / Executive"
+      },
+      "descriptionRequired": "Job description is required"
+    },
+    "skillsStep": {
+      "title": "Responsibilities & Skills",
+      "responsibilitiesLabel": "Responsibilities",
+      "skillsLabel": "Skills",
+      "skillPlaceholder": "Enter a skill",
+      "addButton": "Add",
+      "duplicateError": "This skill has already been added",
+      "responsibilitiesRequired": "Responsibilities are required",
+      "skillsRequired": "At least one skill is required"
+    },
+    "salaryStep": {
+      "title": "Salary & Info",
+      "negotiableLabel": "Negotiable",
+      "workModeLabel": "Work Mode",
+      "workModePlaceholder": "Select work mode",
+      "contactNumber": "Contact Number",
+      "contactNumberPlaceholder": "Enter contact number",
+      "applicationDeadline": "Application Deadline",
+      "educationLabel": "Education",
+      "experienceLabel": "Experience",
+      "experiencePlaceholder": "Select required experience",
+      "requiredLanguages": "Required Languages",
+      "numOfOpenPositions": "Number of Open Positions",
+      "numOfOpenPositionsPlaceholder": "Enter number of applicants",
+      "jobTags": "Job Tags/Keywords",
+      "jobTagsPlaceholder": "Enter job tags or keywords",
+      "workModeRequired": "Work mode is required",
+      "contactNumberRequired": "Contact number is required",
+      "contactNumberInvalid": "Please enter a valid phone number (10-15 digits)",
+      "salaryRangeRequired": "Salary range is required",
+      "salaryRangeInvalid": "Please enter a valid salary format (e.g., 5000 - 8000 INR or 5-7 LPA)",
+      "applicationDeadlineRequired": "Application deadline is required",
+      "applicationDeadlinePast": "Deadline cannot be in the past",
+      "workMode": {
+        "onSite": "On-site",
+        "hybrid": "Hybrid",
+        "remote": "Remote"
+      },
+      "experience": {
+        "fresher": "Fresher (0 years)",
+        "one": "1 year",
+        "two": "2 years",
+        "three": "3 years",
+        "fivePlus": "5+ years",
+        "tenPlus": "10+ years"
+      },
+      "education": {
+        "highSchool": "High School",
+        "diploma": "Diploma",
+        "bachelor": "Bachelor's Degree",
+        "master": "Master's Degree",
+        "phd": "PhD",
+        "any": "Any"
+      },
+      "languages": {
+        "english": "English",
+        "spanish": "Spanish",
+        "french": "French",
+        "german": "German",
+        "chinese": "Chinese",
+        "japanese": "Japanese",
+        "arabic": "Arabic",
+        "hindi": "Hindi"
+      }
+    },
+    "submitStep": {
+      "title": "Review & Submit",
+      "subtitle": "Review your job details and provide application information.",
+      "applyEmailLabel": "Apply via Email",
+      "applyEmailPlaceholder": "hr@company.com",
+      "applyLinkLabel": "Apply Link (external URL)",
+      "applyLinkPlaceholder": "https://company.com/careers",
+      "postJob": "Post Job",
+      "submitting": "Submitting..."
+    }
   }
 }

@@ -79,7 +79,7 @@ const dummyChats = {
 const ChatConnection = () => {
   const [activeChat, setActiveChat] = useState(null);
   const t = useTranslations("Chat");
-  const { switchOn: dndSwitchOn, checkDnd, updateDndMode, loading } = useChatDndStore();
+  const { switchOn: dndSwitchOn, checkDnd, checkCompanyDnd, updateDndMode, loading, initializeDnd } = useChatDndStore();
   console.log(dndSwitchOn, "dcdklfsh;;;;;;f;;;;;;;;;;;;;;;");
   const { user } = useAuthStore();
   const isLoggedInUser = (user?.role || "").toLowerCase() === "user";
@@ -87,6 +87,13 @@ const ChatConnection = () => {
   const userId = Cookies.get("userId");
   const searchParams = useSearchParams();
   const targetRoomId = searchParams?.get("roomId");
+
+  // Initialize DND state when component mounts to prevent flicker
+  useEffect(() => {
+    if (userId && !isLoggedInUser) {
+      initializeDnd();
+    }
+  }, [userId, isLoggedInUser, initializeDnd]);
 
   const handleSelectChat = (chat) => {
     setActiveChat(chat);
@@ -103,6 +110,28 @@ const ChatConnection = () => {
     }
   }, [activeChat?.conversationId, activeChat?.companyName, userId, checkDnd]);
 
+  // Check initial DND status when component mounts (for page refresh scenarios)
+  useEffect(() => {
+    if (userId && !isLoggedInUser) {
+      // For company users, check DND status on mount using company ID
+      // Use the user ID as the company ID since it's the same for company users
+      // This will override any stale persisted state with fresh server data
+      checkCompanyDnd(userId);
+    }
+  }, [userId, isLoggedInUser, checkCompanyDnd]);
+
+  // Sync persisted state with server state when component mounts
+  useEffect(() => {
+    if (userId && !isLoggedInUser && dndSwitchOn !== null) {
+      // If we have persisted state, still check with server to ensure it's current
+      // This handles cases where the persisted state might be stale
+      const syncWithServer = async () => {
+        await checkCompanyDnd(userId);
+      };
+      syncWithServer();
+    }
+  }, [userId, isLoggedInUser, dndSwitchOn, checkCompanyDnd]);
+
   const handleBackToSidebar = () => {
     setActiveChat(null);
   };
@@ -118,23 +147,35 @@ const ChatConnection = () => {
                 !isLoggedInUser ? (
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-600">{t("dndLabel")}</span>
-                    <Toggle
-                      checked={dndSwitchOn == null ? true : dndSwitchOn}
-                      onChange={async (checked) => {
-                        const ok = await updateDndMode(user?._id, checked);
-                        if (!ok) {
-                          toast.error(t("dndUpdateFailed"));
-                        } else {
-                          toast.success(checked ? t("dndEnabled") : t("dndDisabled"));
-                          // Re-fetch from server to ensure UI reflects persisted value after refresh
-                          if (userId && activeChat?.conversationId) {
-                            checkDnd(userId, activeChat.conversationId);
+                    {loading || dndSwitchOn === null ? (
+                      <div className="flex items-center gap-1">
+                        {/* <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-primary"></div> */}
+                        {/* <span className="text-xs text-gray-500">Loading...</span> */}
+                      </div>
+                    ) : (
+                      <Toggle
+                        checked={dndSwitchOn}
+                        onChange={async (checked) => {
+                          try {
+                            const ok = await updateDndMode(user?._id, checked);
+                            if (!ok) {
+                              toast.error(t("dndUpdateFailed"));
+                            } else {
+                              toast.success(checked ? t("dndEnabled") : t("dndDisabled"));
+                              // Re-fetch company DND status to ensure UI reflects persisted value after refresh
+                              if (userId && !isLoggedInUser) {
+                                await checkCompanyDnd(userId);
+                              }
+                            }
+                          } catch (error) {
+                            console.error("Failed to update DND mode:", error);
+                            toast.error("Failed to update DND mode. Please try again.");
                           }
-                        }
-                      }}
-                      size="md"
-                      disabled={loading}
-                    />
+                        }}
+                        size="md"
+                        disabled={loading}
+                      />
+                    )}
                   </div>
                 ) : null
               }

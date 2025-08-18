@@ -4,18 +4,25 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
+import { useTranslations } from "next-intl";
 import { IoClose } from "react-icons/io5";
 import { Modal } from "rsuite";
 import capitalize from "../lib/capitalize";
-import { useTranslations } from "next-intl";
 
-function ReportModel({ isOpen, onClose }) {
+function ReportModel({ isOpen, onClose, userData }) {
+
+  console.log(userData, "userData123456789123456789");
+  const reportedTypeRole = userData?.role === 'company' ? 'Company' : userData?.role === 'user' ? 'User' : userData?.role
+  // console.log();
+
+  console.log(reportedTypeRole, "reportedTypeRolereportedTypeRolereportedTypeRole");
   const t = useTranslations("Report");
   const userType = capitalize(Cookies.get("userRole"));
   const [selectedReason, setSelectedReason] = useState("");
   const [description, setDescription] = useState("");
 
   const params = useParams();
+  console.log(params, "params");
   const reporterUserId = Cookies.get("userId");
   const reportedUserId = params?.id;
 
@@ -33,6 +40,8 @@ function ReportModel({ isOpen, onClose }) {
         reportedUserId,
         reason: selectedReason,
         description,
+        reporterType: userType === "User" ? "User" : "Company",
+        reportedType: reportedTypeRole,
       },
       {
         onSuccess: () => {
@@ -107,7 +116,7 @@ function ReportModel({ isOpen, onClose }) {
               <p className="pt-4 text-[15px] font-medium text-black sm:text-[16px]">{t('Tellusmore')}</p>
 
               <textarea
-              placeholder={t('Tellusmore')}
+                placeholder={t('Tellusmore')}
                 className="mt-2 h-[120px] w-full resize-none rounded-[6px] border-none bg-[#EDF2F6] p-2 pl-4 text-[13px] text-[#888DA8] outline-none sm:h-[158px] sm:pl-6 sm:text-[14px]"
                 rows={4}
                 value={description}

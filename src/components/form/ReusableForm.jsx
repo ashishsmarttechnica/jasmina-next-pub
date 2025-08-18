@@ -1,5 +1,4 @@
 // components/ReusableForm.js
-import React from "react";
 
 const ReusableForm = ({
   title,
@@ -9,13 +8,13 @@ const ReusableForm = ({
   children,
   maxWidth = "sm:max-w-full md:max-w-[550px] lg:max-w-[585px]",
 }) => {
-  
+
   return (
     <div className="flex items-center justify-center ">
       <div className="container mx-auto">
         <div className="">
           <div
-            className={`bg-white  rounded-[10px] px-1 py-3 sm:p-5 shadow-[0px_4px_25px_0px] shadow-grayBlueText/[20%]  ${maxWidth} mx-auto w-full`}
+            className={`bg-white  rounded-[10px] px-4 py-3 sm:p-5 shadow-[0px_4px_25px_0px] shadow-grayBlueText/[20%]  ${maxWidth} mx-auto w-full`}
           >
             <div className="text-center ">
               <h2 className="font-medium text-[22px] mb-2.5 leading-[25px]  ">

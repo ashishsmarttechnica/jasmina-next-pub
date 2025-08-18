@@ -1,8 +1,8 @@
 const PlanCard = ({ title, dateRange, price, status }) => {
   return (
-    <div className="mx-auto mb-6 flex w-[260px] max-w-[260px] flex-col items-center rounded-sm border border-slate-300 bg-white p-2 shadow-md">
-      <h3 className="mb-1 text-center text-[14px] font-medium text-[#888DA8]">{title}</h3>
-      <p className="mb-2 text-center text-[13px] whitespace-pre text-[#888DA8]/[70%]">
+    <div className="flex w-full flex-col items-center rounded-lg border border-slate-300 bg-white p-4 shadow-md transition-all duration-200 hover:shadow-lg sm:p-6">
+      <h3 className="mb-2 text-center text-sm font-medium text-[#888DA8] sm:text-base">{title}</h3>
+      <p className="mb-3 text-center text-xs text-[#888DA8]/[70%] sm:text-sm">
         {dateRange}
       </p>
       {/* <p
@@ -11,7 +11,7 @@ const PlanCard = ({ title, dateRange, price, status }) => {
         Status: {status.charAt(0).toUpperCase() + status.slice(1)}
       </p> */}
       <div className="flex w-full justify-center">
-        <span className="bg-secondary text-primary rounded-sm px-6 py-2 text-[13px]">{price}</span>
+        <span className="rounded-md bg-secondary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-secondary/90 sm:px-6 sm:text-base">{price}</span>
       </div>
     </div>
   );

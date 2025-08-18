@@ -1,32 +1,34 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const useJobDetailsValidation = () => {
   const [errors, setErrors] = useState({});
+  const t = useTranslations("CreateJobForm");
 
   const validateForm = (formData, locationComplete) => {
     const newErrors = {};
 
     // Required fields validation
     if (!formData.jobTitle?.trim()) {
-      newErrors.jobTitle = "Job title is required";
+      newErrors.jobTitle = t("detailsStep.jobTitleRequired");
     } else if (formData.jobTitle.trim().length > 50) {
-      newErrors.jobTitle = "Job title must be 50 characters ";
+      newErrors.jobTitle = t("detailsStep.jobTitleMax");
     }
 
     if (!formData.jobType?.trim()) {
-      newErrors.jobType = "Employment type is required";
+      newErrors.jobType = t("detailsStep.jobTypeRequired");
     }
 
     if (!formData.department?.trim()) {
-      newErrors.department = "Department is required";
+      newErrors.department = t("detailsStep.departmentRequired");
     }
 
     // Location validation (only if not remote)
     if (!formData.isRemote) {
       if (!formData.jobLocation?.trim()) {
-        newErrors.jobLocation = "Job location is required";
+        newErrors.jobLocation = t("detailsStep.jobLocationRequired");
       } else if (!locationComplete) {
-        newErrors.jobLocation = "Please select country, state, and city";
+        newErrors.jobLocation = t("detailsStep.jobLocationIncomplete");
       }
     }
 

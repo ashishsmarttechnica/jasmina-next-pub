@@ -182,40 +182,44 @@ const ConnectionsContent = () => {
   }
 
   return (
-    <div className="rounded-md bg-white shadow">
-      <div className="z-10 bg-white">
-        <ConnectionHeader />
-        <TabsWithUnderline
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          peopleRef={peopleRef}
-          companyRef={companyRef}
-          hoverStyle={hoverStyle}
-          underlineStyle={underlineStyle}
-          handleHover={handleHover}
-          handleHoverLeave={handleHoverLeave}
-        />
+    <>
+
+      <div className="rounded-md bg-white shadow">
+        <div className="z-10 bg-white">
+          <ConnectionHeader />
+          <TabsWithUnderline
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            peopleRef={peopleRef}
+            companyRef={companyRef}
+            hoverStyle={hoverStyle}
+            underlineStyle={underlineStyle}
+            handleHover={handleHover}
+            handleHoverLeave={handleHoverLeave}
+          />
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto", minHeight: "500px" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
+          >
+            <ConnectionsList
+              activeTab={activeTab}
+              connections={currentConnections}
+              hasMore={currentHasMore}
+              isFetching={isFetching}
+              loadMore={loadMore}
+            />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto", minHeight: "500px" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
-        >
-          <ConnectionsList
-            activeTab={activeTab}
-            connections={currentConnections}
-            hasMore={currentHasMore}
-            isFetching={isFetching}
-            loadMore={loadMore}
-          />
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    </>
   );
 };
 

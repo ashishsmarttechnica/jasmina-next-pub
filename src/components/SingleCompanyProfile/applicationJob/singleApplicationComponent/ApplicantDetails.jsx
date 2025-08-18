@@ -146,11 +146,11 @@ const ApplicantDetails = ({
   return (
     <div className="w-full lg:w-[60%]">
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
-        {/* Header Section */}
-        <div className="border-b border-gray-100 p-6">
-          <div className="flex items-start justify-between">
+        {/* Header Section - Responsive */}
+        <div className="border-b border-gray-100 p-4 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
-              <h2 className="mb-1 text-xl font-bold text-gray-900">
+              <h2 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">
                 {selectedApplicant?.fullName
                   ? selectedApplicant.fullName.charAt(0).toUpperCase() +
                   selectedApplicant.fullName.slice(1)
@@ -160,34 +160,34 @@ const ApplicantDetails = ({
                   t("common.unknown")}
               </h2>
 
-              {/* Contact Info */}
-              <div className="block flex-wrap gap-4 text-sm text-gray-600">
+              {/* Contact Info - Responsive */}
+              <div className="flex flex-col gap-2 text-sm text-gray-600 sm:flex-row sm:flex-wrap sm:gap-4">
                 {selectedApplicant.email && (
                   <div className="flex items-center gap-2">
                     <FaEnvelope className="text-blue-500" />
-                    <span>{selectedApplicant.email}</span>
+                    <span className="text-xs sm:text-sm">{selectedApplicant.email}</span>
                   </div>
                 )}
 
                 {selectedApplicant.phone && (
                   <div className="flex items-center gap-2">
                     <FaPhone className="text-green-500" />
-                    <span>{selectedApplicant.phone}</span>
+                    <span className="text-xs sm:text-sm">{selectedApplicant.phone}</span>
                   </div>
                 )}
                 {selectedApplicant.location && (
                   <div className="flex items-center gap-2">
                     <FaMapMarkerAlt className="text-red-500" />
-                    <span>{selectedApplicant.location}</span>
+                    <span className="text-xs sm:text-sm">{selectedApplicant.location}</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Status and Actions */}
-            <div className="flex flex-col items-end gap-3">
+            {/* Status and Actions - Responsive */}
+            <div className="flex flex-col gap-3 sm:items-end">
               <select
-                className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none sm:w-auto sm:px-4"
                 value={currentStatus}
                 onChange={handleStatusChange}
                 disabled={isUpdating}
@@ -201,9 +201,9 @@ const ApplicantDetails = ({
               </select>
 
               <button
-                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${isInterviewFixed
-                    ? "cursor-not-allowed bg-gray-100 text-gray-500"
-                    : "bg-blue-600 text-white hover:bg-blue-700"
+                className={`flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors sm:w-auto sm:px-4 ${isInterviewFixed
+                  ? "cursor-not-allowed bg-gray-100 text-gray-500"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
                   }`}
                 onClick={() => {
                   if (!isInterviewFixed) {
@@ -223,34 +223,38 @@ const ApplicantDetails = ({
                 disabled={isInterviewFixed}
               >
                 <FaCalendarCheck />
-                {isInterviewFixed ? t("interviewFixed") : t("setInterview")}
+                <span className="text-xs sm:text-sm">
+                  {isInterviewFixed ? t("interviewFixed") : t("setInterview")}
+                </span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Resume Section */}
+        {/* Resume Section - Responsive */}
         {resume && (
           <div className="border-b border-gray-100 p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-md mb-1 font-semibold text-gray-900">{t("resumeSection.title")}</h3>
-                <p className="text-sm text-gray-600">{fileName}</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-gray-900 sm:text-base">{t("resumeSection.title")}</h3>
+                <p className="text-xs text-gray-600 sm:text-sm">{fileName}</p>
               </div>
               <button
                 onClick={handleView}
-                className="flex items-center gap-2 rounded-lg bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 sm:w-auto sm:px-4"
               >
                 <FaDownload />
-                {t("resumeSection.view")}
+                <span className="text-xs sm:text-sm">{t("resumeSection.view")}</span>
               </button>
             </div>
           </div>
         )}
+
+        {/* Attachments Section - Responsive */}
         {selectedApplicant.originalData?.attechments &&
           selectedApplicant.originalData?.attechments.length > 0 && (
             <div className="border-b border-gray-100 p-4">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">{t("attachments.title")}</h3>
+              <h3 className="mb-3 text-base font-semibold text-gray-900 sm:text-lg">{t("attachments.title")}</h3>
 
               <div className="space-y-2">
                 {selectedApplicant.originalData.attechments.map((attachment, index) => {
@@ -262,11 +266,11 @@ const ApplicantDetails = ({
                   return (
                     <div
                       key={index}
-                      className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3"
+                      className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="flex items-center gap-3">
                         <FaPaperclip className="text-gray-500" />
-                        <span className="text-xs font-medium text-gray-700">{fileName}</span>
+                        <span className="text-xs font-medium text-gray-700 sm:text-sm">{fileName}</span>
                       </div>
                       <button
                         onClick={() => {
@@ -276,7 +280,7 @@ const ApplicantDetails = ({
                               : getImg(attachment.url);
                           window.open(fileUrl, "_blank");
                         }}
-                        className="flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100"
+                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100 sm:w-auto"
                       >
                         <FaDownload />
                         {t("attachments.view")}
@@ -288,35 +292,35 @@ const ApplicantDetails = ({
             </div>
           )}
 
-        {/* Application Details */}
+        {/* Application Details - Responsive */}
         <div className="border-b border-gray-100 p-4">
-          <h3 className="mb-3 text-base font-semibold text-gray-900">{t("applicationDetails.title")}</h3>
+          <h3 className="mb-3 text-sm font-semibold text-gray-900 sm:text-base">{t("applicationDetails.title")}</h3>
 
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Personal Information */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
                 {t("applicationDetails.personalInfo")}
               </h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
+              <div className="space-y-3">
+                <div className="flex items-start gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50">
                     <FaEnvelope className="text-xs text-blue-600" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-xs text-gray-500">{t("applicationDetails.email")}</p>
-                    <p className="text-xs font-medium text-gray-900">
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
                       {selectedApplicant.email || t("common.notProvided")}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-start gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-50">
                     <span className="text-xs font-bold text-indigo-600">$</span>
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-xs text-gray-500">{t("applicationDetails.salary")}</p>
-                    <p className="text-xs font-medium text-gray-900">
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
                       {selectedApplicant.originalData?.salaryExpectation || t("common.notSpecified")}
                     </p>
                   </div>
@@ -325,18 +329,18 @@ const ApplicantDetails = ({
             </div>
 
             {/* Application Information */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h4 className="text-xs font-medium tracking-wide text-gray-500 uppercase">
                 {t("applicationDetails.applicationInfo")}
               </h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
+              <div className="space-y-3">
+                <div className="flex items-start gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-50">
                     <FaCalendarCheck className="text-xs text-purple-600" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-xs text-gray-500">{t("applicationDetails.startDate")}</p>
-                    <p className="text-xs font-medium text-gray-900">
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
                       {selectedApplicant.originalData?.preferredStartDate
                         ? formatPreferredStartDate(
                           selectedApplicant.originalData.preferredStartDate
@@ -346,13 +350,13 @@ const ApplicantDetails = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-start gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-50">
                     <FaCalendarCheck className="text-xs text-yellow-600" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-xs text-gray-500">{t("applicationDetails.availability")}</p>
-                    <p className="text-xs font-medium text-gray-900">
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
                       {selectedApplicant.originalData?.currentAvailability || t("common.notSpecified")}
                     </p>
                   </div>
@@ -361,14 +365,14 @@ const ApplicantDetails = ({
             </div>
           </div>
 
-          {/* Message Section */}
+          {/* Message Section - Responsive */}
           {selectedApplicant.originalData?.message && (
-            <div className="mt-3">
+            <div className="mt-4">
               <h4 className="mb-2 text-xs font-medium tracking-wide text-gray-500 uppercase">
                 {t("applicationDetails.coverMessage")}
               </h4>
               <div className="rounded bg-gray-50 p-3">
-                <p className="text-xs leading-relaxed text-gray-700">
+                <p className="text-xs leading-relaxed text-gray-700 sm:text-sm">
                   {selectedApplicant.originalData.message}
                 </p>
               </div>

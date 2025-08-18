@@ -20,7 +20,6 @@ const ApplicationJobContent = () => {
 
   return (
     <>
-      {/* <div className="min-h-screen w-full"> */}
       <CompanyConnectionsLayout
         RightComponents={[
           <MainCompanyProfile
@@ -32,11 +31,10 @@ const ApplicationJobContent = () => {
           <UserMightKnow key="right1" />,
         ]}
       >
-        <div className="space-y-5">
+        <div className="w-full space-y-4 sm:space-y-5">
           <Applications />
         </div>
       </CompanyConnectionsLayout>
-      {/* </div> */}
     </>
   );
 };

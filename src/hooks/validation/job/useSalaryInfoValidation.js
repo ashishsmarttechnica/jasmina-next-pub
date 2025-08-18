@@ -1,14 +1,16 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const useSalaryInfoValidation = () => {
   const [errors, setErrors] = useState({});
+  const t = useTranslations("CreateJobForm");
 
   const validateForm = (formData) => {
     const newErrors = {};
 
     // Work Mode validation (mandatory) - only if not remote
     if (!formData.isRemote && !formData.workMode) {
-      newErrors.workMode = "Work mode is required";
+      newErrors.workMode = t("salaryStep.workModeRequired");
     }
 
     // Contact Email validation (mandatory)
@@ -19,33 +21,32 @@ const useSalaryInfoValidation = () => {
     // }
 
     if (!formData.contactNumber) {
-      newErrors.contactNumber = "Contact number is required";
+      newErrors.contactNumber = t("salaryStep.contactNumberRequired");
     } else if (!/^\d{10,15}$/.test(formData.contactNumber.replace(/[+\s-]/g, ""))) {
-      newErrors.contactNumber = "Please enter a valid phone number (10-15 digits)";
+      newErrors.contactNumber = t("salaryStep.contactNumberInvalid");
     }
 
     // Salary validation (mandatory)
     if (!formData.salaryRange) {
-      newErrors.salaryRange = "Salary range is required";
+      newErrors.salaryRange = t("salaryStep.salaryRangeRequired");
     } else if (!formData.salaryRange) {
       // Check if the salary format is correct based on the pattern
       const isRangeFormat = /^\d+\s*-\s*\d+\s+[A-Za-z]+$/.test(formData.salaryRange); // e.g., 5000 - 8000 INR
       const isLpaFormat = /^\d+\s*-\s*\d+\s+LPA$/i.test(formData.salaryRange); // e.g., 5-7 LPA
 
       if (!isRangeFormat && !isLpaFormat) {
-        newErrors.salaryRange =
-          "Please enter a valid salary format (e.g., 5000 - 8000 INR or 5-7 LPA)";
+        newErrors.salaryRange = t("salaryStep.salaryRangeInvalid");
       }
     }
 
     if (!formData.applicationDeadline) {
-      newErrors.applicationDeadline = "Application deadline is required";
+      newErrors.applicationDeadline = t("salaryStep.applicationDeadlineRequired");
     } else {
       const deadlineDate = new Date(formData.applicationDeadline);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       if (deadlineDate < today) {
-        newErrors.applicationDeadline = "Deadline cannot be in the past";
+        newErrors.applicationDeadline = t("salaryStep.applicationDeadlinePast");
       }
     }
 

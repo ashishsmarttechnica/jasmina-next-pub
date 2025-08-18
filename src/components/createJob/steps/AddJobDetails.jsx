@@ -15,6 +15,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
   const [locationComplete, setLocationComplete] = useState(false);
   const { resetLocation } = useLocationStore();
   const t = useTranslations("CompanyProfile");
+  const tj = useTranslations("CreateJobForm");
   // Check if location is complete with proper format (city, state, country)
   useEffect(() => {
     if (formData.jobLocation) {
@@ -180,32 +181,32 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
             </button>
           </div>
 
-           {!formData.isRemote && (
-          <>
-            <div className="col-span-2 space-y-1">
-              <label className="block text-sm font-medium text-gray-700">{t("JobLocation")}</label>
-              <LocationSelector
-                value={formData.jobLocation}
-                onChange={handleLocationChange}
-                onFieldChange={handleLocationFieldChange}
-                error={errors.jobLocation}
-              />
-            </div>
+          {!formData.isRemote && (
+            <>
+              <div className="col-span-2 space-y-1">
+                <label className="block text-sm font-medium text-gray-700">{t("JobLocation")}</label>
+                <LocationSelector
+                  value={formData.jobLocation}
+                  onChange={handleLocationChange}
+                  onFieldChange={handleLocationFieldChange}
+                  error={errors.jobLocation}
+                />
+              </div>
 
-            <InputField
-              name="jobArea"
-              label={t("fulladdress")}
-              value={formData.jobArea}
-              onChange={handleChange}
-              placeholder={t("EnterJobArea")}
-              parentClassName="col-span-2"
-            />
-          </>
-           )} 
+              <InputField
+                name="jobArea"
+                label={t("fulladdress")}
+                value={formData.jobArea}
+                onChange={handleChange}
+                placeholder={t("EnterJobArea")}
+                parentClassName="col-span-2"
+              />
+            </>
+          )}
 
           <div className="col-span-2">
             <button type="submit" className="btn-fill">
-              {t("Next")}
+              {tj("common.next")}
             </button>
           </div>
         </div>

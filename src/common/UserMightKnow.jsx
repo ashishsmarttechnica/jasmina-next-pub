@@ -13,7 +13,7 @@ import { FaBuilding, FaUser } from "react-icons/fa";
 import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
-const UserMightKnow = () => {
+const UserMightKnow = ({ title }) => {
   const userType = capitalize(Cookies.get("userRole"));
   console.log(userType, "userType+++++++++++++++++");
   const availabilityIcons = {
@@ -129,7 +129,7 @@ const UserMightKnow = () => {
   }
 
   return (
-    <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
+    <Card className="md:w-full md:max-w-full xl:max-w-[266px] ">
       <CardHeading title={t("mightKnow")} />
       <div
         className={`flex w-full flex-col gap-2 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""

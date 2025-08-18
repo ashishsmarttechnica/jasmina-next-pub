@@ -12,6 +12,9 @@ const publicRoutes = [
   "/verify-otp",
   "/post",
   "/post/:postId",
+  "/privacy-policy",
+  "/terms-conditions",
+  "/pagedetail/:slag",
 ];
 
 // Define profile creation routes
@@ -75,8 +78,11 @@ export default async function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get("isAuthenticated")?.value === "true";
   const safeLocale = locale || defLoc;
 
-  // Special handling for post/:postId and applicationjob/:id - always allow access
-  if (pathWithoutLocale.startsWith("post/")) {
+  // Special handling for public dynamic pages - always allow access
+  if (
+    pathWithoutLocale.startsWith("/post/") ||
+    pathWithoutLocale.startsWith("/pagedetail/")
+  ) {
     return response;
   }
 

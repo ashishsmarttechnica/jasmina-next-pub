@@ -1,10 +1,30 @@
-import React from "react";
+"use client";
+
+import { getPages } from "@/api/pages.api";
 import footerLogo from "@/assets/footer/footerLogo.png";
-import Image from "next/image";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const Footer = () => {
   const t = useTranslations("footer");
+  const router = useRouter();
+  const { data: pagesResponse, isLoading: isLoadingPages } = useQuery({
+    queryKey: ["pages", "footer"],
+    queryFn: () => getPages(),
+  });
+  const pages = Array.isArray(pagesResponse?.data)
+    ? pagesResponse.data
+    : [];
+  console.log(pages, "pages66666666666666666-----------------");
+
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
+
+  // No useEffect; fetching handled by React Query
+
   return (
     <footer>
       <div className="py-16 bg-white">
@@ -48,10 +68,28 @@ const Footer = () => {
                       {t("SupportHelpMenu.HelpCenter")}
                     </li>
                     <li className="pb-1.5">{t("SupportHelpMenu.ContactUs")}</li>
-                    <li className="pb-1.5">
+                    {/* <li
+                      className="pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200"
+                      onClick={() => handleNavigation("/privacy-policy")}
+                    >
                       {t("SupportHelpMenu.PrivacyPolicy")}
                     </li>
-                    <li className="">{t("SupportHelpMenu.TermsService")}</li>
+                    <li
+                      className="cursor-pointer hover:text-primary transition-colors duration-200"
+                      onClick={() => handleNavigation("/terms-conditions")}
+                    >
+                      {t("SupportHelpMenu.TermsService")}
+                    </li> */}
+                    {pages.map((val) => (
+                      <li className="pb-1.5" key={val?._id ?? val?.path}>
+                        <Link
+                          href={`/pagedetail/${val?.path}`}
+                          className="cursor-pointer hover:text-primary transition-colors duration-200"
+                        >
+                          {val?.page_title || val?.information_name || val?.path}
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>

@@ -3,10 +3,12 @@ import RadioGroup from "@/common/RadioGroup";
 import RichTextEditor from "@/common/RichTextEditor";
 import ReusableForm from "@/components/form/ReusableForm";
 import useRequirementsValidation from "@/hooks/validation/job/useRequirementsValidation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect } from "react";
 
 const HowToApply = ({ formData, onChange, errors: parentErrors, onNext, onBack }) => {
   const { errors, setErrors, validateForm, clearError } = useRequirementsValidation();
+  const t = useTranslations("CreateJobForm");
 
   // Merge parent errors with local errors for display
   useEffect(() => {
@@ -49,24 +51,24 @@ const HowToApply = ({ formData, onChange, errors: parentErrors, onNext, onBack }
   );
 
   const seniorityOptions = [
-    { label: "Intern", value: "intern" },
-    { label: "Entry Level", value: "entry-level" },
-    { label: "Associate / Mid-Level", value: "mid-level" },
-    { label: "Senior", value: "senior" },
-    { label: "Lead / Manager", value: "lead-manager" },
-    { label: "Director / VP", value: "director-vp" },
-    { label: "C-Level / Executive", value: "c-level" },
+    { label: t("requirementsStep.seniorityOptions.intern"), value: "intern" },
+    { label: t("requirementsStep.seniorityOptions.entryLevel"), value: "entry-level" },
+    { label: t("requirementsStep.seniorityOptions.midLevel"), value: "mid-level" },
+    { label: t("requirementsStep.seniorityOptions.senior"), value: "senior" },
+    { label: t("requirementsStep.seniorityOptions.leadManager"), value: "lead-manager" },
+    { label: t("requirementsStep.seniorityOptions.directorVp"), value: "director-vp" },
+    { label: t("requirementsStep.seniorityOptions.cLevel"), value: "c-level" },
   ];
 
   return (
     <ReusableForm
-      title={"Add Job Details"}
+      title={t("requirementsStep.title")}
       maxWidth="max-w-[698px]"
-      subtitle={"Fill in the details below and find the right candidate."}
+      subtitle={t("common.subtitle")}
     >
       <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
         <div>
-          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">Description</div>
+          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">{t("requirementsStep.descriptionLabel")}</div>
           <RichTextEditor
             defaultValue={formData.description}
             onChange={handleContentChange}
@@ -77,7 +79,7 @@ const HowToApply = ({ formData, onChange, errors: parentErrors, onNext, onBack }
         </div>
 
         <RadioGroup
-          title="Seniority Level"
+          title={t("requirementsStep.seniorityTitle")}
           options={seniorityOptions}
           name="seniority"
           defaultValue={formData.seniorityLevel}
@@ -88,10 +90,10 @@ const HowToApply = ({ formData, onChange, errors: parentErrors, onNext, onBack }
 
         <div className="flex gap-4.5">
           <button type="button" className="btn-white-fill" onClick={onBack}>
-            Back
+            {t("common.back")}
           </button>
           <button type="submit" className="btn-fill">
-            Next
+            {t("common.next")}
           </button>
         </div>
       </form>

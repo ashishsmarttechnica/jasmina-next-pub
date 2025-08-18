@@ -43,9 +43,10 @@ const SearchBar = ({
   }, [searchValue]);
 
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      {/* Search Input - Responsive */}
       <div className="flex w-full items-center rounded-md bg-white px-3 py-2 sm:max-w-xs md:max-w-sm lg:max-w-[224px] xl:max-w-[210px]">
-        <FiSearch className="mr-2 text-xl text-gray-500 sm:text-2xl" />
+        <FiSearch className="mr-2 text-lg text-gray-500 sm:text-xl md:text-2xl" />
         <input
           type="text"
           placeholder={placeholder || t("search.placeholder")}
@@ -54,21 +55,14 @@ const SearchBar = ({
           onKeyPress={handleKeyPress}
           className="w-full bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none sm:text-base"
         />
-        {/* {localSearchValue && (
-          <button
-            onClick={handleClearSearch}
-            className="ml-2 p-1 text-gray-400 hover:text-gray-600"
-            title="Clear search"
-          >
-            <FiX size={16} />
-          </button>
-        )} */}
       </div>
-      <div>
+
+      {/* Search Button - Responsive */}
+      <div className="flex justify-end sm:justify-start">
         <button
           onClick={handleSearchClick}
           disabled={isSearching}
-          className={`bg-primary mx-3 rounded-sm px-3 py-2 text-[13px] text-white sm:mt-2 ${isSearching ? "cursor-not-allowed opacity-50" : "hover:bg-primary/90"
+          className={`bg-primary w-full rounded-sm px-4 py-2 text-[13px] text-white transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:text-sm ${isSearching ? "cursor-not-allowed opacity-50" : "hover:bg-primary/90"
             }`}
         >
           {isSearching ? t("search.searching") : t("search.button")}

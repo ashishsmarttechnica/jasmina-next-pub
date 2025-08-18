@@ -1,5 +1,6 @@
 "use client";
 import { getAllMemberships } from "@/api/membership.api";
+import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import { loadStripe } from "@stripe/stripe-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -154,6 +155,11 @@ const Subscription = () => {
 
   return (
     <div className="p-2">
+      {/* Mobile Company Profile - Only visible on small screens */}
+      <div className="lg:hidden mb-6">
+        <MobileCompanyProfile />
+      </div>
+
       <h2 className="mb-2 text-center text-[22px] font-medium">{t("title")}</h2>
       <p className="mx-auto mb-8 max-w-[400px] text-center text-[13px] text-gray-600">{t("subtitle")}</p>
 

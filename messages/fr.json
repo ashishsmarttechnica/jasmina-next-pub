@@ -694,6 +694,7 @@
       "descriptionError": "Description est requise."
     },
     "singleCompany": {
+      "removing": "Suppression...",
       "views": "Vues",
       "connections": "Relations",
       "message": "Message",
@@ -854,6 +855,10 @@
     "errorposts": "Erreur de chargement des messages"
   },
   "Common": {
+    "loading": "Chargement...",
+    "people": "Personnes",
+    "companies": "Entreprises",
+    "jobs": "Emplois",
     "country": "Pays",
     "state": "État",
     "city": "Ville",
@@ -1034,6 +1039,9 @@
       "empty": "Pas encore de messages. Commencez une conversation !",
       "inputPlaceholder": "Écrire un message...",
       "send": "Envoyer",
+      "open": "Ouvrir",
+      "remove": "Retirer",
+      "you": "Vous",
       "dndOnTitle": "L'entreprise a activé le mode Ne pas déranger",
       "dndOnSubtitle": "Les messages sont temporairement désactivés"
     }
@@ -1205,5 +1213,111 @@
     "scheduling": "Planification...",
     "rescheduleInterview": "Reprogrammer l'entretien",
     "sendInterview": "Envoyer l'entretien"
+  },
+  "CreateJobForm": {
+    "common": {
+      "subtitle": "Remplissez les détails ci-dessous et trouvez le bon candidat.",
+      "back": "Retour",
+      "next": "Suivant",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "detailsStep": {
+      "jobTitleRequired": "Le titre du poste est requis",
+      "jobTitleMax": "Le titre du poste doit comporter au maximum 50 caractères",
+      "jobTypeRequired": "Le type d'emploi est requis",
+      "departmentRequired": "Le département est requis",
+      "jobLocationRequired": "L'emplacement du poste est requis",
+      "jobLocationIncomplete": "Veuillez sélectionner le pays, l'état et la ville"
+    },
+    "requirementsStep": {
+      "title": "Ajouter les détails du poste",
+      "descriptionLabel": "Description",
+      "seniorityTitle": "Niveau d'ancienneté",
+      "seniorityOptions": {
+        "intern": "Stagiaire",
+        "entryLevel": "Débutant",
+        "midLevel": "Associé / Niveau intermédiaire",
+        "senior": "Senior",
+        "leadManager": "Lead / Manager",
+        "directorVp": "Directeur / VP",
+        "cLevel": "C‑Level / Direction"
+      }
+    },
+    "skillsStep": {
+      "title": "Responsabilités et compétences",
+      "responsibilitiesLabel": "Responsabilités",
+      "skillsLabel": "Compétences",
+      "skillPlaceholder": "Entrez une compétence",
+      "addButton": "Ajouter",
+      "duplicateError": "Cette compétence a déjà été ajoutée",
+      "responsibilitiesRequired": "Les responsabilités sont requises",
+      "skillsRequired": "Au moins une compétence est requise"
+    },
+    "salaryStep": {
+      "title": "Salaire et informations",
+      "negotiableLabel": "Négociable",
+      "workModeLabel": "Mode de travail",
+      "workModePlaceholder": "Sélectionner le mode de travail",
+      "contactNumber": "Numéro de contact",
+      "contactNumberPlaceholder": "Entrez le numéro de contact",
+      "applicationDeadline": "Date limite de candidature",
+      "educationLabel": "Niveau d'études",
+      "experienceLabel": "Expérience",
+      "experiencePlaceholder": "Sélectionner l'expérience requise",
+      "requiredLanguages": "Langues requises",
+      "numOfOpenPositions": "Nombre de postes ouverts",
+      "numOfOpenPositionsPlaceholder": "Saisir le nombre",
+      "jobTags": "Mots-clés/Tags du poste",
+      "jobTagsPlaceholder": "Saisir des mots-clés du poste",
+      "workModeRequired": "Le mode de travail est requis",
+      "contactNumberRequired": "Le numéro de contact est requis",
+      "contactNumberInvalid": "Veuillez saisir un numéro de téléphone valide (10 à 15 chiffres)",
+      "salaryRangeRequired": "La fourchette de salaire est requise",
+      "salaryRangeInvalid": "Veuillez saisir un format de salaire valide (ex. 5000 - 8000 INR ou 5-7 LPA)",
+      "applicationDeadlineRequired": "La date limite de candidature est requise",
+      "applicationDeadlinePast": "La date limite ne peut pas être dans le passé",
+      "workMode": {
+        "onSite": "Sur site",
+        "hybrid": "Hybride",
+        "remote": "À distance"
+      },
+      "experience": {
+        "fresher": "Débutant (0 an)",
+        "one": "1 an",
+        "two": "2 ans",
+        "three": "3 ans",
+        "fivePlus": "5+ ans",
+        "tenPlus": "10+ ans"
+      },
+      "education": {
+        "highSchool": "Baccalauréat",
+        "diploma": "Diplôme",
+        "bachelor": "Licence",
+        "master": "Master",
+        "phd": "Doctorat",
+        "any": "Indifférent"
+      },
+      "languages": {
+        "english": "Anglais",
+        "spanish": "Espagnol",
+        "french": "Français",
+        "german": "Allemand",
+        "chinese": "Chinois",
+        "japanese": "Japonais",
+        "arabic": "Arabe",
+        "hindi": "Hindi"
+      }
+    },
+    "submitStep": {
+      "title": "Vérifier et publier",
+      "subtitle": "Vérifiez les détails de l'offre et fournissez les informations de candidature.",
+      "applyEmailLabel": "Postuler par e-mail",
+      "applyEmailPlaceholder": "hr@company.com",
+      "applyLinkLabel": "Lien de candidature (URL externe)",
+      "applyLinkPlaceholder": "https://company.com/careers",
+      "postJob": "Publier l'offre",
+      "submitting": "Envoi..."
+    }
   }
 }

@@ -4,6 +4,7 @@ import { useCreateConnection, useRemoveConnection } from "@/hooks/connections/us
 import { useRouter } from "@/i18n/navigation";
 import capitalize from "@/lib/capitalize";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +16,7 @@ import { useSingleCompany } from "../../hooks/company/useSingleCompany";
 import { useAcceptConnection } from "../../hooks/user/useNetworkInvites";
 
 const SearchBar = ({ placeholder = "Search..." }) => {
+  const t = useTranslations("Common");
   const router = useRouter();
   const params = useParams();
   const paramsUserId = params?.id;
@@ -314,7 +316,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
       {showSuggestions && searchQuery.length > 0 && (
         <div className="absolute top-[100%] right-0 left-0 z-50 mt-1 max-h-[400px] overflow-y-auto rounded-[4px] border border-[#e0e0e0] bg-white shadow-lg">
           {isLoading ? (
-            <div className="p-3 text-center text-[#666666]">Loading...</div>
+            <div className="p-3 text-center text-[#666666]">{t("loading")}</div>
           ) : suggestions.users.length > 0 ||
             suggestions.companies.length > 0 ||
             suggestions.jobs.length > 0 ? (
@@ -322,7 +324,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
               {suggestions.users.length > 0 && (
                 <div>
                   <div className="bg-[#f3f6f8] px-4 py-2 text-[12px] font-medium text-[#666666]">
-                    People
+                    {t("people")}
                   </div>
                   {renderUserSuggestions()}
                 </div>
@@ -331,7 +333,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
               {suggestions.companies.length > 0 && (
                 <div>
                   <div className="bg-[#f3f6f8] px-4 py-2 text-[12px] font-medium text-[#666666]">
-                    Companies
+                    {t("companies")}
                   </div>
                   {renderCompanySuggestions()}
                 </div>
@@ -340,7 +342,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
               {suggestions.jobs.length > 0 && (
                 <div>
                   <div className="bg-[#f3f6f8] px-4 py-2 text-[12px] font-medium text-[#666666]">
-                    Jobs
+                    {t("jobs")}
                   </div>
                   {renderJobSuggestions()}
                 </div>
@@ -356,7 +358,7 @@ const SearchBar = ({ placeholder = "Search..." }) => {
               </div> */}
             </div>
           ) : (
-            <div className="p-3 text-center text-[#666666]">No results found</div>
+            <div className="p-3 text-center text-[#666666]">{t("noResults")}</div>
           )}
         </div>
       )}

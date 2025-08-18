@@ -147,9 +147,9 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
           {/* Job Description */}
           {hasValue(job.description) && (
             <div>
-              <h3 className="mb-3 font-semibold text-gray-900">Job Description</h3>
+              <h3 className="w-full max-w-[90%] text-sm break-words whitespace-normal mb-2">Job Description</h3>
               <div className="rounded bg-gray-50 p-4">
-                <div className="leading-relaxed text-gray-700">
+                <div className="w-full max-w-[90%] text-sm break-words whitespace-normal">
                   <div dangerouslySetInnerHTML={{ __html: job.description }} />
                 </div>
               </div>
@@ -159,9 +159,9 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
           {/* Responsibilities */}
           {hasValue(job.responsibilities) && (
             <div>
-              <h3 className="mb-3 font-semibold text-gray-900">Responsibilities</h3>
+              <h3 className="w-full max-w-[90%] text-sm break-words whitespace-normal mb-2">Responsibilities</h3>
               <div className="rounded bg-gray-50 p-4">
-                <div className="leading-relaxed text-gray-700">
+                <div className="w-full max-w-[90%] text-sm break-words whitespace-normal">
                   <div dangerouslySetInnerHTML={{ __html: job.responsibilities }} />
                 </div>
               </div>

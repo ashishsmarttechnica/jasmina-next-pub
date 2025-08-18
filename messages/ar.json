@@ -696,6 +696,7 @@
       "descriptionError": "الوصف مطلوب."
     },
     "singleCompany": {
+      "removing": "إزالة...",
       "views": "وجهات النظر",
       "connections": "الاتصالات",
       "message": "رسالة",
@@ -856,6 +857,10 @@
     "errorposts": "خطأ في تحميل المنشورات"
   },
   "Common": {
+    "loading": "جارٍ التحميل...",
+    "people": "الأشخاص",
+    "companies": "الشركات",
+    "jobs": "الوظائف",
     "country": "الدولة",
     "state": "الولاية",
     "city": "المدينة",
@@ -1036,6 +1041,9 @@
       "empty": "لا توجد رسائل بعد. ابدأ المحادثة!",
       "inputPlaceholder": "اكتب رسالة...",
       "send": "إرسال",
+      "open": "فتح",
+      "remove": "يزيل",
+      "you": "أنت",
       "dndOnTitle": "قامت الشركة بتفعيل وضع عدم الإزعاج",
       "dndOnSubtitle": "الرسائل معطلة مؤقتًا"
     }
@@ -1207,5 +1215,112 @@
     "scheduling": "الجدولة...",
     "rescheduleInterview": "إعادة جدولة المقابلة",
     "sendInterview": "إرسال المقابلة"
+  },
+  "CreateJobForm": {
+    "common": {
+      "subtitle": "املأ التفاصيل أدناه وابحث عن المرشح المناسب.",
+      "back": "رجوع",
+      "next": "التالي",
+      "yes": "نعم",
+      "no": "لا"
+    },
+    "detailsStep": {
+      "jobTitleRequired": "مسمى الوظيفة مطلوب",
+      "jobTitleMax": "يجب ألا يتجاوز مسمى الوظيفة 50 حرفًا",
+      "jobTypeRequired": "نوع التوظيف مطلوب",
+      "departmentRequired": "القسم مطلوب",
+      "jobLocationRequired": "موقع الوظيفة مطلوب",
+      "jobLocationIncomplete": "يرجى اختيار الدولة والولاية والمدينة"
+    },
+    "requirementsStep": {
+      "title": "أضف تفاصيل الوظيفة",
+      "descriptionLabel": "الوصف",
+      "seniorityTitle": "المستوى الوظيفي",
+      "seniorityOptions": {
+        "intern": "متدرب",
+        "entryLevel": "مبتدئ",
+        "midLevel": "متوسط الخبرة",
+        "senior": "كبير",
+        "leadManager": "قائد / مدير",
+        "directorVp": "مدير / نائب رئيس",
+        "cLevel": "إداري تنفيذي (C‑Level)"
+      },
+      "descriptionRequired": "وصف الوظيفة مطلوب"
+    },
+    "skillsStep": {
+      "title": "المسؤوليات والمهارات",
+      "responsibilitiesLabel": "المسؤوليات",
+      "skillsLabel": "المهارات",
+      "skillPlaceholder": "أدخل مهارة",
+      "addButton": "إضافة",
+      "duplicateError": "تمت إضافة هذه المهارة بالفعل",
+      "responsibilitiesRequired": "المسؤوليات مطلوبة",
+      "skillsRequired": "مطلوب مهارة واحدة على الأقل"
+    },
+    "salaryStep": {
+      "title": "الراتب والمعلومات",
+      "negotiableLabel": "قابل للتفاوض",
+      "workModeLabel": "نمط العمل",
+      "workModePlaceholder": "اختر نمط العمل",
+      "contactNumber": "رقم التواصل",
+      "contactNumberPlaceholder": "أدخل رقم التواصل",
+      "applicationDeadline": "الموعد النهائي للتقديم",
+      "educationLabel": "التعليم",
+      "experienceLabel": "الخبرة",
+      "experiencePlaceholder": "اختر الخبرة المطلوبة",
+      "requiredLanguages": "اللغات المطلوبة",
+      "numOfOpenPositions": "عدد الوظائف المتاحة",
+      "numOfOpenPositionsPlaceholder": "أدخل العدد",
+      "jobTags": "وسوم/كلمات مفتاحية للوظيفة",
+      "jobTagsPlaceholder": "أدخل الوسوم أو الكلمات المفتاحية",
+      "workModeRequired": "نمط العمل مطلوب",
+      "contactNumberRequired": "رقم التواصل مطلوب",
+      "contactNumberInvalid": "يرجى إدخال رقم هاتف صحيح (10-15 رقمًا)",
+      "salaryRangeRequired": "نطاق الراتب مطلوب",
+      "salaryRangeInvalid": "يرجى إدخال صيغة راتب صحيحة (مثال: 5000 - 8000 INR أو 5-7 LPA)",
+      "applicationDeadlineRequired": "الموعد النهائي للتقديم مطلوب",
+      "applicationDeadlinePast": "لا يمكن أن يكون الموعد النهائي في الماضي",
+      "workMode": {
+        "onSite": "في الموقع",
+        "hybrid": "هجين",
+        "remote": "عن بُعد"
+      },
+      "experience": {
+        "fresher": "حديث تخرج (0 سنوات)",
+        "one": "سنة واحدة",
+        "two": "سنتان",
+        "three": "3 سنوات",
+        "fivePlus": "5+ سنوات",
+        "tenPlus": "10+ سنوات"
+      },
+      "education": {
+        "highSchool": "ثانوية عامة",
+        "diploma": "دبلوم",
+        "bachelor": "بكالوريوس",
+        "master": "ماجستير",
+        "phd": "دكتوراه",
+        "any": "أي"
+      },
+      "languages": {
+        "english": "الإنجليزية",
+        "spanish": "الإسبانية",
+        "french": "الفرنسية",
+        "german": "الألمانية",
+        "chinese": "الصينية",
+        "japanese": "اليابانية",
+        "arabic": "العربية",
+        "hindi": "الهندية"
+      }
+    },
+    "submitStep": {
+      "title": "مراجعة وإرسال",
+      "subtitle": "راجع تفاصيل الوظيفة وقدّم معلومات التقديم.",
+      "applyEmailLabel": "التقديم عبر البريد الإلكتروني",
+      "applyEmailPlaceholder": "hr@company.com",
+      "applyLinkLabel": "رابط التقديم (رابط خارجي)",
+      "applyLinkPlaceholder": "https://company.com/careers",
+      "postJob": "نشر الوظيفة",
+      "submitting": "جارٍ الإرسال..."
+    }
   }
 }

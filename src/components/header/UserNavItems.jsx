@@ -65,9 +65,8 @@ const UserNavItems = ({ onLinkClick }) => {
 
       <Link
         href="/chat"
-        className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${
-          isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
-        }`}
+        className={`relative flex items-center space-x-1 pb-3 no-underline md:pb-0 ${isChatActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
+          }`}
         onClick={onLinkClick}
       >
         <div className={`rounded-full p-[5px] ${isChatActive ? "bg-white" : "bg-transparent"}`}>
@@ -83,15 +82,13 @@ const UserNavItems = ({ onLinkClick }) => {
 
       <Link
         href="/addnotifi"
-        className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${
-          isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
-        }`}
+        className={`relative flex items-center space-x-1.5 pb-3 no-underline md:pb-0 ${isNotificationsActive ? "rounded-full bg-white text-[#1D2F38]" : "text-white"
+          }`}
         onClick={onLinkClick}
       >
         <div
-          className={`rounded-full p-[5px] ${
-            isNotificationsActive ? "bg-white" : "bg-transparent"
-          }`}
+          className={`rounded-full p-[5px] ${isNotificationsActive ? "bg-white" : "bg-transparent"
+            }`}
         >
           <FiBell
             className={`h-5 w-5 ${isNotificationsActive ? "text-[#1D2F38]" : "text-white"}`}
@@ -102,7 +99,16 @@ const UserNavItems = ({ onLinkClick }) => {
           6
         </span>
       </Link>
-
+      {/* <button
+        className="block w-full px-4 py-2 text-left text-red-600"
+        onClick={() => {
+          logout();
+          router.push("/login");
+          toast.success("Logout successful!");
+        }}
+      >
+        {t("logout")}
+      </button> */}
       {/* <Link href="/your-profile" className="no-underline">
         <Image
           src={HeaderLogo}
@@ -123,15 +129,26 @@ const UserNavItems = ({ onLinkClick }) => {
               alt={"user"}
               width={30}
               height={30}
-              className="h-[30px] w-[30px] rounded-full"
+              className="h-[30px] w-[30px] rounded-full cursor-pointer hover:opacity-80 transition-opacity"
               priority={true}
             />
           )}
         </button>
         {dropdownOpen && (
           <div className="absolute right-0 z-50 mt-2 w-40 rounded-md bg-white shadow-lg">
+            <Link
+              href={`/single-user/${user?._id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDropdownOpen(false);
+                onLinkClick && onLinkClick();
+              }}
+              className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+            >
+              View Profile
+            </Link>
             <button
-              className="block w-full px-4 py-2 text-left text-red-600"
+              className="block w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100"
               onClick={() => {
                 logout();
                 router.push("/login");

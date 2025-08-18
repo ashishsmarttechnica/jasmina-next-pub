@@ -288,11 +288,11 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
         <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
         <div className="leading-relaxed job-description text-gray-700">
           {job.description ? (
-            <div className="prose dark:prose-invert max-w-none">
+            <div className="w-full max-w-[100%] text-lg break-words whitespace-normal">
               {job.description.includes('<') ? (
                 <div dangerouslySetInnerHTML={{ __html: job.description }} />
               ) : (
-                <p className="whitespace-pre-wrap">{job.description}</p>
+                <p className="w-full max-w-[100%] text-sm break-words whitespace-normal">{job.description}</p>
               )}
             </div>
           ) : (
@@ -303,12 +303,12 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
           <div className="mt-4 border-t border-slate-100 pt-3">
             <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
 
-            <div className="job-description ">
+            <div className="w-full max-w-[100%] text-lg break-words whitespace-normal">
               <div
                 dangerouslySetInnerHTML={{
                   __html: job?.responsibilities || "No content available",
                 }}
-                className="job-description prose prose-sm dark:prose-invert"
+                className="w-full max-w-[100%] text-sm break-words whitespace-normal"
               ></div>
             </div>
           </div>

@@ -154,9 +154,8 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
       </div>
       <div className="flex items-center gap-2">
         <button
-          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
-            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-          }`}
+          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+            }`}
           onClick={handleApplyNow}
           disabled={hasApplied}
         >
@@ -204,18 +203,18 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
         <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
-        <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.description }} />
+        <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: job?.description }} />
         <div
-          className="mt-2 max-w-md"
+          className="mt-2 prose dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
         />
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
-          <div className="max-w-sm" dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
+          <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: job?.responsibilities }} />
         </div>
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">{t("JobRequirements")}</h4>
-          <ul className="mt-2 grid max-w-md list-disc grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          <ul className="mt-2 grid max-w-full list-disc grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Array.isArray(job?.requiredSkills) &&
               job.requiredSkills.map((skill, i) => (
                 <li key={i} className="flex items-center">

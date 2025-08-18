@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { useAcceptConnection } from "../../../hooks/user/useNetworkInvites";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
+
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
@@ -35,7 +36,6 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const [isShareLoading, setIsShareLoading] = useState(false);
 
-  console.log(userData, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)");
 
   // Check if user came from connections page
   // const fromConnections =
@@ -194,7 +194,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                     disabled={isRemoving}
                     className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isRemoving ? "Removing..." : "Remove"}
+                    {isRemoving ? t("removing") : t("remove")}
                   </button>
                 ) : (
                   <button className="connect-btn">{t("connect")}</button>
@@ -228,14 +228,14 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                     disabled={isRemoving}
                     className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isRemoving ? "Removing..." : "Remove"}
+                    {isRemoving ? t("removing") : t("remove")}
                   </button>
                 )}
                 <button className="message-btn">{t("message")}</button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
-                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} userData={userData} />
               </div>
             )}
           </div>

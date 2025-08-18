@@ -1,6 +1,7 @@
 "use client";
 
 import { getCompanyAppliedJob } from "@/api/company.api";
+import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
 import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.store";
@@ -128,9 +129,15 @@ const SingleApplication = () => {
   // Handle loading and error states for job data
   if (isJobLoading) {
     return (
-      <div className="flex justify-center p-10">
+      <div className="flex justify-center p-6 sm:p-10">
         <div className="text-center">
-          <h3 className="mb-2 text-lg font-semibold text-gray-700">{t("singleApplication.loadingJob")}</h3>
+          <div className="mb-4">
+            <svg className="mx-auto h-8 w-8 animate-spin text-blue-600 sm:h-12 sm:w-12" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+          </div>
+          <h3 className="mb-2 text-base font-semibold text-gray-700 sm:text-lg">{t("singleApplication.loadingJob")}</h3>
         </div>
       </div>
     );
@@ -138,9 +145,15 @@ const SingleApplication = () => {
 
   if (!jobData) {
     return (
-      <div className="flex justify-center p-10">
+      <div className="flex justify-center p-6 sm:p-10">
         <div className="text-center">
-          <h3 className="mb-2 text-lg font-semibold text-gray-700">{t("singleApplication.noJobSelectedTitle")}</h3>
+          <div className="mb-4">
+            <svg className="mx-auto h-12 w-12 text-gray-400 sm:h-16 sm:w-16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 48 48">
+              <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4z" stroke="currentColor" strokeWidth="2" fill="none" />
+              <path d="M24 12v12M24 32h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <h3 className="mb-2 text-base font-semibold text-gray-700 sm:text-lg">{t("singleApplication.noJobSelectedTitle")}</h3>
           <p className="text-sm text-gray-500">{t("singleApplication.noJobSelectedDesc")}</p>
         </div>
       </div>
@@ -148,11 +161,16 @@ const SingleApplication = () => {
   }
 
   return (
-    <div>
-      {/* Search and Post Job */}
-      <div className="flex">
-        <div className="mb-2 flex w-[720px] items-center justify-between rounded-lg bg-white p-2 shadow-md sm:mb-0">
-          <div className="flex w-full items-center justify-between">
+    <div className="w-full">
+      {/* Mobile Company Profile - Only visible on small screens */}
+      <div className="lg:hidden mb-6">
+        <MobileCompanyProfile />
+      </div>
+
+      {/* Search and Post Job - Responsive */}
+      <div className="mb-4 w-full">
+        <div className="flex w-full flex-col gap-4 rounded-lg bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between lg:p-4">
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <SearchBar />
           </div>
         </div>
@@ -164,21 +182,52 @@ const SingleApplication = () => {
       {/* Filter Tabs */}
       {/* <FilterTabs activeTab={activeTab} setActiveTab={handleTabChange} /> */}
 
-      {/* Applicant Count */}
-      <div className="mb-4 text-sm text-gray-500">{t("singleApplication.totalApplicants", { count: pagination.total || 0 })}</div>
+      {/* Applicant Count - Responsive */}
+      <div className="mb-4 text-sm text-gray-500 sm:text-base">
+        {t("singleApplication.totalApplicants", { count: pagination.total || 0 })}
+      </div>
 
       {isLoading && page === 1 ? (
-        <div className="flex justify-center p-10">{t("singleApplication.loadingApplicants")}</div>
+        <div className="flex justify-center p-6 sm:p-10">
+          <div className="text-center">
+            <div className="mb-4">
+              <svg className="mx-auto h-8 w-8 animate-spin text-blue-600 sm:h-12 sm:w-12" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+            </div>
+            <p className="text-sm text-gray-600 sm:text-base">{t("singleApplication.loadingApplicants")}</p>
+          </div>
+        </div>
       ) : isError ? (
-        <div className="flex justify-center p-10 text-red-500">
-          {t("singleApplication.errorLoadingApplicants")}: {error?.message || t("singleApplication.unknownError")}
+        <div className="flex justify-center p-6 sm:p-10">
+          <div className="text-center">
+            <div className="mb-4">
+              <svg className="mx-auto h-12 w-12 text-red-400 sm:h-16 sm:w-16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 48 48">
+                <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4z" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M24 12v12M24 32h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <p className="text-sm text-red-500 sm:text-base">
+              {t("singleApplication.errorLoadingApplicants")}: {error?.message || t("singleApplication.unknownError")}
+            </p>
+          </div>
         </div>
       ) : applicants.length === 0 ? (
-        <div className="flex justify-center p-10 text-gray-500">
-          {t("singleApplication.noApplicantsForJob")}
+        <div className="flex justify-center p-6 sm:p-10">
+          <div className="text-center">
+            <div className="mb-4">
+              <svg className="mx-auto h-12 w-12 text-gray-400 sm:h-16 sm:w-16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 48 48">
+                <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4z" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M24 12v12M24 32h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <p className="text-sm text-gray-500 sm:text-base">{t("singleApplication.noApplicantsForJob")}</p>
+          </div>
         </div>
       ) : (
         <>
+          {/* Main Content - Responsive Layout */}
           <div className="flex flex-col gap-4 lg:flex-row">
             {/* Applicants List */}
             <ApplicantList
@@ -199,17 +248,23 @@ const SingleApplication = () => {
                 onStatusChange={handleStatusChange}
               />
             ) : (
-              <div className="hidden w-full rounded-lg bg-white p-6 text-center shadow-md lg:block lg:w-[60%]">
-                {t("singleApplication.selectApplicantPlaceholder")}
+              <div className="hidden w-full rounded-lg bg-white p-4 text-center shadow-md lg:block lg:w-[60%] sm:p-6">
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <svg className="h-12 w-12 text-gray-400 sm:h-16 sm:w-16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 48 48">
+                    <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4z" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <path d="M24 12v12M24 32h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <p className="text-sm text-gray-500 sm:text-base">{t("singleApplication.selectApplicantPlaceholder")}</p>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Load More Button */}
+          {/* Load More Button - Responsive */}
           {!isLastPage && applicants.length > 0 && (
-            <div className="mt-4 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <button
-                className="rounded-md bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200"
+                className="rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
                 onClick={handleLoadMore}
                 disabled={isLoading}
               >

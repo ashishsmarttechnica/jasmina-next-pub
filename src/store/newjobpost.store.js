@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 const useNewJobPostStore = create((set) => ({
-  meassage: "",
+  message: "",
   isLoading: false,
   isverified: false,
-  setMeassage: (meassage) => set({ meassage }),
+  setMessage: (message) => set({ message }),
   setLoading: (loading) => set({ isLoading: loading }),
   setIsverified: (isverified) => set({ isverified }),
 }));

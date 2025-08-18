@@ -452,3 +452,59 @@ button {
   background-color: #f9fafb !important;
   font-weight: bold !important;
 }
+
+/* Privacy Policy and Terms & Conditions Styling */
+.customList {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 1rem 0;
+}
+
+.customList h1 {
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.customList h2 {
+  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  padding-left: 0.5rem;
+  border-left: 4px solid #e5e7eb;
+}
+
+.customList p {
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+.customList ul,
+.customList ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.customList li {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.customList a {
+  color: #3b82f6;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.customList a:hover {
+  color: #2563eb;
+}

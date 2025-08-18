@@ -14,7 +14,7 @@ const CreateJobButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const t = useTranslations("CompanyMainFeed");
-  const meassage = useNewJobPostStore((s) => s.meassage);
+  const message = useNewJobPostStore((s) => s.message);
   const isverified = useNewJobPostStore((s) => s.isverified);
   const {
     data: verificationData,
@@ -22,7 +22,7 @@ const CreateJobButton = () => {
     refetch: refetchVerification,
   } = useCompanyVerification();
 
-  console.log("verificationData in CreateJobButton:", meassage);
+  console.log("verificationData in CreateJobButton:", message);
 
   const handlePostJobClick = async () => {
     setIsLoading(true);
@@ -67,7 +67,7 @@ const CreateJobButton = () => {
       <CompanyVerificationModal
         isOpen={showVerificationModal}
         onClose={() => setShowVerificationModal(false)}
-        message={meassage}
+        message={message}
       />
     </>
   );

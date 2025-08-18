@@ -8,10 +8,12 @@ import Selecter from "@/common/Selecter";
 import ReusableForm from "@/components/form/ReusableForm";
 import SkillsInput from "@/components/form/SkillsInput";
 import useSalaryInfoValidation from "@/hooks/validation/job/useSalaryInfoValidation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect } from "react";
 
 const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBack }) => {
   const { errors, setErrors, validateForm, clearError } = useSalaryInfoValidation();
+  const t = useTranslations("CreateJobForm");
 
   // Merge parent errors with local errors for display
   useEffect(() => {
@@ -33,38 +35,38 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
   };
 
   const workModeOptions = [
-    { value: "On-site", label: "On-site" },
-    { value: "Hybrid", label: "Hybrid" },
-    { value: "Remote", label: "Remote" },
+    { value: "On-site", label: t("salaryStep.workMode.onSite") },
+    { value: "Hybrid", label: t("salaryStep.workMode.hybrid") },
+    { value: "Remote", label: t("salaryStep.workMode.remote") },
   ];
 
   const experienceOptions = [
-    { value: "0", label: "Fresher (0 years)" },
-    { value: "1", label: "1 year" },
-    { value: "2", label: "2 years" },
-    { value: "3", label: "3 years" },
-    { value: "5", label: "5+ years" },
-    { value: "10", label: "10+ years" },
+    { value: "0", label: t("salaryStep.experience.fresher") },
+    { value: "1", label: t("salaryStep.experience.one") },
+    { value: "2", label: t("salaryStep.experience.two") },
+    { value: "3", label: t("salaryStep.experience.three") },
+    { value: "5", label: t("salaryStep.experience.fivePlus") },
+    { value: "10", label: t("salaryStep.experience.tenPlus") },
   ];
 
   const educationOptions = [
-    { value: "highschool", label: "High School" },
-    { value: "diploma", label: "Diploma" },
-    { value: "bachelor", label: "Bachelor's Degree" },
-    { value: "master", label: "Master's Degree" },
-    { value: "phd", label: "PhD" },
-    { value: "any", label: "Any" },
+    { value: "highschool", label: t("salaryStep.education.highSchool") },
+    { value: "diploma", label: t("salaryStep.education.diploma") },
+    { value: "bachelor", label: t("salaryStep.education.bachelor") },
+    { value: "master", label: t("salaryStep.education.master") },
+    { value: "phd", label: t("salaryStep.education.phd") },
+    { value: "any", label: t("salaryStep.education.any") },
   ];
 
   const languageOptions = [
-    { value: "english", label: "English" },
-    { value: "spanish", label: "Spanish" },
-    { value: "french", label: "French" },
-    { value: "german", label: "German" },
-    { value: "chinese", label: "Chinese" },
-    { value: "japanese", label: "Japanese" },
-    { value: "arabic", label: "Arabic" },
-    { value: "hindi", label: "Hindi" },
+    { value: "english", label: t("salaryStep.languages.english") },
+    { value: "spanish", label: t("salaryStep.languages.spanish") },
+    { value: "french", label: t("salaryStep.languages.french") },
+    { value: "german", label: t("salaryStep.languages.german") },
+    { value: "chinese", label: t("salaryStep.languages.chinese") },
+    { value: "japanese", label: t("salaryStep.languages.japanese") },
+    { value: "arabic", label: t("salaryStep.languages.arabic") },
+    { value: "hindi", label: t("salaryStep.languages.hindi") },
   ];
 
   const handleChange = useCallback(
@@ -126,9 +128,9 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
 
   return (
     <ReusableForm
-      title="Salary & Info"
+      title={t("salaryStep.title")}
       maxWidth="max-w-[698px]"
-      subtitle="Fill in the details below and find the right candidate."
+      subtitle={t("common.subtitle")}
     >
       <form className="mt-5 space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-4">
@@ -146,12 +148,12 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
             )}
           </div>
           <div>
-            <label className="text-grayBlueText text-[15px] font-medium">Negotiable *</label>
+            <label className="text-grayBlueText text-[15px] font-medium">{t("salaryStep.negotiableLabel")} *</label>
             <RadioGroup
               name="negotiable"
               options={[
-                { value: "yes", label: "Yes" },
-                { value: "no", label: "No" },
+                { value: "yes", label: t("common.yes") },
+                { value: "no", label: t("common.no") },
               ]}
               defaultValue={formData.negotiable ? "yes" : "no"}
               onChange={handleNegotiableChange}
@@ -162,7 +164,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           {!formData.isRemote && (
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Work Mode *
+                {t("salaryStep.workModeLabel")} *
               </label>
               <Selecter
                 name="workMode"
@@ -170,7 +172,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
                 onChange={handleChange}
                 options={workModeOptions}
                 error={errors.workMode}
-                placeholder="Select work mode"
+                placeholder={t("salaryStep.workModePlaceholder")}
               />
             </div>
           )}
@@ -178,14 +180,14 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           {/* Contact Number - Mandatory */}
           <div>
             <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Contact Number *
+              {t("salaryStep.contactNumber")} *
             </label>
             <InputField
               type="number"
               name="contactNumber"
               value={formData.contactNumber}
               onChange={handleChange}
-              placeholder="Enter contact number"
+              placeholder={t("salaryStep.contactNumberPlaceholder")}
               error={errors.contactNumber}
             />
           </div>
@@ -193,7 +195,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Application Deadline *
+                {t("salaryStep.applicationDeadline")} *
               </label>
               <CustomDatePicker
                 value={formData.applicationDeadline}
@@ -205,7 +207,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
 
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Education
+                {t("salaryStep.educationLabel")}
               </label>
               <Selecter
                 name="education"
@@ -220,14 +222,14 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Experience
+                {t("salaryStep.experienceLabel")}
               </label>
               <Selecter
                 name="experience"
                 value={formData.experience}
                 onChange={handleChange}
                 options={experienceOptions}
-                placeholder="Select required experience"
+                placeholder={t("salaryStep.experiencePlaceholder")}
               />
             </div>
 
@@ -246,7 +248,7 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
               </div> */}
             <div>
               <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-                Required Languages
+                {t("salaryStep.requiredLanguages")}
               </label>
               <Selecter
                 name="requiredLanguages"
@@ -263,14 +265,14 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
 
           <div>
             <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Number of Open Positions
+              {t("salaryStep.numOfOpenPositions")}
             </label>
             <InputField
               type="number"
               name="numOfEmployee"
               value={formData.numOfEmployee}
               onChange={handleChange}
-              placeholder="Enter number of applicants"
+              placeholder={t("salaryStep.numOfOpenPositionsPlaceholder")}
               min="1"
             />
           </div>
@@ -278,22 +280,22 @@ const SalaryAndInfo = ({ formData, onChange, errors: parentErrors, onNext, onBac
           {/* Job Tags/Keywords */}
           <div>
             <label className="text-grayBlueText mb-2 block text-[15px] font-medium">
-              Job Tags/Keywords
+              {t("salaryStep.jobTags")}
             </label>
             <SkillsInput
               onSkillsChange={handleTagsChange}
               initialSkills={formData.jobTags || []}
-              placeholder="Enter job tags or keywords"
+              placeholder={t("salaryStep.jobTagsPlaceholder")}
             />
           </div>
         </div>
 
         <div className="flex gap-4.5 pt-2">
           <button type="button" className="btn-white-fill" onClick={onBack}>
-            Back
+            {t("common.back")}
           </button>
           <button type="submit" className="btn-fill">
-            Next
+            {t("common.next")}
           </button>
         </div>
       </form>

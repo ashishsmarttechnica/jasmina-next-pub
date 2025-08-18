@@ -1,4 +1,5 @@
 "use client";
+import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import Selecter from "@/common/Selecter";
 import useSingleCompanyAppliedJob from "@/hooks/company/singleCompany/useSingleCompanyAppliedJob";
 import useUpdateJobStatus from "@/hooks/company/singleCompany/useUpdateJobStatus";
@@ -143,46 +144,6 @@ const Applications = () => {
     setSelectedJobId(null);
   };
 
-  // if (isGetCompanyAppliedJobLoading) return <div>Loading...</div>;
-  // if (isGetCompanyAppliedJobError)
-  //   return (
-  //     <div className="mx-auto flex h-[512px] min-h-[512px] w-[828px] min-w-[828px] items-center justify-center">
-  //       <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border border-gray-100 bg-white shadow-md">
-  //         {/* Modern illustration icon */}
-  //         <svg
-  //           className="text-primary-500 mb-4 h-16 w-16"
-  //           fill="none"
-  //           stroke="currentColor"
-  //           strokeWidth="1.5"
-  //           viewBox="0 0 48 48"
-  //         >
-  //           <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2" fill="#f3f4f6" />
-  //           <path
-  //             d="M16 28c0-4 8-4 8-8s-8-4-8-8"
-  //             stroke="#a5b4fc"
-  //             strokeWidth="2"
-  //             strokeLinecap="round"
-  //             strokeLinejoin="round"
-  //             fill="none"
-  //           />
-  //           <path
-  //             d="M32 20c0 4-8 4-8 8s8 4 8 8"
-  //             stroke="#818cf8"
-  //             strokeWidth="2"
-  //             strokeLinecap="round"
-  //             strokeLinejoin="round"
-  //             fill="none"
-  //           />
-  //         </svg>
-  //         <p className="mb-2 text-center text-[20px] font-semibold text-gray-700">Error Occurred</p>
-  //         <p className="mb-6 max-w-xs text-center text-[15px] text-gray-500">
-  //           {getCompanyAppliedJobError?.message ||
-  //             "Something went wrong while fetching applications. Please try again later."}
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -212,10 +173,16 @@ const Applications = () => {
   const jobListings = getCompanyAppliedJob || [];
 
   return (
-    <div>
-      <div className="flex">
-        <div className="mb-5 flex w-full max-w-[720px] flex-col items-center justify-between rounded-lg bg-white p-2 shadow-sm md:flex-row">
-          <div className="flex w-full items-center justify-between">
+    <div className="w-full">
+      {/* Mobile Company Profile - Only visible on small screens */}
+      <div className="lg:hidden mb-6">
+        <MobileCompanyProfile />
+      </div>
+
+      {/* Search Section - Responsive */}
+      <div className="mb-4 w-full">
+        <div className="flex w-full flex-col gap-4 rounded-lg bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between lg:p-2">
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <SearchBar
               searchValue={searchQuery}
               onSearch={handleSearch}
@@ -225,9 +192,10 @@ const Applications = () => {
           </div>
         </div>
       </div>
-      {/*  */}
-      <div className="mb-4 flex gap-4">
-        <div className="w-40">
+
+      {/* Filter Section - Responsive */}
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div className="w-full sm:w-40">
           <Selecter
             name="status"
             value={selectedStatus}
@@ -237,29 +205,31 @@ const Applications = () => {
           />
         </div>
       </div>
-      <div className="rounded-xl bg-white">
-        {/* */}
+
+      {/* Jobs List - Responsive */}
+      <div className="rounded-xl bg-white shadow-sm">
         {jobListings && jobListings.length > 0 ? (
           jobListings.map((item, idx) => (
-            // console.log(item, "item++++++++++++++++++"),
             <div
               key={item._id || idx}
               onClick={() => {
                 handleJobClick(item);
               }}
-              className="flex cursor-pointer items-center justify-between border-b border-[#E4E6EA] px-6 py-4 transition-all duration-300 hover:bg-gray-50"
+              className="flex cursor-pointer flex-col gap-3 border-b border-[#E4E6EA] px-4 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:gap-4"
             >
-              {/* Left section - Title and Type */}
-              <div className="flex-[2]">
-                <h3 className="text-[15px] font-medium text-[#1B1B1B]">{item.jobTitle}</h3>
-                <p className="text-[13px] text-[#888DA8]">
+              {/* Left section - Title and Type - Responsive */}
+              <div className="flex-[2] min-w-0">
+                <h3 className="text-[14px] font-medium text-[#1B1B1B] sm:text-[15px] lg:text-base">
+                  {item.jobTitle}
+                </h3>
+                <p className="text-[12px] text-[#888DA8] sm:text-[13px]">
                   {item.employeeType} | {item.seniorityLevel}
                 </p>
               </div>
 
-              {/* Middle section - Date and Time */}
-              <div className="flex-1 text-center">
-                <p className="text-[13px] text-[#888DA8]">
+              {/* Middle section - Date and Time - Responsive */}
+              <div className="flex flex-col items-start gap-1 sm:flex-1 sm:text-center">
+                <p className="text-[12px] text-[#888DA8] sm:text-[13px]">
                   {new Date(item.createdAt)
                     .toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -268,11 +238,13 @@ const Applications = () => {
                     })
                     .replace(/ /g, ", ")}
                 </p>
-                <p className="text-[13px] text-[#888DA8]">{getRelativeTime(item.deadline)}</p>
+                <p className="text-[12px] text-[#888DA8] sm:text-[13px]">
+                  {getRelativeTime(item.deadline)}
+                </p>
               </div>
 
-              {/* Applicants count */}
-              <div className="flex-1 text-right">
+              {/* Status Section - Responsive */}
+              <div className="flex items-center justify-between gap-2 sm:flex-1 sm:justify-end">
                 <div className="relative" ref={(el) => (dropdownRefs.current[item._id] = el)}>
                   <button
                     onClick={(e) => {
@@ -280,16 +252,16 @@ const Applications = () => {
                       handleStatusClick(e, item._id, item.status);
                     }}
                     disabled={isUpdatingStatus}
-                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-3 py-1 text-[13px] font-medium transition-all duration-200 hover:opacity-80 ${getStatusLabel(item.status) === "Open"
-                        ? "bg-[#DCFCE7] text-[#166534]"
-                        : getStatusLabel(item.status) === "Closed"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-yellow-100 text-yellow-700"
+                    className={`inline-flex cursor-pointer items-center rounded-[4px] px-2 py-1 text-[12px] font-medium transition-all duration-200 hover:opacity-80 sm:px-3 sm:text-[13px] ${getStatusLabel(item.status) === "Open"
+                      ? "bg-[#DCFCE7] text-[#166534]"
+                      : getStatusLabel(item.status) === "Closed"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"
                       } ${isUpdatingStatus ? "cursor-not-allowed opacity-50" : ""}`}
                   >
                     {isUpdatingStatus && item._id === openDropdownId ? (
                       <>
-                        <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                        <svg className="mr-1 h-3 w-3 animate-spin sm:mr-2 sm:h-4 sm:w-4" viewBox="0 0 24 24">
                           <circle
                             className="opacity-25"
                             cx="12"
@@ -305,13 +277,14 @@ const Applications = () => {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Updating...
+                        <span className="hidden sm:inline">Updating...</span>
+                        <span className="sm:hidden">...</span>
                       </>
                     ) : (
                       <>
                         <span>{t(`jobStatus.${getStatusLabel(item.status).toLowerCase()}`)}</span>
                         {/* Show dropdown icon only for Open status */}
-                        {item.status === 0 && <FiChevronDown className="ml-1" size={16} />}
+                        {item.status === 0 && <FiChevronDown className="ml-1" size={14} />}
                       </>
                     )}
                   </button>
@@ -356,32 +329,24 @@ const Applications = () => {
                 </div>
               </div>
 
-              {/* Rest of the item JSX */}
-              <div className="flex-1 text-center">
-                {/* <Link
-                href={`/applicationjob/${item._id}`}
-                className="text-[13px] text-[#0B5CFF] underline hover:underline"
-              >
-                New {item.applicants}
-              </Link> */}
-              </div>
-
-              <div className="flex-1 text-center">
+              {/* Applicants count - Responsive */}
+              <div className="flex items-center justify-between gap-2 sm:flex-1 sm:justify-center">
                 <Link
                   href={`/applicationjob/${item._id}`}
-                  className="text-[13px] text-[#0B5CFF] underline hover:underline"
+                  className="text-[12px] text-[#0B5CFF] underline hover:underline sm:text-[13px]"
                 >
                   {t("applicant")} {item.applicants}
                 </Link>
               </div>
 
-              <div className="ml-6">
+              {/* More Options - Responsive */}
+              <div className="flex justify-end sm:ml-2">
                 <div className="relative" ref={(el) => (moreOptionsRefs.current[item._id] = el)}>
                   <button
                     onClick={(e) => handleMoreOptionsClick(e, item._id)}
                     className="p-1 text-gray-500 transition-colors hover:text-black"
                   >
-                    <FiMoreVertical size={25} className="rounded-md bg-[#F2F2F2] p-1 text-[#000]" />
+                    <FiMoreVertical size={20} className="rounded-md bg-[#F2F2F2] p-1 text-[#000] sm:size-[25px]" />
                   </button>
 
                   {/* More Options Dropdown */}
@@ -404,11 +369,11 @@ const Applications = () => {
             </div>
           ))
         ) : (
-          <div className="flex h-[400px] w-full items-center justify-center">
-            <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex h-[300px] w-full items-center justify-center sm:h-[400px]">
+            <div className="flex flex-col items-center justify-center text-center px-4">
               {/* No data illustration */}
               <svg
-                className="mb-4 h-16 w-16 text-gray-400"
+                className="mb-4 h-12 w-12 text-gray-400 sm:h-16 sm:w-16"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
@@ -428,10 +393,10 @@ const Applications = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <h3 className="mb-2 text-lg font-semibold text-gray-700">
+              <h3 className="mb-2 text-base font-semibold text-gray-700 sm:text-lg">
                 {searchQuery ? t("noJobs.titleWhenSearch") : t("noJobs.titleNoData")}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-xs text-gray-500 sm:text-sm">
                 {searchQuery
                   ? t("noJobs.descWhenSearch", { query: searchQuery })
                   : t("noJobs.descNoData")}
@@ -441,12 +406,13 @@ const Applications = () => {
         )}
       </div>
 
+      {/* Load More Button - Responsive */}
       {jobListings.length > 0 && pagination?.totalPages > page && (
         <div className="mt-4 flex w-full justify-center">
           <button
             onClick={handleLoadMore}
             disabled={isFetchingJobs}
-            className="rounded-md bg-[#0B5CFF] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-md bg-[#0B5CFF] px-4 py-2 text-sm text-white transition-colors hover:bg-[#0B5CFF]/90 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
           >
             {isFetchingJobs ? t("loading") : t("loadMore")}
           </button>
