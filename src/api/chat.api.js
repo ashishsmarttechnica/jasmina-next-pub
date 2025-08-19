@@ -11,14 +11,14 @@ export const generateChatRoom = async ({ userId, profileId }) => {
 
 export const getConversations = async (userId) => {
   try {
-    const response = await axios.get(`/get/conversations/?userId=${userId}`);
+    const response = await axios.get(`/get/conversations/?userId=${userId}&limit=1000000`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getMessages = async (roomId, limit = 200, page = 1) => {
+export const getMessages = async (roomId, limit = 1000000, page = 1) => {
   try {
     const response = await axios.get(`/messages?limit=${limit}&page=${page}&roomId=${roomId}`);
     return response.data;

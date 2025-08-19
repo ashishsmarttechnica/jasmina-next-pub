@@ -1,13 +1,16 @@
+"use client";
 import InputField from "@/common/InputField";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const SalaryRangeInput = ({ onSalaryChange, initialValue = "" }) => {
   const [salaryRange, setSalaryRange] = useState(initialValue);
   const [formatType, setFormatType] = useState("range");
+  const t = useTranslations("CreateJobForm");
 
   const formats = [
-    { id: "range", label: "Range" },
-    { id: "lpa", label: "LPA Format" },
+    { id: "range", label: t("salaryStep.formatTabs.range") },
+    { id: "lpa", label: t("salaryStep.formatTabs.lpa") },
   ];
 
   const handleSalaryChange = (value) => {
@@ -16,7 +19,9 @@ const SalaryRangeInput = ({ onSalaryChange, initialValue = "" }) => {
   };
 
   const getPlaceholder = () => {
-    return formatType === "range" ? "e.g., 5000 - 8000 INR" : "e.g., 5-7 LPA";
+    return formatType === "range"
+      ? t("salaryStep.placeholder.range")
+      : t("salaryStep.placeholder.lpa");
   };
 
   const handleFormatChange = (format) => {
@@ -28,17 +33,16 @@ const SalaryRangeInput = ({ onSalaryChange, initialValue = "" }) => {
   return (
     <div className="mb-3">
       <div className="mb-2 flex items-center justify-between">
-        <label className="text-grayBlueText text-[15px] font-medium">Salary Range</label>
+        <label className="text-grayBlueText text-[15px] font-medium">{t("salaryStep.salaryRangeLabel")}</label>
 
         <div className="flex items-center gap-3 text-sm">
           {formats.map((format) => (
             <div
               key={format.id}
-              className={`cursor-pointer rounded-md px-3 py-1 transition-all ${
-                formatType === format.id
+              className={`cursor-pointer rounded-md px-3 py-1 transition-all ${formatType === format.id
                   ? "bg-primary/10 text-primary font-medium"
                   : "hover:bg-gray-100"
-              }`}
+                }`}
               onClick={() => handleFormatChange(format.id)}
             >
               {format.label}
@@ -55,12 +59,10 @@ const SalaryRangeInput = ({ onSalaryChange, initialValue = "" }) => {
       />
 
       {formatType === "range" && (
-        <p className="mt-1 text-xs text-gray-500">
-          Format: Amount - Amount Currency (e.g., 5000 - 8000 INR)
-        </p>
+        <p className="mt-1 text-xs text-gray-500">{t("salaryStep.help.range")}</p>
       )}
       {formatType === "lpa" && (
-        <p className="mt-1 text-xs text-gray-500">Format: Number-Number LPA (e.g., 5-7 LPA)</p>
+        <p className="mt-1 text-xs text-gray-500">{t("salaryStep.help.lpa")}</p>
       )}
     </div>
   );

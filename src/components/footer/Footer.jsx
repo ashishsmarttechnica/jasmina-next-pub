@@ -2,7 +2,7 @@
 
 import { getPages } from "@/api/pages.api";
 import footerLogo from "@/assets/footer/footerLogo.png";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import Image from "next/image";
 const Footer = () => {
   const t = useTranslations("footer");
   const router = useRouter();
+  const pathname = usePathname();
   const { data: pagesResponse, isLoading: isLoadingPages } = useQuery({
     queryKey: ["pages", "footer"],
     queryFn: () => getPages(),
@@ -84,7 +85,15 @@ const Footer = () => {
                       <li className="pb-1.5" key={val?._id ?? val?.path}>
                         <Link
                           href={`/pagedetail/${val?.path}`}
-                          className="cursor-pointer hover:text-primary transition-colors duration-200"
+                          aria-current={
+                            pathname?.includes(`/pagedetail/${val?.path}`)
+                              ? "page"
+                              : undefined
+                          }
+                          className={`cursor-pointer transition-colors duration-200 hover:text-primary ${pathname?.includes(`/pagedetail/${val?.path}`)
+                            ? "text-primary font-medium"
+                            : "text-inherit"
+                            }`}
                         >
                           {val?.page_title || val?.information_name || val?.path}
                         </Link>

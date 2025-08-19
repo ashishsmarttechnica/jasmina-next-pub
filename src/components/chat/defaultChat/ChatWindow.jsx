@@ -40,6 +40,34 @@ export default function ChatWindow({ chat, onBack }) {
   // Get current user avatar from cookies (ensure this is set at login)
   const currentUserAvatar = Cookies.get("userAvatar");
 
+  useEffect(() => {
+    useChatDndStore.getState().setSwitchOn(false);
+  }, []);
+
+  // Watch for DND state changes and broadcast them to backend
+  useEffect(() => {
+    if (isDndSwitchOn !== undefined) {
+      console.log("[ChatWindow] DND state changed, broadcasting to backend", isDndSwitchOn);
+
+      // Emit DND state change to backend
+      const socket = getChatSocket(currentUserId);
+      if (socket && socket.connected) {
+        try {
+          socket.emit("dnd_state_change", {
+            userId: currentUserId,
+            companyId: chat?.companyName ? chat?.conversationId : currentUserId,
+            dndEnabled: isDndSwitchOn,
+            conversationId: chat?.conversationId,
+            roomId: chat?.roomId
+          });
+          console.log("[ChatWindow] DND state change emitted to backend");
+        } catch (e) {
+          console.error("[ChatWindow] error emitting DND state change to backend", e);
+        }
+      }
+    }
+  }, [isDndSwitchOn, currentUserId, chat?.companyName, chat?.conversationId, chat?.roomId]);
+
   // Debug: initial props/state
   console.log("[ChatWindow] init", {
     chat,
@@ -135,6 +163,8 @@ export default function ChatWindow({ chat, onBack }) {
     if (!currentUserId || !chat?.roomId) return;
 
     const socket = getChatSocket(currentUserId);
+    let dndSyncInterval = null;
+
     try {
       console.log("[ChatWindow] socket: connecting", { currentUserId, roomId: chat.roomId });
       socket.connect();
@@ -181,16 +211,112 @@ export default function ChatWindow({ chat, onBack }) {
       ]);
     };
 
+    // Handle DND updates from socket for this specific chat
+    const onDndUpdate = (data = {}) => {
+      console.log("[ChatWindow] socket: dnd_update received", data);
+
+      // Check if this DND update is for the current chat
+      const { companyId, dndEnabled } = data;
+
+      // If this is a company chat and the companyId matches, update DND state
+      if (chat?.companyName && companyId === chat?.conversationId) {
+        console.log("[ChatWindow] updating DND state for company chat", { companyId, dndEnabled });
+        useChatDndStore.getState().setSwitchOn(dndEnabled);
+      }
+      // If this is a user chat, we might need to check if the user is the one who updated DND
+      // For now, we'll update if the current user is involved in the conversation
+      else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
+        console.log("[ChatWindow] updating DND state for user chat", { companyId, dndEnabled });
+        useChatDndStore.getState().setSwitchOn(dndEnabled);
+      }
+    };
+
+    // Handle DND updates from backend (when other user changes DND state)
+    const onBackendDndUpdate = (data = {}) => {
+      console.log("[ChatWindow] backend dnd_update received", data);
+
+      const { companyId, dndEnabled } = data;
+
+      // Update DND state based on the companyId or userId
+      if (companyId) {
+        // Check if this DND update affects the current chat
+        if (chat?.companyName && companyId === chat?.conversationId) {
+          console.log("[ChatWindow] updating DND state from backend for company chat", { companyId, dndEnabled });
+          useChatDndStore.getState().setSwitchOn(dndEnabled);
+        } else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
+          console.log("[ChatWindow] updating DND state from backend for user chat", { companyId, dndEnabled });
+          useChatDndStore.getState().setSwitchOn(dndEnabled);
+        }
+      }
+    };
+
+    // Handle DND state change acknowledgment from backend
+    const onDndStateChangeAck = (data = {}) => {
+      console.log("[ChatWindow] DND state change acknowledged by backend", data);
+
+      // Backend has confirmed the DND state change
+      if (data.success) {
+        console.log("[ChatWindow] DND state change confirmed by backend");
+      } else {
+        console.error("[ChatWindow] DND state change failed on backend", data.error);
+      }
+    };
+
+    // Request current DND state from backend when connecting
+    const requestDndState = () => {
+      try {
+        console.log("[ChatWindow] requesting current DND state from backend");
+        socket.emit("request_dnd_state", {
+          userId: currentUserId,
+          companyId: chat?.companyName ? chat?.conversationId : currentUserId,
+          conversationId: chat?.conversationId,
+          roomId: chat?.roomId
+        });
+      } catch (e) {
+        console.error("[ChatWindow] error requesting DND state from backend", e);
+      }
+    };
+
+    // Handle DND state response from backend
+    const onDndStateResponse = (data = {}) => {
+      console.log("[ChatWindow] DND state response received from backend", data);
+
+      if (data.dndEnabled !== undefined) {
+        console.log("[ChatWindow] updating DND state from backend response", data.dndEnabled);
+        useChatDndStore.getState().setSwitchOn(data.dndEnabled);
+      }
+    };
+
+    // Periodic DND state sync with backend
+    const startDndSync = () => {
+      dndSyncInterval = setInterval(() => {
+        if (socket.connected) {
+          console.log("[ChatWindow] periodic DND state sync with backend");
+          requestDndState();
+        }
+      }, 30000); // Sync every 30 seconds
+    };
+
     socket.on("connect", onConnect);
     // Listen to backend-aligned event
     socket.on("receive_message", onMessage);
     // Backward compatibility if server emits generic 'message'
     socket.on("message", onMessage);
+    // Listen for DND updates
+    socket.on("dnd_update", onDndUpdate);
+    // Listen for DND updates from backend
+    socket.on("dnd_update", onBackendDndUpdate);
+    // Listen for DND state change acknowledgment
+    socket.on("dnd_state_change_ack", onDndStateChangeAck);
+    // Listen for DND state response from backend
+    socket.on("dnd_state_response", onDndStateResponse);
 
     // If already connected (e.g., existing instance), join immediately
     if (socket.connected) {
       console.log("[ChatWindow] socket already connected, joining room now", chat.roomId);
       onConnect();
+      requestDndState(); // Request DND state when socket connects
+      startDndSync(); // Start periodic sync
     }
 
     return () => {
@@ -203,6 +329,16 @@ export default function ChatWindow({ chat, onBack }) {
       socket.off("connect", onConnect);
       socket.off("receive_message", onMessage);
       socket.off("message", onMessage);
+      socket.off("dnd_update", onDndUpdate);
+      socket.off("dnd_update", onBackendDndUpdate);
+      socket.off("dnd_state_change_ack", onDndStateChangeAck);
+      socket.off("dnd_state_response", onDndStateResponse);
+
+      // Clear DND sync interval
+      if (dndSyncInterval) {
+        clearInterval(dndSyncInterval);
+      }
+
       try {
         console.log("[ChatWindow] socket: disconnecting");
         socket.disconnect();
@@ -291,7 +427,7 @@ export default function ChatWindow({ chat, onBack }) {
       // Emit real-time event (ensure socket is connected)
       try {
         const socket = getChatSocket(currentUserId);
-        console.log(socket, "socketsocketsocketsocketsocketsocketsocket");
+        console.log(socket, "socketsocketsocketsocketsocketsocketsocketsocketsocket");
 
         const payload = {
           roomId: chat.roomId,

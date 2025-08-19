@@ -10,6 +10,7 @@ import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
 import useNetworkInvitesStore from "@/store/networkInvites.store";
 import { NameWithTooltip, SubtitleWithTooltip } from "@/utils/tooltipUtils";
+import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -21,6 +22,7 @@ import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 const isNameLong = (name, maxLength = 15) => name && name.length > maxLength;
 
 const UserNetworkInvites = ({ title }) => {
+  const t = useTranslations("UserMainFeed");
   const { data: networkInvitesData } = useNetworkInvitesStore();
   const { data, isLoading, isError, error, refetch } = useNetworkInvites();
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
@@ -109,7 +111,7 @@ const UserNetworkInvites = ({ title }) => {
       <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={title} />
         <div className="w-full px-2 py-4">
-          <p className="text-center text-gray-500">No Network Invites available at the moment</p>
+          <p className="text-center text-gray-500">{t("noNetworkInvites")}</p>
         </div>
       </Card>
     );
@@ -119,9 +121,8 @@ const UserNetworkInvites = ({ title }) => {
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
       <div
-        className={`flex w-full flex-col gap-4 px-2 py-4 ${
-          displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
-        }`}
+        className={`flex w-full flex-col gap-4 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+          }`}
       >
         {displayData.map((item) => {
           const config = getItemConfig(item);

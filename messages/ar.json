@@ -785,14 +785,16 @@
     "jobs": "وظائف",
     "connections": "الاتصالات",
     "logout": "تسجيل الخروج",
-    "logoutSuccess": "تسجيل الخروج ناجح!"
+    "logoutSuccess": "تسجيل الخروج ناجح!",
+    "viewProfile": "عرض الملف الشخصي"
   },
   "CompanyHeader": {
     "logout": "تسجيل الخروج",
     "connections": "الاتصالات",
     "home": "بيت",
     "jobs": "وظائف",
-    "logoutSuccess": "تسجيل الخروج ناجح!"
+    "logoutSuccess": "تسجيل الخروج ناجح!",
+    "viewProfile": "عرض الملف الشخصي"
   },
   "UserProfileLeft": {
     "connections": "الاتصالات",
@@ -804,7 +806,8 @@
     "networkInvites": "تدعو الشبكة",
     "mightKnow": "الناس الذين قد تعرفهم",
     "companyConnections": "اتصالات الشركة",
-    "userConnections": "اتصالات المستخدم"
+    "userConnections": "اتصالات المستخدم",
+    "noNetworkInvites": "لا توجد شبكة تدعو المتاحة في الوقت الحالي"
   },
   "FeedPost": {
     "post": "بريد",
@@ -877,7 +880,11 @@
     "cityRequired": "المدينة مطلوبة",
     "enterOtherValue": "أدخل قيمة أخرى",
     "other": "آخر",
-    "viewMore": "عرض المزيد"
+    "viewMore": "عرض المزيد",
+    "selectOption": "اختر خيارًا",
+    "clearAll": "مسح الكل",
+    "customValue": "قيمة مخصصة",
+    "ok": "حسناً"
   },
   "Validation": {
     "personal": {
@@ -997,7 +1004,8 @@
     "saved": "محفوظ",
     "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
     "Applytocompany": "تقدم بطلب إلى موقع الشركة",
-    "ApplyOncompany": "تقدم بطلب على موقع الشركة"
+    "ApplyOncompany": "تقدم بطلب على موقع الشركة",
+    "shareSuccess": "تمت المشاركة بنجاح"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",
@@ -1045,7 +1053,7 @@
       "remove": "يزيل",
       "you": "أنت",
       "dndOnTitle": "قامت الشركة بتفعيل وضع عدم الإزعاج",
-      "dndOnSubtitle": "الرسائل معطلة مؤقتًا"
+      "dndOnSubtitle": "تم تعطيل المراسلة كما تم تمكينك لا تزعج."
     }
   },
   "Applications": {
@@ -1273,6 +1281,19 @@
       "numOfOpenPositionsPlaceholder": "أدخل العدد",
       "jobTags": "وسوم/كلمات مفتاحية للوظيفة",
       "jobTagsPlaceholder": "أدخل الوسوم أو الكلمات المفتاحية",
+      "salaryRangeLabel": "نطاق الراتب",
+      "formatTabs": {
+        "range": "نطاق",
+        "lpa": "تنسيق LPA"
+      },
+      "placeholder": {
+        "range": "مثال: 5000 - 8000 INR",
+        "lpa": "مثال: 5-7 LPA"
+      },
+      "help": {
+        "range": "الصيغة: المبلغ - العملة (مثال: 5000 - 8000 INR)",
+        "lpa": "الصيغة: رقم-رقم LPA (مثال: 5-7 LPA)"
+      },
       "workModeRequired": "نمط العمل مطلوب",
       "contactNumberRequired": "رقم التواصل مطلوب",
       "contactNumberInvalid": "يرجى إدخال رقم هاتف صحيح (10-15 رقمًا)",

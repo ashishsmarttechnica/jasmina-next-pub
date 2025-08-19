@@ -37,7 +37,7 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   return (
     <Modal
       open={isOpen}
-      // onClose={isCompanyVerificationMessage ? undefined : handleClose}
+      onClose={isCompanyVerificationMessage ? undefined : handleClose}
       size="sm"
       className="mx-auto w-full max-w-lg rounded-2xl !p-0"
       backdrop={isCompanyVerificationMessage ? "static" : true}

@@ -20,6 +20,7 @@ const MainSingleCompany = () => {
 
   // Check if user came from network invites
   const fromNetworkInvites = searchParams?.get("fromNetworkInvites") === "true";
+  const fromConnections = searchParams?.get("fromConnections") === "true";
 
   const { data: userData, isLoading, error } = useSingleCompany(userId);
   if (error) {
@@ -33,7 +34,7 @@ const MainSingleCompany = () => {
   // Conditionally include MainCompanyProfile based on query parameter
   const rightComponents = [];
 
-  if (!fromNetworkInvites) {
+  if (!fromNetworkInvites && !fromConnections) {
     rightComponents.push(
       <MainCompanyProfile
         key="right2"

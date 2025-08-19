@@ -1,8 +1,43 @@
 "use client";
+import { getPages } from "@/api/pages.api";
+import { Link } from "@/i18n/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 const TermsCheckbox = ({ isChecked, setIsChecked, error }) => {
   const t = useTranslations("auth");
+  const { data: pagesResponse } = useQuery({
+    queryKey: ["pages", "legal-links"],
+    queryFn: () => getPages(),
+  });
+
+  const pages = Array.isArray(pagesResponse?.data) ? pagesResponse.data : [];
+  const findPageByKeywords = (keywords) =>
+    pages.find((p) =>
+      `${p?.path ?? ""} ${p?.page_title ?? ""} ${p?.information_name ?? ""}`
+        .toLowerCase()
+        .includes(keywords)
+    );
+
+  const privacyPage =
+    pages.find((p) =>
+      /privacy|policy/i.test(
+        `${p?.path ?? ""} ${p?.page_title ?? ""} ${p?.information_name ?? ""}`
+      )
+    ) || null;
+  const termsPage =
+    pages.find((p) =>
+      /terms|conditions|service/i.test(
+        `${p?.path ?? ""} ${p?.page_title ?? ""} ${p?.information_name ?? ""}`
+      )
+    ) || null;
+
+  const privacyHref = privacyPage
+    ? `/pagedetail/${privacyPage.path}`
+    : "/pagedetail/privacy-policy";
+  const termsHref = termsPage
+    ? `/pagedetail/${termsPage.path}`
+    : "/pagedetail/terms-conditions";
 
   return (
     <>
@@ -19,9 +54,13 @@ const TermsCheckbox = ({ isChecked, setIsChecked, error }) => {
           className="text-grayBlueText text-sm text-[13px] leading-[21px]"
         >
           {t("BySigning")}
-          <span className="text-lightBlue mx-1 underline">{t("TermsService")}</span>
+          <Link href={termsHref} className="text-lightBlue mx-1 underline">
+            {t("TermsService")}
+          </Link>
           {t("and")}
-          <span className="text-lightBlue mx-1 underline">{t("PrivacyPolicy")}</span>
+          <Link href={privacyHref} className="text-lightBlue mx-1 underline">
+            {t("PrivacyPolicy")}
+          </Link>
         </label>
       </div>
       {error && <div className="mt-1 text-[13px] text-red-600">{error}</div>}

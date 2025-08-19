@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 const DynamicPage = () => {
     const params = useParams();
     const slug = params?.slag;
-
+    console.log(slug, "slugslugslugslug");
     const [pageData, setPageData] = useState(null);
+    console.log(pageData, "pageDatapageDatapageData");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,7 +20,8 @@ const DynamicPage = () => {
             try {
                 setLoading(true);
                 const res = await getPageByPath(slug);
-                setPageData(res?.data || res);
+                setPageData(res?.data[0] || res);
+                console.log(res?.data, "resresresres");
             } catch (err) {
                 console.error("Error fetching page:", err);
                 setError("Failed to load page content");

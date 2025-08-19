@@ -27,14 +27,27 @@ const SearchBar = ({ placeholder = "Search..." }) => {
   const searchContainerRef = useRef(null);
   const userId = params?.id;
   const searchParams = useSearchParams();
+  const isFromConnections = searchParams?.get("fromConnections") === "true";
+  const isFromNetworkInvites = searchParams?.get("fromNetworkInvites") === "true";
   const { mutate: createConnection, isPending: isConnecting } = useCreateConnection();
   const { data: userData, error } = useSingleCompany(userId);
   const [isRemoving, setIsRemoving] = useState(false);
   console.log(searchParams?.get("fromConnections") === "true", "helllloooooooo");
 
-  const [showConnect, setShowConnect] = useState(
-    !(searchParams?.get("fromConnections") === "true")
-  );
+  const [showConnect, setShowConnect] = useState(!(isFromConnections || isFromNetworkInvites));
+
+  const buildPreservedQuery = () => {
+    const qp = new URLSearchParams();
+    // Always preserve existing context flags
+    if (isFromNetworkInvites) qp.set("fromNetworkInvites", "true");
+    if (isFromConnections) qp.set("fromConnections", "true");
+    // If no flags present, match original behavior by adding fromConnections
+    if (!isFromConnections && !isFromNetworkInvites && showConnect) {
+      qp.set("fromConnections", "true");
+    }
+    const qs = qp.toString();
+    return qs ? `?${qs}` : "";
+  };
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const { mutate: removeConnection } = useRemoveConnection();
   // Handle click outside to close suggestions
@@ -179,19 +192,11 @@ const SearchBar = ({ placeholder = "Search..." }) => {
 
     switch (type) {
       case "user":
-        router.push(
-          showConnect
-            ? `/single-user/${suggestion._id}?fromConnections=true`
-            : `/single-user/${suggestion._id}`
-        );
+        router.push(`/single-user/${suggestion._id}${buildPreservedQuery()}`);
         break;
 
       case "company":
-        router.push(
-          showConnect
-            ? `/company/single-company/${suggestion._id}`
-            : `/company/single-company/${suggestion._id}?fromConnections=true`
-        );
+        router.push(`/company/single-company/${suggestion._id}${buildPreservedQuery()}`);
         break;
 
       case "job":

@@ -750,7 +750,7 @@
     "Profile": "Profil",
     "PostaJob": "Einen Job veröffentlichen",
     "ViewApplications": "Anwendungen anzeigen",
-    "Interview": "Interviews",
+    "Interview": "Vorstellungsgespräch",
     "Settings": "Einstellungen",
     "Subscription": "Abonnement",
     "Logout": "Abmelden",
@@ -784,14 +784,16 @@
     "jobs": "Jobs",
     "connections": "Verbindungen",
     "logout": "Abmelden",
-    "logoutSuccess": "Logout erfolgreich!"
+    "logoutSuccess": "Logout erfolgreich!",
+    "viewProfile": "Profil anzeigen"
   },
   "CompanyHeader": {
     "logout": "Abmelden",
     "connections": "Verbindungen",
     "home": "Heim",
     "jobs": "Jobs",
-    "logoutSuccess": "Logout erfolgreich!"
+    "logoutSuccess": "Logout erfolgreich!",
+    "viewProfile": "Profil anzeigen"
   },
   "UserProfileLeft": {
     "connections": "Verbindungen",
@@ -802,6 +804,7 @@
     "connections": "Verbindungen",
     "networkInvites": "Netzwerk lädt ein",
     "mightKnow": "Leute, die Sie vielleicht kennen",
+    "noNetworkInvites": "Im Moment lädt derzeit kein Netzwerk ein",
     "companyConnections": "Unternehmensverbindungen",
     "userConnections": "Benutzerverbindungen"
   },
@@ -876,7 +879,11 @@
     "cityRequired": "Stadt ist erforderlich",
     "enterOtherValue": "Einen anderen Wert eingeben",
     "other": "andere",
-    "viewMore": "Mehr anzeigen"
+    "viewMore": "Mehr anzeigen",
+    "selectOption": "Option auswählen",
+    "clearAll": "Alle löschen",
+    "customValue": "Benutzerdefinierter Wert",
+    "ok": "OK"
   },
   "Validation": {
     "personal": {
@@ -996,7 +1003,8 @@
     "saved": "Gespeichert",
     "ApplyLinkexternal": "Link anwenden (externe URL)",
     "Applytocompany": "Bewerben Sie sich bei der Unternehmenswebsite",
-    "ApplyOncompany": "Bewerben Sie sich auf der Website der Firma"
+    "ApplyOncompany": "Bewerben Sie sich auf der Website der Firma",
+    "shareSuccess": "Beitrag erfolgreich geteilt"
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",
@@ -1044,7 +1052,7 @@
       "remove": "Entfernen",
       "you": "Du",
       "dndOnTitle": "Unternehmen hat den DND-Modus aktiviert",
-      "dndOnSubtitle": "Nachrichten sind vorübergehend deaktiviert"
+      "dndOnSubtitle": "Messaging ist deaktiviert, da Sie aktiviert haben, was nicht stört."
     }
   },
   "Applications": {
@@ -1272,6 +1280,19 @@
       "numOfOpenPositionsPlaceholder": "Anzahl eingeben",
       "jobTags": "Job-Tags/Schlüsselwörter",
       "jobTagsPlaceholder": "Job-Tags oder Schlüsselwörter eingeben",
+      "salaryRangeLabel": "Gehaltsspanne",
+      "formatTabs": {
+        "range": "Spanne",
+        "lpa": "LPA-Format"
+      },
+      "placeholder": {
+        "range": "z. B. 5000 - 8000 INR",
+        "lpa": "z. B. 5–7 LPA"
+      },
+      "help": {
+        "range": "Format: Betrag - Betrag Währung (z. B. 5000 - 8000 INR)",
+        "lpa": "Format: Zahl-Zahl LPA (z. B. 5–7 LPA)"
+      },
       "workModeRequired": "Arbeitsmodus ist erforderlich",
       "contactNumberRequired": "Kontaktnummer ist erforderlich",
       "contactNumberInvalid": "Bitte eine gültige Telefonnummer eingeben (10–15 Ziffern)",

@@ -89,7 +89,8 @@
     "jobs": "Jobs",
     "connections": "Connections",
     "logout": "Logout",
-    "logoutSuccess": "Logout successful!"
+    "logoutSuccess": "Logout successful!",
+    "viewProfile": "View Profile"
   },
   "FeedProfileLeft": {
     "connections": "Connections",
@@ -100,6 +101,7 @@
     "connections": "Connections",
     "networkInvites": "Network Invites",
     "mightKnow": "People you might know",
+    "noNetworkInvites": "No Network Invites available at the moment",
     "userConnections": "User Connections",
     "companyConnections": "Company Connections"
   },
@@ -117,7 +119,8 @@
     "jobs": "Jobs",
     "connections": "Connections",
     "logout": "Logout",
-    "logoutSuccess": "Logout successful!"
+    "logoutSuccess": "Logout successful!",
+    "viewProfile": "View Profile"
   },
   "CompanyMainFeed": {
     "connections": "Connections",
@@ -867,7 +870,11 @@
     "cityRequired": "City is required",
     "enterOtherValue": "Enter Other Value",
     "other": "other",
-    "viewMore": "View More"
+    "viewMore": "View More",
+    "selectOption": "Select an option",
+    "clearAll": "Clear All",
+    "customValue": "Custom Value",
+    "ok": "OK"
   },
   "Validation": {
     "personal": {
@@ -1036,7 +1043,8 @@
     "ApplyLink": "Apply Link",
     "ApplyLinkexternal": "Apply Link (External URL)",
     "Applytocompany": "Apply To Company Website",
-    "ApplyOncompany": "\t\tApply On Company Website"
+    "ApplyOncompany": "Apply On Company Website",
+    "shareSuccess": "Job shared successfully"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",
@@ -1084,7 +1092,7 @@
       "remove": "Remove",
       "you": "You",
       "dndOnTitle": "Company has DND mode enabled",
-      "dndOnSubtitle": "Messages are temporarily disabled"
+      "dndOnSubtitle": "Messaging is disabled as you have enabled Do Not Disturb."
     }
   },
   "Applications": {
@@ -1312,6 +1320,19 @@
       "numOfOpenPositionsPlaceholder": "Enter number of applicants",
       "jobTags": "Job Tags/Keywords",
       "jobTagsPlaceholder": "Enter job tags or keywords",
+      "salaryRangeLabel": "Salary Range",
+      "formatTabs": {
+        "range": "Range",
+        "lpa": "LPA Format"
+      },
+      "placeholder": {
+        "range": "e.g., 5000 - 8000 INR",
+        "lpa": "e.g., 5-7 LPA"
+      },
+      "help": {
+        "range": "Format: Amount - Amount Currency (e.g., 5000 - 8000 INR)",
+        "lpa": "Format: Number-Number LPA (e.g., 5-7 LPA)"
+      },
       "workModeRequired": "Work mode is required",
       "contactNumberRequired": "Contact number is required",
       "contactNumberInvalid": "Please enter a valid phone number (10-15 digits)",

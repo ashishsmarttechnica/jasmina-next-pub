@@ -749,7 +749,7 @@
     "Profile": "Profil",
     "PostaJob": "Poster un emploi",
     "ViewApplications": "Afficher les applications",
-    "Interview": "Interviews",
+    "Interview": "entretiens d’embauche",
     "Settings": "Paramètres",
     "Subscription": "Abonnement",
     "Logout": "Déconnexion",
@@ -783,14 +783,16 @@
     "jobs": "Emplois",
     "connections": "Relations",
     "logout": "Déconnexion",
-    "logoutSuccess": "Déconnexion réussie!"
+    "logoutSuccess": "Déconnexion réussie!",
+    "viewProfile": "Afficher le profil"
   },
   "CompanyHeader": {
     "logout": "Déconnexion",
     "connections": "Relations",
     "home": "Maison",
     "jobs": "Emplois",
-    "logoutSuccess": "Déconnexion réussie!"
+    "logoutSuccess": "Déconnexion réussie!",
+    "viewProfile": "Afficher le profil"
   },
   "UserProfileLeft": {
     "connections": "Relations",
@@ -802,7 +804,8 @@
     "networkInvites": "Invitations au réseau",
     "mightKnow": "Les gens que vous pourriez connaître",
     "companyConnections": "Connexions de l'entreprise",
-    "userConnections": "Connexions utilisateur"
+    "userConnections": "Connexions utilisateur",
+    "noNetworkInvites": "Aucune invitation au réseau disponible pour le moment"
   },
   "FeedPost": {
     "post": "Poste",
@@ -875,7 +878,11 @@
     "cityRequired": "La ville est requise",
     "enterOtherValue": "Entrez une autre valeur",
     "other": "autre",
-    "viewMore": "Voir plus"
+    "viewMore": "Voir plus",
+    "selectOption": "Sélectionner une option",
+    "clearAll": "Tout effacer",
+    "customValue": "Valeur personnalisée",
+    "ok": "OK"
   },
   "Validation": {
     "personal": {
@@ -995,7 +1002,8 @@
     "saved": "Enregistré",
     "ApplyLinkexternal": "Appliquer le lien (URL externe)",
     "Applytocompany": "Postuler sur le site Web de l'entreprise",
-    "ApplyOncompany": "Postuler sur le site Web de l'entreprise"
+    "ApplyOncompany": "Postuler sur le site Web de l'entreprise",
+    "shareSuccess": "Offre partagée avec succès"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",
@@ -1016,7 +1024,7 @@
   "Messaging": "Messagerie",
   "Chat": {
     "title": "Messagerie",
-    "dndLabel": "Ne pas déranger",
+    "dndLabel": "DND",
     "dndUpdateFailed": "Échec de la mise à jour du mode Ne pas déranger",
     "dndEnabled": "Mode Ne pas déranger activé avec succès",
     "dndDisabled": "Mode Ne pas déranger désactivé avec succès",
@@ -1043,7 +1051,7 @@
       "remove": "Retirer",
       "you": "Vous",
       "dndOnTitle": "L'entreprise a activé le mode Ne pas déranger",
-      "dndOnSubtitle": "Les messages sont temporairement désactivés"
+      "dndOnSubtitle": "La messagerie est désactivée car vous avez permis de ne pas déranger."
     }
   },
   "Applications": {
@@ -1270,6 +1278,19 @@
       "numOfOpenPositionsPlaceholder": "Saisir le nombre",
       "jobTags": "Mots-clés/Tags du poste",
       "jobTagsPlaceholder": "Saisir des mots-clés du poste",
+      "salaryRangeLabel": "Fourchette de salaire",
+      "formatTabs": {
+        "range": "Plage",
+        "lpa": "Format LPA"
+      },
+      "placeholder": {
+        "range": "ex. 5000 - 8000 INR",
+        "lpa": "ex. 5-7 LPA"
+      },
+      "help": {
+        "range": "Format : Montant - Montant Devise (ex. 5000 - 8000 INR)",
+        "lpa": "Format : Nombre-Nombre LPA (ex. 5-7 LPA)"
+      },
       "workModeRequired": "Le mode de travail est requis",
       "contactNumberRequired": "Le numéro de contact est requis",
       "contactNumberInvalid": "Veuillez saisir un numéro de téléphone valide (10 à 15 chiffres)",

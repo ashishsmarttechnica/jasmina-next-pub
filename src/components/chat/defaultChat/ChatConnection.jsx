@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Toggle } from "rsuite";
 import CommonTitle from "../../../common/CommonTitle";
 import useAuthStore from "../../../store/auth.store";
+import { getChatSocket } from "../../../utils/socket";
 import ChatSidebar from "./ChatSidebar";
 import ChatWindow from "./ChatWindow";
 import DefaultChatView from "./DefaultChatView";
@@ -136,6 +137,35 @@ const ChatConnection = () => {
     setActiveChat(null);
   };
 
+  // Function to emit DND update to all connected users via socket
+  const emitDndUpdateToUsers = async (companyId, dndEnabled) => {
+    try {
+      const socket = getChatSocket(userId);
+      if (socket && socket.connected) {
+        // Emit dnd_update event to notify all connected users about DND state change
+        socket.emit("dnd_update", {
+          companyId: companyId,
+          dndEnabled: dndEnabled,
+          timestamp: new Date().toISOString()
+        });
+        console.log("[ChatConnection] DND update emitted via socket:", { companyId, dndEnabled });
+      } else if (socket) {
+        // If socket not connected, connect first then emit
+        socket.once("connect", () => {
+          socket.emit("dnd_update", {
+            companyId: companyId,
+            dndEnabled: dndEnabled,
+            timestamp: new Date().toISOString()
+          });
+          console.log("[ChatConnection] DND update emitted after socket connect:", { companyId, dndEnabled });
+        });
+        socket.connect();
+      }
+    } catch (error) {
+      console.error("[ChatConnection] Error emitting DND update via socket:", error);
+    }
+  };
+
   return (
     <div>
       <div className="flex w-full flex-col gap-4 xl:flex-row">
@@ -162,6 +192,10 @@ const ChatConnection = () => {
                               toast.error(t("dndUpdateFailed"));
                             } else {
                               toast.success(checked ? t("dndEnabled") : t("dndDisabled"));
+
+                              // Emit DND update to all connected users via socket
+                              await emitDndUpdateToUsers(user?._id, checked);
+
                               // Re-fetch company DND status to ensure UI reflects persisted value after refresh
                               if (userId && !isLoggedInUser) {
                                 await checkCompanyDnd(userId);

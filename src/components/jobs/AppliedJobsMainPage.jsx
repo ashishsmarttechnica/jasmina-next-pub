@@ -39,6 +39,7 @@ const AppliedJobsMainPage = () => {
   // Access getAppliedJobs directly for page changes
   const getAppliedJobs = useAppliedJobStore((state) => state.getAppliedJobs);
   const t = useTranslations("Jobs");
+  const ta = useTranslations("Applications");
   // Handle page change
   const handlePageChange = async (page) => {
     setCurrentPage(page);
@@ -54,9 +55,9 @@ const AppliedJobsMainPage = () => {
     return {
       _id: job._id || appliedJob._id,
       title: job.jobTitle || "-",
-      experience: job.experience ? `${job.experience} years` : "-",
+      experience: job.experience ? `${job.experience} ${t("years")}` : "-",
       location: job.jobLocation || "-",
-      tag: job.genderPrefereance === "nonlgbtq" ? "" : "LGBTQ Friendly",
+      tag: job.genderPrefereance === "nonlgbtq" ? "" : t("lgbtqFriendly"),
       skills: job.requiredSkills || [],
       company: job?.companyId?.companyName || "-", // Need to add company name if available
       url: job.careerWebsite || "",
@@ -134,37 +135,37 @@ const AppliedJobsMainPage = () => {
                         <div className="block gap-2">
                           {job?.Appliedstatus === "0" && (
                             <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-                              New
+                              {ta("statusLabels.new")}
                             </span>
                           )}
                           {job?.Appliedstatus === "1" && (
                             <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-                              New
+                              {ta("statusLabels.new")}
                             </span>
                           )}
                           {job?.Appliedstatus === "2" && (
                             <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
-                              Interviewing
+                              {ta("statusLabels.interviewing")}
                             </span>
                           )}
                           {job?.Appliedstatus === "3" && (
                             <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
-                              Approved
+                              {ta("statusLabels.approved")}
                             </span>
                           )}
                           {job?.Appliedstatus === "4" && (
                             <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
-                              Rejected
+                              {ta("statusLabels.rejected")}
                             </span>
                           )}
                           {job?.Appliedstatus === "5" && (
                             <span className="inline-block rounded bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
-                              Hired
+                              {ta("statusLabels.hired")}
                             </span>
                           )}
                           {job?.Appliedstatus === "6" && (
                             <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
-                              Reviewed
+                              {ta("statusLabels.reviewed")}
                             </span>
                           )}
                         </div>
@@ -196,7 +197,7 @@ const AppliedJobsMainPage = () => {
                       )}
                       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                        <p>Posted {getRelativeTime(job.posted)}</p>
+                        <p>{t("Posted")} {getRelativeTime(job.posted)}</p>
                       </div>
                       {/* <div>{job?.createdAt}</div> */}
 
@@ -212,7 +213,7 @@ const AppliedJobsMainPage = () => {
 
                         <div className="flex w-full flex-col">
                           <div className="text-sm text-gray-500">
-                            {job?.company || "Unknown Company"}
+                            {job?.company || t("unknownCompany")}
                           </div>
                           {/* {job.socialLinks && ( */}
                           <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">

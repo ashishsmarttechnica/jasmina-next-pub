@@ -301,7 +301,7 @@ button {
 }
 
 .customList h1 {
-  font-size: 40px !important;
+  font-size: 30px !important;
   padding: 10px 0 !important;
   font-weight: bold;
   text-align: center;
@@ -309,7 +309,7 @@ button {
 }
 
 .customList h2 {
-  font-size: 25px !important;
+  font-size: 20px !important;
   color: #7c81eb;
   font-weight: 600;
   /* margin-bottom: 5px;
@@ -317,7 +317,7 @@ button {
 }
 
 .customList h3 {
-  font-size: 20px !important;
+  font-size: 18px !important;
   /* color:#7c81eb; */
   font-weight: 600;
   /* margin-bottom: 5px;
@@ -326,7 +326,7 @@ button {
 
 .customList p {
   margin-left: 10px;
-  font-size: 17px !important;
+  font-size: 16px !important;
   margin-top: 0;
   margin-bottom: 0;
   /* color: #6b7280 !important; */
@@ -464,7 +464,7 @@ button {
 
 .customList h1 {
   color: #1f2937;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   border-bottom: 3px solid #3b82f6;

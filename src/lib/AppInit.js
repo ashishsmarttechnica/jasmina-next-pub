@@ -1,4 +1,5 @@
 "use client";
+import useDndSocket from "@/hooks/chat/useDndSocket";
 import { useRouter } from "@/i18n/navigation";
 import axiosInstance from "@/lib/axios";
 import useAuthStore from "@/store/auth.store";
@@ -11,6 +12,9 @@ const AppInit = () => {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
   const setAuthLoading = useAuthStore((state) => state.setAuthLoading);
+
+  // Initialize global DND socket listener
+  useDndSocket();
 
   useEffect(() => {
     // Initialize Firebase (app is already imported)
