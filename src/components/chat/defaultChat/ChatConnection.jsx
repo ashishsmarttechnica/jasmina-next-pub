@@ -79,6 +79,7 @@ const dummyChats = {
 
 const ChatConnection = () => {
   const [activeChat, setActiveChat] = useState(null);
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
   const t = useTranslations("Chat");
   const { switchOn: dndSwitchOn, checkDnd, checkCompanyDnd, updateDndMode, loading, initializeDnd } = useChatDndStore();
   console.log(dndSwitchOn, "dcdklfsh;;;;;;f;;;;;;;;;;;;;;;");
@@ -136,6 +137,9 @@ const ChatConnection = () => {
   const handleBackToSidebar = () => {
     setActiveChat(null);
   };
+
+  // Bump sidebar refresh key to force ChatSidebar to refetch conversations
+  const triggerSidebarRefresh = () => setSidebarRefreshKey((k) => k + 1);
 
   // Function to emit DND update to all connected users via socket
   const emitDndUpdateToUsers = async (companyId, dndEnabled) => {
@@ -220,12 +224,12 @@ const ChatConnection = () => {
               className={`h-full w-full overflow-hidden border-r border-slate-200 md:max-w-[276.5px] ${activeChat ? "hidden md:block" : "block"
                 }`}
             >
-              <ChatSidebar onSelect={handleSelectChat} activeChat={activeChat} targetRoomId={targetRoomId} />
+              <ChatSidebar onSelect={handleSelectChat} activeChat={activeChat} targetRoomId={targetRoomId} refreshKey={sidebarRefreshKey} />
             </div>
 
             <div className={`w-full md:w-full ${activeChat ? "block" : "hidden"} h-full md:block`}>
               {activeChat ? (
-                <ChatWindow chat={activeChat} onBack={handleBackToSidebar} />
+                <ChatWindow chat={activeChat} onBack={handleBackToSidebar} onActivity={triggerSidebarRefresh} />
               ) : (
                 <DefaultChatView />
               )}

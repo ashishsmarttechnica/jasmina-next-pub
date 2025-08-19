@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import Search from "./Search";
 
-export default function ChatSidebar({ onSelect, activeChat }) {
+export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [conversations, setConversations] = useState([]);
   console.log("conversations:-----", conversations);
@@ -65,7 +65,7 @@ export default function ChatSidebar({ onSelect, activeChat }) {
 
   useEffect(() => {
     fetchConversations();
-  }, [userId]);
+  }, [userId, refreshKey]);
 
   const filteredConversations = conversations.filter((conversation) => {
     const searchTerm = toLowerSafe(searchQuery);

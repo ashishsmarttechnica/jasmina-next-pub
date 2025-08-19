@@ -13,7 +13,7 @@ import useAuthStore from "../../../store/auth.store";
 import { getChatSocket } from "../../../utils/socket";
 import ChatWindowHeader from "./ChatWindowHeader";
 
-export default function ChatWindow({ chat, onBack }) {
+export default function ChatWindow({ chat, onBack, onActivity }) {
   const { user } = useAuthStore();
   console.log(user, "useruseruser");
   const t = useTranslations("Chat");
@@ -209,6 +209,8 @@ export default function ChatWindow({ chat, onBack }) {
           receiver: receiverId,
         },
       ]);
+      // Notify parent to refresh sidebar list (last message preview, ordering, etc.)
+      try { onActivity && onActivity(); } catch { }
     };
 
     // Handle DND updates from socket for this specific chat
@@ -424,6 +426,8 @@ export default function ChatWindow({ chat, onBack }) {
         ],
       });
       console.log("[ChatWindow] message sent via API");
+      // Notify parent to refresh sidebar after a successful send
+      try { onActivity && onActivity(); } catch { }
       // Emit real-time event (ensure socket is connected)
       try {
         const socket = getChatSocket(currentUserId);
@@ -490,6 +494,7 @@ export default function ChatWindow({ chat, onBack }) {
     const availableSlots = Math.max(0, 2 - pendingImages.length);
     const toAdd = files.filter((f) => f.type?.startsWith("image/")).slice(0, availableSlots);
     if (!toAdd.length) return;
+    // 
 
     const newPreviews = [];
     let processed = 0;
