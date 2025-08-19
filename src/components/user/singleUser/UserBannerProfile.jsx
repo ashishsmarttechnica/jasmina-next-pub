@@ -2,14 +2,16 @@ import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useCreateConnection, useRemoveConnection } from "@/hooks/connections/useConnections";
+import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
 import EditProfileModal from "@/modal/editProfile/EditProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -103,6 +105,7 @@ const UserBannerProfile = ({
     searchParams?.get("fromConnections") === "true";
 
   const { mutate: removeConnection } = useRemoveConnection();
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
 
   const handleResentPassword = () => {
     setIsPasswordModalOpen(true);
@@ -162,6 +165,31 @@ const UserBannerProfile = ({
   //     }
   //   );
   // };
+
+  const handleMessage = (userProfile) => {
+    const currentUserId = Cookies.get("userId");
+    const profileId = userProfile?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
+    }
+  };
 
   const handleContactClick = (item) => {
     if (isCreateConnectionLoading) return;
@@ -297,7 +325,13 @@ const UserBannerProfile = ({
                     {isRemoving ? t("removing") : t("remove")}
                   </button>
                 )}
-                <button className="message-btn">{t("message")}</button>
+                <button
+                  className="message-btn"
+                  onClick={fromConnections ? () => handleMessage(userData) : undefined}
+                  disabled={!fromConnections || isGeneratingChat}
+                >
+                  {isGeneratingChat ? "Generating..." : t("message")}
+                </button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>

@@ -10,9 +10,11 @@ import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 // import { useParams } from "next/navigation";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
 import Share from "@/assets/svg/feed/Share";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import ReportModel from "@/modal/ReportModel";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -35,11 +37,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const [isShareLoading, setIsShareLoading] = useState(false);
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
 
 
   // Check if user came from connections page
-  // const fromConnections =
-  //   searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
+  const fromConnections = searchParams?.get("fromConnections") === "true";
   const [showConnect, setShowConnect] = useState(
     !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
   );
@@ -50,6 +52,31 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
       router.push(`/en/connections?profileId=${userData._id}&type=Company&tab=company`);
     } else {
       router.push("/en/connections");
+    }
+  };
+
+  const handleMessage = (target) => {
+    const currentUserId = Cookies.get("userId");
+    const profileId = target?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
     }
   };
   const handleResentPassword = () => {
@@ -231,7 +258,13 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                     {isRemoving ? t("removing") : t("remove")}
                   </button>
                 )}
-                <button className="message-btn">{t("message")}</button>
+                <button
+                  className="message-btn"
+                  onClick={fromConnections ? () => handleMessage(userData) : undefined}
+                  disabled={!fromConnections || isGeneratingChat}
+                >
+                  {isGeneratingChat ? "Generating..." : t("message")}
+                </button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
