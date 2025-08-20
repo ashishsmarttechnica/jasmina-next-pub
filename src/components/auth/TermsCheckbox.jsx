@@ -2,13 +2,14 @@
 import { getPages } from "@/api/pages.api";
 import { Link } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const TermsCheckbox = ({ isChecked, setIsChecked, error }) => {
   const t = useTranslations("auth");
+  const locale = useLocale();
   const { data: pagesResponse } = useQuery({
-    queryKey: ["pages", "legal-links"],
-    queryFn: () => getPages(),
+    queryKey: ["pages", "legal-links", locale],
+    queryFn: () => getPages(locale),
   });
 
   const pages = Array.isArray(pagesResponse?.data) ? pagesResponse.data : [];

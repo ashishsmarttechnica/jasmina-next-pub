@@ -4,21 +4,24 @@ import { getPages } from "@/api/pages.api";
 import footerLogo from "@/assets/footer/footerLogo.png";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 
 const Footer = () => {
   const t = useTranslations("footer");
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
   const { data: pagesResponse, isLoading: isLoadingPages } = useQuery({
-    queryKey: ["pages", "footer"],
-    queryFn: () => getPages(),
+    queryKey: ["pages", "footer", locale],
+    queryFn: () => getPages(locale),
   });
   const pages = Array.isArray(pagesResponse?.data)
     ? pagesResponse.data
     : [];
-  console.log(pages, "pages66666666666666666-----------------");
+  console.log(pages.language, "pages66666666666666666-----------------");
+  const isRTL = locale === "ar";
+  console.log(isRTL, "await ISRTL");
 
   const handleNavigation = (path) => {
     router.push(path);

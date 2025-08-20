@@ -105,6 +105,11 @@ const ApplicantDetails = ({
     // Immediately update local state for real-time UI update
     setCurrentStatus(newStatus);
 
+    // Open SetInterview modal immediately when switching to Interviewing
+    if (newStatus === 2) {
+      setIsSetInterviewOpen(true);
+    }
+
     try {
       await updateApplicationStatus({
         userId: selectedApplicant.userId,
@@ -194,7 +199,6 @@ const ApplicantDetails = ({
               >
                 <option value={1}>{t("statusLabels.new")}</option>
                 <option value={2}>{t("statusLabels.interviewing")}</option>
-                <option value={3}>{t("statusLabels.approved")}</option>
                 <option value={4}>{t("statusLabels.rejected")}</option>
                 <option value={5}>{t("statusLabels.hired")}</option>
                 <option value={6}>{t("statusLabels.reviewed")}</option>
@@ -207,17 +211,7 @@ const ApplicantDetails = ({
                   }`}
                 onClick={() => {
                   if (!isInterviewFixed) {
-                    setIsSetInterviewOpen({
-                      name:
-                        selectedApplicant.fullName ||
-                        selectedApplicant.name ||
-                        selectedApplicant.userName,
-                      email: selectedApplicant.email,
-                      jobRole: selectedApplicant.title,
-                      experience: selectedApplicant.experience,
-                      resume: resume,
-                      userId: selectedApplicant.userId,
-                    });
+                    setIsSetInterviewOpen(true);
                   }
                 }}
                 disabled={isInterviewFixed}

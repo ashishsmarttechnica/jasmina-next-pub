@@ -2,11 +2,13 @@
 
 import { getPageByPath } from "@/api/pages.api";
 import BackGroundLayout from "@/components/BackGroundOverlay/BackGroundLayout";
+import { useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const DynamicPage = () => {
     const params = useParams();
+    const locale = useLocale();
     const slug = params?.slag;
     console.log(slug, "slugslugslugslug");
     const [pageData, setPageData] = useState(null);
@@ -19,7 +21,7 @@ const DynamicPage = () => {
             if (!slug) return;
             try {
                 setLoading(true);
-                const res = await getPageByPath(slug);
+                const res = await getPageByPath(slug, locale);
                 setPageData(res?.data[0] || res);
                 console.log(res?.data, "resresresres");
             } catch (err) {

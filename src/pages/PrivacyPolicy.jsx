@@ -1,9 +1,11 @@
 import { getPageByPath } from "@/api/pages.api";
+import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import BackGroundLayout from "../components/BackGroundOverlay/BackGroundLayout";
 
 const PrivacyPolicy = () => {
     const [privacyData, setPrivacyData] = useState(null);
+    const locale = useLocale();
     console.log(privacyData, "privacyDataprivacyDataprivacyDataprivacyData");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const PrivacyPolicy = () => {
         const fetchPrivacyData = async () => {
             try {
                 setLoading(true);
-                const response = await getPageByPath();
+                const response = await getPageByPath(undefined, locale);
                 const pagePayload = Array.isArray(response?.data)
                     ? response.data[0]
                     : response?.data;

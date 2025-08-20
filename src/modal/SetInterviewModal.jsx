@@ -17,6 +17,8 @@ const SetInterviewModal = ({
   interviewId,
   isReschedule = false,
 }) => {
+  console.log(candidateData, "candidateData-----------------");
+
   const t = useTranslations("SetInterviewModal");
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState("");
@@ -134,14 +136,19 @@ const SetInterviewModal = ({
       <Modal.Header className="bg-white">
         <div className="mb-2 border-b border-slate-300 py-2">
           <div className="my-1 text-[20px] font-bold text-gray-900">
-            {candidateData?.name || t("candidateName")}
+            {candidateData?.userId?.profile
+              ?.fullName
+              || candidateData?.originalData?.userId?.profile
+                ?.fullName}
           </div>
-          <div className="my-1 text-[14px] font-medium text-gray-700">{candidateData?.jobRole || t("jobRole")}</div>
-          <div className="text-[13px] text-[#007BFF]">{candidateData?.email || t("email")}</div>
+          <div className="my-1 text-[14px] font-medium text-gray-700">{candidateData?.userId?.preferences?.jobRole || candidateData?.originalData
+            .userId?.preferences?.jobRole}</div>
+          <div className="text-[13px] text-[#007BFF]">{candidateData?.userId?.email || candidateData?.originalData?.userId?.email}</div>
           <div className="mb-2 text-[#888DA8]">
-            {candidateData?.experience
-              ? t("experienceYears", { years: candidateData.experience })
-              : t("experienceNotSpecified")}
+            {candidateData?.userId?.preferences?.yearsOfExperience
+              ? t("experienceYears", { years: candidateData?.userId?.preferences?.yearsOfExperience })
+              : t("experienceYears", { years: candidateData?.originalData?.userId?.preferences?.yearsOfExperience })
+            }
           </div>
           {candidateData?.resume && (
             <div className="text-sm text-blue-600">
