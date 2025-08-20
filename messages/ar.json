@@ -1224,6 +1224,20 @@
     "rescheduleInterview": "إعادة جدولة المقابلة",
     "sendInterview": "إرسال المقابلة"
   },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "يتطلب اشتراك",
+    "verificationRequired": "يتطلب التحقق",
+    "messages": {
+      "subscriptionLimit": "لقد استخدمت منشوري الوظائف المجانية. لنشر المزيد، يُرجى ترقية خطتك.",
+      "planExpired": "انتهت صلاحية خطتك. يُرجى الترقية للمتابعة.",
+      "companyNotVerified": "الملف قيد المراجعة – سيتم منح الوصول الكامل بعد الموافقة."
+    },
+    "buttons": {
+      "subscriptionPurchase": "شراء الاشتراك",
+      "logout": "تسجيل الخروج",
+      "close": "إغلاق"
+    }
+  },
   "CreateJobForm": {
     "common": {
       "subtitle": "املأ التفاصيل أدناه وابحث عن المرشح المناسب.",

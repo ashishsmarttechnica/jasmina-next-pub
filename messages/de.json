@@ -1223,6 +1223,20 @@
     "rescheduleInterview": "Interview neu planen",
     "sendInterview": "Interview senden"
   },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "Abonnement erforderlich",
+    "verificationRequired": "Verifizierung erforderlich",
+    "messages": {
+      "subscriptionLimit": "Sie haben Ihre 2 kostenlosen Stellenanzeigen genutzt. Um mehr zu veröffentlichen, upgraden Sie bitte Ihren Plan.",
+      "planExpired": "Ihr Plan ist abgelaufen. Bitte upgraden Sie, um fortzufahren.",
+      "companyNotVerified": "Profil wird überprüft – voller Zugriff nach Freigabe."
+    },
+    "buttons": {
+      "subscriptionPurchase": "Abonnement kaufen",
+      "logout": "Abmelden",
+      "close": "Schließen"
+    }
+  },
   "CreateJobForm": {
     "common": {
       "subtitle": "Füllen Sie die folgenden Details aus und finden Sie den richtigen Kandidaten.",

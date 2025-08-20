@@ -1,4 +1,5 @@
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Modal } from "rsuite";
 import useAuthStore from "../store/auth.store";
 
@@ -8,10 +9,14 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   const expiredPlanMessage = "Your plan has expired. Please upgrade to continue.";
   const companyNotVerifiedMessage = "Profile under review – full access after approval.";
 
-  const title =
-    message === subscriptionMessage || message === expiredPlanMessage
-      ? "Subscription Required"
-      : "Verification Required";
+  const t = useTranslations("CompanyVerificationModal");
+
+  const isSubscriptionRelated =
+    message === subscriptionMessage || message === expiredPlanMessage;
+
+  const title = isSubscriptionRelated
+    ? t("subscriptionRequired")
+    : t("verificationRequired");
 
   const router = useRouter();
   const { user, logout } = useAuthStore();
@@ -34,6 +39,15 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   // Check if it's the company verification message
   const isCompanyVerificationMessage = message === companyNotVerifiedMessage;
 
+  const displayMessage =
+    message === subscriptionMessage
+      ? t("messages.subscriptionLimit")
+      : message === expiredPlanMessage
+        ? t("messages.planExpired")
+        : isCompanyVerificationMessage
+          ? t("messages.companyNotVerified")
+          : message;
+
   return (
     <Modal
       open={isOpen}
@@ -47,28 +61,28 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
         <Modal.Title className="text-xl font-bold text-gray-800">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="space-y-4 bg-white px-6 py-4">
-        <p className="text-gray-600">{message}</p>
+        <p className="text-gray-600">{displayMessage}</p>
         <div className="flex justify-end">
           {message === subscriptionMessage || message === expiredPlanMessage ? (
             <button
               onClick={handleSubscriptionClick}
               className="bg-primary hover:bg-primary/90 rounded px-4 py-2 text-white transition-colors"
             >
-              Subscription Purchase
+              {t("buttons.subscriptionPurchase")}
             </button>
           ) : isCompanyVerificationMessage ? (
             <button
               onClick={handleLogout}
               className="bg-red-600 hover:bg-red-700 rounded px-4 py-2 text-white transition-colors"
             >
-              Logout
+              {t("buttons.logout")}
             </button>
           ) : (
             <button
               onClick={handleClose}
               className="bg-primary hover:bg-primary/90 rounded px-4 py-2 text-white transition-colors"
             >
-              Close
+              {t("buttons.close")}
             </button>
           )}
         </div>

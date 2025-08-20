@@ -6,7 +6,10 @@ import { format, isSameDay } from "date-fns";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { FaCamera } from "react-icons/fa6";
+import { FiLink } from "react-icons/fi";
 import { MdErrorOutline } from "react-icons/md";
+import { RiGalleryLine } from "react-icons/ri";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import getImg from "../../../lib/getImg";
 import useAuthStore from "../../../store/auth.store";
@@ -34,6 +37,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   const textareaRef = useRef(null);
   const MAX_TEXTAREA_HEIGHT = 160;
   const hasInitialScrolledRef = useRef(false);
+  const isImagePath = (path = "") => /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(String(path));
   // console.log(chat, "messages++++++++++++++");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
@@ -96,16 +100,30 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         if (response.success) {
           console.log("[ChatWindow] fetched messages (raw)", response.data.messages);
 
-          // Transform API messages to match the expected format
-          const transformedMessages = response.data.messages.map((msg) => ({
-            from: msg.sender === currentUserId ? "user" : "other",
-            text: msg.content,
-            timestamp: msg.createdAt,
-            _id: msg._id,
-            receiver: msg.receiver,
-            sender: msg.sender,
-            seen: msg.seen,
-          }));
+          // Transform API messages to match the expected format (simplified)
+          const transformedMessages = response.data.messages.map((msg) => {
+            const base = {
+              from: msg.sender === currentUserId ? "user" : "other",
+              text: msg.content,
+              timestamp: msg.createdAt,
+              _id: msg._id,
+              receiver: msg.receiver,
+              sender: msg.sender,
+              seen: msg.seen,
+            };
+
+            if (msg?.file && typeof msg.file === "string") {
+              if (isImagePath(msg.file)) {
+                base.images = [getImg(msg.file)];
+              } else {
+                base.file = { name: (msg.file.split("/").pop() || "file"), url: getImg(msg.file) };
+              }
+            } else if (Array.isArray(msg.images) && msg.images.length) {
+              base.images = msg.images.map((p) => (typeof p === "string" ? getImg(p) : p));
+            }
+
+            return base;
+          });
           console.log("[ChatWindow] transformed messages", transformedMessages);
           setMessages(transformedMessages);
         } else {
@@ -197,8 +215,15 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       }
 
       console.log("[ChatWindow] socket: message received", data);
-      const content = data.text || data.content || data.message;
-      if (!content) return;
+      const content = data.text || data.content || data.message || "";
+
+      const filePath = typeof data.file === "string" ? data.file : null;
+      const isImage = filePath && isImagePath(filePath);
+      const imageUrls = isImage ? [getImg(filePath)] : [];
+      const fileObj = filePath && !isImage ? { name: (filePath.split("/").pop() || "file"), url: getImg(filePath) } : null;
+
+      if (!content && imageUrls.length === 0 && !fileObj) return;
+
       setMessages((prev) => [
         ...prev,
         {
@@ -207,6 +232,8 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
           timestamp: data.createdAt || new Date().toISOString(),
           sender: senderId,
           receiver: receiverId,
+          ...(imageUrls.length ? { images: imageUrls } : {}),
+          ...(fileObj ? { file: fileObj } : {}),
         },
       ]);
       // Notify parent to refresh sidebar list (last message preview, ordering, etc.)
@@ -393,12 +420,20 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     const timestamp = new Date().toISOString();
 
+    // Combine attachments with a shared limit of 2
+    const MAX_ATTACHMENTS = 2;
+    const remainingForImages = MAX_ATTACHMENTS - (hasDoc ? 1 : 0);
+    const selectedImagePreviews = remainingForImages > 0
+      ? pendingImagePreviews.slice(0, remainingForImages)
+      : [];
+    const includeDoc = hasDoc && (selectedImagePreviews.length < MAX_ATTACHMENTS);
+
     const messageObj = {
       from: "user",
       text: contentToSend,
       timestamp,
-      ...(hasImages ? { images: pendingImagePreviews.slice(0, 2) } : {}),
-      ...(hasDoc ? { file: { name: pendingDoc?.name, type: pendingDoc?.type } } : {}),
+      ...(selectedImagePreviews.length ? { images: selectedImagePreviews } : {}),
+      ...(includeDoc ? { file: { name: pendingDoc?.name, type: pendingDoc?.type } } : {}),
     };
 
     // Optimistically add the message to the UI
@@ -416,14 +451,16 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     });
 
     try {
+      const MAX_ATTACHMENTS = 2;
+      const imagesSlice = pendingImages.slice(0, Math.max(0, MAX_ATTACHMENTS - (hasDoc ? 1 : 0)));
+      const docSlice = hasDoc && imagesSlice.length < MAX_ATTACHMENTS ? [pendingDoc] : [];
+      const chatFiles = [...imagesSlice, ...docSlice];
+
       await sendMessage({
         senderId: currentUserId,
         receiverId: chat?.conversationId, // Update this if your chat object uses a different field for receiver
         content: hasText ? contentToSend : "",
-        chatFiles: [
-          ...pendingImages.slice(0, 2),
-          ...(hasDoc ? [pendingDoc] : []),
-        ],
+        chatFiles,
       });
       console.log("[ChatWindow] message sent via API");
       // Notify parent to refresh sidebar after a successful send
@@ -491,10 +528,13 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
-    const availableSlots = Math.max(0, 2 - pendingImages.length);
+    // Combined limit across images + doc is 2
+    const currentCount = pendingImages.length + (pendingDoc ? 1 : 0);
+    const availableSlots = Math.max(0, 2 - currentCount);
+    if (availableSlots <= 0) return;
+
     const toAdd = files.filter((f) => f.type?.startsWith("image/")).slice(0, availableSlots);
     if (!toAdd.length) return;
-    // 
 
     const newPreviews = [];
     let processed = 0;
@@ -515,6 +555,11 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   const handleDocUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // Combined limit across images + doc is 2
+    const currentCount = pendingImages.length + (pendingDoc ? 1 : 0);
+    const availableSlots = Math.max(0, 2 - currentCount);
+    if (availableSlots <= 0) return;
 
     setPendingDoc(file);
     console.log("[ChatWindow] document selected", {
@@ -617,6 +662,19 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
                             {renderRawText(msg.text)}
                           </div>
                         )}
+                        {Array.isArray(msg.images) && msg.images.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {msg.images.map((imgSrc, imgIdx) => (
+                              <img
+                                key={imgIdx}
+                                src={imgSrc}
+                                alt={`sent-${imgIdx}`}
+                                className="max-w-xs cursor-pointer rounded-md border border-slate-200"
+                                onClick={() => setSelectedImage(imgSrc)}
+                              />
+                            ))}
+                          </div>
+                        )}
                         {msg.image && (
                           <img
                             src={msg.image}
@@ -628,13 +686,18 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
                         {msg.file && (
                           <div className="mt-2 flex max-w-xs items-center gap-2 rounded-md border bg-white p-2 text-sm">
                             <span className="font-medium">{msg.file.name}</span>
-                            <a
-                              href="#"
-                              className="text-xs text-blue-600 underline"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              {t("window.open")}
-                            </a>
+                            {msg.file.url ? (
+                              <a
+                                href={msg.file.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-600 underline"
+                              >
+                                {t("window.open")}
+                              </a>
+                            ) : (
+                              <span className="text-xs text-gray-400">{t("window.open")}</span>
+                            )}
                           </div>
                         )}
                       </div>
@@ -745,7 +808,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
             </div>
 
             <div className="flex items-center justify-between px-4 py-2 pb-3">
-              {/* <div className="flex gap-1">
+              <div className="flex gap-1">
                 <div
                   className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent"
                   onClick={() => fileInputRef.current.click()}
@@ -778,7 +841,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
                 <div className="cursor-pointer rounded-sm border border-transparent bg-[#CFE6CC] px-2 py-2 hover:border-[#0F8200] hover:bg-transparent">
                   <FaCamera className="text-primary" />
                 </div>
-              </div> */}
+              </div>
 
 
             </div>

@@ -1263,6 +1263,20 @@
     "rescheduleInterview": "Re-schedule Interview",
     "sendInterview": "Send Interview"
   },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "Subscription Required",
+    "verificationRequired": "Verification Required",
+    "messages": {
+      "subscriptionLimit": "You've used your 2 free job post. To post more, please upgrade your plan.",
+      "planExpired": "Your plan has expired. Please upgrade to continue.",
+      "companyNotVerified": "Profile under review – full access after approval."
+    },
+    "buttons": {
+      "subscriptionPurchase": "Subscription Purchase",
+      "logout": "Logout",
+      "close": "Close"
+    }
+  },
   "CreateJobForm": {
     "common": {
       "subtitle": "Fill in the details below and find the right candidate.",

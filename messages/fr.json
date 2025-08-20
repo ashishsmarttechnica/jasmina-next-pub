@@ -1222,6 +1222,20 @@
     "rescheduleInterview": "Reprogrammer l'entretien",
     "sendInterview": "Envoyer l'entretien"
   },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "Abonnement requis",
+    "verificationRequired": "Vérification requise",
+    "messages": {
+      "subscriptionLimit": "Vous avez utilisé vos 2 publications gratuites. Pour en publier plus, veuillez mettre à niveau votre forfait.",
+      "planExpired": "Votre forfait a expiré. Veuillez mettre à niveau pour continuer.",
+      "companyNotVerified": "Profil en cours d'examen – accès complet après approbation."
+    },
+    "buttons": {
+      "subscriptionPurchase": "Acheter un abonnement",
+      "logout": "Se déconnecter",
+      "close": "Fermer"
+    }
+  },
   "CreateJobForm": {
     "common": {
       "subtitle": "Remplissez les détails ci-dessous et trouvez le bon candidat.",
