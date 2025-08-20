@@ -114,7 +114,7 @@ const JobHeader = ({ jobData }) => {
 
               {/* More Options Dropdown */}
               {moreOptionsDropdownId === jobData._id && (
-                <div className="absolute top-full right-0 z-50 mt-1 min-w-[140px] rounded-md border border-gray-200 bg-white shadow-lg">
+                <div className="absolute top-full sm:right-0 z-50 mt-1 min-w-[140px] rounded-md border border-gray-200 bg-white shadow-lg sm:ml-0 left-5">
                   <button
                     className="flex w-full items-center px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                     onClick={(e) => {
@@ -122,7 +122,7 @@ const JobHeader = ({ jobData }) => {
                       handleViewJob(jobData._id);
                     }}
                   >
-                    <FaEye className="mr-2 h-4 w-4" />
+                    <FaEye className="mr-2 h-4 w-4 ml-5" />
                     {t("viewJob")}
                   </button>
                 </div>

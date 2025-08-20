@@ -36,7 +36,7 @@ export default async function LocaleLayout({ children, params }) {
             <NextIntlClientProvider>
               <AppInit />
               {/* Spacer for mobile bottom nav so content isn't hidden */}
-              <div className="pb-16 md:pb-0">
+              <div className="pb-8 md:pb-0">
                 {children}
               </div>
               {/* Mobile Bottom Navigation */}

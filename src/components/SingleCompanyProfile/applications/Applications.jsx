@@ -53,7 +53,7 @@ const Applications = () => {
     isError: isGetCompanyAppliedJobError,
     error: getCompanyAppliedJobError,
     refetch: refetchJobs,
-  } = useSingleCompanyAppliedJob(params.id, searchQuery, getStatusValue(selectedStatus), page, 4);
+  } = useSingleCompanyAppliedJob(params.id, searchQuery, getStatusValue(selectedStatus), page, 10);
 
   // Add the update job status mutation
   const { mutate: updateJobStatus, isPending: isUpdatingStatus } = useUpdateJobStatus();
@@ -291,7 +291,7 @@ const Applications = () => {
 
                   {/* Dropdown Menu */}
                   {openDropdownId === item._id && item.status === 0 && (
-                    <div className="absolute top-full right-0 z-10 mt-1 min-w-[120px] rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute top-full sm:right-0 z-10 mt-1 min-w-[120px] rounded-md border border-gray-200 bg-white shadow-lg left-5">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -412,7 +412,7 @@ const Applications = () => {
           <button
             onClick={handleLoadMore}
             disabled={isFetchingJobs}
-            className="rounded-md bg-[#0B5CFF] px-4 py-2 text-sm text-white transition-colors hover:bg-[#0B5CFF]/90 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+            className="rounded-md bg-primary px-4 py-2 text-sm text-white transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
           >
             {isFetchingJobs ? t("loading") : t("loadMore")}
           </button>

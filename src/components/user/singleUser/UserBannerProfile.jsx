@@ -113,9 +113,9 @@ const UserBannerProfile = ({
 
   const handleConnectionClick = () => {
     if (userData?._id) {
-      router.push(`/en/connections?profileId=${userData._id}&type=User&tab=people`);
+      router.push(`/connections?profileId=${userData._id}&type=User&tab=people`);
     } else {
-      router.push("/en/connections");
+      router.push("/connections");
     }
   };
 

@@ -31,13 +31,31 @@ const SetInterviewModal = ({
 
   const isLoading = isScheduleLoading || isUpdateLoading;
 
+  // Helper function to format date correctly without timezone issues
+  const formatDateForAPI = (selectedDate) => {
+    if (!selectedDate) return null;
+
+    // Create a new date object and set it to the selected date at noon to avoid timezone issues
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth();
+    const day = selectedDate.getDate();
+
+    // Create date at noon in local timezone to avoid date shifting
+    const localDate = new Date(year, month, day, 12, 0, 0, 0);
+
+    // Format as YYYY-MM-DD
+    const formattedDate = localDate.toLocaleDateString('en-CA'); // Returns YYYY-MM-DD format
+
+    return formattedDate;
+  };
+
   const handleSend = () => {
     const formData = { date, startTime, address, timeZone };
     if (validateForm(formData)) {
       if (isReschedule && interviewId) {
         // Update existing interview for reschedule
         const updateData = {
-          date: date.toISOString().split("T")[0],
+          date: formatDateForAPI(date),
           startTime,
           interviewAddress: address,
           timezone: timeZone,
@@ -51,7 +69,7 @@ const SetInterviewModal = ({
           jobId,
           email: candidateData?.email,
           jobRole: candidateData?.jobRole || candidateData?.title,
-          date: date.toISOString().split("T")[0],
+          date: formatDateForAPI(date),
           name: candidateData?.name,
           startTime,
           interviewAddress: address,

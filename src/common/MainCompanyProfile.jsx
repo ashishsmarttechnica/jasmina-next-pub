@@ -4,9 +4,9 @@ import { usePathname, useRouter } from "@/i18n/navigation"; // <-- Add usePathna
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
 import { BiLogOut } from "react-icons/bi";
-import { BsFileEarmarkText } from "react-icons/bs";
+import { BsCreditCard, BsFileEarmarkText } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
-import { MdSettings } from "react-icons/md";
+import { MdHistory, MdSettings } from "react-icons/md";
 import { RiHandCoinLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { useSingleCompany } from "../hooks/company/useSingleCompany";
@@ -77,7 +77,7 @@ const MainCompanyProfile = ({ title }) => {
     },
     {
       icon: (isActive) => (
-        <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+        <BsCreditCard className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
       label: t("Subscription"),
       path: `/company/single-company/${userId}/subscription`,
@@ -85,7 +85,7 @@ const MainCompanyProfile = ({ title }) => {
     },
     {
       icon: (isActive) => (
-        <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+        <MdHistory className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
       label: t("PreviousPlans"),
       path: `/company/single-company/${userId}/previousplans`,

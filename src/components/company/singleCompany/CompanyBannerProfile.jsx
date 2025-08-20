@@ -49,9 +49,9 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
 
   const handleConnectionClick = () => {
     if (userData?._id) {
-      router.push(`/en/connections?profileId=${userData._id}&type=Company&tab=company`);
+      router.push(`/connections?profileId=${userData._id}&type=Company&tab=company`);
     } else {
-      router.push("/en/connections");
+      router.push("/connections");
     }
   };
 
