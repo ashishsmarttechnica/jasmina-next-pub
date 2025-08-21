@@ -85,7 +85,6 @@ const PeopleCard = ({ person }) => {
       toast.error("Unable to start chat. User information not available.");
     }
   };
-  console.log(person?.details?.profile?.photo, "jhaspjhotphoto photo");
 
   return (
     <div

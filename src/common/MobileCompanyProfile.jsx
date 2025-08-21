@@ -67,7 +67,7 @@ const MobileCompanyProfile = ({ customMenuItems = [] }) => {
             icon: (isActive) => (
                 <BsFileEarmarkText className={`text-lg ${isActive ? "text-primary" : "text-gray-500"}`} />
             ),
-            label: t("ViewApplications"),
+            label: t("ReviewApplications"),
             path: `/company/single-company/${userId}/applications`,
         },
         {

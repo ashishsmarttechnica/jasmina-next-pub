@@ -29,7 +29,6 @@ const EditCompanySizeForm = ({ formData, errors, handleChange }) => {
   const hasPreviousPlan =
     previousPlansData && Array.isArray(previousPlansData.data) && previousPlansData.data.length > 0;
 
-  console.log(previousPlansData, "previousPlansData");
   const router = useRouter();
 
   const companyTypeOptions = [

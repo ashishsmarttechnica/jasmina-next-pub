@@ -19,9 +19,7 @@ const Footer = () => {
   const pages = Array.isArray(pagesResponse?.data)
     ? pagesResponse.data
     : [];
-  console.log(pages.language, "pages66666666666666666-----------------");
   const isRTL = locale === "ar";
-  console.log(isRTL, "await ISRTL");
 
   const handleNavigation = (path) => {
     router.push(path);

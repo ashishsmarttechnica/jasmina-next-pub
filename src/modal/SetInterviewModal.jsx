@@ -15,23 +15,46 @@ const SetInterviewModal = ({
   jobId,
   candidateData,
   interviewId,
+  jobData,
   isReschedule = false,
+  onInterviewScheduled,
 }) => {
+  console.log(jobData, "jobData-----------------");
+  const isRemote = jobData?.jobLocation?.includes("Remote");
+  console.log(isRemote, "isRemote-----------------");
   console.log(candidateData, "candidateData-----------------");
+  console.log("Is remote job detected:", isRemote);
+  console.log("Job location:", jobData?.jobLocation);
 
   const t = useTranslations("SetInterviewModal");
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [address, setAddress] = useState("");
+  const [onlineLink, setOnlineLink] = useState("");
   const [timeZone, setTimeZone] = useState("Asia/Kolkata");
   const [isLoadingViewResume, setIsLoadingViewResume] = useState(false);
   const timeZones = useTimeZonesOptions();
 
+
   const { errors, validateField, validateForm } = useInterviewValidation();
-  const { mutate: scheduleInterview, isLoading: isScheduleLoading } = useScheduleInterview(onClose);
-  const { mutate: updateInterview, isLoading: isUpdateLoading } = useUpdateInterview(onClose);
+  const { mutate: scheduleInterview, isLoading: isScheduleLoading } = useScheduleInterview(() => {
+    try {
+      onInterviewScheduled?.();
+    } finally {
+      onClose?.();
+    }
+  });
+  const { mutate: updateInterview, isLoading: isUpdateLoading } = useUpdateInterview(() => {
+    try {
+      onInterviewScheduled?.();
+    } finally {
+      onClose?.();
+    }
+  });
 
   const isLoading = isScheduleLoading || isUpdateLoading;
+
+  console.log("Loading states:", { isScheduleLoading, isUpdateLoading, isLoading });
 
   // Helper function to format date correctly without timezone issues
   const formatDateForAPI = (selectedDate) => {
@@ -52,35 +75,39 @@ const SetInterviewModal = ({
   };
 
   const handleSend = () => {
-    const formData = { date, startTime, address, timeZone };
-    if (validateForm(formData)) {
+    const formData = { date, startTime, address, timeZone, onlineLink };
+    console.log("Form data being validated:", formData);
+    console.log("Is remote job:", isRemote);
+
+    if (validateForm(formData, isRemote)) {
       if (isReschedule && interviewId) {
         // Update existing interview for reschedule
         const updateData = {
           date: formatDateForAPI(date),
           startTime,
-          interviewAddress: address,
+          interviewAddress: isRemote ? onlineLink : address,
           timezone: timeZone,
+          onlineLink: isRemote ? onlineLink : undefined,
         };
+        console.log("Updating interview with:", updateData);
         updateInterview({ interviewId, data: updateData });
       } else {
-        // Create new interview
+        // Create new interview - only send required fields
         const newInterviewData = {
           companyId: Cookies.get("userId"),
           userId: candidateData?.userId,
           jobId,
-          email: candidateData?.email,
-          jobRole: candidateData?.jobRole || candidateData?.title,
           date: formatDateForAPI(date),
-          name: candidateData?.name,
           startTime,
-          interviewAddress: address,
-          timeZone,
-          experience: candidateData?.experience,
-          resume: candidateData?.resume,
+          interviewAddress: isRemote ? onlineLink : address,
+          timeZone: timeZone,
+          onlineLink: isRemote ? onlineLink : undefined,
         };
+        console.log("Creating new interview with:", newInterviewData);
         scheduleInterview(newInterviewData);
       }
+    } else {
+      console.log("Form validation failed. Errors:", errors);
     }
   };
 
@@ -121,6 +148,7 @@ const SetInterviewModal = ({
       setDate(null);
       setStartTime("");
       setAddress("");
+      setOnlineLink("");
       setTimeZone("Asia/Kolkata");
     }
   }, [isOpen]);
@@ -142,7 +170,7 @@ const SetInterviewModal = ({
                 ?.fullName}
           </div>
           <div className="my-1 text-[14px] font-medium text-gray-700">{candidateData?.userId?.preferences?.jobRole || candidateData?.originalData
-            .userId?.preferences?.jobRole}</div>
+            ?.userId?.preferences?.jobRole || "Unknown Role"}</div>
           <div className="text-[13px] text-[#007BFF]">{candidateData?.userId?.email || candidateData?.originalData?.userId?.email}</div>
           <div className="mb-2 text-[#888DA8]">
             {candidateData?.userId?.preferences?.yearsOfExperience
@@ -175,7 +203,7 @@ const SetInterviewModal = ({
                 value={date}
                 onChange={(value) => {
                   setDate(value);
-                  validateField("date", value);
+                  validateField("date", value, isRemote);
                 }}
                 placeholder={t("selectDate")}
                 shouldDisableDate={(d) => d < new Date().setHours(0, 0, 0, 0)}
@@ -192,7 +220,7 @@ const SetInterviewModal = ({
                 value={startTime}
                 onChange={(value) => {
                   setStartTime(value);
-                  validateField("startTime", value);
+                  validateField("startTime", value, isRemote);
                 }}
                 placeholder={t("startTime")}
                 className="mt-1 w-full"
@@ -209,7 +237,7 @@ const SetInterviewModal = ({
                 value={timeZone}
                 onChange={(value) => {
                   setTimeZone(value);
-                  validateField("timeZone", value);
+                  validateField("timeZone", value, isRemote);
                 }}
                 placeholder={t("timeZone")}
                 className="mt-1 w-full"
@@ -220,21 +248,40 @@ const SetInterviewModal = ({
             </div>
           </div>
 
-          <div className="w-full">
-            <label className="font-semibold text-gray-900">{t("interviewAddress")}*</label>
-            <Input
-              as="textarea"
-              value={address}
-              onChange={(value) => {
-                setAddress(value);
-                validateField("address", value);
-              }}
-              placeholder={t("interviewAddress")}
-              className="mt-1 w-full"
-              rows={4}
-            />
-            {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
-          </div>
+          {!isRemote && (
+            <div className="w-full">
+              <label className="font-semibold text-gray-900">{t("interviewAddress")}*</label>
+              <Input
+                as="textarea"
+                value={address}
+                onChange={(value) => {
+                  setAddress(value);
+                  validateField("address", value, isRemote);
+                }}
+                placeholder={t("interviewAddress")}
+                className="mt-1 w-full"
+                rows={4}
+              />
+              {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
+            </div>
+          )}
+          {
+            isRemote && (
+              <div className="w-full">
+                <label className="font-semibold text-gray-900">{t("interviewLink")}*</label>
+                <Input
+                  value={onlineLink}
+                  onChange={(value) => {
+                    setOnlineLink(value);
+                    validateField("onlineLink", value, isRemote);
+                  }}
+                  placeholder={t("interviewLink")}
+                  className="mt-1 w-full"
+                />
+                {errors.onlineLink && <p className="text-sm text-red-500">{errors.onlineLink}</p>}
+              </div>
+            )
+          }
         </div>
       </Modal.Body>
 
@@ -247,7 +294,10 @@ const SetInterviewModal = ({
             {t("close")}
           </button>
           <button
-            onClick={handleSend}
+            onClick={() => {
+              console.log("🎯 Button clicked!");
+              handleSend();
+            }}
             disabled={isLoading}
             className="bg-primary hover:text-primary hover:border-primary rounded-sm px-6 py-2 text-[13px] text-white hover:border hover:bg-white"
           >
@@ -266,3 +316,5 @@ const SetInterviewModal = ({
 };
 
 export default SetInterviewModal;
+
+

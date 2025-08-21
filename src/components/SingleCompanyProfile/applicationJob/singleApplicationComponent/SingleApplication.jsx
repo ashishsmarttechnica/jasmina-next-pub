@@ -1,6 +1,7 @@
 "use client";
 
 import { getCompanyAppliedJob } from "@/api/company.api";
+import { updateApplicationStatus } from "@/api/job.api";
 import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import { useAllApplicants } from "@/hooks/company/singleCompany/useSingleApplicationaplicant";
 import SetInterviewModal from "@/modal/SetInterviewModal";
@@ -26,6 +27,7 @@ const SingleApplication = () => {
   const [page, setPage] = useState(1);
   const [jobData, setJobData] = useState(null);
   const [isJobLoading, setIsJobLoading] = useState(false);
+  const [applicantsList, setApplicantsList] = useState([]);
   const t = useTranslations("Applications");
 
   // Fetch job details if not available in store
@@ -97,6 +99,31 @@ const SingleApplication = () => {
     }
   }, [applicants]);
 
+  // Keep a local list to reflect optimistic updates in the list UI
+  useEffect(() => {
+    setApplicantsList(applicants);
+  }, [applicants]);
+
+  const updateApplicantInList = (applicantId, updatedFields = {}, updatedOriginalData = {}) => {
+    setApplicantsList((prevList) =>
+      prevList.map((applicant) => {
+        const id = applicant._id || applicant.id;
+        if (id === applicantId) {
+          return {
+            ...applicant,
+            ...updatedFields,
+            originalData: applicant.originalData
+              ? { ...applicant.originalData, ...updatedOriginalData }
+              : Object.keys(updatedOriginalData).length > 0
+                ? { ...updatedOriginalData }
+                : applicant.originalData,
+          };
+        }
+        return applicant;
+      })
+    );
+  };
+
   // Handle tab change
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -123,6 +150,37 @@ const SingleApplication = () => {
           status: newStatus,
         },
       });
+
+      const targetId = selectedApplicant._id || selectedApplicant.id;
+      updateApplicantInList(targetId, { status: newStatus }, { status: newStatus });
+    }
+  };
+
+  // When interview scheduling succeeds, set status to Interviewing (2)
+  const handleInterviewScheduled = async () => {
+    if (!selectedApplicant || !jobId) return;
+    try {
+      await updateApplicationStatus({
+        userId: selectedApplicant.userId,
+        jobId,
+        status: 2,
+      });
+      setSelectedApplicant((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          status: 2,
+          originalData: {
+            ...prev.originalData,
+            status: 2,
+          },
+        };
+      });
+
+      const targetId = selectedApplicant._id || selectedApplicant.id;
+      updateApplicantInList(targetId, { status: 2 }, { status: 2 });
+    } catch (error) {
+      console.error("Error updating status to interviewing:", error);
     }
   };
 
@@ -231,7 +289,7 @@ const SingleApplication = () => {
           <div className="flex flex-col gap-4 lg:flex-row">
             {/* Applicants List */}
             <ApplicantList
-              applicants={applicants}
+              applicants={applicantsList}
               selectedApplicant={selectedApplicant}
               handleApplicantClick={handleApplicantClick}
             />
@@ -243,6 +301,7 @@ const SingleApplication = () => {
                   ...selectedApplicant,
                   jobId: jobId, // Explicitly pass the jobId
                 }}
+                jobData={jobData}
                 applicants={applicantsData}
                 setIsSetInterviewOpen={setIsSetInterviewOpen}
                 onStatusChange={handleStatusChange}
@@ -279,7 +338,9 @@ const SingleApplication = () => {
         isOpen={isSetInterviewOpen}
         onClose={() => setIsSetInterviewOpen(false)}
         jobId={jobId}
+        jobData={jobData}
         candidateData={selectedApplicant}
+        onInterviewScheduled={handleInterviewScheduled}
       />
     </div>
   );

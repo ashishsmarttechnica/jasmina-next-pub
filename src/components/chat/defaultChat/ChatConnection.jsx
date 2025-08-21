@@ -180,7 +180,7 @@ const ChatConnection = () => {
               right={
                 !isLoggedInUser ? (
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-600">{t("dndLabel")}</span>
+                    <span className="text-xs text-gray-600">{t("DoNotDisturb")}</span>
                     {loading || dndSwitchOn === null ? (
                       <div className="flex items-center gap-1">
                         {/* <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-primary"></div> */}

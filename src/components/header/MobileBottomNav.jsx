@@ -11,7 +11,6 @@ export default function MobileBottomNav() {
     const pathname = usePathname();
     const userType = capitalize(Cookies.get("userRole"));
     const { user } = useAuthStore();
-    console.log(user, "userType+++++++++++++++++");
     // Hide navigation on auth pages and home pages
     const shouldHide = () => {
         if (!pathname) return false;

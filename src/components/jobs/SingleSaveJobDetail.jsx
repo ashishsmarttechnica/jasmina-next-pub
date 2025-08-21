@@ -25,7 +25,6 @@ import getImg from "../../lib/getImg";
 
 const SingleSaveJobDetail = ({ job, onBack }) => {
   // if (!job) return <div>Loading job details...</div>;
-  console.log(job, "job");
   const t = useTranslations("Jobs");
   const [bookmarked, setBookmarked] = useState(true); // Default to true since this is for saved jobs
   const [hasApplied, setHasApplied] = useState(false);

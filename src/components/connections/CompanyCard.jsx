@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 const CompanyCard = ({ company }) => {
   // Current logged in user id from cookies
   const currentUserId = Cookies.get("userId");
-  console.log(company, "company||||");
   const CompanyId = company?.details?._id;
   const isOwnCompany =
     Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);

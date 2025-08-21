@@ -847,7 +847,8 @@
     "Shareunsupported": "Share not supported on this device",
     "PreviousPlans": "Previous Plans",
     "Jobarea": "Area",
-    "fulladdress": "Full Address"
+    "fulladdress": "Full Address",
+    "ReviewApplications": "Review Applications"
   },
   "Common": {
     "loading": "Loading...",
@@ -1093,7 +1094,8 @@
       "you": "You",
       "dndOnTitle": "Company has DND mode enabled",
       "dndOnSubtitle": "Messaging is disabled as you have enabled Do Not Disturb."
-    }
+    },
+    "DoNotDisturb": "Do Not Disturb"
   },
   "Applications": {
     "search": {
@@ -1261,7 +1263,8 @@
     "rescheduling": "Re-scheduling...",
     "scheduling": "Scheduling...",
     "rescheduleInterview": "Re-schedule Interview",
-    "sendInterview": "Send Interview"
+    "sendInterview": "Send Interview",
+    "interviewLink": "Online Link"
   },
   "CompanyVerificationModal": {
     "subscriptionRequired": "Subscription Required",

@@ -14,7 +14,6 @@ const CompanyBasicInfo = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const t = useTranslations("CompanyProfile.profile");
-  console.log(formData, "formData++++++++++++++++++++++++++");
   useEffect(() => {
     if (formData.logoUrl) {
       setSelectedImage(getImg(formData.logoUrl));

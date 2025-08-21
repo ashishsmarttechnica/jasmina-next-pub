@@ -55,7 +55,7 @@ const MainCompanyProfile = ({ title }) => {
       icon: (isActive) => (
         <BsFileEarmarkText className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t("ViewApplications"),
+      label: t("ReviewApplications"),
       path: `/company/single-company/${userId}/applications`,
       // count: 45,
     },

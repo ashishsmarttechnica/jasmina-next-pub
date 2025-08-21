@@ -19,7 +19,6 @@ const DefaultJob = () => {
 
   // Handle Find Job button click
   const handleFindJob = (newFilters) => {
-    console.log("Find Job clicked with filters:", newFilters);
     setFilters(newFilters);
   };
 

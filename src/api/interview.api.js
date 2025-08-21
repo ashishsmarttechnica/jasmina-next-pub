@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 
-export const getAllInterviews = async ({ page = 1, limit = 10, status = 0, companyId }) => {
+export const getAllInterviews = async ({ page = 1, limit = 10000000, status = 0, companyId }) => {
   try {
     const response = await axios.get(
       `/applied-interviews?page=${page}&limit=${limit}&status=${status}&companyId=${companyId}`

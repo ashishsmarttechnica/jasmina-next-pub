@@ -51,13 +51,13 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   return (
     <Modal
       open={isOpen}
-      onClose={isCompanyVerificationMessage ? undefined : handleClose}
+      onClose={handleClose}
       size="sm"
       className="mx-auto w-full max-w-lg rounded-2xl !p-0"
       backdrop={isCompanyVerificationMessage ? "static" : true}
       keyboard={!isCompanyVerificationMessage}
     >
-      <Modal.Header closeButton={!isCompanyVerificationMessage} className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-white px-6 py-4">
+      <Modal.Header closeButton={true} className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-white px-6 py-4">
         <Modal.Title className="text-xl font-bold text-gray-800">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="space-y-4 bg-white px-6 py-4">

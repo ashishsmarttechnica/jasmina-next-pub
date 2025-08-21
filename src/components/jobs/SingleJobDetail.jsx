@@ -27,9 +27,6 @@ import getImg from "../../lib/getImg";
 
 const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilters = {} }) => {
   // if (!job) return <div>Loading job details...</div>;
-  console.log(job, "joblogoImagelogoImagelogoImagelogoImagelogoImagelogoImage");
-  console.log(job?.logo, "job?.logoImage");
-  console.log("Search Filters in SingleJobDetail:", searchFilters);
 
 
 
@@ -131,7 +128,6 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
     }
   };
 
-  console.log(job, "job");
   return (
     <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 md:mt-0">
       {/* <button

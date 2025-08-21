@@ -105,7 +105,7 @@ const CreateCompany = () => {
     } else {
       submitData.append("industryType", formData.industryType);
     }
-    console.log(formData.isLGBTQ, "formData.isLGBTQ");
+    // console.log(formData.isLGBTQ, "formData.isLGBTQ");
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);

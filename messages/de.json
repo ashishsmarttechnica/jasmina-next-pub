@@ -775,7 +775,8 @@
     "Shareunsupported": "Teilen Sie auf diesem Gerät nicht unterstützt",
     "PreviousPlans": "Vorherige Pläne",
     "Jobarea": "Bereich",
-    "fulladdress": "Vollständige Adresse"
+    "fulladdress": "Vollständige Adresse",
+    "ReviewApplications": "Bewertungsanträge"
   },
   "Next": "",
   "UserHeader": {
@@ -1053,7 +1054,8 @@
       "you": "Du",
       "dndOnTitle": "Unternehmen hat den DND-Modus aktiviert",
       "dndOnSubtitle": "Messaging ist deaktiviert, da Sie aktiviert haben, was nicht stört."
-    }
+    },
+    "DoNotDisturb": "Bitte nicht stören"
   },
   "Applications": {
     "search": {
@@ -1221,7 +1223,8 @@
     "rescheduling": "Neu planen...",
     "scheduling": "Planen...",
     "rescheduleInterview": "Interview neu planen",
-    "sendInterview": "Interview senden"
+    "sendInterview": "Interview senden",
+    "interviewLink": "Online -Link"
   },
   "CompanyVerificationModal": {
     "subscriptionRequired": "Abonnement erforderlich",

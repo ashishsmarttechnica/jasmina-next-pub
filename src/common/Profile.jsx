@@ -9,8 +9,8 @@ import ImageFallback from "./shared/ImageFallback";
 import FeedProfileLeftSkeleton from "./skeleton/FeedProfileLeftSkeleton";
 function Profile() {
   const { user, isAuthLoading } = useAuthStore();
-  console.log(user,"/addnotifi/addnotifi/addnotifi");
-  
+  console.log(user, "/addnotifi/addnotifi/addnotifi");
+
   const t = useTranslations("FeedProfileLeft");
   const router = useRouter();
   console.log(getImg(user?.profile?.photo));

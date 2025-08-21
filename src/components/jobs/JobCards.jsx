@@ -47,8 +47,6 @@ const JobCards = ({ filters }) => {
     }
   }, [jobs, selectedJob]);
 
-  console.log("Search Params:", searchParams);
-  console.log("Filters:", filters);
 
   // Map API job data to UI job shape
   const mappedJobs = jobs.map((job) => ({
@@ -116,7 +114,6 @@ const JobCards = ({ filters }) => {
         {mappedJobs.length > 0 ? (
           mappedJobs.slice(0, visibleCount).map(
             (job, index) => (
-              console.log("Jobs:======================", job),
               (
                 <Card
                   key={`${job._id}-${index}`}

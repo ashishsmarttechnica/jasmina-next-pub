@@ -45,13 +45,11 @@ const AppliedJobsMainPage = () => {
     setCurrentPage(page);
   };
   const handleFindJob = (newFilters) => {
-    console.log("Find Job clicked with filters:", newFilters);
     setFilters(newFilters);
   };
   // Map API job data to UI job shape
   const mappedJobs = appliedJobs.map((appliedJob) => {
     const job = appliedJob.jobId || {};
-    console.log(job.status, "job.status");
     return {
       _id: job._id || appliedJob._id,
       title: job.jobTitle || "-",
@@ -128,7 +126,6 @@ const AppliedJobsMainPage = () => {
                       }`}
                     onClick={() => setSelectedJob(job)}
                   >
-                    {console.log(job?._raw?.application?.interviewId, "job999999")}
                     <div className="p-4">
                       <div className="flex items-center justify-between gap-2">
                         <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>

@@ -32,7 +32,6 @@ const SearchBar = ({ placeholder = "Search..." }) => {
   const { mutate: createConnection, isPending: isConnecting } = useCreateConnection();
   const { data: userData, error } = useSingleCompany(userId);
   const [isRemoving, setIsRemoving] = useState(false);
-  console.log(searchParams?.get("fromConnections") === "true", "helllloooooooo");
 
   const [showConnect, setShowConnect] = useState(!(isFromConnections || isFromNetworkInvites));
 
@@ -188,7 +187,6 @@ const SearchBar = ({ placeholder = "Search..." }) => {
   const handleSuggestionClick = (suggestion, type) => {
     const userRole = Cookies.get("userRole");
     const userId = Cookies.get("userId");
-    console.log(suggestion, "suggestion.isConnectedsuggestion.isConnectedsuggestion.isConnected");
 
     switch (type) {
       case "user":

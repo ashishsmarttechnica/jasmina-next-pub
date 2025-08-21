@@ -68,7 +68,6 @@ const JobTab = () => {
         ) : Array.isArray(jobListings) && jobListings.length > 0 ? (
           <Swiper spaceBetween={20} slidesPerView="auto" className="h-full">
             {jobListings?.map((job, index) => (
-              console.log(job, "job"),
               <SwiperSlide key={index} className="z-5 !w-auto">
                 <div
                   className="border-grayBlueText/50 z-5 flex h-[199px] w-[180px] min-w-[180px] cursor-pointer flex-col justify-between overflow-hidden rounded-md border px-0 shadow-sm transition-all hover:shadow-md"

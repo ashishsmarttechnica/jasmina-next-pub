@@ -39,7 +39,10 @@ const ApplicantDetails = ({
   setIsSetInterviewOpen,
   applicants,
   onStatusChange,
+  jobData
 }) => {
+  console.log(jobData?.jobLocation, "jobDatajobDatajobData");
+  const remote = jobData?.jobLocation?.includes("Remote");
   const t = useTranslations("Applications");
   const [resumeUrl, setResumeUrl] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
@@ -100,15 +103,17 @@ const ApplicantDetails = ({
 
   const handleStatusChange = async (e) => {
     const newStatus = parseInt(e.target.value);
-    setIsUpdating(true);
 
-    // Immediately update local state for real-time UI update
-    setCurrentStatus(newStatus);
-
-    // Open SetInterview modal immediately when switching to Interviewing
+    // If selecting Interviewing, open modal instead of immediate update
     if (newStatus === 2) {
+      // Revert select to previous value and open modal
+      const previousStatus = selectedApplicant.originalData?.status || selectedApplicant.status || 1;
+      setCurrentStatus(parseInt(previousStatus));
       setIsSetInterviewOpen(true);
+      return;
     }
+
+    setIsUpdating(true);
 
     try {
       await updateApplicationStatus({
@@ -117,14 +122,14 @@ const ApplicantDetails = ({
         status: newStatus,
       });
       queryClient.invalidateQueries(["applicants"]);
+      setCurrentStatus(newStatus);
       toast.success("Status updated successfully");
-      onStatusChange?.(newStatus); // Notify parent component
+      onStatusChange?.(newStatus);
     } catch (error) {
       console.error("Error updating status:", error);
-      // Revert to previous status if API call fails
-      const previousStatus = selectedApplicant.originalData?.status || selectedApplicant.status;
-      setCurrentStatus(previousStatus);
-      onStatusChange?.(previousStatus); // Notify parent to revert
+      const previousStatus = selectedApplicant.originalData?.status || selectedApplicant.status || 1;
+      setCurrentStatus(parseInt(previousStatus));
+      onStatusChange?.(previousStatus);
       toast.error(error?.response?.data?.message || "Failed to update status");
     } finally {
       setIsUpdating(false);
@@ -204,7 +209,7 @@ const ApplicantDetails = ({
                 <option value={6}>{t("statusLabels.reviewed")}</option>
               </select>
 
-              <button
+              {/* <button
                 className={`flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors sm:w-auto sm:px-4 ${isInterviewFixed
                   ? "cursor-not-allowed bg-gray-100 text-gray-500"
                   : "bg-blue-600 text-white hover:bg-blue-700"
@@ -220,7 +225,7 @@ const ApplicantDetails = ({
                 <span className="text-xs sm:text-sm">
                   {isInterviewFixed ? t("interviewFixed") : t("setInterview")}
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

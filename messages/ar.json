@@ -776,7 +776,8 @@
     "Shareunsupported": "مشاركة غير مدعومة على هذا الجهاز",
     "PreviousPlans": "الخطط السابقة",
     "Jobarea": "منطقة",
-    "fulladdress": "العنوان الكامل"
+    "fulladdress": "العنوان الكامل",
+    "ReviewApplications": "مراجعة التطبيقات"
   },
   "Next": "",
   "UserHeader": {
@@ -1054,7 +1055,8 @@
       "you": "أنت",
       "dndOnTitle": "قامت الشركة بتفعيل وضع عدم الإزعاج",
       "dndOnSubtitle": "تم تعطيل المراسلة كما تم تمكينك لا تزعج."
-    }
+    },
+    "DoNotDisturb": "لا تخل"
   },
   "Applications": {
     "search": {
@@ -1222,7 +1224,8 @@
     "rescheduling": "إعادة الجدولة...",
     "scheduling": "الجدولة...",
     "rescheduleInterview": "إعادة جدولة المقابلة",
-    "sendInterview": "إرسال المقابلة"
+    "sendInterview": "إرسال المقابلة",
+    "interviewLink": "رابط عبر الإنترنت"
   },
   "CompanyVerificationModal": {
     "subscriptionRequired": "يتطلب اشتراك",

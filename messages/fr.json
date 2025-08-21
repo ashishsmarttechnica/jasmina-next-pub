@@ -774,7 +774,8 @@
     "Shareunsupported": "Partager non pris en charge sur cet appareil",
     "PreviousPlans": "Plans précédents",
     "Jobarea": "Zone",
-    "fulladdress": "Adresse complète"
+    "fulladdress": "Adresse complète",
+    "ReviewApplications": "Examiner les demandes"
   },
   "Next": "",
   "UserHeader": {
@@ -1052,7 +1053,8 @@
       "you": "Vous",
       "dndOnTitle": "L'entreprise a activé le mode Ne pas déranger",
       "dndOnSubtitle": "La messagerie est désactivée car vous avez permis de ne pas déranger."
-    }
+    },
+    "DoNotDisturb": "Ne pas déranger"
   },
   "Applications": {
     "search": {
@@ -1220,7 +1222,8 @@
     "rescheduling": "Reprogrammation...",
     "scheduling": "Planification...",
     "rescheduleInterview": "Reprogrammer l'entretien",
-    "sendInterview": "Envoyer l'entretien"
+    "sendInterview": "Envoyer l'entretien",
+    "interviewLink": "Lien en ligne"
   },
   "CompanyVerificationModal": {
     "subscriptionRequired": "Abonnement requis",

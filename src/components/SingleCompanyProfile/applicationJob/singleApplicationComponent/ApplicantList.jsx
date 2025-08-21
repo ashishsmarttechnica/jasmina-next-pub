@@ -15,8 +15,6 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
 
   const handleMoreOptionsClick = (e, applicantId) => {
     e.stopPropagation();
-    console.log("More options clicked for applicant:", applicantId);
-    console.log("Current dropdown ID:", moreOptionsDropdownId);
     setMoreOptionsDropdownId(moreOptionsDropdownId === applicantId ? null : applicantId);
   };
 
@@ -88,11 +86,12 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
     <div className="w-full rounded-lg bg-white shadow-md lg:w-[40%]">
       {applicants.map((applicant) => {
         // Use the utility function to get status text (English) for color logic
-        const statusText = getStatusText(applicant.status);
+        const rawStatusText = getStatusText(applicant.status);
+        const statusText = rawStatusText === "Approved" ? "Reviewed" : rawStatusText;
         const statusKeyMap = {
           1: "new",
           2: "interviewing",
-          3: "approved",
+          3: "reviewed",
           4: "rejected",
           5: "hired",
           6: "reviewed",
@@ -150,10 +149,10 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                 {moreOptionsDropdownId === applicant._id && (
                   <div className="absolute top-full right-0 z-20 mt-1 min-w-[140px] rounded-md border border-gray-200 bg-white shadow-lg">
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleViewJob(applicant.jobId);
-                      }}
+                      // onClick={(e) => {
+                      //   e.stopPropagation();
+                      //   handleViewJob(applicant.jobId);
+                      // }}
                       className="flex w-full items-center px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                     >
                       <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

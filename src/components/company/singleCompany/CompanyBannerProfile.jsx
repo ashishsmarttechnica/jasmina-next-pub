@@ -150,7 +150,6 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
-  console.log(userData, "userData");
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div
