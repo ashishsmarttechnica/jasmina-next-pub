@@ -5,12 +5,15 @@ import AppInit from "@/lib/AppInit";
 import QueryProvider from "@/providers/QueryProvider";
 import "@/styles/globals.css";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Ubuntu_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Add CSS for styling the toast
 import { CustomProvider } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css";
+import BlockedUserModal from "../../modal/BlockedUserModal";
+import CompanyUnderReviewModal from "../../modal/CompanyUnderReviewModal";
 
 const ubuntu = Ubuntu_Sans({
   variable: "--font-ubuntu",
@@ -28,13 +31,17 @@ export default async function LocaleLayout({ children, params }) {
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html lang={locale} dir={dir}>
       <body className={`${ubuntu.variable} antialiased`}>
         <CustomProvider>
           <QueryProvider>
-            <NextIntlClientProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
               <AppInit />
+              <BlockedUserModal />
+              <CompanyUnderReviewModal />
               {/* Spacer for mobile bottom nav so content isn't hidden */}
               <div className="pb-8 md:pb-0">
                 {children}

@@ -1232,13 +1232,15 @@
     "messages": {
       "subscriptionLimit": "Sie haben Ihre 2 kostenlosen Stellenanzeigen genutzt. Um mehr zu veröffentlichen, upgraden Sie bitte Ihren Plan.",
       "planExpired": "Ihr Plan ist abgelaufen. Bitte upgraden Sie, um fortzufahren.",
-      "companyNotVerified": "Profil wird überprüft – voller Zugriff nach Freigabe."
+      "companyNotVerified": "Profil wird überprüft – voller Zugriff nach Freigabe.",
+      "userblocked": "Benutzer blockiert"
     },
     "buttons": {
       "subscriptionPurchase": "Abonnement kaufen",
       "logout": "Abmelden",
       "close": "Schließen"
-    }
+    },
+    "blocked": "Ihr Konto wurde blockiert. \nBitte wenden Sie sich an Support."
   },
   "CreateJobForm": {
     "common": {
@@ -1359,5 +1361,12 @@
       "postJob": "Job veröffentlichen",
       "submitting": "Wird gesendet..."
     }
+  },
+  "blocked": "Ihr Konto wurde blockiert. \nBitte wenden Sie sich an Support.",
+  "messages": {
+    "userblocked": "Benutzer blockiert"
+  },
+  "buttons": {
+    "logout": "Abmelden"
   }
 }

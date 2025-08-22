@@ -2,6 +2,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Modal } from "rsuite";
 import useAuthStore from "../store/auth.store";
+import CompanyUnderReviewModal from "./CompanyUnderReviewModal";
 
 const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   const subscriptionMessage =
@@ -19,7 +20,7 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
     : t("verificationRequired");
 
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const userId = user?._id;
 
   const handleSubscriptionClick = () => {
@@ -27,26 +28,21 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
     onClose && onClose();
   };
 
-  const handleLogout = () => {
-    logout();
-    onClose && onClose();
-  };
-
   const handleClose = () => {
     onClose && onClose();
   };
 
-  // Check if it's the company verification message
-  const isCompanyVerificationMessage = message === companyNotVerifiedMessage;
+  // If it's the company verification message, render dedicated modal
+  if (message === companyNotVerifiedMessage) {
+    return <CompanyUnderReviewModal isOpen={isOpen} onClose={onClose} />;
+  }
 
   const displayMessage =
     message === subscriptionMessage
       ? t("messages.subscriptionLimit")
       : message === expiredPlanMessage
         ? t("messages.planExpired")
-        : isCompanyVerificationMessage
-          ? t("messages.companyNotVerified")
-          : message;
+        : message;
 
   return (
     <Modal
@@ -54,8 +50,6 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
       onClose={handleClose}
       size="sm"
       className="mx-auto w-full max-w-lg rounded-2xl !p-0"
-      backdrop={isCompanyVerificationMessage ? "static" : true}
-      keyboard={!isCompanyVerificationMessage}
     >
       <Modal.Header closeButton={true} className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-white px-6 py-4">
         <Modal.Title className="text-xl font-bold text-gray-800">{title}</Modal.Title>
@@ -69,13 +63,6 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
               className="bg-primary hover:bg-primary/90 rounded px-4 py-2 text-white transition-colors"
             >
               {t("buttons.subscriptionPurchase")}
-            </button>
-          ) : isCompanyVerificationMessage ? (
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 rounded px-4 py-2 text-white transition-colors"
-            >
-              {t("buttons.logout")}
             </button>
           ) : (
             <button

@@ -1231,13 +1231,15 @@
     "messages": {
       "subscriptionLimit": "Vous avez utilisé vos 2 publications gratuites. Pour en publier plus, veuillez mettre à niveau votre forfait.",
       "planExpired": "Votre forfait a expiré. Veuillez mettre à niveau pour continuer.",
-      "companyNotVerified": "Profil en cours d'examen – accès complet après approbation."
+      "companyNotVerified": "Profil en cours d'examen – accès complet après approbation.",
+      "userblocked": "Utilisateur bloqué"
     },
     "buttons": {
       "subscriptionPurchase": "Acheter un abonnement",
       "logout": "Se déconnecter",
       "close": "Fermer"
-    }
+    },
+    "blocked": "Votre compte a été bloqué. \nVeuillez contacter l'assistance."
   },
   "CreateJobForm": {
     "common": {
@@ -1357,5 +1359,12 @@
       "postJob": "Publier l'offre",
       "submitting": "Envoi..."
     }
+  },
+  "blocked": "Votre compte a été bloqué. \nVeuillez contacter l'assistance.",
+  "messages": {
+    "userblocked": "Utilisateur bloqué"
+  },
+  "buttons": {
+    "logout": "Déconnexion"
   }
 }

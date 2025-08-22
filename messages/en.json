@@ -1272,13 +1272,15 @@
     "messages": {
       "subscriptionLimit": "You've used your 2 free job post. To post more, please upgrade your plan.",
       "planExpired": "Your plan has expired. Please upgrade to continue.",
-      "companyNotVerified": "Profile under review – full access after approval."
+      "companyNotVerified": "Profile under review – full access after approval.",
+      "userblocked": "User Blocked"
     },
     "buttons": {
       "subscriptionPurchase": "Subscription Purchase",
       "logout": "Logout",
       "close": "Close"
-    }
+    },
+    "blocked": "Your account has been blocked. Please contact support."
   },
   "CreateJobForm": {
     "common": {
@@ -1399,5 +1401,12 @@
       "postJob": "Post Job",
       "submitting": "Submitting..."
     }
+  },
+  "blocked": "Your account has been blocked. Please contact support.",
+  "messages": {
+    "userblocked": "User Blocked"
+  },
+  "buttons": {
+    "logout": "Logout"
   }
 }

@@ -6,7 +6,7 @@ const MainLayout = ({ children, leftComponents = [], rightComponents = [] }) => 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         {/* Left Sidebar */}
         <aside className="hidden lg:col-span-3 lg:block">
-          <div className="sticky top-18 space-y-4">
+          <div className=" top-18 space-y-4">
             {leftComponents.map((component, index) => (
               <React.Fragment key={index}>{component}</React.Fragment>
             ))}

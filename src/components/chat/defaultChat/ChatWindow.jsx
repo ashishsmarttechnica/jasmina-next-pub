@@ -155,6 +155,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       checkDnd(currentUserId, chat.conversationId);
     } else {
       console.log("[ChatWindow] DND check skipped", {
+        isDndSwitchOn,
         currentUserId,
         conversationId: chat?.conversationId,
         hasChat: !!chat,
@@ -162,7 +163,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         timestamp: new Date().toISOString()
       });
     }
-  }, [currentUserId, chat?.conversationId, checkDnd, chat]);
+  }, [currentUserId, isDndSwitchOn, chat?.conversationId, checkDnd, chat]);
 
   // Debug DND state
   useEffect(() => {
@@ -251,12 +252,26 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       if (chat?.companyName && companyId === chat?.conversationId) {
         console.log("[ChatWindow] updating DND state for company chat", { companyId, dndEnabled });
         useChatDndStore.getState().setSwitchOn(dndEnabled);
+        console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
       }
       // If this is a user chat, we might need to check if the user is the one who updated DND
       // For now, we'll update if the current user is involved in the conversation
       else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
         console.log("[ChatWindow] updating DND state for user chat", { companyId, dndEnabled });
         useChatDndStore.getState().setSwitchOn(dndEnabled);
+        console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
+      }
+
+      if (dndEnabled === true) {
+        // useChatDndStore.getState().setDndError("Messaging is disabled as you have enabled Do Not Disturb.");
+        try {
+          if (currentUserId && chat?.conversationId) {
+            checkDnd(currentUserId, chat.conversationId);
+          }
+
+        } catch { }
+      } else {
+        useChatDndStore.getState().setDndError("");
       }
     };
 
@@ -272,10 +287,21 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         if (chat?.companyName && companyId === chat?.conversationId) {
           console.log("[ChatWindow] updating DND state from backend for company chat", { companyId, dndEnabled });
           useChatDndStore.getState().setSwitchOn(dndEnabled);
+          console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
         } else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
           console.log("[ChatWindow] updating DND state from backend for user chat", { companyId, dndEnabled });
           useChatDndStore.getState().setSwitchOn(dndEnabled);
+          console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
         }
+      }
+
+      // When backend indicates DND is ON, verify via API for the current conversation
+      if (dndEnabled === true) {
+        try {
+          if (currentUserId && chat?.conversationId) {
+            checkDnd(currentUserId, chat.conversationId);
+          }
+        } catch { }
       }
     };
 
@@ -311,8 +337,9 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       console.log("[ChatWindow] DND state response received from backend", data);
 
       if (data.dndEnabled !== undefined) {
-        console.log("[ChatWindow] updating DND state from backend response", data.dndEnabled);
+        console.log("[ChatWindow] updating DND state from backend response 00000000000000000", data.dndEnabled);
         useChatDndStore.getState().setSwitchOn(data.dndEnabled);
+        console.log(`[ChatWindow] DND is ${data.dndEnabled ? "ON" : "OFF"} for this chat`);
       }
     };
 
@@ -598,7 +625,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
           </div>
         ) : error ? (
           <div className="flex justify-center py-8">
-            <div className="text-red-500">
+            {/* <div className="text-red-500">
               {t("window.error")}: {error}
               <button
                 className="ml-2 text-blue-500 underline"
@@ -606,7 +633,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
               >
                 {t("window.retry")}
               </button>
-            </div>
+            </div> */}
           </div>
         ) : messages.length === 0 ? (
           <div className="flex justify-center py-8">
@@ -616,7 +643,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
           (() => {
             let lastDate = null;
             return messages.map((msg, idx) => {
-              console.log(msg, "sdfsdkfhjksdhfksdfklsd;;;;;;;;;;");
+              // console.log(msg, "sdfsdkfhjksdhfksdfklsd;;;;;;;;;;");
 
               const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
               if (isNaN(msgDate.getTime())) return null;
@@ -745,7 +772,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
           <div className="flex items-center justify-center px-4 py-6">
             <div className="text-center">
               <div className="flex  text-sm text-red-700 font-medium text-gray-600 mb-1">
-                <MdErrorOutline className="mx-2 text-xl" />  {dndError || t("window.dndOnSubtitle")}
+                <MdErrorOutline className="mx-2 text-xl" />  {dndError}
               </div>
               {/* <div className="text-xs text-gray-500">
                 {dndError || "Messaging is disabled as you have enabled Do Not Disturb."}

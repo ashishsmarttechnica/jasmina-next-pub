@@ -1,5 +1,7 @@
 import useAuthStore from "@/store/auth.store";
+import useModalStore from "@/store/modal.store";
 import axios from "axios";
+import useReviewStore from "../store/verify.store";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -28,9 +30,26 @@ axiosInstance.interceptors.request.use(
 // Add response interceptor for error handling
 axiosInstance.interceptors.response.use(
   (response) => response,
-  
   (error) => {
-    console.error("API Error:", error.response?.status, error.response?.data || error.message);
+    const status = error?.response?.status;
+    console.log(status, "statusstatusstatus");
+
+
+    if (status === 505) {
+      const { openBlockedModal } = useModalStore.getState();
+      openBlockedModal();
+    }
+    if (status === 506 )
+    {
+      const { openReviewModal } = useReviewStore.getState(); 
+      openReviewModal()
+    }
+
+    console.error(
+      "API Error:",
+      status,
+      error?.response?.data || error?.message
+    );
     return Promise.reject(error);
   }
 );

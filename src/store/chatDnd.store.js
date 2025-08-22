@@ -11,6 +11,7 @@ const useChatDndStore = create(
                 loading: false,
                 error: null,
                 setSwitchOn: (value) => set({ switchOn: value }),
+                setDndError: (message) => set({ error: message }),
 
                 // Initialize DND state - this prevents the flicker
                 initializeDnd: () => {

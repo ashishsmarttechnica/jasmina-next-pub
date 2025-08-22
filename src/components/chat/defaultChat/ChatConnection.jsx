@@ -81,7 +81,7 @@ const ChatConnection = () => {
   const [activeChat, setActiveChat] = useState(null);
   const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
   const t = useTranslations("Chat");
-  const { switchOn: dndSwitchOn, checkDnd, checkCompanyDnd, updateDndMode, loading, initializeDnd } = useChatDndStore();
+  const { switchOn: dndSwitchOn, checkDnd, checkCompanyDnd, updateDndMode, loading, initializeDnd, dndError } = useChatDndStore();
   console.log(dndSwitchOn, "dcdklfsh;;;;;;f;;;;;;;;;;;;;;;");
   const { user } = useAuthStore();
   const isLoggedInUser = (user?.role || "").toLowerCase() === "user";
@@ -102,6 +102,8 @@ const ChatConnection = () => {
     // For company chats, check current DND mode on selection
     if (chat?.companyName && userId && chat?.conversationId) {
       checkDnd(userId, chat.conversationId);
+      console.log(chat?.conversationId, "lllllllllll=======+++++");
+
     }
   };
 
