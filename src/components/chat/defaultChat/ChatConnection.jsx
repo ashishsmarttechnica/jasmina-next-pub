@@ -183,39 +183,32 @@ const ChatConnection = () => {
                 !isLoggedInUser ? (
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-600">{t("DoNotDisturb")}</span>
-                    {loading || dndSwitchOn === null ? (
-                      <div className="flex items-center gap-1">
-                        {/* <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-primary"></div> */}
-                        {/* <span className="text-xs text-gray-500">Loading...</span> */}
-                      </div>
-                    ) : (
-                      <Toggle
-                        checked={dndSwitchOn}
-                        onChange={async (checked) => {
-                          try {
-                            const ok = await updateDndMode(user?._id, checked);
-                            if (!ok) {
-                              toast.error(t("dndUpdateFailed"));
-                            } else {
-                              toast.success(checked ? t("dndEnabled") : t("dndDisabled"));
+                    <Toggle
+                      checked={dndSwitchOn}
+                      onChange={async (checked) => {
+                        try {
+                          const ok = await updateDndMode(user?._id, checked);
+                          if (!ok) {
+                            toast.error(t("dndUpdateFailed"));
+                          } else {
+                            toast.success(checked ? t("dndEnabled") : t("dndDisabled"));
 
-                              // Emit DND update to all connected users via socket
-                              await emitDndUpdateToUsers(user?._id, checked);
+                            // Emit DND update to all connected users via socket
+                            await emitDndUpdateToUsers(user?._id, checked);
 
-                              // Re-fetch company DND status to ensure UI reflects persisted value after refresh
-                              if (userId && !isLoggedInUser) {
-                                await checkCompanyDnd(userId);
-                              }
+                            // Re-fetch company DND status to ensure UI reflects persisted value after refresh
+                            if (userId && !isLoggedInUser) {
+                              await checkCompanyDnd(userId);
                             }
-                          } catch (error) {
-                            console.error("Failed to update DND mode:", error);
-                            toast.error("Failed to update DND mode. Please try again.");
                           }
-                        }}
-                        size="md"
-                        disabled={loading}
-                      />
-                    )}
+                        } catch (error) {
+                          console.error("Failed to update DND mode:", error);
+                          toast.error("Failed to update DND mode. Please try again.");
+                        }
+                      }}
+                      size="md"
+                      disabled={loading}
+                    />
                   </div>
                 ) : null
               }

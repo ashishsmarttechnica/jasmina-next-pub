@@ -14,6 +14,7 @@ import { CustomProvider } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import BlockedUserModal from "../../modal/BlockedUserModal";
 import CompanyUnderReviewModal from "../../modal/CompanyUnderReviewModal";
+import UserBlockedModal from "../../modal/UserBlockedModal";
 
 const ubuntu = Ubuntu_Sans({
   variable: "--font-ubuntu",
@@ -42,6 +43,7 @@ export default async function LocaleLayout({ children, params }) {
               <AppInit />
               <BlockedUserModal />
               <CompanyUnderReviewModal />
+              <UserBlockedModal />
               {/* Spacer for mobile bottom nav so content isn't hidden */}
               <div className="pb-8 md:pb-0">
                 {children}

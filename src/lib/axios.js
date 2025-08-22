@@ -39,10 +39,13 @@ axiosInstance.interceptors.response.use(
       const { openBlockedModal } = useModalStore.getState();
       openBlockedModal();
     }
-    if (status === 506 )
-    {
-      const { openReviewModal } = useReviewStore.getState(); 
+    if (status === 506) {
+      const { openReviewModal } = useReviewStore.getState();
       openReviewModal()
+    }
+    if (status === 507) {
+      const { openUserBlockedModal } = useModalStore.getState();
+      openUserBlockedModal()
     }
 
     console.error(
