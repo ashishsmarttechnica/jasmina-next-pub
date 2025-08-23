@@ -128,7 +128,7 @@ const UserNetworkInvites = ({ title }) => {
           const config = getItemConfig(item);
 
           return (
-            <div key={item._id} className="flex w-full items-center justify-between">
+            <div key={item?._id} className="flex w-full items-center justify-between">
               <div className="flex min-w-0 items-center gap-2">
                 <div
                   className="relative h-10 w-10 cursor-pointer"
@@ -149,13 +149,13 @@ const UserNetworkInvites = ({ title }) => {
                   <div className="flex items-center gap-1.5">
                     <NameWithTooltip
                       name={config.name}
-                      id={item._id}
+                      id={item?._id}
                       onClick={() => handleUserProfile(item)}
                     />
                     <span className={config.typeColor}>{config.icon}</span>
                     {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
-                  <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
+                  <SubtitleWithTooltip subtitle={config?.subtitle} id={item?._id} />
                 </div>
               </div>
 
