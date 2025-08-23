@@ -41,7 +41,7 @@ const CompanyUnderReviewModal = () => {
                         onClick={closeReviewModal}
                         className="bg-primary text-white px-4 py-2 rounded-lg"
                     >
-                        Close
+                            {t("buttons.close")}
                     </button>
                 </div>
             </Modal.Body>

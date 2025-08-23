@@ -17,4 +17,14 @@ export const getPages = async (language) => {
     return res.data;
 };
 
+export const getFooterLink = async () => {
+    const res = await axios.get(`/global/freejob`);
+    return res.data;
+};
+
+export const getcontactLink = async () => {
+    const res = await axios.post(`/create/contactUs`);
+    return res.data;
+};
+
 

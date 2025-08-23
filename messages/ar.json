@@ -109,6 +109,22 @@
     },
     "copyRightights": "© ٢٠٢٥ ياسمينا. جميع الحقوق محفوظة."
   },
+  "contact": {
+    "title": "اتصل بنا",
+    "subtitle": "هل لديك سؤال أو ملاحظات؟ نود أن نتواصل معك!",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "namePlaceholder": "أدخل اسمك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "subjectPlaceholder": "أدخل موضوعك",
+    "messagePlaceholder": "اكتب رسالتك هنا...",
+    "submitButton": "إرسال الرسالة",
+    "sending": "جاري الإرسال...",
+    "successMessage": "تم إرسال رسالتك بنجاح!",
+    "errorMessage": "فشل في إرسال الرسالة. يرجى المحاولة مرة أخرى."
+  },
   "auth": {
     "title": "مرحبًا بك مرة أخرى في ياسما!",
     "subTitle": "فرصتك التالية تبدأ هنا.",
@@ -1242,6 +1258,14 @@
       "close": "إغلاق"
     },
     "blocked": "تم حظر حسابك. \nيرجى الاتصال بالدعم."
+  },
+  "UserBlockedModal": {
+    "title": "محظور",
+    "message": "لا يمكنك المتابعة لأن هذا المستخدم محظور حاليًا",
+    "buttons": {
+      "logout": "تسجيل الخروج",
+      "close": "إغلاق"
+    }
   },
   "CreateJobForm": {
     "common": {

@@ -9,8 +9,17 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
     "You've used your 2 free job post. To post more, please upgrade your plan.";
   const expiredPlanMessage = "Your plan has expired. Please upgrade to continue.";
   const companyNotVerifiedMessage = "Profile under review – full access after approval.";
+  const accountBlockedMessage = "Your account has been blocked";
 
   const t = useTranslations("CompanyVerificationModal");
+  const router = useRouter();
+  const { user } = useAuthStore();
+  const userId = user?._id;
+
+  // Don't show modal if account is blocked
+  if (message === accountBlockedMessage) {
+    return null;
+  }
 
   const isSubscriptionRelated =
     message === subscriptionMessage || message === expiredPlanMessage;
@@ -18,10 +27,6 @@ const CompanyVerificationModal = ({ isOpen, onClose, message }) => {
   const title = isSubscriptionRelated
     ? t("subscriptionRequired")
     : t("verificationRequired");
-
-  const router = useRouter();
-  const { user } = useAuthStore();
-  const userId = user?._id;
 
   const handleSubscriptionClick = () => {
     router.push(`/company/single-company/${userId}/subscription`);

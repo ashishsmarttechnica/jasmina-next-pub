@@ -109,6 +109,22 @@
     },
     "copyRightights": "© 2025 Jasmina. \nAlle Rechte vorbehalten."
   },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "subtitle": "Haben Sie eine Frage oder Feedback? Wir würden gerne mit Ihnen in Kontakt treten!",
+    "name": "Name",
+    "email": "E-Mail",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "namePlaceholder": "Geben Sie Ihren Namen ein",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+    "subjectPlaceholder": "Geben Sie Ihren Betreff ein",
+    "messagePlaceholder": "Schreiben Sie Ihre Nachricht hier...",
+    "submitButton": "Nachricht senden",
+    "sending": "Senden...",
+    "successMessage": "Ihre Nachricht wurde erfolgreich gesendet!",
+    "errorMessage": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+  },
   "auth": {
     "title": "Willkommen zurück in Jasmina!",
     "subTitle": "Ihre nächste Gelegenheit beginnt hier.",
@@ -1241,6 +1257,14 @@
       "close": "Schließen"
     },
     "blocked": "Ihr Konto wurde blockiert. \nBitte wenden Sie sich an Support."
+  },
+  "UserBlockedModal": {
+    "title": "Blockiert",
+    "message": "Sie können nicht fortfahren, da dieser Benutzer derzeit blockiert ist",
+    "buttons": {
+      "logout": "Abmelden",
+      "close": "Schließen"
+    }
   },
   "CreateJobForm": {
     "common": {

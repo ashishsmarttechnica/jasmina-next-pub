@@ -15,6 +15,7 @@ const publicRoutes = [
   "/privacy-policy",
   "/terms-conditions",
   "/pagedetail/:slag",
+  "/contact",
 ];
 
 // Define profile creation routes
@@ -88,6 +89,11 @@ export default async function middleware(request: NextRequest) {
 
   // Handle public routes
   if (publicRoutes.includes(pathWithoutLocale)) {
+    // Special case for contact page - allow access for both authenticated and unauthenticated users
+    if (pathWithoutLocale === "/contact") {
+      return response;
+    }
+
     // If user is already logged in, redirect to their role-specific home page
     if (isAuthenticated && userRole) {
       if (userRole === "user") {

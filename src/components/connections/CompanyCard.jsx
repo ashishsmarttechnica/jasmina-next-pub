@@ -14,8 +14,10 @@ const CompanyCard = ({ company }) => {
   // Current logged in user id from cookies
   const currentUserId = Cookies.get("userId");
   const CompanyId = company?.details?._id;
+  
   const isOwnCompany =
     Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);
+
   const [isRemoving, setIsRemoving] = useState(false);
   const availabilityIcons = {
     "Open to Work": "🟢",

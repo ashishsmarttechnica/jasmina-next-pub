@@ -4,6 +4,7 @@ import useAuthStore from "@/store/auth.store";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import useModalStore from "../../store/modal.store";
 
 export default function useLogin() {
   const setToken = useAuthStore((state) => state.setToken);
@@ -33,9 +34,12 @@ export default function useLogin() {
 
         toast.success("Login successful!");
 
+
         // Role-based redirection using router.push
         if (role === "user") {
           router.push("/feed");
+          const { openBlockedModal } = useModalStore.getState();
+          openBlockedModal();
         } else if (role === "company") {
           router.push("/company/feed");
         } else {

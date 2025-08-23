@@ -1,6 +1,6 @@
 "use client";
 
-import { getPages } from "@/api/pages.api";
+import { getFooterLink, getPages } from "@/api/pages.api";
 import footerLogo from "@/assets/footer/footerLogo.png";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,18 @@ const Footer = () => {
     queryKey: ["pages", "footer", locale],
     queryFn: () => getPages(locale),
   });
+  const { data: footerLinkResponse, isLoading: isLoadingFooterLink } = useQuery({
+    queryKey: ["footerLink", locale],
+    queryFn: () => getFooterLink(locale),
+  });
+  console.log(footerLinkResponse?.data?.socialLinks, "footerLinkResponse?.data?.data?.socialLinks");
+
+
+  console.log(footerLinkResponse, "footerLinkResponse-------");
+
+
+//
+
   const pages = Array.isArray(pagesResponse?.data)
     ? pagesResponse.data
     : [];
@@ -69,7 +81,12 @@ const Footer = () => {
                     <li className="pb-1.5">
                       {t("SupportHelpMenu.HelpCenter")}
                     </li>
-                    <li className="pb-1.5">{t("SupportHelpMenu.ContactUs")}</li>
+                    <li
+                      className={`pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200 ${pathname === "/contact" ? "text-primary font-medium" : ""}`}
+                      onClick={() => handleNavigation("/contact")}
+                    >
+                      {t("SupportHelpMenu.ContactUs")}
+                    </li>
                     {/* <li
                       className="pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200"
                       onClick={() => handleNavigation("/privacy-policy")}
@@ -110,10 +127,20 @@ const Footer = () => {
             <div>
               <div>
                 <ul className="text-grayBlueText sm:flex-row flex-col flex items-start justify-start sm:gap-6 text-base">
-                  <li>{t("socialMenu.LinkedIn")}</li>
+                  {/* <li>{t("socialMenu.LinkedIn")}</li>
                   <li>{t("socialMenu.twitter")}</li>
                   <li>{t("socialMenu.Facebook")}</li>
-                  <li>{t("socialMenu.Instagram")}</li>
+                  <li>{t("socialMenu.Instagram")}</li> */}
+                  {footerLinkResponse?.data?.socialLinks &&
+                    Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => (
+                      <li key={index}>
+                        <a href={link} target="_blank" rel="noopener noreferrer">
+                          {name.charAt(0).toUpperCase() + name.slice(1)}
+                        </a>
+                      </li>
+                    ))
+                  }
+
                 </ul>
               </div>
             </div>

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 
 const PeopleCard = ({ person }) => {
   // console.log(person, "person||||");
+  const currentUserId = Cookies.get("userId");
   const [isRemoving, setIsRemoving] = useState(false);
   const { mutate: removeConnection, isPending } = useRemoveConnection();
   const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
@@ -20,7 +21,8 @@ const PeopleCard = ({ person }) => {
   const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("CompanyProfile.singleCompanyTab");
-
+  const UserId = person?.details?._id
+  const isOwnUser = Boolean(currentUserId) && Boolean(UserId) && String(UserId) === String(currentUserId);
   const availabilityIcons = {
     "Open to Work": "🟢",
     "Available for Freelance": "🟡",
@@ -130,13 +132,17 @@ const PeopleCard = ({ person }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <button
-              className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-              onClick={() => handleMessage(person?.details)}
-              disabled={isGeneratingChat}
-            >
-              {isGeneratingChat ? "Generating..." : t("message")}
-            </button>
+            {!isOwnUser && (
+
+              <button
+                className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                onClick={() => handleMessage(person?.details)}
+                disabled={isGeneratingChat}
+              >
+                {isGeneratingChat ? "Generating..." : t("message")}
+              </button>
+            )}
+            
             <button
               onClick={() => handleRemove(person)}
               disabled={isPending}
