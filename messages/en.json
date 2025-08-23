@@ -191,7 +191,15 @@
     "submitButton": "Send Message",
     "sending": "Sending...",
     "successMessage": "Your message has been sent successfully!",
-    "errorMessage": "Failed to send message. Please try again."
+    "errorMessage": "Failed to send message. Please try again.",
+    "nameRequired": "Name is required",
+    "nameLength": "Name must be at least 2 characters long",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "subjectRequired": "Subject is required",
+    "subjectLength": "Subject must be at least 5 characters long",
+    "messageRequired": "Message is required",
+    "messageLength": "Message must be at least 10 characters long"
   },
   "auth": {
     "title": "Welcome Back to Jasmina!",

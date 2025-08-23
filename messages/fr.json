@@ -123,7 +123,15 @@
     "submitButton": "Envoyer le message",
     "sending": "Envoi...",
     "successMessage": "Votre message a été envoyé avec succès!",
-    "errorMessage": "Échec de l'envoi du message. Veuillez réessayer."
+    "errorMessage": "Échec de l'envoi du message. Veuillez réessayer.",
+    "nameRequired": "Le nom est requis",
+    "nameLength": "Le nom doit comporter au moins 2 caractères",
+    "emailRequired": "Un e-mail est requis",
+    "emailInvalid": "S'il vous plaît, mettez une adresse email valide",
+    "subjectRequired": "Le sujet est requis",
+    "subjectLength": "Le sujet doit comporter au moins 5 caractères",
+    "messageRequired": "Un message est requis",
+    "messageLength": "Le message doit comporter au moins 10 caractères"
   },
   "auth": {
     "title": "Bienvenue à Jasmina!",

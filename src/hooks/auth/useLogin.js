@@ -15,10 +15,12 @@ export default function useLogin() {
     mutationFn: loginUser,
     onSuccess: (data) => {
       if (data?.success === true) {
+        console.log(data, "data++++++++++++++");
         const token = data.data.token;
         const role = data.data.role;
         const profileComplete = data.data.profileComplete;
-
+        const BlockModel = data?.data?.status;
+        console.log(BlockModel, "BlockModel++++++++++++++");
         // Set cookies for middleware
         Cookies.set("token", token);
         Cookies.set("userRole", role);
@@ -27,7 +29,7 @@ export default function useLogin() {
         Cookies.set("userId", data.data._id);
         Cookies.set("stripeCustomerId", data.data.stripeCustomerId);
         localStorage.setItem("stripeCustomerId", data.data.stripeCustomerId);
-
+// 
         // Zustand update
         setToken(token);
         setUser(data.data);
@@ -38,8 +40,12 @@ export default function useLogin() {
         // Role-based redirection using router.push
         if (role === "user") {
           router.push("/feed");
-          const { openBlockedModal } = useModalStore.getState();
-          openBlockedModal();
+          if (BlockModel === 2) {
+            setTimeout(() => {
+              const { openBlockedModal } = useModalStore.getState();
+              openBlockedModal();
+            }, 1300); 
+          }
         } else if (role === "company") {
           router.push("/company/feed");
         } else {

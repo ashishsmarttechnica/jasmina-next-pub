@@ -33,13 +33,13 @@ const ContactForm = ({ onSubmit }) => {
             [name]: value,
         }));
 
-        const newErrors = ContactvalidateForm({ ...formData, [name]: value });
+        const newErrors = ContactvalidateForm({ ...formData, [name]: value }, t);
         setErrors(newErrors);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const validationErrors = ContactvalidateForm(formData);
+        const validationErrors = ContactvalidateForm(formData, t);
 
         if (Object.keys(validationErrors).length === 0) {
             try {
