@@ -283,7 +283,14 @@
         "message": "رسالة",
         "noexperience": "لا توجد معلومات خبرة متاحة.",
         "Noresumedocumentavailable": "لا مستند استئناف متاح.",
-        "Failedtoremoveconnection": "فشل في إزالة الاتصال"
+        "Failedtoremoveconnection": "فشل في إزالة الاتصال",
+        "preferences": "التفضيلات",
+        "loadmore": "تحميل أكثر",
+        "noeducation": "لا مزيد من التعليم لتحميل.",
+        "nopreferences": "لا مزيد من التفضيلات.",
+        "noeducations": "لا توجد معلومات تعليمية متاحة.",
+        "jobpreferences": "تفضيلات العمل",
+        "Nodatafound": "لم يتم العثور على بيانات."
       },
       "personalInfo": "معلومات شخصية",
       "pronoun": "ضمير",
@@ -752,7 +759,8 @@
       "connectionfound": "وجدت الاتصال",
       "connecton": "متصلة على",
       "No": "لا",
-      "Failedtoremoveconnection": "فشل في إزالة الاتصال"
+      "Failedtoremoveconnection": "فشل في إزالة الاتصال",
+      "JobOpportunities": "فرص العمل"
     },
     "InvalidInstagramLinkError": "رابط Instagram غير صالح",
     "InvalidLinkError": "رابط غير صالح",
@@ -811,7 +819,8 @@
     "connections": "الاتصالات",
     "logout": "تسجيل الخروج",
     "logoutSuccess": "تسجيل الخروج ناجح!",
-    "viewProfile": "عرض الملف الشخصي"
+    "viewProfile": "عرض الملف الشخصي",
+    "JobOpportunities": "فرص العمل"
   },
   "CompanyHeader": {
     "logout": "تسجيل الخروج",
@@ -1030,7 +1039,9 @@
     "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
     "Applytocompany": "تقدم بطلب إلى موقع الشركة",
     "ApplyOncompany": "تقدم بطلب على موقع الشركة",
-    "shareSuccess": "تمت المشاركة بنجاح"
+    "shareSuccess": "تمت المشاركة بنجاح",
+    "SubmittedApplications": "الطلبات المقدمة",
+    "savedjobs": "وظائف محفوظة"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",

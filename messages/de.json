@@ -282,7 +282,14 @@
         "message": "Nachricht",
         "noexperience": "Keine Erfahrungsinformationen verfügbar.",
         "Noresumedocumentavailable": "Kein Lebenslauf -Dokument verfügbar.",
-        "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
+        "Failedtoremoveconnection": "Die Verbindung nicht entfernen",
+        "preferences": "Vorlieben",
+        "loadmore": "Laden mehr",
+        "noeducation": "Keine Ausbildung mehr zum Laden.",
+        "nopreferences": "Keine Präferenzen mehr durcheinander.",
+        "noeducations": "Keine Bildungsinformationen zur Verfügung.",
+        "jobpreferences": "Jobvorstellungen",
+        "Nodatafound": "Keine Daten gefunden."
       },
       "personalInfo": "Persönliche Informationen",
       "pronoun": "Pronomen",
@@ -751,7 +758,8 @@
       "connectionfound": "Verbindung gefunden",
       "connecton": "Angeschlossen auf",
       "No": "NEIN",
-      "Failedtoremoveconnection": "Die Verbindung nicht entfernen"
+      "Failedtoremoveconnection": "Die Verbindung nicht entfernen",
+      "JobOpportunities": "Beschäftigungsmöglichkeiten"
     },
     "InvalidInstagramLinkError": "Ungültiger Instagram -Link",
     "InvalidLinkError": "Ungültiger Link",
@@ -810,7 +818,8 @@
     "connections": "Verbindungen",
     "logout": "Abmelden",
     "logoutSuccess": "Logout erfolgreich!",
-    "viewProfile": "Profil anzeigen"
+    "viewProfile": "Profil anzeigen",
+    "JobOpportunities": "Beschäftigungsmöglichkeiten"
   },
   "CompanyHeader": {
     "logout": "Abmelden",
@@ -1029,7 +1038,9 @@
     "ApplyLinkexternal": "Link anwenden (externe URL)",
     "Applytocompany": "Bewerben Sie sich bei der Unternehmenswebsite",
     "ApplyOncompany": "Bewerben Sie sich auf der Website der Firma",
-    "shareSuccess": "Beitrag erfolgreich geteilt"
+    "shareSuccess": "Beitrag erfolgreich geteilt",
+    "SubmittedApplications": "Eingereichte Bewerbungen",
+    "savedjobs": "Rettete Jobs"
   },
   "Usernotloggedin": "Benutzer nicht angemeldet",
   "Jobremoved": "Job entfernt!",

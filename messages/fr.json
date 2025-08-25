@@ -283,7 +283,14 @@
         "message": "Message",
         "noexperience": "Aucune expérience d'information disponible.",
         "Noresumedocumentavailable": "Aucun document de CV disponible.",
-        "Failedtoremoveconnection": "Impossible de supprimer la connexion"
+        "Failedtoremoveconnection": "Impossible de supprimer la connexion",
+        "preferences": "Préférences",
+        "loadmore": "Chargez plus",
+        "noeducation": "Plus d'éducation à charger.",
+        "nopreferences": "Plus de préférences avaliables.",
+        "noeducations": "Aucune information d'éducation disponible.",
+        "jobpreferences": "Préférences professionnelles",
+        "Nodatafound": "Aucune donnée trouvée."
       },
       "personalInfo": "Information personnelle",
       "pronoun": "Pronom",
@@ -750,7 +757,8 @@
       "connectionfound": "Connexion trouvée",
       "connecton": "Connecté sur",
       "No": "Non",
-      "Failedtoremoveconnection": "Impossible de supprimer la connexion"
+      "Failedtoremoveconnection": "Impossible de supprimer la connexion",
+      "JobOpportunities": "Opportunités d'emploi"
     },
     "InvalidInstagramLinkError": "Lien Instagram non valide",
     "InvalidLinkError": "Lien non valide",
@@ -809,7 +817,8 @@
     "connections": "Relations",
     "logout": "Déconnexion",
     "logoutSuccess": "Déconnexion réussie!",
-    "viewProfile": "Afficher le profil"
+    "viewProfile": "Afficher le profil",
+    "JobOpportunities": "Opportunités d'emploi"
   },
   "CompanyHeader": {
     "logout": "Déconnexion",
@@ -1028,7 +1037,9 @@
     "ApplyLinkexternal": "Appliquer le lien (URL externe)",
     "Applytocompany": "Postuler sur le site Web de l'entreprise",
     "ApplyOncompany": "Postuler sur le site Web de l'entreprise",
-    "shareSuccess": "Offre partagée avec succès"
+    "shareSuccess": "Offre partagée avec succès",
+    "SubmittedApplications": "Demandes soumises",
+    "savedjobs": "Emplois sauvés"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",

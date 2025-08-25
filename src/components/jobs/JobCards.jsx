@@ -129,11 +129,11 @@ const JobCards = ({ filters }) => {
                     </h3>
                     <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                       <IoClipboardOutline className="h-4 w-4" />
-                      {job.experience}
+                      <span className="leading-relaxed break-words">{job.experience}</span>
                     </p>
                     <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                       <HiOutlineLocationMarker className="h-4 w-4" />
-                      {job.location}
+                      <span className="leading-relaxed break-words">{job.location}</span>
                     </p>
                     <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
                     <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
@@ -151,10 +151,10 @@ const JobCards = ({ filters }) => {
                         className="mt-1 rounded-md"
                       />
                       <div className="flex w-full flex-col">
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 leading-relaxed break-words">
                           {job?.company || t("unknownCompany")}
                         </div>
-                        <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
+                        <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF] leading-relaxed">
                           {job?.website}
                         </div>
                       </div>

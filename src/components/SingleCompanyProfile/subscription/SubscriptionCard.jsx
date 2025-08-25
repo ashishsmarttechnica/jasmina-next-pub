@@ -88,12 +88,12 @@ const SubscriptionCard = ({
 
       <div className="relative z-10">
         <div className="mb-4">
-          <h3 className="text-primary text-md font-medium">{title}</h3>
-          <div className="text-primary mt-2 text-right text-[50px] font-bold">€{price}</div>
-          <p className="mt-4 text-center text-gray-600">
+          <h3 className="text-primary text-md font-medium leading-relaxed break-words">{title}</h3>
+          <div className="text-primary mt-2 text-right text-[50px] font-bold leading-relaxed break-words">€{price}</div>
+          <p className="mt-4 text-center text-gray-600 leading-relaxed break-words">
             {eligibility}
             {employeeRange && (
-              <span className="block text-sm">
+              <span className="block text-sm leading-relaxed break-words">
                 ({employeeRange.min} {t("to")} {employeeRange.max} {t("employees")})
               </span>
             )}
@@ -119,7 +119,7 @@ const SubscriptionCard = ({
           </button>
         )}
         {rejectReason && (
-          <div className="mt-2 max-w-[350px] truncate text-center text-red-600">{`${t("reason")}: ${rejectReason}`}</div>
+          <div className="mt-2 max-w-[350px] truncate text-center text-red-600 leading-relaxed break-words">{`${t("reason")}: ${rejectReason}`}</div>
         )}
       </div>
     </div>

@@ -7,6 +7,7 @@ import useAuthStore from "@/store/auth.store";
 import useConnectionsStore from "@/store/connections.store";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -18,6 +19,10 @@ const PeopleCard = ({ person }) => {
   const { mutate: removeConnection, isPending } = useRemoveConnection();
   const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
   const { connections, setConnections } = useConnectionsStore();
+  const searchParams = useSearchParams();
+  const tabId = searchParams.get("profileId");
+  // console.log(tabId, "tabId------");
+  const Removebtn = currentUserId === tabId ? true : false;
   const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("CompanyProfile.singleCompanyTab");
@@ -142,14 +147,17 @@ const PeopleCard = ({ person }) => {
                 {isGeneratingChat ? "Generating..." : t("message")}
               </button>
             )}
-            
-            <button
-              onClick={() => handleRemove(person)}
-              disabled={isPending}
-              className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-            >
-              {isPending ? `${t("removing")}` : `${t("remove")}`}
-            </button>
+            {/* {isOwnUser && ( */}
+            {Removebtn && (
+              <button
+                onClick={() => handleRemove(person)}
+                disabled={isPending}
+                className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              >
+                {isPending ? `${t("removing")}` : `${t("remove")}`}
+              </button>
+            )}
+            {/* )} */}
           </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">

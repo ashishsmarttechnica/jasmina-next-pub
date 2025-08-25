@@ -51,7 +51,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between border-b border-[#888DA8]/10 py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <List className="text-2xl" />
-              <span className="text-[13px] font-normal">{t("AppliedJobs")}</span>
+              <span className="text-[13px] font-normal">{t("SubmittedApplications")}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{appliedJobs.length}</span>
           </div>
@@ -63,7 +63,7 @@ const MyJobs = () => {
           <div className="flex items-center justify-between py-3 hover:bg-[#D9D9D9]/[34%]">
             <div className="flex items-center gap-2.5 px-4 text-gray-500">
               <LuBookmark className="text-sm" />
-              <span className="text-[13px] font-normal">{t("SaveJobs")}</span>
+              <span className="text-[13px] font-normal">{t("savedjobs")}</span>
             </div>
             <span className="px-4 text-xs font-bold text-black">{savedJobs.length}</span>
           </div>

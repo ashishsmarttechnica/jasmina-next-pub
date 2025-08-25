@@ -88,6 +88,7 @@ const UserBannerProfile = ({
   const isCurrentUser = paramsUserId === localUserId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isBioModalOpen, setIsBioModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   console.log(userData?.isConnected, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)");
   const [showConnect, setShowConnect] = useState(
@@ -115,7 +116,7 @@ const UserBannerProfile = ({
     if (userData?._id) {
       router.push(`/connections?profileId=${userData._id}&type=User&tab=people`);
     } else {
-      router.push("/connections");
+      router.push("/connections?tab=people");
     }
   };
 
@@ -228,9 +229,20 @@ const UserBannerProfile = ({
       <div className="relative bg-white px-4 py-6 md:px-8 md:py-6">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
-            <h2 className="text-lg font-bold text-black md:text-xl">
-              {userData?.profile?.fullName || t("fullName")}
-            </h2>
+            <div className="flex gap-2">
+
+              <p className="text-lg font-bold text-black md:text-xl">
+                {userData?.profile?.fullName || t("fullName")}
+              </p>
+              {userData?.profile?.isPrivate === true &&
+                (
+                  <>
+
+                    <span className="text-slate-600 mt-0.5 "></span> <span className="text-xs font-medium text-slate-800 mt-1.5 ">||  {userData?.profile?.pronounce}</span>
+                  </>
+                )
+              }
+            </div>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.preferences?.jobRole || t("jobRole")}
             </p>
@@ -252,9 +264,33 @@ const UserBannerProfile = ({
                 </div>
               </div>
             </div>
+            <div>
+              {(() => {
+                const bio = userData?.profile?.short_bio || "";
+                const trimmedBio = bio.trim();
+                const isLong = trimmedBio.length > 30;
+                const preview = isLong ? trimmedBio.slice(0, 30) + "…" : trimmedBio;
+                return (
+                  <>
+                    <div className="flex">
 
+                      <span className="text-xs  text-[#888DA8] font-medium flex"><div className="font-bold pr-2"> short bio  </div>{preview} </span>
+                      {isLong && (
+                        <button
+                          type="button"
+                          className="ml-1 text-primary text-[12px] "
+                          onClick={() => setIsBioModalOpen(true)}
+                        >
+                          Show More
+                        </button>
+                      )}
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
             {/* Social Media Links with Icons */}
-            <div className="mt-3 flex items-center gap-5">
+            <div className="flex items-center gap-5">
               {userData?.profile?.linkedin && (
                 <a
                   href={userData.profile.linkedin}
@@ -376,6 +412,23 @@ const UserBannerProfile = ({
         onClose={() => setIsPasswordModalOpen(false)}
         userData={userData}
       />
+      {isBioModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/[40%]">
+          <div className="relative w-[95%] max-w-[545px] max-h-[90vh] overflow-y-auto rounded-[10px] bg-white p-6 shadow-xl">
+            <button
+              type="button"
+              onClick={() => setIsBioModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-black"
+            >
+              ×
+            </button>
+            <div className="mb-4 text-lg font-semibold text-black">Short Bio</div>
+            <div className="text-[15px] text-[#2c2c2c] whitespace-pre-line">
+              {userData?.profile?.short_bio || ""}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

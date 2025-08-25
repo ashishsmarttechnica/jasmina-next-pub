@@ -51,7 +51,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
     if (userData?._id) {
       router.push(`/connections?profileId=${userData._id}&type=Company&tab=company`);
     } else {
-      router.push("/connections");
+      router.push("/connections?tab=company");
     }
   };
 

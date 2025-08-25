@@ -175,27 +175,27 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
         <ul className="space-y-2 text-sm text-[#888DA8]">
           <li className="flex items-center gap-2">
             <ClockSvg />
-            {job?.type}
+            <span className="leading-relaxed break-words">{job?.type}</span>
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            {t("experience")}: {job?.experience}
+            <span className="leading-relaxed break-words">{t("experience")}: {job?.experience}</span>
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            {t("Education")}: {job?.education}
+            <span className="leading-relaxed break-words">{t("Education")}: {job?.education}</span>
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            {t("Salary")}: {job?.salary}
+            <span className="leading-relaxed break-words">{t("Salary")}: {job?.salary}</span>
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            {t("Seniority")}: {job?.seniority}
+            <span className="leading-relaxed break-words">{t("Seniority")}: {job?.seniority}</span>
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            {t("Applicants")}: {job?.applicants}
+            <span className="leading-relaxed break-words">{t("Applicants")}: {job?.applicants}</span>
           </li>
         </ul>
       </div>
@@ -235,8 +235,8 @@ const SingleSaveJobDetail = ({ job, onBack }) => {
               className="mt-1 rounded-md"
             />
             <div className="flex w-full flex-col">
-              <div className="text-sm text-gray-500">{job.company || "Unknown Company"} </div>
-              <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
+              <div className="text-sm text-gray-500 leading-relaxed break-words">{job.company || "Unknown Company"} </div>
+              <div className="w-full max-w-full text-[13px] break-words whitespace-normal leading-relaxed">
                 {job.website}
               </div>
             </div>

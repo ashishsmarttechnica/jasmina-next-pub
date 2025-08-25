@@ -51,12 +51,12 @@ const UserNavItems = ({ onLinkClick }) => {
         onClick={onLinkClick}
       >
         <FiBriefcase className="h-5 w-5 text-white" />
-        <span>{t("jobs")}</span>
+        <span>{t("JobOpportunities")}</span>
       </Link>
 
       <Link
-        href="/connections"
-        className="mx-1 flex items-center space-x-2.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
+        href="/connections?tab=people"
+        className="mx-1 flex items-center space-x-1.5 border-b border-transparent pb-3 no-underline transition-all duration-300 ease-in-out hover:border-white md:pb-1"
         onClick={onLinkClick}
       >
         <FiUsers className="h-5 w-5 text-white" />

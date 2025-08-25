@@ -173,25 +173,29 @@ const ApplicantDetails = ({
               {/* Contact Info - Responsive */}
               <div className="flex flex-col gap-2 text-sm text-gray-600 sm:flex-row sm:flex-wrap sm:gap-4">
                 {selectedApplicant.email && (
-                  <div className="flex items-center gap-2">
-                    <FaEnvelope className="text-blue-500" />
-                    <span className="text-xs sm:text-sm">{selectedApplicant.email}</span>
+                  <div className="flex items-center gap-2 min-w-0 max-w-full break-all">
+                    <FaEnvelope className="text-blue-500 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm leading-relaxed break-all">
+                      {selectedApplicant.email}
+                    </span>
                   </div>
                 )}
 
                 {selectedApplicant.phone && (
-                  <div className="flex items-center gap-2">
-                    <FaPhone className="text-green-500" />
-                    <span className="text-xs sm:text-sm">{selectedApplicant.phone}</span>
+                  <div className="flex items-center gap-2 min-w-0 max-w-full break-all">
+                    <FaPhone className="text-green-500 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm leading-relaxed break-all">{selectedApplicant.phone}</span>
                   </div>
                 )}
+
                 {selectedApplicant.location && (
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-red-500" />
-                    <span className="text-xs sm:text-sm">{selectedApplicant.location}</span>
+                  <div className="flex items-center gap-2 min-w-0 max-w-full break-words">
+                    <FaMapMarkerAlt className="text-red-500 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm leading-relaxed break-words">{selectedApplicant.location}</span>
                   </div>
                 )}
               </div>
+
             </div>
 
             {/* Status and Actions - Responsive */}
@@ -307,10 +311,16 @@ const ApplicantDetails = ({
                     <FaEnvelope className="text-xs text-blue-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-500">{t("applicationDetails.email")}</p>
-                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
+                    <p className="text-xs text-gray-500 sm:text-sm leading-relaxed break-words whitespace-pre-line ">{t("applicationDetails.email")}</p>
+                    {/* <div className="flex items-center gap-2 min-w-0 max-w-full break-all"> */}
+                    {/* <FaEnvelope className="text-blue-500 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm leading-relaxed break-all">
+                      {selectedApplicant.email}
+                    </span> */}
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm leading-relaxed break-all">
                       {selectedApplicant.email || t("common.notProvided")}
                     </p>
+                    {/* </div> */}
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
@@ -318,8 +328,8 @@ const ApplicantDetails = ({
                     <span className="text-xs font-bold text-indigo-600">$</span>
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-500">{t("applicationDetails.salary")}</p>
-                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
+                    <p className="text-xs text-gray-500 leading-relaxed break-words">{t("applicationDetails.salary")}</p>
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm leading-relaxed break-all">
                       {selectedApplicant.originalData?.salaryExpectation || t("common.notSpecified")}
                     </p>
                   </div>
@@ -338,8 +348,8 @@ const ApplicantDetails = ({
                     <FaCalendarCheck className="text-xs text-purple-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-500">{t("applicationDetails.startDate")}</p>
-                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
+                    <p className="text-xs text-gray-500 leading-relaxed break-words">{t("applicationDetails.startDate")}</p>
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm leading-relaxed break-words">
                       {selectedApplicant.originalData?.preferredStartDate
                         ? formatPreferredStartDate(
                           selectedApplicant.originalData.preferredStartDate
@@ -354,8 +364,8 @@ const ApplicantDetails = ({
                     <FaCalendarCheck className="text-xs text-yellow-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-500">{t("applicationDetails.availability")}</p>
-                    <p className="text-xs font-medium text-gray-900 sm:text-sm">
+                    <p className="text-xs text-gray-500 leading-relaxed break-words">{t("applicationDetails.availability")}</p>
+                    <p className="text-xs font-medium text-gray-900 sm:text-sm leading-relaxed break-words">
                       {selectedApplicant.originalData?.currentAvailability || t("common.notSpecified")}
                     </p>
                   </div>
@@ -367,16 +377,19 @@ const ApplicantDetails = ({
           {/* Message Section - Responsive */}
           {selectedApplicant.originalData?.message && (
             <div className="mt-4">
-              <h4 className="mb-2 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                {t("applicationDetails.coverMessage")}
-              </h4>
-              <div className="rounded bg-gray-50 p-3">
-                <p className="text-xs leading-relaxed text-gray-700 sm:text-sm">
+              <div className="leading-relaxed job-description text-gray-700">
+                <div className="w-full text-xs font-medium text-gray-500 uppercase mb-2 leading-relaxed break-words">
+                  {t("applicationDetails.coverMessage")}
+                </div>
+              </div>
+              <div className="rounded  p-3">
+                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed break-words whitespace-pre-line">
                   {selectedApplicant.originalData.message}
                 </p>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>

@@ -46,9 +46,8 @@ const TabsWithUnderline = ({
           }}
           onMouseEnter={() => handleHover(peopleRef)}
           onMouseLeave={handleHoverLeave}
-          className={`px-4 py-3.5 transition-all duration-200 outline-none hover:scale-[1.02] sm:px-6 ${
-            activeTab === "people" ? "text-primary" : "text-grayBlueText hover:text-primary/80"
-          }`}
+          className={`px-4 py-3.5 transition-all duration-200 outline-none hover:scale-[1.02] sm:px-6 ${activeTab === "people" ? "text-primary" : "text-grayBlueText hover:text-primary/80"
+            }`}
         >
           {t("people")}
         </button>
@@ -61,9 +60,8 @@ const TabsWithUnderline = ({
           }}
           onMouseEnter={() => handleHover(companyRef)}
           onMouseLeave={handleHoverLeave}
-          className={`px-4 py-3.5 transition-all duration-200 outline-none hover:scale-[1.02] sm:px-6 ${
-            activeTab === "company" ? "text-primary" : "text-grayBlueText hover:text-primary/80"
-          }`}
+          className={`px-4 py-3.5 transition-all duration-200 outline-none hover:scale-[1.02] sm:px-6 ${activeTab === "company" ? "text-primary" : "text-grayBlueText hover:text-primary/80"
+            }`}
         >
           {t("company")}
         </button>

@@ -82,6 +82,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.x", personalData.x);
     formData.append("profile.facebook", personalData.facebook);
     formData.append("profile.email", personalData.email);
+    formData.append("profile.short_bio", personalData.short_bio);
 
     // Preferences fields - only append if availability is not "Not Available"
     if (availability !== "Not Available" && availability !== "" && availability?.trim() !== "") {
@@ -92,8 +93,8 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       formData.append("preferences.availableFrom", preferencesData.joindate);
       formData.append("preferences.preferredLocation", preferencesData.workLocation);
       // Experience field is optional - only send if it has a valid value
-      if (preferencesData.experience && preferencesData.experience.trim() !== "") {
-        formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      if (preferencesData?.experience && String(preferencesData?.experience).trim() !== "") {
+        formData.append("preferences.yearsOfExperience", preferencesData?.experience);
       }
       if (preferencesData.industry)
         formData.append("preferences.preferredIndustry", preferencesData.industry);

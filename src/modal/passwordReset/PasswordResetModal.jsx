@@ -15,6 +15,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -26,16 +27,42 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
       ...formData,
       [name]: value,
     });
+    setErrors((prev) => {
+      const copy = { ...prev };
+      delete copy[name];
+      return copy;
+    });
+    if (error) setError("");
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.currentPassword?.trim()) {
+      newErrors.currentPassword = t("PasswordError");
+    }
+
+    if (!formData.newPassword?.trim()) {
+      newErrors.newPassword = t("PasswordError");
+    } else if (formData.newPassword.length < 6) {
+      newErrors.newPassword = t("passwordLengthError");
+    }
+
+    if (!formData.confirmPassword?.trim()) {
+      newErrors.confirmPassword = t("PasswordError");
+    } else if (formData.newPassword !== formData.confirmPassword) {
+      newErrors.confirmPassword = t("passwordMismatch");
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    if (formData.newPassword !== formData.confirmPassword) {
-      setError("New password and confirm password do not match");
-      return;
-    }
+    if (!validateForm()) return;
 
     resetPassword(
       {
@@ -109,7 +136,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                         onChange={handleChange}
                         show={showCurrent}
                         toggle={() => setShowCurrent(!showCurrent)}
-                        error=""
+                        error={errors.currentPassword}
                         autocomplete="off"
                       />
 
@@ -120,7 +147,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                         onChange={handleChange}
                         show={showNew}
                         toggle={() => setShowNew(!showNew)}
-                        error=""
+                        error={errors.newPassword}
                         autocomplete="off"
                       />
 
@@ -131,7 +158,7 @@ const PasswordResetModal = ({ isOpen, onClose, userData }) => {
                         onChange={handleChange}
                         show={showConfirm}
                         toggle={() => setShowConfirm(!showConfirm)}
-                        error=""
+                        error={errors.confirmPassword}
                         autocomplete="off"
                       />
                     </div>

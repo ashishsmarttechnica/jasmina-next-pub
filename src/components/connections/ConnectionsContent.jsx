@@ -25,7 +25,17 @@ const ConnectionsContent = () => {
   const tabParam = searchParams.get("tab");
   const peopleRef = useRef(null);
   const companyRef = useRef(null);
-  const [activeTab, setActiveTab] = useState(tabParam || "people");
+  const userRole = Cookies.get("userRole");
+
+  // Set default tab based on user role if no tab parameter is provided
+  const getDefaultTab = () => {
+    if (tabParam) return tabParam;
+    if (userRole === "company") return "company";
+    return "people";
+  };
+
+  const [activeTab, setActiveTab] = useState(getDefaultTab());
+  // console.log(activeTab, "activeTab");
   const [userPage, setUserPage] = useState(1);
   const [companyPage, setCompanyPage] = useState(1);
 
@@ -101,6 +111,23 @@ const ConnectionsContent = () => {
       resetCompanyConnections();
     }
   }, [activeTab]);
+
+  // Handle tab parameter from URL
+  useEffect(() => {
+    if (tabParam) {
+      if (tabParam === "people" || tabParam === "company") {
+        setActiveTab(tabParam);
+      }
+    }
+  }, [tabParam]);
+
+  // Handle initial tab setting and role-based defaults
+  useEffect(() => {
+    const defaultTab = getDefaultTab();
+    if (defaultTab !== activeTab) {
+      setActiveTab(defaultTab);
+    }
+  }, []);
 
   const loadMore = () => {
     if (activeTab === "people") {

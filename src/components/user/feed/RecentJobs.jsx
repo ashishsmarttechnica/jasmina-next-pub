@@ -46,16 +46,16 @@ const RecentJobs = () => {
                     className="block justify-between bg-white p-2.5 text-left transition-all hover:shadow"
                     onClick={() => handleJobCardClick()}
                   >
-                    <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black">
+                    <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black leading-relaxed break-words">
                       {job.jobTitle}
                     </h3>
                     <p className="text-grayBlueText mb-2.5 flex items-center gap-2 text-sm">
                       <IoClipboardOutline className="h-4 w-4" />
-                      {job.experience} Year
+                      <span className="leading-relaxed break-words">{job.experience} Year</span>
                     </p>
                     <p className="text-grayBlueText mb-4 flex items-center gap-2 text-sm">
                       <HiOutlineLocationMarker className="h-4 w-4" />
-                      {job.jobLocation}
+                      <span className="leading-relaxed break-words">{job.jobLocation}</span>
                     </p>
                     <p className="text-grayBlueText mt-3 text-xs font-normal">
                       {t("posted")} {getRelativeTime(job.createdAt)}
@@ -71,7 +71,7 @@ const RecentJobs = () => {
                       className="h-6 w-6 rounded-full border border-gray-400 object-cover"
                     />
                     <div className="flex flex-col">
-                      <h2 className="text-xs font-medium text-black">
+                      <h2 className="text-xs font-medium text-black leading-relaxed break-words">
                         {job.companyId?.companyName}
                       </h2>
                       {job.companyId?.website && (
@@ -79,7 +79,7 @@ const RecentJobs = () => {
                           href={job.companyId.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-[#007BFF]"
+                          className="text-xs text-[#007BFF] leading-relaxed break-all"
                         >
                           {job.companyId.website}
                         </a>

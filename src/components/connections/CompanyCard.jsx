@@ -14,7 +14,10 @@ const CompanyCard = ({ company }) => {
   // Current logged in user id from cookies
   const currentUserId = Cookies.get("userId");
   const CompanyId = company?.details?._id;
-  
+
+
+  const Removebtn = currentUserId
+
   const isOwnCompany =
     Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);
 
@@ -132,6 +135,7 @@ const CompanyCard = ({ company }) => {
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <div>
+
               <button
                 onClick={() => handleMessage(company)}
                 disabled={isGeneratingChat}
@@ -149,13 +153,16 @@ const CompanyCard = ({ company }) => {
                 {isGeneratingChat ? "Generating..." : t("message")}
               </button>
             )}
-            <button
-              onClick={() => handleRemove(company)}
-              disabled={isPending}
-              className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-            >
-              {isPending ? t("removing") : t("remove")}
-            </button>
+
+            {Removebtn && (
+              <button
+                onClick={() => handleRemove(company)}
+                disabled={isPending}
+                className="text-grayBlueText border-grayBlueText/40 w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              >
+                {isPending ? t("removing") : t("remove")}
+              </button>
+            )}
           </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">

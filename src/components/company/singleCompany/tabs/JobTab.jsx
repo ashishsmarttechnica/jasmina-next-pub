@@ -74,21 +74,23 @@ const JobTab = () => {
                   onClick={() => handleJobCardClick(job)}
                 >
                   <div className="block bg-white p-2.5 text-left transition-all hover:shadow">
-                    <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black">
+                    <h3 className="mb-2 line-clamp-2 h-[25px] max-w-full text-base leading-[21px] font-bold tracking-normal text-black leading-relaxed break-words">
                       {job.jobTitle}
                     </h3>
                     <p className="text-grayBlueText flex items-center gap-2 text-sm">
                       <IoClipboardOutline className="h-4 w-4" />
-                      {job.experience || job.seniorityLevel} year
+                      <span className="leading-relaxed break-words">{job.experience || job.seniorityLevel} year</span>
                     </p>
                     <p className="text-grayBlueText mb-4 flex h-[20px] max-w-[130px] items-center gap-2 truncate text-sm whitespace-nowrap">
                       <HiOutlineLocationMarker className="h-4 w-4" />
-                      {(() => {
-                        const words = (job.jobLocation || "").split(" ");
-                        return words.length > 16
-                          ? words.slice(0, 16).join(" ") + "..."
-                          : job.jobLocation;
-                      })()}
+                      <span className="leading-relaxed break-words">
+                        {(() => {
+                          const words = (job.jobLocation || "").split(" ");
+                          return words.length > 16
+                            ? words.slice(0, 16).join(" ") + "..."
+                            : job.jobLocation;
+                        })()}
+                      </span>
                     </p>
                     <p className="text-grayBlueText mt-3 text-xs font-normal">
                       posted {job.createdAt && new Date(job.createdAt).toLocaleDateString()}
@@ -121,14 +123,14 @@ const JobTab = () => {
                         className="h-6 w-6 rounded-full border border-gray-400 object-cover"
                       />
                       <div className="flex flex-col">
-                        <h2 className="text-xs font-medium text-black">
+                        <h2 className="text-xs font-medium text-black leading-relaxed break-words">
                           {job.companyId?.companyName}
                         </h2>
                         <a
                           href={job.companyId?.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[10px] text-[#007BFF]"
+                          className="text-[10px] text-[#007BFF] leading-relaxed break-all"
                           onClick={(e) => e.stopPropagation()} // Prevent card click when clicking website link
                         >
                           {job.companyId?.website}

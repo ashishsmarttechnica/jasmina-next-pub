@@ -63,10 +63,10 @@ const CreateUserPost = ({
             className="h-10 w-10 flex-shrink-0 rounded-full sm:h-12 sm:w-12"
           />
           <div className="min-w-0">
-            <h3 className="truncate text-base font-bold text-gray-800 sm:text-lg">
+            <h3 className="truncate text-base font-bold text-gray-800 sm:text-lg leading-relaxed break-words">
               {user?.profile?.fullName}
             </h3>
-            <p className="mt-0.5 text-xs font-normal text-gray-600 sm:text-[13px]">
+            <p className="mt-0.5 text-xs font-normal text-gray-600 sm:text-[13px] leading-relaxed break-words">
               {user?.preferences?.jobRole}
             </p>
           </div>

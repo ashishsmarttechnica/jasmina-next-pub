@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 export default function QueryProvider({ children }) {
   const [queryClient] = useState(() => new QueryClient());
-  console.log("-------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
   return (
     <QueryClientProvider client={queryClient}>

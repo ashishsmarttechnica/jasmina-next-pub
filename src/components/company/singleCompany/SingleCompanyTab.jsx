@@ -12,7 +12,7 @@ const SingleCompanyTab = ({ userData, isLoading }) => {
   const [isRTL, setIsRTL] = useState(false);
   const tabRefs = useRef({});
 
-  const tabs = [t("about"), t("job")];
+  const tabs = [t("about"), t("JobOpportunities")];
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   useEffect(() => {

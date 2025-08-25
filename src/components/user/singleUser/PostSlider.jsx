@@ -84,7 +84,7 @@ function PostCardSingle({ post, userData }) {
   useEffect(() => {
     setLocalPost(post);
   }, [post]);
-const t = useTranslations("CompanyProfile");
+  const t = useTranslations("CompanyProfile");
 
   const handleLike = (id) => {
     if (isLiking) return;
@@ -200,8 +200,8 @@ const t = useTranslations("CompanyProfile");
           />
         </div>
         <div className="min-w-0 text-left">
-          <p className="truncate text-[13px] font-medium">{userData?.profile?.fullName}</p>
-          <p className="text-grayBlueText truncate text-xs font-normal">
+          <p className="truncate text-[13px] font-medium leading-relaxed break-words">{userData?.profile?.fullName}</p>
+          <p className="text-grayBlueText truncate text-xs font-normal leading-relaxed break-words">
             {userData?.preferences?.jobRole}
           </p>
         </div>
@@ -212,7 +212,7 @@ const t = useTranslations("CompanyProfile");
         <div className="min-h-[3rem] sm:min-h-[3.5rem]">
           <p
             ref={descRef}
-            className={`text-grayBlueText text-[12px] leading-[1.4] font-normal sm:text-[13px] ${showMore ? "" : "showline-2"}`}
+            className={`text-grayBlueText text-[12px] leading-[1.4] font-normal sm:text-[13px] leading-relaxed break-words ${showMore ? "" : "showline-2"}`}
           >
             {localPost?.postDesc}
           </p>

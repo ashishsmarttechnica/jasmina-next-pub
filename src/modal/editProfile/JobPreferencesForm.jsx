@@ -107,7 +107,7 @@ const JobPreferencesForm = forwardRef(
                   type={type}
                   selectedType={localData.jobType || ""}
                   onClick={() => handleJobTypeChange(type)}
-                  // error={errors.jobType}
+                // error={errors.jobType}
                 />
               ))}
             </div>

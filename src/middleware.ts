@@ -137,6 +137,25 @@ export default async function middleware(request: NextRequest) {
 
   // If it's a shared route, allow access regardless of role
   if (isSharedRoute) {
+    // Special handling for connections route with tab parameter
+    if (currentPath === "/connections") {
+      const url = new URL(request.url);
+      const tab = url.searchParams.get("tab");
+      const type = url.searchParams.get("type");
+
+      // If company user is accessing connections without tab, redirect to company tab
+      if (userRole === "company" && !tab && type === "Company") {
+        url.searchParams.set("tab", "company");
+        return NextResponse.redirect(url);
+      }
+
+      // If user is accessing connections without tab, redirect to people tab
+      if (userRole === "user" && !tab) {
+        url.searchParams.set("tab", "people");
+        return NextResponse.redirect(url);
+      }
+    }
+
     return response;
   }
 

@@ -146,7 +146,7 @@ const CompanyConnections = ({ title }) => {
                 if (userType === "company") {
                   router.push(`/connections?profileId=${currentUserId}&type=Company&tab=company`);
                 } else {
-                  router.push("/connections");
+                  router.push("/connections?tab=company");
                 }
               }}
               className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"

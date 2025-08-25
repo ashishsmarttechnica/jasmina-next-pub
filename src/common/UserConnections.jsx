@@ -145,9 +145,9 @@ const UserConnections = ({ title }) => {
               onClick={() => {
                 const currentUserId = Cookies.get("userId");
                 if (userType === "company") {
-                  router.push(`/connections?profileId=${currentUserId}&type=Company&tab=company`);
+                  router.push(`/connections?profileId=${currentUserId}&type=Company&tab=people`);
                 } else {
-                  router.push("/connections");
+                  router.push("/connections?tab=people");
                 }
               }}
               className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"

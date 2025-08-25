@@ -146,7 +146,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                 </button>
 
                 {/* More Options Dropdown */}
-                {moreOptionsDropdownId === applicant._id && (
+                {/* {moreOptionsDropdownId === applicant._id && (
                   <div className="absolute top-full right-0 z-20 mt-1 min-w-[140px] rounded-md border border-gray-200 bg-white shadow-lg">
                     <button
                       // onClick={(e) => {
@@ -162,7 +162,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
                       {t("viewJob")}
                     </button>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>

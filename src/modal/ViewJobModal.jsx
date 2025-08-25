@@ -70,8 +70,8 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
     if (!hasValue(value)) return null;
     return (
       <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-100 py-2 last:border-b-0 gap-1 sm:gap-0">
-        <span className="text-xs sm:text-sm text-gray-600">{label}</span>
-        <span className="text-xs sm:text-sm font-medium text-gray-900 break-words">{value}</span>
+        <span className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">{label}</span>
+        <span className="text-xs sm:text-sm font-medium text-gray-900 break-words leading-relaxed">{value}</span>
       </div>
     );
   };
@@ -82,8 +82,8 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
     const formattedDate = new Date(dateValue).toLocaleDateString();
     return (
       <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-100 py-2 last:border-b-0 gap-1 sm:gap-0">
-        <span className="text-xs sm:text-sm text-gray-600">{label}</span>
-        <span className="text-xs sm:text-sm font-medium text-gray-900">{formattedDate}</span>
+        <span className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">{label}</span>
+        <span className="text-xs sm:text-sm font-medium text-gray-900 leading-relaxed break-words">{formattedDate}</span>
       </div>
     );
   };
@@ -99,8 +99,8 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
           <div className="border-b pb-3 sm:pb-4">
             <h2 className="mb-2 text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-words">{job.jobTitle}</h2>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
-              {hasValue(job.jobLocation) && <span>📍 {job.jobLocation}</span>}
-              {hasValue(job.contactEmail) && <span>✉️ {job.contactEmail}</span>}
+              {hasValue(job.jobLocation) && <span className="leading-relaxed break-words">📍 {job.jobLocation}</span>}
+              {hasValue(job.contactEmail) && <span className="leading-relaxed break-all">✉️ {job.contactEmail}</span>}
             </div>
           </div>
 
@@ -149,7 +149,7 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
             <div>
               <h3 className="mb-2 text-sm sm:text-base font-semibold text-gray-900">Job Description</h3>
               <div className="rounded bg-gray-50 p-3 sm:p-4">
-                <div className="text-xs sm:text-sm break-words">
+                <div className="text-xs sm:text-sm break-words leading-relaxed">
                   <div dangerouslySetInnerHTML={{ __html: job.description }} />
                 </div>
               </div>
@@ -161,7 +161,7 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
             <div>
               <h3 className="mb-2 text-sm sm:text-base font-semibold text-gray-900">Responsibilities</h3>
               <div className="rounded bg-gray-50 p-3 sm:p-4">
-                <div className="text-xs sm:text-sm break-words">
+                <div className="text-xs sm:text-sm break-words leading-relaxed">
                   <div dangerouslySetInnerHTML={{ __html: job.responsibilities }} />
                 </div>
               </div>
@@ -178,7 +178,7 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
                     {job.requiredSkills.map((skill, index) => (
                       <span
                         key={index}
-                        className="rounded bg-blue-100 px-2 py-1 text-xs sm:text-sm text-blue-800 break-words"
+                        className="rounded bg-blue-100 px-2 py-1 text-xs sm:text-sm text-blue-800 break-words leading-relaxed"
                       >
                         {skill}
                       </span>
@@ -196,7 +196,7 @@ const ViewJobModal = ({ isOpen, onClose, jobId }) => {
                     {job.jobTags.map((tag, index) => (
                       <span
                         key={index}
-                        className="rounded bg-green-100 px-2 py-1 text-xs sm:text-sm text-green-800 break-words"
+                        className="rounded bg-green-100 px-2 py-1 text-xs sm:text-sm text-green-800 break-words leading-relaxed"
                       >
                         {tag}
                       </span>

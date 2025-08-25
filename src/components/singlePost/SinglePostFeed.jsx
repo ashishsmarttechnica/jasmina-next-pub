@@ -5,12 +5,12 @@ import FillLike from "@/assets/svg/feed/FillLike";
 import Like from "@/assets/svg/feed/Like";
 import LoaderIcon from "@/assets/svg/feed/LoaderIcon";
 import Share from "@/assets/svg/feed/Share";
-import { AnimatePresence, motion } from "framer-motion";
 import ImageFallback from "@/common/shared/ImageFallback";
+import FeedComment from "@/components/user/feed/comment/FeedComment";
 import { useLikePost, useUnlikePost } from "@/hooks/post/usePosts";
 import { formatRelativeTime } from "@/lib/commondate";
 import getImg from "@/lib/getImg";
-import FeedComment from "@/components/user/feed/comment/FeedComment";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 const SinglePostFeed = ({ post }) => {
@@ -48,12 +48,12 @@ const SinglePostFeed = ({ post }) => {
         </div>
 
         <div className="min-w-0 text-left">
-          <p className="truncate text-[13px] font-medium">{fullName}</p>
-          <p className="text-grayBlueText mt-0 truncate text-xs font-normal">{title}</p>
+          <p className="truncate text-[13px] font-medium leading-relaxed break-words">{fullName}</p>
+          <p className="text-grayBlueText mt-0 truncate text-xs font-normal leading-relaxed break-words">{title}</p>
         </div>
       </div>
       <div className="px-6 py-1">
-        <p className="text-grayBlueText pt-5 pb-4 text-[13px] leading-[17px] font-normal tracking-normal">
+        <p className="text-grayBlueText pt-5 pb-4 text-[13px] leading-[17px] font-normal tracking-normal leading-relaxed break-words">
           {post.postDesc}{" "}
         </p>
 

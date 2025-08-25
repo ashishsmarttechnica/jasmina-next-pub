@@ -90,7 +90,8 @@
     "connections": "Connections",
     "logout": "Logout",
     "logoutSuccess": "Logout successful!",
-    "viewProfile": "View Profile"
+    "viewProfile": "View Profile",
+    "JobOpportunities": "Job Opportunities"
   },
   "FeedProfileLeft": {
     "connections": "Connections",
@@ -325,7 +326,14 @@
         "remove": "Remove",
         "removing": "Removing...",
         "Noresumedocumentavailable": "No resume document available.",
-        "Failedtoremoveconnection": "Failed to remove connection"
+        "Failedtoremoveconnection": "Failed to remove connection",
+        "preferences": "Preferences",
+        "loadmore": "Load More",
+        "noeducation": "No more education to load.",
+        "nopreferences": "No more Preferences avaliable.",
+        "noeducations": "No education information available.",
+        "jobpreferences": "Job Preferences",
+        "Nodatafound": "No data found."
       },
       "genderPlaceholder": "Select Gender",
       "dob": "Date of Birth",
@@ -722,7 +730,8 @@
       "removing": "Removing...",
       "connecton": "Connected on\t",
       "No": "No",
-      "Failedtoremoveconnection": "Failed to remove connection"
+      "Failedtoremoveconnection": "Failed to remove connection",
+      "JobOpportunities": "Job Opportunities"
     },
     "location": {
       "title": "Location",
@@ -1069,7 +1078,9 @@
     "ApplyLinkexternal": "Apply Link (External URL)",
     "Applytocompany": "Apply To Company Website",
     "ApplyOncompany": "Apply On Company Website",
-    "shareSuccess": "Job shared successfully"
+    "shareSuccess": "Job shared successfully",
+    "SubmittedApplications": "Submitted Applications",
+    "savedjobs": "Saved Jobs"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",

@@ -202,11 +202,11 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
 
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         <IoClipboardOutline className="h-4 w-4" />
-        {job?.experience}
+        <span className="leading-relaxed break-words">{job?.experience}</span>
       </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         <HiOutlineLocationMarker className="h-4 w-4" />
-        {job?.location}
+        <span className="leading-relaxed break-words">{job?.location}</span>
       </div>
       <div>
         {job?._raw?.applyVia && (
@@ -214,7 +214,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
             <IoMailOutline className="h-4 w-4" />
             <a
               href={`mailto:${job?._raw?.applyVia}`}
-              className="cursor-pointer text-blue-600 hover:text-blue-800 hover:underline"
+              className="cursor-pointer text-blue-600 hover:text-blue-800 hover:underline leading-relaxed break-all"
             >
               {job?._raw?.applyVia}
             </a>
@@ -226,7 +226,7 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
         <div className="mb-2 flex items-center gap-3 text-sm text-[#888DA8]">
           {job?.genderPrefereance === "lgbtq" && <Colors className="h-5 w-5" />}
           {job?.genderPrefereance === "nonlgbtq" && <Bar className="h-5 w-5" />}
-          <span>{job?.genderPrefereance}</span>
+          <span className="leading-relaxed break-words">{job?.genderPrefereance}</span>
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -255,27 +255,27 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
         <ul className="space-y-2 text-sm text-[#888DA8]">
           <li className="flex items-center gap-2">
             <ClockSvg />
-            {job?.type}
+            <span className="leading-relaxed break-words">{job?.type}</span>
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            {t("experience")}: {job?.experience}
+            <span className="leading-relaxed break-words">{t("experience")}: {job?.experience}</span>
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            {t("Education")}: {job?.education}
+            <span className="leading-relaxed break-words">{t("Education")}: {job?.education}</span>
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            {t("Salary")}: {job?.salary}
+            <span className="leading-relaxed break-words">{t("Salary")}: {job?.salary}</span>
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            {t("Seniority")}: {job?.seniority}
+            <span className="leading-relaxed break-words">{t("Seniority")}: {job?.seniority}</span>
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            {t("Applicants")}: {job?.applicants}
+            <span className="leading-relaxed break-words">{t("Applicants")}: {job?.applicants}</span>
           </li>
         </ul>
       </div>
@@ -333,8 +333,8 @@ const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilter
               className="mt-1 rounded-md"
             />
             <div className="flex w-full flex-col">
-              <div className="text-sm text-gray-500">{job.company || "Unknown Company"} </div>
-              <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
+              <div className="text-sm text-gray-500 leading-relaxed break-words">{job.company || "Unknown Company"} </div>
+              <div className="w-full max-w-full text-[13px] break-words whitespace-normal leading-relaxed">
                 {job.website}
               </div>
             </div>
