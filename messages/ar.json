@@ -1170,7 +1170,8 @@
       "noApplicantsForJob": "لا يوجد متقدمون لهذه الوظيفة",
       "selectApplicantPlaceholder": "اختر متقدمًا لعرض التفاصيل"
     },
-    "companyNamePlaceholder": "اسم الشركة"
+    "companyNamePlaceholder": "اسم الشركة",
+    "Notes": "ملحوظات"
   },
   "Interviews": {
     "loading": "جارٍ تحميل المقابلات...",

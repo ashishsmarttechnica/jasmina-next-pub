@@ -36,7 +36,11 @@ const RecentJobs = () => {
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
-          <div>Error loading jobs.</div>
+          <div>
+            <p className="text-center text-red-500">
+              {/* {error?.message || "Failed to load suggestions"} */}
+            </p>
+          </div>
         ) : (
           <Swiper spaceBetween={10} slidesPerView="auto" className="h-full">
             {data?.data?.recentJobs?.map((job, index) => (

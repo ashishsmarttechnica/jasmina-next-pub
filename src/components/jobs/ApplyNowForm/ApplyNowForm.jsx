@@ -26,6 +26,7 @@ const ApplyNowForm = ({ jobId }) => {
     currentAvailability: "",
     salaryExpectation: "",
     salaryExpectationMax: "",
+    notes: "",
     message: "",
     expYears: "0",
     attachments: "",
@@ -145,7 +146,7 @@ const ApplyNowForm = ({ jobId }) => {
       submitData.append("salaryExpectation", formData.salaryExpectation);
 
     if (formData.message) submitData.append("message", formData.message);
-
+    if (formData.notes) submitData.append("notes", formData.notes);
     // Additional files
     additionalFiles.forEach((file) => {
       submitData.append("attechments", file);

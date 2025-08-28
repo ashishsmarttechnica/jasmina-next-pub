@@ -12,7 +12,7 @@ import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const PeopleCard = ({ person }) => {
+const PeopleCard = ({ person, profileId }) => {
   // console.log(person, "person||||");
   const currentUserId = Cookies.get("userId");
   const [isRemoving, setIsRemoving] = useState(false);
@@ -21,13 +21,20 @@ const PeopleCard = ({ person }) => {
   const { connections, setConnections } = useConnectionsStore();
   const searchParams = useSearchParams();
   const tabId = searchParams.get("profileId");
-  // console.log(tabId, "tabId------");
-  const Removebtn = currentUserId === tabId ? true : false;
+
   const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("CompanyProfile.singleCompanyTab");
-  const UserId = person?.details?._id
-  const isOwnUser = Boolean(currentUserId) && Boolean(UserId) && String(UserId) === String(currentUserId);
+  const UserId = person?.details?._id;
+
+
+
+  const isOwnUser = (UserId) === (currentUserId);
+
+  const isViewingOtherProfile = profileId && profileId !== currentUserId;
+
+  const shouldShowRemoveButton = currentUserId && !isOwnUser && (isViewingOtherProfile || !profileId);
+
   const availabilityIcons = {
     "Open to Work": "🟢",
     "Available for Freelance": "🟡",
@@ -137,8 +144,8 @@ const PeopleCard = ({ person }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+            {/* Message button - show for all users except own profile */}
             {!isOwnUser && (
-
               <button
                 className="text-primary border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 onClick={() => handleMessage(person?.details)}
@@ -147,8 +154,9 @@ const PeopleCard = ({ person }) => {
                 {isGeneratingChat ? "Generating..." : t("message")}
               </button>
             )}
-            {/* {isOwnUser && ( */}
-            {Removebtn && (
+
+            {/* Remove button - only show when conditions are met */}
+            {!shouldShowRemoveButton && (
               <button
                 onClick={() => handleRemove(person)}
                 disabled={isPending}
@@ -157,7 +165,6 @@ const PeopleCard = ({ person }) => {
                 {isPending ? `${t("removing")}` : `${t("remove")}`}
               </button>
             )}
-            {/* )} */}
           </div>
         </div>
         <div className="text-grayBlueText text-center text-xs sm:text-right">

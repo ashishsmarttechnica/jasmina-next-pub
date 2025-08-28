@@ -1168,7 +1168,8 @@
       "noApplicantsForJob": "Aucun candidat pour ce poste",
       "selectApplicantPlaceholder": "Sélectionnez un candidat pour voir les détails"
     },
-    "companyNamePlaceholder": "Nom de l'entreprise"
+    "companyNamePlaceholder": "Nom de l'entreprise",
+    "Notes": "Notes"
   },
   "Interviews": {
     "loading": "Chargement des entretiens...",

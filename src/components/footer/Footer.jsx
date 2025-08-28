@@ -26,7 +26,7 @@ const Footer = () => {
   console.log(footerLinkResponse, "footerLinkResponse-------");
 
 
-//
+  //
 
   const pages = Array.isArray(pagesResponse?.data)
     ? pagesResponse.data
@@ -132,15 +132,32 @@ const Footer = () => {
                   <li>{t("socialMenu.Facebook")}</li>
                   <li>{t("socialMenu.Instagram")}</li> */}
                   {footerLinkResponse?.data?.socialLinks &&
-                    Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => (
-                      <li key={index}>
-                        <a href={link} target="_blank" rel="noopener noreferrer">
-                          {name.charAt(0).toUpperCase() + name.slice(1)}
-                        </a>
-                      </li>
-                    ))
-                  }
+                    Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => {
+                      // Check if both name and link exist and are valid
+                      const hasValidName = name && name.trim() !== "";
+                      const hasValidLink = link && link.trim() !== "";
+                      const shouldBeClickable = hasValidName && hasValidLink;
 
+                      return (
+                        <li key={index}>
+                          {shouldBeClickable ? (
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:text-primary transition-colors duration-200 cursor-pointer"
+                            >
+                              {name.charAt(0).toUpperCase() + name.slice(1)}
+                            </a>
+                          ) : (
+                            <span className="text-gray-400 cursor-not-allowed">
+                              {hasValidName ? name.charAt(0).toUpperCase() + name.slice(1) : "Social Link"}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })
+                  }
                 </ul>
               </div>
             </div>

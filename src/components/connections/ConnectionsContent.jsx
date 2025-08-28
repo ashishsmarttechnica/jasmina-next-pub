@@ -236,6 +236,8 @@ const ConnectionsContent = () => {
             className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
           >
             <ConnectionsList
+              profileId={profileId}
+              userData={userData}
               activeTab={activeTab}
               connections={currentConnections}
               hasMore={currentHasMore}

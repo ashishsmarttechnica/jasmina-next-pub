@@ -55,14 +55,14 @@ const FeedPost = ({ isUser = false }) => {
       <div className="w-full xl:max-w-[547px]">
         {isUser && <CreatePost />}
         <div className="rounded-lg bg-white p-4 py-10 text-center text-red-500 shadow">
-          <p className="mb-2 font-bold">{t("errorposts")}</p>
-          <p>{error.message}</p>
-          <button
+          {/* <p className="mb-2 font-bold">{t("errorposts")}</p> */}
+          {/* <p>{error.message}</p> */}
+          {/* <button
             className="mt-4 rounded bg-blue-600 px-4 py-2 text-white"
             onClick={() => setPage(1)}
           >
             {t("tryagain")}
-          </button>
+          </button> */}
         </div>
       </div>
     );

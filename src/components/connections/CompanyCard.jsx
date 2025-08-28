@@ -10,16 +10,26 @@ import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const CompanyCard = ({ company }) => {
+const CompanyCard = ({ company, userData, profileId }) => {
   // Current logged in user id from cookies
   const currentUserId = Cookies.get("userId");
   const CompanyId = company?.details?._id;
 
+  // Debug logging
+  console.log({
+    profileId,
+    currentUserId,
+    CompanyId,
+    isOwnCompany: CompanyId === currentUserId,
+    isViewingOtherProfile: profileId && profileId !== currentUserId
+  });
 
-  const Removebtn = currentUserId
 
-  const isOwnCompany =
-    Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);
+  const isOwnCompany = Boolean(currentUserId) && Boolean(CompanyId) && String(CompanyId) === String(currentUserId);
+
+  const isViewingOtherProfile = profileId && profileId !== currentUserId;
+
+  const shouldShowRemoveButton = currentUserId && !isOwnCompany && (isViewingOtherProfile || !profileId);
 
   const [isRemoving, setIsRemoving] = useState(false);
   const availabilityIcons = {
@@ -33,12 +43,12 @@ const CompanyCard = ({ company }) => {
   const { connections, setConnections } = useConnectionsStore();
   const router = useRouter();
   const t = useTranslations("UserProfile.profile.singleprofileTab");
+
   const handleProfile = (company) => {
     router.push(
       `/company/single-company/${company._id}?fromConnections=true&fromNetworkInvites=true`
     );
   };
-  // console.log(company, "helllooooooooo....");
 
   const handleRemove = (company) => {
     setIsRemoving(true);
@@ -89,6 +99,7 @@ const CompanyCard = ({ company }) => {
       toast.error("Unable to start chat. User information not available.");
     }
   };
+
   return (
     <div
       className={`flex flex-col justify-between border-b border-black/10 bg-white px-2 py-4 transition-all duration-300 hover:bg-gray-50 sm:flex-row sm:items-center ${isRemoving ? "translate-x-full transform opacity-0" : ""
@@ -134,16 +145,7 @@ const CompanyCard = ({ company }) => {
       <div className="flex flex-col gap-[10px]">
         <div className="mt-3 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:min-w-[140px] sm:flex-row sm:items-center">
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <div>
-
-              <button
-                onClick={() => handleMessage(company)}
-                disabled={isGeneratingChat}
-                className="text-primary invisible border-primary hover:bg-primary w-full rounded border px-4 py-1.5 text-sm font-medium transition hover:text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-              >
-                {isGeneratingChat ? "Generating..." : t("message")}
-              </button>
-            </div>
+            {/* Message button - show for all companies except own company */}
             {!isOwnCompany && (
               <button
                 onClick={() => handleMessage(company)}
@@ -154,7 +156,8 @@ const CompanyCard = ({ company }) => {
               </button>
             )}
 
-            {Removebtn && (
+            {/* Remove button - only show when conditions are met */}
+            {!shouldShowRemoveButton && (
               <button
                 onClick={() => handleRemove(company)}
                 disabled={isPending}

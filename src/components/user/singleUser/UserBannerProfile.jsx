@@ -234,7 +234,7 @@ const UserBannerProfile = ({
               <p className="text-lg font-bold text-black md:text-xl">
                 {userData?.profile?.fullName || t("fullName")}
               </p>
-              {userData?.profile?.isPrivate === true &&
+              {userData?.profile?.isPrivate === false &&
                 (
                   <>
 
@@ -273,8 +273,9 @@ const UserBannerProfile = ({
                 return (
                   <>
                     <div className="flex">
-
-                      <span className="text-xs  text-[#888DA8] font-medium flex"><div className="font-bold pr-2"> short bio  </div>{preview} </span>
+                      {userData?.profile?.short_bio && (
+                        <span className="text-xs  text-[#888DA8] font-medium flex"><div className="font-bold pr-2"> short bio  </div>{preview} </span>
+                      )}
                       {isLong && (
                         <button
                           type="button"

@@ -3,7 +3,7 @@ import CompanyCard from "./CompanyCard";
 import LoadMoreButton from "./LoadMoreButton";
 import PeopleCard from "./PeopleCard";
 
-const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loadMore }) => {
+const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loadMore, userData, profileId }) => {
   const t = useTranslations("CompanyProfile.singleCompanyTab");
   // Ensure connections is always an array
   const connectionsList = Array.isArray(connections) ? connections : [];
@@ -14,9 +14,9 @@ const ConnectionsList = ({ activeTab, connections = [], hasMore, isFetching, loa
         <>
           {connectionsList.map((item) =>
             activeTab === "people" ? (
-              <PeopleCard key={item._id} person={item} />
+              <PeopleCard key={item._id} person={item} profileId={profileId} />
             ) : (
-              <CompanyCard key={item._id} company={item} />
+              <CompanyCard key={item._id} company={item} userData={userData} profileId={profileId} />
             )
           )}
         </>

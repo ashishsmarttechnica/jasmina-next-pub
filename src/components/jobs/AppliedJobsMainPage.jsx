@@ -179,7 +179,9 @@ const AppliedJobsMainPage = () => {
                         <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
                           <FaRegAddressCard className="h-4 w-4" />
 
-                          {job?._raw?.application?.interviewId?.interviewAddress}
+                          <a className="text-blue-600 underline" href={job?._raw?.application?.interviewId?.interviewAddress} target="_blank" rel="noopener noreferrer">
+                            {job?._raw?.application?.interviewId?.interviewAddress}
+                          </a>
                         </p>
                       )}
                       {job?._raw?.application?.interviewId?.date && (

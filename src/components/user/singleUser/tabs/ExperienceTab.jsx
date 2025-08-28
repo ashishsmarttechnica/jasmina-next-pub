@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { formatDateRangeWithDuration } from "../../../../utils/dateUtils";
 
 const ExperienceTab = ({ experience }) => {
   const t = useTranslations("UserProfile.profile.singleprofileTab");
@@ -44,18 +45,7 @@ const ExperienceTab = ({ experience }) => {
               <h4 className="text-gray-500">{item.position}</h4>
               <p className="text-sm text-gray-500">
                 {item.startDate && item.endDate
-                  ? (() => {
-                    const startDate = new Date(item.startDate);
-                    const endDate =
-                      item.endDate === "Present" ? new Date() : new Date(item.endDate);
-                    const diffYears = Math.floor(
-                      (endDate - startDate) / (1000 * 60 * 60 * 24 * 365)
-                    );
-                    const diffMonths =
-                      Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24 * 30)) % 12;
-
-                    return `${startDate.toLocaleDateString()} - ${item.endDate === "Present" ? "Present" : endDate.toLocaleDateString()} (${diffYears} years ${diffMonths} months)`;
-                  })()
+                  ? formatDateRangeWithDuration(item.startDate, item.endDate)
                   : ""}
               </p>
             </div>

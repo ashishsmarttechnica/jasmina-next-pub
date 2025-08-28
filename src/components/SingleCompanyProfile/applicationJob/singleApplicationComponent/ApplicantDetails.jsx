@@ -152,7 +152,7 @@ const ApplicantDetails = ({
       day: "numeric",
     });
   };
-
+  console.log(selectedApplicant, "selectedApplicantselectedApplicant");
   return (
     <div className="w-full lg:w-[60%]">
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
@@ -385,6 +385,20 @@ const ApplicantDetails = ({
               <div className="rounded  p-3">
                 <p className="text-xs sm:text-sm text-gray-700 leading-relaxed break-words whitespace-pre-line">
                   {selectedApplicant.originalData.message}
+                </p>
+              </div>
+            </div>
+          )}
+          {selectedApplicant.originalData?.notes && (
+            <div className="mt-4">
+              <div className="leading-relaxed job-description text-gray-700">
+                <div className="w-full text-xs font-medium text-gray-500 uppercase mb-2 leading-relaxed break-words">
+                  {t("Notes")}
+                </div>
+              </div>
+              <div className="rounded  p-3">
+                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed break-words whitespace-pre-line">
+                  {selectedApplicant.originalData.notes}
                 </p>
               </div>
             </div>

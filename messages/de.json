@@ -1169,7 +1169,8 @@
       "noApplicantsForJob": "Keine Bewerber für diesen Job",
       "selectApplicantPlaceholder": "Wählen Sie einen Bewerber aus, um Details zu sehen"
     },
-    "companyNamePlaceholder": "Firmenname"
+    "companyNamePlaceholder": "Firmenname",
+    "Notes": "Notizen"
   },
   "Interviews": {
     "loading": "Interviews werden geladen...",

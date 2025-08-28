@@ -1209,7 +1209,8 @@
       "noApplicantsForJob": "No applicants found for this job",
       "selectApplicantPlaceholder": "Select an applicant to view details"
     },
-    "companyNamePlaceholder": "Company Name"
+    "companyNamePlaceholder": "Company Name",
+    "Notes": "Notes"
   },
   "Interviews": {
     "loading": "Loading Interviews...",
