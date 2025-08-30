@@ -7,10 +7,17 @@
       "jobtitle": "Job title or keyword",
       "location": "Munich, Germany",
       "model": {
-        "title": "Ready to post a job?",
+        "title": "Signup and Post your first two jobs for free",
         "description": " If you want post a job then you need login with company account. so choose option from below.",
-        "SetupCompany": "Set up Company",
-        "Loginascompany": "Login as company"
+        "SignUp": "Sign Up",
+        "SignUpPath": "/signup?accountType=Company",
+        "Cancel": "Cancel"
+      },
+      "arrowModel": {
+        "title": "Sign up free and start your journey",
+        "SignUp": "Sign Up",
+        "SignUpPath": "/signup?accountType=User",
+        "Cancel": "Cancel"
       }
     },
     "employeStep": {
@@ -74,7 +81,7 @@
     },
     "employeSteps": {
       "title": "Empowering your next career step",
-      "subtitle": "Discover inclusive companies, meaningful jobs, and a professional network that supports you."
+      "subtitle": "Discover inclusive companies, connect with professionals, and grow your career in a supportive community."
     }
   },
   "Header": {

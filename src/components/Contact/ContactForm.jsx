@@ -33,8 +33,16 @@ const ContactForm = ({ onSubmit }) => {
             [name]: value,
         }));
 
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+
         const newErrors = ContactvalidateForm({ ...formData, [name]: value }, t);
-        setErrors(newErrors);
+        setErrors((prev) => ({
+            ...prev,
+            [name]: newErrors[name] || "",
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -73,6 +81,7 @@ const ContactForm = ({ onSubmit }) => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     className={`w-full px-4 py-3 border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400`}
                     placeholder={t("namePlaceholder")}
                 />
@@ -85,6 +94,7 @@ const ContactForm = ({ onSubmit }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     className={`w-full px-4 py-3 border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400`}
                     placeholder={t("emailPlaceholder")}
                 />
@@ -97,6 +107,7 @@ const ContactForm = ({ onSubmit }) => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     className={`w-full px-4 py-3 border ${errors.subject ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400`}
                     placeholder={t("subjectPlaceholder")}
                 />
@@ -108,6 +119,7 @@ const ContactForm = ({ onSubmit }) => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     className={`w-full px-4 py-3 border ${errors.message ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400`}
                     rows="5"
                     placeholder={t("messagePlaceholder")}
