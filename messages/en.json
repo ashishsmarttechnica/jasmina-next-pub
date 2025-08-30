@@ -1,11 +1,11 @@
 {
   "HomePage": {
     "hero": {
-      "title": "Jobs, Networking & Growth — All in One Platform",
+      "title": "Jobs, Networking & Growth — All in Jasmina",
       "description": "Join Jasmina to connect with industry experts, find jobs, and grow your career.",
       "postaJob": "Post a Job",
       "jobtitle": "Job title or keyword",
-      "location": "Surat, Gujarat",
+      "location": "Munich, Germany",
       "model": {
         "title": "Ready to post a job?",
         "description": " If you want post a job then you need login with company account. so choose option from below.",
@@ -15,7 +15,7 @@
     },
     "employeStep": {
       "title": "Empowering Your Next Step",
-      "subtitle": "Everything you need to connect, grow, and succeed in your career.",
+      "subtitle": "Discover inclusive companies, connect with professionals, and grow your career in a supportive community.",
       "step1": {
         "title": "Connect with Professionals",
         "description": "Build meaningful relationships with professionals across the globe."
@@ -100,9 +100,9 @@
   },
   "UserMainFeed": {
     "connections": "Connections",
-    "networkInvites": "Network Invites",
+    "networkInvites": "Connection Requests",
     "mightKnow": "People you might know",
-    "noNetworkInvites": "No Network Invites available at the moment",
+    "noNetworkInvites": "No Connection Requests available at the moment",
     "userConnections": "User Connections",
     "companyConnections": "Company Connections"
   },

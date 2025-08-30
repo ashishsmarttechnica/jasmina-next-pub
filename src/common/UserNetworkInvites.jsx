@@ -116,21 +116,7 @@ const UserNetworkInvites = ({ title }) => {
       </Card>
     );
   }
-  
-  if (isError) {
-    return (
-      <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
-        <CardHeading title={title} />
-        <div className="w-full px-2 py-4">
-          <p className="text-center text-red-500">
-            {/* {error?.message || "Failed to load suggestions"} */}
-          </p>
-        </div>
-      </Card>
-    );
-  }
 
-  //
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />

@@ -5,14 +5,16 @@ import useSignup from "@/hooks/auth/useSignup";
 import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import PasswordField from "../form/PasswordField";
 import AccountTypeSelector from "./AccountTypeSelector";
 import GoogleSignInButton from "./GoogleSignInButton";
 import TermsCheckbox from "./TermsCheckbox";
-
 const SignUpForm = () => {
+  const searchParams = useSearchParams();
+  const accountTypeFromQuery = searchParams.get("accountType");
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({
@@ -20,9 +22,16 @@ const SignUpForm = () => {
     password: "",
     accountType: "",
   });
+
   const t = useTranslations("auth");
   const { errors, validateForm, clearFieldError } = useSignInValidationForm();
   const { mutate, isPending } = useSignup();
+
+  useEffect(() => {
+    if (accountTypeFromQuery) {
+      setFormData((prev) => ({ ...prev, accountType: accountTypeFromQuery }));
+    }
+  }, [accountTypeFromQuery]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
