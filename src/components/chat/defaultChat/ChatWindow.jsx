@@ -10,12 +10,12 @@ import { FaCamera } from "react-icons/fa6";
 import { FiLink } from "react-icons/fi";
 import { MdErrorOutline } from "react-icons/md";
 import { RiGalleryLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import getImg from "../../../lib/getImg";
 import useAuthStore from "../../../store/auth.store";
 import { getChatSocket } from "../../../utils/socket";
 import ChatWindowHeader from "./ChatWindowHeader";
-
 export default function ChatWindow({ chat, onBack, onActivity }) {
   const { user } = useAuthStore();
   console.log(user, "useruseruser");
@@ -560,7 +560,16 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     const availableSlots = Math.max(0, 2 - currentCount);
     if (availableSlots <= 0) return;
 
-    const toAdd = files.filter((f) => f.type?.startsWith("image/")).slice(0, availableSlots);
+    const toAdd = files
+      .filter((f) => {
+        if (!f.type?.startsWith("image/")) return false;
+        if (f.size > 1024 * 1024) {
+          toast.error(`Image is larger than 1MB. Please upload smaller images.`);
+          return false;
+        }
+        return true;
+      })
+      .slice(0, availableSlots);
     if (!toAdd.length) return;
 
     const newPreviews = [];

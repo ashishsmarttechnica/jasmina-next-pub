@@ -4,8 +4,8 @@ import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { Modal } from "rsuite";
-
 const CreateUserPost = ({
   isOpen,
   formData,
@@ -28,6 +28,12 @@ const CreateUserPost = ({
     }));
 
     if (file) {
+      if (file.size > 1024 * 1024) {
+        toast.error("You can upload only images up to 1MB in size.");
+        e.target.value = "";
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData((prev) => ({

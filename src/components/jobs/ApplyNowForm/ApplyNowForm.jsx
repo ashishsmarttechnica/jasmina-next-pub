@@ -43,7 +43,7 @@ const ApplyNowForm = ({ jobId }) => {
   const t = useTranslations("UserProfile.profile");
   const pronounOptions = usePronounOptions();
   const [isChecked, setIsChecked] = useState(false);
-
+  const [fileError, setFileError] = useState("");
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -92,7 +92,27 @@ const ApplyNowForm = ({ jobId }) => {
 
   const handleAdditionalFilesChange = (event) => {
     const files = Array.from(event.target.files);
-    setAdditionalFiles((prev) => [...prev, ...files]);
+    if (!files.length) return;
+
+    let hasError = false;
+
+    const validFiles = files.filter((file) => {
+      if (file.size > 1024 * 1024) {
+        hasError = true;
+        return false;
+      }
+      return true;
+    });
+
+    if (hasError) {
+      setFileError("Each file must be less than 1MB.");
+    } else {
+      setFileError(""); // clear error when all valid
+    }
+
+    if (validFiles.length > 0) {
+      setAdditionalFiles((prev) => [...prev, ...validFiles]);
+    }
   };
 
   const removeAdditionalFile = (index) => {
@@ -233,7 +253,7 @@ const ApplyNowForm = ({ jobId }) => {
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="absolute inset-0 cursor-pointer opacity-0"
-                // required
+              // required
               />
 
               <p className="mt-2 text-[12px] text-gray-600">
@@ -350,6 +370,7 @@ const ApplyNowForm = ({ jobId }) => {
               <FiUpload className="text-2xl text-[#0F8200]" />
               <p className="mt-2 text-[12px] text-gray-600">{t("UploadAdditionalFiles")}</p>
             </div>
+            {fileError && <p className="mt-1 text-sm text-red-500">{fileError}</p>}
             {additionalFiles.length > 0 && (
               <div className="mt-2">
                 {additionalFiles.map((file, index) => (

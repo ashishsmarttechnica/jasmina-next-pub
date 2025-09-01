@@ -133,6 +133,7 @@ const Footer = () => {
                   <li>{t("socialMenu.Instagram")}</li> */}
                   {footerLinkResponse?.data?.socialLinks &&
                     Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => {
+                      if (name.toLowerCase() === "twitter") return null;
                       // Check if both name and link exist and are valid
                       const hasValidName = name && name.trim() !== "";
                       const hasValidLink = link && link.trim() !== "";

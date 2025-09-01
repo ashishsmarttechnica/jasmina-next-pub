@@ -2,7 +2,7 @@ import Uploadimg from "@/assets/form/Uploadimg.png";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRef } from "react";
-
+import { toast } from "react-toastify";
 const ImageUploader = ({
   selectedImage,
   setSelectedImage,
@@ -22,6 +22,12 @@ const ImageUploader = ({
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      //  check file size (1 MB = 1024 * 1024 bytes)
+      if (file.size > 1024 * 1024) {
+        toast.error("You can upload only images up to 1MB in size.");
+        e.target.value = "";
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImageFile?.(file);

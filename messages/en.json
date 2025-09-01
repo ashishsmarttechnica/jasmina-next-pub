@@ -1087,7 +1087,8 @@
     "ApplyOncompany": "Apply On Company Website",
     "shareSuccess": "Job shared successfully",
     "SubmittedApplications": "Submitted Applications",
-    "savedjobs": "Saved Jobs"
+    "savedjobs": "Saved Jobs",
+    "modalClose": "Close"
   },
   "Usernotloggedin": "User not logged in",
   "Jobremoved": "Job removed!",
