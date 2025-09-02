@@ -813,7 +813,7 @@
   "Next": "",
   "UserHeader": {
     "searchPlaceholder": "Suchen Sie Leute, Jobs",
-    "home": "Heim",
+    "home": "Home",
     "jobs": "Jobs",
     "connections": "Verbindungen",
     "logout": "Abmelden",
@@ -824,7 +824,7 @@
   "CompanyHeader": {
     "logout": "Abmelden",
     "connections": "Verbindungen",
-    "home": "Heim",
+    "home": "Home",
     "jobs": "Jobs",
     "logoutSuccess": "Logout erfolgreich!",
     "viewProfile": "Profil anzeigen"
