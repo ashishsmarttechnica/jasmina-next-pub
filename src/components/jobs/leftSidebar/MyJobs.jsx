@@ -40,7 +40,7 @@ const MyJobs = () => {
   }, [getSavedJobs]);
 
   return (
-    <Card className="w-full sm:w-auto sm:max-w-full md:sticky md:top-4 md:max-w-full lg:max-full lg:w-auto xl:w-[256px] xl:max-w-[266px]">
+    <Card className="w-full sm:w-auto sm:max-w-full md:sticky md:top-4 md:max-w-full">
       <CardHeading title={t("myJobs")} />
 
       <div className="w-full text-[#888DA8] sm:max-w-full lg:max-w-full">

@@ -172,7 +172,8 @@
     },
     "SupportHelp": "Support & Help",
     "SupportHelpMenu": {
-      "HelpCenter": "Help Center",
+      "HelpCenter": "FAQ",
+      "FAQ": "FAQ",
       "ContactUs": "Contact Us",
       "PrivacyPolicy": "Privacy Policy",
       "TermsService": "Terms of Service"
@@ -290,7 +291,7 @@
       "profile": "Profile",
       "preferences": "Preferences",
       "education": "Education & Skills",
-      "resume": "Resume",
+      "resume": "CV",
       "freetext": "Free-Text",
       "Search": "Search..."
     },
@@ -625,15 +626,19 @@
       "positionError": "Position is required"
     },
     "resume": {
-      "title": "Upload Your Resume",
+      "title": "Upload Your CV",
       "subTitle": "Showcase your experience, skills, and achievements.",
-      "description": "Click the button below to upload your resume as a pdf, doc, or tex file",
+      "description": "Click the button below to upload your CV as a pdf, doc, or tex file",
       "Next": "Next",
       "Skip": "Skip",
       "Upload": "Upload",
       "Uploaded": "Uploaded",
-      "resumeError": "Please upload a resume file (PDF, DOC, DOCX, TEX).",
-      "fileError": "Invalid file format. Please upload a valid resume file."
+      "resumeError": "Please upload a CV file (PDF, DOC, DOCX, TEX).",
+      "fileError": "Invalid file format. Please upload a valid cv file.",
+      "viewExistingCv": "View Existing CV",
+      "Replace": "Replace",
+      "ClickToUpload": "Click to upload CV",
+      "docType": "PDF, DOC, DOCX, TEX"
     },
     "currency": {
       "usd": "USD",

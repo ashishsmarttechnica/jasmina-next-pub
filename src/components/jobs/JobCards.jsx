@@ -215,7 +215,7 @@ const JobCards = ({ filters }) => {
           size="lg"
           backdrop="static"
         >
-          <Modal.Header closeButton>
+          <Modal.Header closeButton className="p-[15px]">
           </Modal.Header>
           <Modal.Body>
             <SingleJobDetail

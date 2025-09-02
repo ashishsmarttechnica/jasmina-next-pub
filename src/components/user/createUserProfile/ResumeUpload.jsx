@@ -1,10 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
 import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
-import useAuthStore from "@/store/auth.store";
 import { useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 import { Loader } from "rsuite";
 
 const ResumeUpload = ({ setActiveTab }) => {

@@ -10,7 +10,7 @@ const PostJobModal = ({ isOpen, onClose, title, signUpPath, cancelText, signUpTe
         size="400px"
         className="rounded-full sm:px-0 px-5"
       >
-        <Modal.Header closeButton></Modal.Header>
+        <Modal.Header closeButton className="p-[10px]"></Modal.Header>
         <Modal.Body className="rs-modal_bg">
           <p className="text-xl text-center mb-2 mt-2 ">
             {title}

@@ -13,6 +13,7 @@ import { FaRegAddressCard } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { IoClipboardOutline } from "react-icons/io5";
+import { Button, Modal } from "rsuite";
 import ImageFallback from "../../common/shared/ImageFallback";
 import JobsLayout from "../../layout/JobsLayout";
 import getImg from "../../lib/getImg";
@@ -29,7 +30,7 @@ const AppliedJobsMainPage = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
   const jobId = searchParams.get("id");
 
@@ -88,10 +89,17 @@ const AppliedJobsMainPage = () => {
 
   // Auto-select the first job by default when jobs are loaded or changed
   useEffect(() => {
-    if (mappedJobs.length > 0 && !selectedJob) {
+    if (!isMobile && mappedJobs.length > 0 && !selectedJob) {
       setSelectedJob(mappedJobs[0]);
     }
-  }, [mappedJobs, selectedJob]);
+  }, [mappedJobs, selectedJob, isMobile]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <JobsLayout leftComponents={[<MyJobs key="left1" />]}>
@@ -120,9 +128,9 @@ const AppliedJobsMainPage = () => {
 
                   <Card
                     key={`${job._id}-${job._raw.application._id}`}
-                    className={`mb-3 transform cursor-pointer transition duration-200 ${selectedJob?._id === job._id
-                      ? "border-primary border-1"
-                      : "hover:scale-[1.01]"
+                    className={`mb-3 w-full sm:w-full md:w-full xl:w-full cursor-pointer border-2 transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id
+                      ? "border-green-700 bg-green-200"
+                      : "border-gray-300"
                       }`}
                     onClick={() => setSelectedJob(job)}
                   >
@@ -226,12 +234,14 @@ const AppliedJobsMainPage = () => {
                   </Card>
                 ))}
                 {visibleCount < mappedJobs.length && (
-                  <button
-                    className="mt-2 w-full rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
-                    onClick={() => setVisibleCount((prev) => prev + 3)}
-                  >
-                    {t("loadMore")}
-                  </button>
+                  <div className="mt-2 text-center md:text-left">
+                    <button
+                      className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+                      onClick={() => setVisibleCount((prev) => prev + 3)}
+                    >
+                      {t("loadMore")}
+                    </button>
+                  </div>
                 )}
                 {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
                   <div className="mt-2 text-center text-gray-500">
@@ -260,7 +270,7 @@ const AppliedJobsMainPage = () => {
                 )} */}
               </div>
               {/* Right Column: Job Detail */}
-              {selectedJob && (
+              {!isMobile && selectedJob && (
                 <div className="w-full md:w-[65%]">
                   <div className="sticky top-12 px-2">
                     <SingleJobDetail
@@ -271,6 +281,32 @@ const AppliedJobsMainPage = () => {
                     />
                   </div>
                 </div>
+              )}
+
+              {/* Modal for mobile */}
+              {isMobile && selectedJob && (
+                <Modal
+                  open={!!selectedJob}
+                  onClose={() => setSelectedJob(null)}
+                  size="lg"
+                  backdrop="static"
+                >
+                  <Modal.Header closeButton className="p-[15px]">
+                  </Modal.Header>
+                  <Modal.Body>
+                    <SingleJobDetail
+                      job={selectedJob}
+                      logoImage={selectedJob?.logoImage}
+                      onBack={() => setSelectedJob(null)}
+                      hideApplyButton={true}
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button className="bg-[#1D2F38] text-white mt-1" onClick={() => setSelectedJob(null)}>
+                      {t("modalClose")}
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               )}
             </div>
           )}

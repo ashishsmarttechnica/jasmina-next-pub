@@ -133,12 +133,13 @@ const Footer = () => {
                   <li>{t("socialMenu.Instagram")}</li> */}
                   {footerLinkResponse?.data?.socialLinks &&
                     Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => {
-                      if (name.toLowerCase() === "twitter") return null;
+                      // if (name.toLowerCase() === "twitter") return null;
                       // Check if both name and link exist and are valid
                       const hasValidName = name && name.trim() !== "";
                       const hasValidLink = link && link.trim() !== "";
                       const shouldBeClickable = hasValidName && hasValidLink;
-
+                      const displayName =
+                        name.toLowerCase() === "twitter" ? "X" : name.charAt(0).toUpperCase() + name.slice(1);
                       return (
                         <li key={index}>
                           {shouldBeClickable ? (
@@ -148,11 +149,11 @@ const Footer = () => {
                               rel="noopener noreferrer"
                               className="hover:text-primary transition-colors duration-200 cursor-pointer"
                             >
-                              {name.charAt(0).toUpperCase() + name.slice(1)}
+                              {displayName}
                             </a>
                           ) : (
                             <span className="text-gray-400 cursor-not-allowed">
-                              {hasValidName ? name.charAt(0).toUpperCase() + name.slice(1) : "Social Link"}
+                              {hasValidName ? displayName : "Social Link"}
                             </span>
                           )}
                         </li>

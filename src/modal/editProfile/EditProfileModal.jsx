@@ -18,9 +18,10 @@ import PersonalInformationForm from "./PersonalInformationForm";
 
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
-
+  // console.log(descriptionData);
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
+  const r = useTranslations("UserProfile.resume");
   const { resetLocation } = useLocationStore();
 
   // Use the centralized validation hook
@@ -36,14 +37,23 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
-  console.log(descriptionData?.profile?.availabilty, "availabilit0---------y");
+  // console.log(descriptionData?.profile?.availabilty, "availabilit0---------y");
   // Proficiency options for skills/languages
   const proficiencyOptions = useProficiencyOptions();
   const categoryOptions = useSkillCategoryOptions();
+  const [selectedResumeFile, setSelectedResumeFile] = useState(null);
+  const [existingResume, setExistingResume] = useState(descriptionData?.resume || null);
+  // console.log(selectedResumeFile, "selectedResumeFile");
 
   const handleAvailabilityChange = (newAvailability) => {
     setAvailability(newAvailability);
   };
+  useEffect(() => {
+    if (descriptionData?.resume) {
+      setExistingResume(user?.resume);
+      // console.log(existingResume, "existingResume");
+    }
+  }, [descriptionData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -148,11 +158,13 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       formData.append("visibility.visibleTo", whoCanSeeData.visibleTo);
     }
 
+    if (selectedResumeFile instanceof File) {
+      formData.append("resume", selectedResumeFile);
+    }
     updateProfile(formData, {
       onSuccess: (res) => {
         if (res.success) {
           onClose();
-          window.location.reload();
         }
       },
     });
@@ -230,6 +242,44 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             proficiencyOptions={proficiencyOptions}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           />
+        </div>
+        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+          <div className="my-2 flex flex-col gap-2">
+            <div className="text-[15px] font-medium text-[#0f0f0f]">{r("title")}</div>
+
+            {existingResume && !selectedResumeFile ? (
+              <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
+                <a
+                  href={getImg(existingResume)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" font-medium hover:underline"
+                >
+                  {r("viewExistingCv")}
+                </a>
+                <Button
+                  size="sm"
+                  onClick={() => setExistingResume(null)}
+                  className="ml-3 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100"
+                >
+                  {r("Replace")}
+                </Button>
+              </div>
+            ) : (
+              <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
+                <span className="text-sm text-gray-600">
+                  {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
+                </span>
+                <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => setSelectedResumeFile(e.target.files[0])}
+                  className="hidden"
+                />
+              </label>
+            )}
+          </div>
         </div>
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <WhoCanSeeYourProfileWrapper

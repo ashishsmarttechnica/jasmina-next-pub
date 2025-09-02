@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import { Button, Modal } from "rsuite";
 import ImageFallback from "../../common/shared/ImageFallback";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleSaveJobDetail from "./SingleSaveJobDetail";
@@ -21,7 +22,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
   const { jobs, isLoading, error, getSavedJob } = useJobStore();
   const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
-
+  const [isMobile, setIsMobile] = useState(false);
   // Calculate params for useGetJobs hook
   const jobParams = isDefaultFilters ? { limit: 1000 } : { ...filters, limit: 1000 };
 
@@ -100,10 +101,17 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
 
   // Auto-select the first job by default when jobs are loaded or changed
   useEffect(() => {
-    if (mappedJobs.length > 0 && !selectedJob) {
+    if (!isMobile && mappedJobs.length > 0 && !selectedJob) {
       setSelectedJob(mappedJobs[0]);
     }
-  }, [mappedJobs, selectedJob]);
+  }, [mappedJobs, selectedJob, isMobile]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // If jobId is provided, auto-select that job
   useEffect(() => {
@@ -177,12 +185,14 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
           )}
 
           {visibleCount < mappedJobs.length && (
-            <button
-              className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800 xl:w-full"
-              onClick={() => setVisibleCount((prev) => prev + 3)}
-            >
-              {t("loadMore")}
-            </button>
+            <div className="mt-2 text-center md:text-left">
+              <button
+                className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+                onClick={() => setVisibleCount((prev) => prev + 3)}
+              >
+                {t("loadMore")}
+              </button>
+            </div>
           )}
           {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
             <div className="mt-2 text-center text-gray-500">
@@ -192,12 +202,33 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
         </div>
       </div>
       {/* Right Column: Job Detail */}
-      {selectedJob && (
+      {!isMobile && selectedJob && (
         <div className="w-full md:w-[65%]">
           <div className="sticky top-12 px-2">
             <SingleSaveJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
           </div>
         </div>
+      )}
+
+      {/* Modal for mobile */}
+      {isMobile && selectedJob && (
+        <Modal
+          open={!!selectedJob}
+          onClose={() => setSelectedJob(null)}
+          size="lg"
+          backdrop="static"
+        >
+          <Modal.Header closeButton className="p-[15px]">
+          </Modal.Header>
+          <Modal.Body>
+            <SingleSaveJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="bg-[#1D2F38] text-white mt-1" onClick={() => setSelectedJob(null)}>
+              {t("modalClose")}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </div>
   );
