@@ -20,6 +20,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   const { user } = useAuthStore();
   console.log(user, "useruseruser");
   const t = useTranslations("Chat");
+  const r = useTranslations("UserProfile.resume");
 
   const [messageOptionsIdx, setMessageOptionsIdx] = useState(null);
   const [newMessage, setNewMessage] = useState("");
@@ -591,7 +592,11 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   const handleDocUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+    if (file.size > 1024 * 1024) {
+      toast.error(r("fileSizeError"));
+      e.target.value = "";
+      return;
+    }
     // Combined limit across images + doc is 2
     const currentCount = pendingImages.length + (pendingDoc ? 1 : 0);
     const availableSlots = Math.max(0, 2 - currentCount);

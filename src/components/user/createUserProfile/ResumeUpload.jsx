@@ -29,6 +29,11 @@ const ResumeUpload = ({ setActiveTab }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (file.size > 1024 * 1024) {
+       setError(t("fileSizeError")); 
+        e.target.value = "";
+        return;
+      }
       setSelectedFile(file);
       setError("");
     }

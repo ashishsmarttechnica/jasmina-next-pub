@@ -41,6 +41,7 @@ const ApplyNowForm = ({ jobId }) => {
   const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("UserProfile.profile");
+  const r = useTranslations("UserProfile.resume");
   const pronounOptions = usePronounOptions();
   const [isChecked, setIsChecked] = useState(false);
   const [fileError, setFileError] = useState("");
@@ -77,6 +78,11 @@ const ApplyNowForm = ({ jobId }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (file.size > 1024 * 1024) {
+        setErrors((prev) => ({ ...prev, cv: r("fileSizeError") }));
+        e.target.value = "";
+        return;
+      }
       setSelectedFile(file);
       clearFieldError(t("cv"));
     }
@@ -105,7 +111,7 @@ const ApplyNowForm = ({ jobId }) => {
     });
 
     if (hasError) {
-      setFileError("Each file must be less than 1MB.");
+      setFileError(r("eachFileSizeError"));
     } else {
       setFileError(""); // clear error when all valid
     }

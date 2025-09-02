@@ -323,7 +323,7 @@
         "experience": "Experience",
         "education": "Education",
         "skills": "Skills",
-        "resume": "Resume",
+        "resume": "CV",
         "activity": "Activity",
         "seeAll": "See All",
         "noActivity": "No Activity Found",
@@ -635,10 +635,12 @@
       "Uploaded": "Uploaded",
       "resumeError": "Please upload a CV file (PDF, DOC, DOCX, TEX).",
       "fileError": "Invalid file format. Please upload a valid cv file.",
+      "fileSizeError": "Your file is too large. Maximum allowed size is 1MB.",
+      "eachFileSizeError" : "Each file must be less than 1MB.",
       "viewExistingCv": "View Existing CV",
       "Replace": "Replace",
       "ClickToUpload": "Click to upload CV",
-      "docType": "PDF, DOC, DOCX, TEX"
+      "docType": "PDF, DOC, DOCX, TEX (1mb)"
     },
     "currency": {
       "usd": "USD",

@@ -43,6 +43,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const categoryOptions = useSkillCategoryOptions();
   const [selectedResumeFile, setSelectedResumeFile] = useState(null);
   const [existingResume, setExistingResume] = useState(descriptionData?.resume || null);
+  const [resumeError, setResumeError] = useState("");
   // console.log(selectedResumeFile, "selectedResumeFile");
 
   const handleAvailabilityChange = (newAvailability) => {
@@ -180,6 +181,19 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     }
   }, [descriptionData]);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        setResumeError(r("fileSizeError"));
+        e.target.value = "";
+        return;
+      }
+      setSelectedResumeFile(file);
+      setResumeError("");
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -266,18 +280,23 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
                 </Button>
               </div>
             ) : (
-              <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
-                <span className="text-sm text-gray-600">
-                  {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
-                </span>
-                <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={(e) => setSelectedResumeFile(e.target.files[0])}
-                  className="hidden"
-                />
-              </label>
+              <div>
+                <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
+                  <span className="text-sm text-gray-600">
+                    {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
+                  </span>
+                  <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </label>
+                {resumeError && (
+                  <p className="mt-2 text-xs text-red-500">{resumeError}</p>
+                )}
+              </div>
             )}
           </div>
         </div>
