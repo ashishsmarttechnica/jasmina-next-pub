@@ -259,7 +259,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
         </div>
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <div className="my-2 flex flex-col gap-2">
-            <div className="text-[15px] font-medium text-[#0f0f0f]">{r("title")}</div>
+            <div className="text-lg font-semibold text-gray-800">{r("title")}</div>
 
             {existingResume && !selectedResumeFile ? (
               <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
@@ -281,12 +281,13 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
               </div>
             ) : (
               <div>
-                <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
+                <label for="cv" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
                   <span className="text-sm text-gray-600">
                     {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
                   </span>
                   <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
                   <input
+                    id="cv"
                     type="file"
                     accept=".pdf,.doc,.docx"
                     onChange={handleFileChange}

@@ -78,9 +78,9 @@ const Footer = () => {
                     {t("SupportHelp")}
                   </h3>
                   <ul className="text-grayBlueText text-base">
-                    <li className="pb-1.5">
-                      {t("SupportHelpMenu.HelpCenter")}
-                    </li>
+                    {/* <li className="pb-1.5">
+                      {t("SupportHelpMenu.FAQ")}
+                    </li> */}
                     <li
                       className={`pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200 ${pathname === "/contact" ? "text-primary font-medium" : ""}`}
                       onClick={() => handleNavigation("/contact")}
