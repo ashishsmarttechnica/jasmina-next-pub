@@ -212,7 +212,7 @@ function PostCardSingle({ post, userData }) {
         <div className="min-h-[3rem] sm:min-h-[3.5rem]">
           <p
             ref={descRef}
-            className={`text-grayBlueText text-[12px] leading-[1.4] font-normal sm:text-[13px] leading-relaxed break-words ${showMore ? "" : "showline-2"}`}
+            className={`text-grayBlueText text-[12px]  font-normal sm:text-[13px] leading-relaxed break-words ${showMore ? "" : "showline-2"}`}
           >
             {localPost?.postDesc}
           </p>

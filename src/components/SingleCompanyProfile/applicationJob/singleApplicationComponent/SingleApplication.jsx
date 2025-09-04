@@ -9,6 +9,7 @@ import useSingleCompanyAppliedJobStore from "@/store/singleCopanyAppliedJob.stor
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button, Modal } from "rsuite";
 import SearchBar from "../../applications/SearchBar";
 import ApplicantDetails from "./ApplicantDetails";
 import ApplicantList from "./ApplicantList";
@@ -29,6 +30,7 @@ const SingleApplication = () => {
   const [isJobLoading, setIsJobLoading] = useState(false);
   const [applicantsList, setApplicantsList] = useState([]);
   const t = useTranslations("Applications");
+  const [isMobile, setIsMobile] = useState(false);
 
   // Fetch job details if not available in store
   useEffect(() => {
@@ -93,12 +95,18 @@ const SingleApplication = () => {
   const pagination = applicantsData?.pagination || { total: 0 };
 
   useEffect(() => {
-    if (applicants.length > 0 && !selectedApplicant) {
+    if (!isMobile && applicants.length > 0 && !selectedApplicant) {
       // Auto-select first applicant when data loads
       setSelectedApplicant(applicants[0]);
     }
-  }, [applicants]);
+  }, [applicants, isMobile, selectedApplicant]);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   // Keep a local list to reflect optimistic updates in the list UI
   useEffect(() => {
     setApplicantsList(applicants);
@@ -295,7 +303,7 @@ const SingleApplication = () => {
             />
 
             {/* Selected Applicant Details */}
-            {selectedApplicant ? (
+            {!isMobile && selectedApplicant && (
               <ApplicantDetails
                 selectedApplicant={{
                   ...selectedApplicant,
@@ -306,7 +314,8 @@ const SingleApplication = () => {
                 setIsSetInterviewOpen={setIsSetInterviewOpen}
                 onStatusChange={handleStatusChange}
               />
-            ) : (
+            )}
+            {/* : (
               <div className="hidden w-full rounded-lg bg-white p-4 text-center shadow-md lg:block lg:w-[60%] sm:p-6">
                 <div className="flex flex-col items-center justify-center space-y-2">
                   <svg className="h-12 w-12 text-gray-400 sm:h-16 sm:w-16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 48 48">
@@ -316,9 +325,37 @@ const SingleApplication = () => {
                   <p className="text-sm text-gray-500 sm:text-base">{t("singleApplication.selectApplicantPlaceholder")}</p>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
-
+          {/* Modal for mobile */}
+          {isMobile && selectedApplicant && (
+            <Modal
+              open={!!selectedApplicant}
+              onClose={() => setSelectedApplicant(null)}
+              size="lg"
+              backdrop="static"
+            >
+              <Modal.Header closeButton className="p-[15px]">
+              </Modal.Header>
+              <Modal.Body>
+                <ApplicantDetails
+                  selectedApplicant={{
+                    ...selectedApplicant,
+                    jobId: jobId, // Explicitly pass the jobId
+                  }}
+                  jobData={jobData}
+                  applicants={applicantsData}
+                  setIsSetInterviewOpen={setIsSetInterviewOpen}
+                  onStatusChange={handleStatusChange}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button className="bg-[#1D2F38] text-white mt-1" onClick={() => setSelectedApplicant(null)}>
+                  {t("modalClose")}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          )}
           {/* Load More Button - Responsive */}
           {!isLastPage && applicants.length > 0 && (
             <div className="mt-6 flex justify-center">

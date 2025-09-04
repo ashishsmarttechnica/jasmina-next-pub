@@ -1161,6 +1161,7 @@
       "closed": "Closed"
     },
     "applicant": "Applicant",
+    "modalClose": "Close",
     "viewJob": "View Job",
     "noJobs": {
       "titleWhenSearch": "No jobs found",
