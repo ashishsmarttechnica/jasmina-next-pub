@@ -41,7 +41,7 @@ const ApplicantDetails = ({
   onStatusChange,
   jobData
 }) => {
-  console.log(jobData?.jobLocation, "jobDatajobDatajobData");
+ // console.log(jobData?.jobLocation, "jobDatajobDatajobData");
   const remote = jobData?.jobLocation?.includes("Remote");
   const t = useTranslations("Applications");
   const [resumeUrl, setResumeUrl] = useState("");
@@ -51,7 +51,7 @@ const ApplicantDetails = ({
   const queryClient = useQueryClient();
   const resume = selectedApplicant?.resume || selectedApplicant?.appliedCV;
 
-  console.log(applicants, "applicantsData___________________");
+ // console.log(applicants, "applicantsData___________________");
 
   // Update current status when selectedApplicant changes
   useEffect(() => {
@@ -152,7 +152,7 @@ const ApplicantDetails = ({
       day: "numeric",
     });
   };
-  console.log(selectedApplicant, "selectedApplicantselectedApplicant");
+ // console.log(selectedApplicant, "selectedApplicantselectedApplicant");
   return (
     <div className="w-full lg:w-[60%]">
       <div className="rounded-xl border border-gray-100 bg-white shadow-sm">

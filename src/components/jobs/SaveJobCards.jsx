@@ -41,7 +41,7 @@ const SaveJobCards = ({ filters, isSavedJobs = false }) => {
       getSavedJob({
         id: jobId,
         onSuccess: (res) => {
-          console.log(t("SavedJobFetched"));
+         // console.log(t("SavedJobFetched"));
         },
         onError: (error) => {
           console.error(t("Errorfetchingsavedjob"), error);

@@ -33,7 +33,7 @@ const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) 
       location: locationInput,
       lgbtq: selected === t("all") ? false : true,
     };
-    console.log("Setting filters:", newFilters);
+   // console.log("Setting filters:", newFilters);
     setFilters(newFilters);
 
     // Call the onFindJob callback if provided

@@ -82,7 +82,7 @@ const ChatConnection = () => {
   const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
   const t = useTranslations("Chat");
   const { switchOn: dndSwitchOn, checkDnd, checkCompanyDnd, updateDndMode, loading, initializeDnd, dndError } = useChatDndStore();
-  console.log(dndSwitchOn, "dcdklfsh;;;;;;f;;;;;;;;;;;;;;;");
+ // console.log(dndSwitchOn, "dcdklfsh;;;;;;f;;;;;;;;;;;;;;;");
   const { user } = useAuthStore();
   const isLoggedInUser = (user?.role || "").toLowerCase() === "user";
 
@@ -102,7 +102,7 @@ const ChatConnection = () => {
     // For company chats, check current DND mode on selection
     if (chat?.companyName && userId && chat?.conversationId) {
       checkDnd(userId, chat.conversationId);
-      console.log(chat?.conversationId, "lllllllllll=======+++++");
+     // console.log(chat?.conversationId, "lllllllllll=======+++++");
 
     }
   };
@@ -154,7 +154,7 @@ const ChatConnection = () => {
           dndEnabled: dndEnabled,
           timestamp: new Date().toISOString()
         });
-        console.log("[ChatConnection] DND update emitted via socket:", { companyId, dndEnabled });
+       // console.log("[ChatConnection] DND update emitted via socket:", { companyId, dndEnabled });
       } else if (socket) {
         // If socket not connected, connect first then emit
         socket.once("connect", () => {
@@ -163,7 +163,7 @@ const ChatConnection = () => {
             dndEnabled: dndEnabled,
             timestamp: new Date().toISOString()
           });
-          console.log("[ChatConnection] DND update emitted after socket connect:", { companyId, dndEnabled });
+         // console.log("[ChatConnection] DND update emitted after socket connect:", { companyId, dndEnabled });
         });
         socket.connect();
       }
@@ -219,7 +219,7 @@ const ChatConnection = () => {
               className={`h-full w-full overflow-hidden border-r border-slate-200 md:max-w-[276.5px] ${activeChat ? "hidden md:block" : "block"
                 }`}
             >
-              <ChatSidebar onSelect={handleSelectChat} activeChat={activeChat} targetRoomId={targetRoomId} refreshKey={sidebarRefreshKey} />
+              <ChatSidebar onSelect={handleSelectChat} activeChat={activeChat} targetRoomId={targetRoomId} refreshKey={sidebarRefreshKey} setRefreshKey={setSidebarRefreshKey} />
             </div>
 
             <div className={`w-full md:w-full ${activeChat ? "block" : "hidden"} h-full md:block`}>

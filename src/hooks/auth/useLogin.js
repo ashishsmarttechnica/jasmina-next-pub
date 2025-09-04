@@ -15,12 +15,12 @@ export default function useLogin() {
     mutationFn: loginUser,
     onSuccess: (data) => {
       if (data?.success === true) {
-        console.log(data, "data++++++++++++++");
+       // console.log(data, "data++++++++++++++");
         const token = data.data.token;
         const role = data.data.role;
         const profileComplete = data.data.profileComplete;
         const BlockModel = data?.data?.status;
-        console.log(BlockModel, "BlockModel++++++++++++++");
+       // console.log(BlockModel, "BlockModel++++++++++++++");
         // Set cookies for middleware
         Cookies.set("token", token);
         Cookies.set("userRole", role);

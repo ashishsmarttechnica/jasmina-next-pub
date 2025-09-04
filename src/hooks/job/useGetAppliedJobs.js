@@ -13,7 +13,7 @@ const useGetAppliedJobs = (page = 1, limit = 10) => {
         page,
         limit,
         onSuccess: () => {
-          console.log("Applied jobs fetched successfully");
+         // console.log("Applied jobs fetched successfully");
         },
         onError: (error) => {
           console.error("Error fetching applied jobs:", error);

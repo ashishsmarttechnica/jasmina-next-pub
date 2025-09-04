@@ -36,7 +36,7 @@ const useChatDndStore = create(
                     set({ loading: true, error: null });
                     try {
                         const response = await getCompany(companyId);
-                        console.log("ChatDndStore - Company profile response:", response);
+                       // console.log("ChatDndStore - Company profile response:", response);
 
                         // Extract DND status from company profile
                         // The DND status should be in the company profile data
@@ -47,7 +47,7 @@ const useChatDndStore = create(
                             dndEnabled = Boolean(response.dndEnabled);
                         }
 
-                        console.log("ChatDndStore - Setting company DND status to:", dndEnabled);
+                       // console.log("ChatDndStore - Setting company DND status to:", dndEnabled);
                         set({ switchOn: dndEnabled, loading: false });
 
                         // Reset loading state if needed
@@ -151,17 +151,17 @@ const useChatDndStore = create(
                     }
                 },
                 async updateDndMode(companyId, dndEnabled) {
-                    console.log("ChatDndStore - updateDndMode called with:", { companyId, dndEnabled });
+                   // console.log("ChatDndStore - updateDndMode called with:", { companyId, dndEnabled });
                     if (!companyId) return;
                     set({ loading: true, error: null });
                     try {
                         const response = await updateCompanyDndMode({ companyId, dndEnabled });
-                        console.log("ChatDndStore - updateCompanyDndMode response:", response);
+                       // console.log("ChatDndStore - updateCompanyDndMode response:", response);
                         if (response.success) {
                             // Update the local state to match the API response
                             // If API returns success, the dndEnabled value was accepted
                             // So we should set switchOn to match what was sent (dndEnabled)
-                            console.log("ChatDndStore - Setting switchOn to:", dndEnabled);
+                           // console.log("ChatDndStore - Setting switchOn to:", dndEnabled);
                             set({ switchOn: dndEnabled, loading: false });
                             return true;
                         } else {

@@ -35,7 +35,7 @@ const Subscription = () => {
   const [currentPlan, setCurrentPlan] = useState(null);
 
   const handleUpgrade = (plan) => {
-    console.log(plan, "plan 546546");
+   // console.log(plan, "plan 546546");
 
     const formattedPlan = {
       ...plan,
@@ -166,7 +166,7 @@ const Subscription = () => {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {subscriptionPlans.map(
           (plan) => (
-            console.log(plan, "plan 546546"),
+           // console.log(plan, "plan 546546"),
             (
               <SubscriptionCard
                 key={plan._id}

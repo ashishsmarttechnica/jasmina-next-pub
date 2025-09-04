@@ -28,7 +28,7 @@ const Preferences = ({ setActiveTab, availabilty }) => {
   const workLocationOptions = useWorkLocationOptions();
   const industryOptions = useIndustryOptions();
   const currencyOptions = useCurrencyOptions();
-  console.log(availabilty, "hhhhhhhhhhhhhh");
+ // console.log(availabilty, "hhhhhhhhhhhhhh");
 
   const [formData, setFormData] = useState({
     role: "",

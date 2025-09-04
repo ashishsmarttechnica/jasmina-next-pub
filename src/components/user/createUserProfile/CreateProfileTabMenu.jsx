@@ -35,16 +35,11 @@ const VerificationBar = () => {
     },
 
     availabilty !== "Not Available" &&
-      availabilty !== "" && {
-        label: t("preferences"),
-        icon: (isActive) => <Preference isActive={isActive} />,
-        component: <Preferences setActiveTab={setActiveTab} availabilty={availabilty} />,
-      },
-    // {
-    //   label: t("preferences"),
-    //   icon: (isActive) => <Preference isActive={isActive} />,
-    //   component: <Preferences setActiveTab={setActiveTab} />,
-    // },
+    availabilty !== "" && {
+      label: t("preferences"),
+      icon: (isActive) => <Preference isActive={isActive} />,
+      component: <Preferences setActiveTab={setActiveTab} availabilty={availabilty} />,
+    },
     {
       label: t("education"),
       icon: (isActive) => <Education isActive={isActive} />,
@@ -67,10 +62,14 @@ const VerificationBar = () => {
   const currentStepIndex = activeTab;
 
   useEffect(() => {
-    if (user?.steps) {
-      setActiveTab(user.steps);
+    if (user?.steps !== undefined) {
+      let adjustedStep = user.steps;
+      if ((availabilty === "Not Available" || !availabilty) && adjustedStep > 1) {
+        adjustedStep -= 1; // shift back since Preferences was skipped
+      }
+      setActiveTab(adjustedStep);
     }
-  }, [user]);
+  }, [user, availabilty]);
 
   return (
     <div className="my-9">
@@ -100,9 +99,8 @@ const VerificationBar = () => {
 
             <div className="md:hidden">
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? "max-h-[500px]" : "max-h-0"
-                }`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[500px]" : "max-h-0"
+                  }`}
               >
                 <ul className="flex flex-col gap-4 py-4">
                   {steps.map((item, index) => {
@@ -111,22 +109,19 @@ const VerificationBar = () => {
                     return (
                       <li key={index} className="text-background flex items-center gap-3 text-sm">
                         <div
-                          className={`flex h-6 w-6 items-center justify-center rounded-full ${
-                            isActive ? "bg-primary" : "bg-grayBlueText"
-                          }`}
+                          className={`flex h-6 w-6 items-center justify-center rounded-full ${isActive ? "bg-primary" : "bg-grayBlueText"
+                            }`}
                         >
                           <span className="text-xs text-white">{index + 1}</span>
                         </div>
                         <button
                           onClick={() => handleTabClick(index)}
                           disabled={index > user?.steps}
-                          className={`flex w-full items-center gap-2 ${
-                            isActive ? "text-primary text-sm font-bold" : "text-background"
-                          } ${
-                            index > user?.steps
+                          className={`flex w-full items-center gap-2 ${isActive ? "text-primary text-sm font-bold" : "text-background"
+                            } ${index > user?.steps
                               ? "cursor-not-allowed opacity-50"
                               : "hover:text-primary"
-                          }`}
+                            }`}
                         >
                           {item.icon(isActive)}
 
@@ -152,13 +147,11 @@ const VerificationBar = () => {
                         <button
                           onClick={() => handleTabClick(index)}
                           disabled={index > user?.steps}
-                          className={`flex w-full items-center gap-2 no-underline md:w-auto ${
-                            isActive ? "text-primary font-bold" : "text-background"
-                          } ${
-                            index > user?.steps
+                          className={`flex w-full items-center gap-2 no-underline md:w-auto ${isActive ? "text-primary font-bold" : "text-background"
+                            } ${index > user?.steps
                               ? "cursor-not-allowed opacity-50"
                               : "hover:text-primary"
-                          }`}
+                            }`}
                         >
                           {item.icon(isActive)}
                           <span className="block text-sm break-words whitespace-normal md:text-sm md:whitespace-nowrap xl:text-[15px]">

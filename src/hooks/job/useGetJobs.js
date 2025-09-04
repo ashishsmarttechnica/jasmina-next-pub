@@ -14,7 +14,7 @@ export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit 
     queryFn: async () => {
       try {
         setLoading(true);
-        console.log("Calling getJobs with params:", { search, location, lgbtq, page, limit });
+       // console.log("Calling getJobs with params:", { search, location, lgbtq, page, limit });
         const res = await getJobs({ search, location, lgbtq, page, limit });
 
         // Extract data from response
@@ -41,11 +41,11 @@ export const useAllJobs = ({ search = "", location = "", lgbtq, page = 1, limit 
         // Calculate if we're on the last page based on pagination info
         const isLastPage = page >= pagination.totalPages;
 
-        console.log("API Response:", {
-          jobs: mergedJobs.length,
-          pagination,
-          isLastPage,
-        });
+       // console.log("API Response:", {
+        //   jobs: mergedJobs.length,
+        //   pagination,
+        //   isLastPage,
+        // });
 
         return {
           jobs: mergedJobs,

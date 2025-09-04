@@ -19,12 +19,12 @@ const SetInterviewModal = ({
   isReschedule = false,
   onInterviewScheduled,
 }) => {
-  console.log(jobData, "jobData-----------------");
+ // console.log(jobData, "jobData-----------------");
   const isRemote = jobData?.jobLocation?.includes("Remote");
-  console.log(isRemote, "isRemote-----------------");
-  console.log(candidateData, "candidateData-----------------");
-  console.log("Is remote job detected:", isRemote);
-  console.log("Job location:", jobData?.jobLocation);
+ // console.log(isRemote, "isRemote-----------------");
+ // console.log(candidateData, "candidateData-----------------");
+ // console.log("Is remote job detected:", isRemote);
+ // console.log("Job location:", jobData?.jobLocation);
 
   const t = useTranslations("SetInterviewModal");
   const [date, setDate] = useState(null);
@@ -54,7 +54,7 @@ const SetInterviewModal = ({
 
   const isLoading = isScheduleLoading || isUpdateLoading;
 
-  console.log("Loading states:", { isScheduleLoading, isUpdateLoading, isLoading });
+ // console.log("Loading states:", { isScheduleLoading, isUpdateLoading, isLoading });
 
   // Helper function to format date correctly without timezone issues
   const formatDateForAPI = (selectedDate) => {
@@ -76,8 +76,8 @@ const SetInterviewModal = ({
 
   const handleSend = () => {
     const formData = { date, startTime, address, timeZone, onlineLink };
-    console.log("Form data being validated:", formData);
-    console.log("Is remote job:", isRemote);
+   // console.log("Form data being validated:", formData);
+   // console.log("Is remote job:", isRemote);
 
     if (validateForm(formData, isRemote)) {
       if (isReschedule && interviewId) {
@@ -89,7 +89,7 @@ const SetInterviewModal = ({
           timezone: timeZone,
           onlineLink: isRemote ? onlineLink : undefined,
         };
-        console.log("Updating interview with:", updateData);
+       // console.log("Updating interview with:", updateData);
         updateInterview({ interviewId, data: updateData });
       } else {
         // Create new interview - only send required fields
@@ -103,11 +103,11 @@ const SetInterviewModal = ({
           timeZone: timeZone,
           onlineLink: isRemote ? onlineLink : undefined,
         };
-        console.log("Creating new interview with:", newInterviewData);
+       // console.log("Creating new interview with:", newInterviewData);
         scheduleInterview(newInterviewData);
       }
     } else {
-      console.log("Form validation failed. Errors:", errors);
+     // console.log("Form validation failed. Errors:", errors);
     }
   };
 
@@ -153,7 +153,7 @@ const SetInterviewModal = ({
     }
   }, [isOpen]);
 
-  console.log(candidateData, "candidateData");
+ // console.log(candidateData, "candidateData");
   return (
     <Modal
       open={isOpen}
@@ -295,7 +295,7 @@ const SetInterviewModal = ({
           </button>
           <button
             onClick={() => {
-              console.log("🎯 Button clicked!");
+             // console.log("🎯 Button clicked!");
               handleSend();
             }}
             disabled={isLoading}

@@ -34,10 +34,10 @@ export const getJobs = async ({
   params.append("limit", limit);
 
   const url = `/search/job?${params.toString()}`;
-  console.log("API Call URL:", url);
+ // console.log("API Call URL:", url);
 
   const res = await axios.get(url);
-  console.log("API Response:", res.data);
+ // console.log("API Response:", res.data);
   return res.data;
 };
 
@@ -77,9 +77,9 @@ export const applyJob = async (data) => {
 };
 
 export const updateJobStatus = async ({ jobId, status }) => {
-  console.log("updateJobStatus API called with:", { jobId, status }); // Debug log
+ // console.log("updateJobStatus API called with:", { jobId, status }); // Debug log
   const res = await axios.put(`/update/job?jobId=${jobId}`, { status });
-  console.log("updateJobStatus API response:", res.data); // Debug log
+ // console.log("updateJobStatus API response:", res.data); // Debug log
   return res.data;
 };
 

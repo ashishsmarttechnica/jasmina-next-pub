@@ -214,7 +214,7 @@ const useEditProfileValidation = () => {
 
   const validateAll = (personalData, preferencesData, educationSkillsData) => {
     const personalErrors = validatePersonalInfo(personalData || {});
-    console.log(personalData?.availabilty, "personalData?.availabilty");
+   // console.log(personalData?.availabilty, "personalData?.availabilty");
 
     // Skip job preferences validation if availability is "Not Available"
     let jobErrors = {};

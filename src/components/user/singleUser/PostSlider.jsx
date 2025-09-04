@@ -166,7 +166,7 @@ function PostCardSingle({ post, userData }) {
       } catch (error) {
         // Only show error if it's not a user cancellation
         if (error.name !== "AbortError") {
-          console.log(error);
+         // console.log(error);
           toast.error(t("Sharecancelledorfailed"));
         }
       }

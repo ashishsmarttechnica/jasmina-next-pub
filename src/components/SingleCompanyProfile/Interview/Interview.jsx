@@ -125,7 +125,7 @@ const Interviews = () => {
   }, [interviewData, page, limit]);
 
   const interviews = allInterviews;
-  console.log(interviews, "interviews");
+ // console.log(interviews, "interviews");
 
   const handleLoadMore = async () => {
     if (isLoadingMore || !hasMore) return;

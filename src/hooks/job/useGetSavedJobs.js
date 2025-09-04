@@ -11,7 +11,7 @@ const useGetSavedJobs = () => {
       getSavedJobs({
         userId,
         onSuccess: (res) => {
-          console.log("Saved jobs fetched successfully");
+         // console.log("Saved jobs fetched successfully");
         },
         onError: (error) => {
           console.error("Error fetching saved jobs:", error);

@@ -15,7 +15,7 @@ import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 const UserMightKnow = ({ title }) => {
   const userType = capitalize(Cookies.get("userRole"));
-  console.log(userType, "userType+++++++++++++++++");
+  // console.log(userType, "userType+++++++++++++++++");
   const availabilityIcons = {
     "Open to Work": "🟢",
     "Available for Freelance": "🟡",
@@ -47,7 +47,7 @@ const UserMightKnow = ({ title }) => {
   const router = useRouter();
 
   const getItemConfig = (item) => {
-    // console.log(item, "item+++++++++++++++++");
+    //// console.log(item, "item+++++++++++++++++");
     const configs = {
       User: {
         image: item.profile?.photo,
@@ -137,11 +137,11 @@ const UserMightKnow = ({ title }) => {
       >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
-          console.log(config, "configconfig");
+          // console.log(config, "configconfig");
 
-          console.log(config.image, "hello jkjkjksdjkfksdk00000");
-          console.log(item?.profile?.fullName
-            , "item");
+          // console.log(config.image, "hello jkjkjksdjkfksdk00000");
+          // console.log(item?.profile?.fullName
+          // , "item");
 
 
           return (

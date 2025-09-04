@@ -72,7 +72,7 @@ const Applications = () => {
   };
 
   const handleStatusChange = (jobId, newStatus, currentStatus) => {
-    console.log("Current Status:", currentStatus, "New Status:", newStatus); // For debugging
+   // console.log("Current Status:", currentStatus, "New Status:", newStatus); // For debugging
 
     // Call the API to update job status
     updateJobStatus({

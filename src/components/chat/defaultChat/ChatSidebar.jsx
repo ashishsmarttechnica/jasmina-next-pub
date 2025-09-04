@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import ImageFallback from "../../../common/shared/ImageFallback";
 import Search from "./Search";
 
-export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
+export default function ChatSidebar({ onSelect, activeChat, refreshKey, setRefreshKey }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [conversations, setConversations] = useState([]);
-  console.log("conversations:-----", conversations);
+ // console.log("conversations:-----", conversations);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const t = useTranslations("Chat");
@@ -58,6 +58,11 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
     } catch (err) {
       console.error("Error fetching conversations:", err);
       setError(err.message || "Failed to fetch conversations");
+      if (setRefreshKey) {
+        setTimeout(() => {
+          setRefreshKey((prev) => prev + 1);
+        }, 3000); // retry after 3 seconds
+      }
     } finally {
       setLoading(false);
     }
@@ -76,14 +81,14 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
   });
 
   const handleChatSelect = async (conversation) => {
-    console.log("=== ChatSidebar: Conversation Clicked ===");
-    console.log("Raw conversation data000000000==========:", conversation);
+   // console.log("=== ChatSidebar: Conversation Clicked ===");
+   // console.log("Raw conversation data000000000==========:", conversation);
 
     // Determine which user to display (sender or receiver)
     // Since we don't know which user is current, we'll show the receiver by default
     // or you can implement logic to determine current user from the conversation
     const otherUser = getOtherUser(conversation);
-    console.log("Other user data:", conversation);
+   // console.log("Other user data:", conversation);
 
     // Create chat object with conversation data
     const selectedChat = {
@@ -103,20 +108,20 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
       companyId: otherUser?.companyName ? (otherUser?.id || otherUser?._id) : null,
     };
 
-    console.log("=== ChatSidebar: Selected Chat Object ===");
-    console.log("Selected chat being passed to ChatWindow:", selectedChat);
-    console.log("Room ID:", selectedChat.roomId);
-    console.log("Chat ID:", selectedChat.id);
-    console.log("User Name:", selectedChat.name);
-    console.log("User Role:", selectedChat.role);
-    console.log("Avatar URL:", selectedChat.avatar);
-    console.log("Conversation ID:", selectedChat.conversationId);
-    console.log("=== ChatSidebar: End ===");
+   // console.log("=== ChatSidebar: Selected Chat Object ===");
+   // console.log("Selected chat being passed to ChatWindow:", selectedChat);
+   // console.log("Room ID:", selectedChat.roomId);
+   // console.log("Chat ID:", selectedChat.id);
+   // console.log("User Name:", selectedChat.name);
+   // console.log("User Role:", selectedChat.role);
+   // console.log("Avatar URL:", selectedChat.avatar);
+   // console.log("Conversation ID:", selectedChat.conversationId);
+   // console.log("=== ChatSidebar: End ===");
 
     onSelect(selectedChat);
   };
 
-  console.log("filteredConversations:", filteredConversations);
+ // console.log("filteredConversations:", filteredConversations);
 
   return (
     <div className="no-scrollbar h-full w-full overflow-y-auto bg-white md:border-r md:border-[#000000]/10 xl:w-[275.5px]">
@@ -132,13 +137,6 @@ export default function ChatSidebar({ onSelect, activeChat, refreshKey }) {
       {/* Content */}
       {loading ? (
         <div className="p-4 text-center text-gray-400">{t("sidebar.loading")}</div>
-      ) : error ? (
-        <div className="p-4 text-center text-red-500">
-          {t("sidebar.error")}: {error}
-          <button className="mt-2 block text-blue-500 underline" onClick={fetchConversations}>
-            {t("sidebar.retry")}
-          </button>
-        </div>
       ) : filteredConversations.length === 0 ? (
         <div className="p-4 text-center text-gray-400">{t("sidebar.empty")}</div>
       ) : (

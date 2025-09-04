@@ -90,13 +90,13 @@ var getJobs = function getJobs() {
           params.append("page", page);
           params.append("limit", limit);
           url = "/search/job?".concat(params.toString());
-          console.log("API Call URL:", url);
+         // console.log("API Call URL:", url);
           _context3.next = 11;
           return regeneratorRuntime.awrap(_axios["default"].get(url));
 
         case 11:
           res = _context3.sent;
-          console.log("API Response:", res.data);
+         // console.log("API Response:", res.data);
           return _context3.abrupt("return", res.data);
 
         case 14:
@@ -270,10 +270,10 @@ var updateJobStatus = function updateJobStatus(_ref5) {
       switch (_context10.prev = _context10.next) {
         case 0:
           jobId = _ref5.jobId, status = _ref5.status;
-          console.log("updateJobStatus API called with:", {
-            jobId: jobId,
-            status: status
-          }); // Debug log
+         // console.log("updateJobStatus API called with:", {
+          //   jobId: jobId,
+          //   status: status
+          // }); // Debug log
 
           _context10.next = 4;
           return regeneratorRuntime.awrap(_axios["default"].put("/update/job?jobId=".concat(jobId), {
@@ -282,7 +282,7 @@ var updateJobStatus = function updateJobStatus(_ref5) {
 
         case 4:
           res = _context10.sent;
-          console.log("updateJobStatus API response:", res.data); // Debug log
+         // console.log("updateJobStatus API response:", res.data); // Debug log
 
           return _context10.abrupt("return", res.data);
 

@@ -69,7 +69,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
 
     // If validation fails, stop form submission
     if (!isValid) {
-      console.log("Form validation failed:", errors);
+    // console.log("Form validation failed:", errors);
       return;
     }
 
@@ -260,7 +260,6 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
         <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
           <div className="my-2 flex flex-col gap-2">
             <div className="text-lg font-semibold text-gray-800">{r("title")}</div>
-
             {existingResume && !selectedResumeFile ? (
               <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
                 <a

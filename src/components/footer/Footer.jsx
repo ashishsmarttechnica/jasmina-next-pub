@@ -20,10 +20,10 @@ const Footer = () => {
     queryKey: ["footerLink", locale],
     queryFn: () => getFooterLink(locale),
   });
-  console.log(footerLinkResponse?.data?.socialLinks, "footerLinkResponse?.data?.data?.socialLinks");
+ // console.log(footerLinkResponse?.data?.socialLinks, "footerLinkResponse?.data?.data?.socialLinks");
 
 
-  console.log(footerLinkResponse, "footerLinkResponse-------");
+ // console.log(footerLinkResponse, "footerLinkResponse-------");
 
 
   //

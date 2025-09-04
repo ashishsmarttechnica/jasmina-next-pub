@@ -20,7 +20,7 @@ const RecentJobs = () => {
   const { data, isLoading, error } = useGetResentJob(userId);
   const { resentJobs } = useResentJobStore();
   const router = useRouter();
-  console.log(data, isLoading, error, "recent/job");
+ // console.log(data, isLoading, error, "recent/job");
 
   const handleJobCardClick = () => {
     router.push(`/jobs`);

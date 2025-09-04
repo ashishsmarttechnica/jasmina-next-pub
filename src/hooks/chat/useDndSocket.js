@@ -44,13 +44,13 @@ export const useDndSocket = () => {
 
         // Handle DND updates from socket
         const onDndUpdate = (data = {}) => {
-            console.log("[useDndSocket] dnd_update received", data);
+           // console.log("[useDndSocket] dnd_update received", data);
 
             const { companyId, dndEnabled } = data;
 
             // Update DND state globally
             if (companyId && typeof dndEnabled === "boolean") {
-                console.log("[useDndSocket] updating DND state", { companyId, dndEnabled });
+               // console.log("[useDndSocket] updating DND state", { companyId, dndEnabled });
                 setSwitchOn(dndEnabled);
             } else {
                 console.warn("[useDndSocket] invalid dnd_update data", { companyId, dndEnabled });

@@ -6,7 +6,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import ViewJobModal from "../../../../modal/ViewJobModal";
 
 const JobHeader = ({ jobData }) => {
-  console.log(jobData, "jobData++++++++++||||||||||||||||");
+ // console.log(jobData, "jobData++++++++++||||||||||||||||");
   const [moreOptionsDropdownId, setMoreOptionsDropdownId] = useState(null);
   const moreOptionsRefs = useRef({});
   const t = useTranslations("Applications");

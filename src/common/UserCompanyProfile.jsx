@@ -10,7 +10,7 @@ import FeedProfileLeftSkeleton from "./skeleton/FeedProfileLeftSkeleton";
 
 function UserCompanyProfile() {
   const { user, isAuthLoading } = useAuthStore();
-  console.log(user, "usersdfsd+++++++++++");
+ // console.log(user, "usersdfsd+++++++++++");
   const t = useTranslations("FeedProfileLeft");
   const router = useRouter();
   if (isAuthLoading && !user) {

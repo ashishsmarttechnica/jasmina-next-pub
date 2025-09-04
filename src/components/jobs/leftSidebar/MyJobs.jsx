@@ -30,7 +30,7 @@ const MyJobs = () => {
       getSavedJobs({
         userId,
         onSuccess: () => {
-          console.log(t("SavedJobsFetched"));
+         // console.log(t("SavedJobsFetched"));
         },
         onError: (error) => {
           console.error(t("ErrorfetchingsavedjobsinMyJobs:"), error);

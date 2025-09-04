@@ -65,7 +65,7 @@ export const useAllApplicants = (jobId, page = 1, limit = 10) => {
           };
         });
 
-        console.log("Processed applicants:", processedApplicants);
+       // console.log("Processed applicants:", processedApplicants);
 
         // If it's the first page, replace applicants, otherwise append
         const mergedApplicants =

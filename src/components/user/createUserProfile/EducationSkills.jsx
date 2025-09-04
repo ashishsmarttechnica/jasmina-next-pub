@@ -162,41 +162,41 @@ const EducationSkills = ({ setActiveTab }) => {
         educationList:
           education?.length > 0
             ? education.map((edu) => ({
-                degree: edu.degreeName || "",
-                passingyear: edu.passingYear || "",
-                schoolname: edu.schoolOrCollege || "",
-                board: edu.universityOrBoard || "",
-              }))
+              degree: edu.degreeName || "",
+              passingyear: edu.passingYear || "",
+              schoolname: edu.schoolOrCollege || "",
+              board: edu.universityOrBoard || "",
+            }))
             : [{ degree: "", passingyear: "", schoolname: "", board: "" }],
 
         skillsList:
           skills?.length > 0
             ? skills.map((skill) => ({
-                skill: skill.name || "",
-                proficiency: skill.proficiencyLevel || "",
-                experience: skill.yearsOfExperience || "",
-                category: skill.category || "",
-              }))
+              skill: skill.name || "",
+              proficiency: skill.proficiencyLevel || "",
+              experience: skill.yearsOfExperience || "",
+              category: skill.category || "",
+            }))
             : [{ skill: "", proficiency: "", experience: "", category: "" }],
 
         languagesList:
           languages?.length > 0
             ? languages.map((lang) => ({
-                languages: lang.name || "",
-                proficiency: lang.proficiency || "",
-              }))
+              languages: lang.name || "",
+              proficiency: lang.proficiency || "",
+            }))
             : [{ languages: "", proficiency: "" }],
 
         experienceList:
           experience?.length > 0
             ? experience.map((exp) => ({
-                companyName: exp.companyName || "",
-                role: exp.jobTitle || "",
-                startDate: exp.startDate || "",
-                endDate: exp.endDate || "",
-                location: exp.location || "", 
-                position: exp.position || "",
-              }))
+              companyName: exp.companyName || "",
+              role: exp.jobTitle || "",
+              startDate: exp.startDate || "",
+              endDate: exp.endDate || "",
+              location: exp.location || "",
+              position: exp.position || "",
+            }))
             : [{ companyName: "", role: "", startDate: "", endDate: "", location: "", position: "" }],
       }));
     }
@@ -249,7 +249,7 @@ const EducationSkills = ({ setActiveTab }) => {
         />
 
         <div className="block space-y-4">
-          <button className="btn-fill">
+          <button className="btn-fill" type="submit">
             {" "}
             {isPending ? (
               <div>

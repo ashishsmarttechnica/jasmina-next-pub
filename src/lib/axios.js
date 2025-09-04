@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
-    console.log(status, "statusstatusstatus");
+   // console.log(status, "statusstatusstatus");
 
 
     if (status === 505) {

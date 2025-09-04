@@ -17,11 +17,13 @@ import useAuthStore from "../../../store/auth.store";
 import { getChatSocket } from "../../../utils/socket";
 import ChatWindowHeader from "./ChatWindowHeader";
 export default function ChatWindow({ chat, onBack, onActivity }) {
-  const { user } = useAuthStore();
-  console.log(user, "useruseruser");
-  const t = useTranslations("Chat");
-  const r = useTranslations("UserProfile.resume");
 
+  //#region all state 
+  const { user } = useAuthStore();
+  // console.log(user, "useruseruser");
+  const r = useTranslations("UserProfile.resume");
+  const t = useTranslations("Chat");
+  const lastReceiverRef = useRef(null);
   const [messageOptionsIdx, setMessageOptionsIdx] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,20 +41,23 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   const MAX_TEXTAREA_HEIGHT = 160;
   const hasInitialScrolledRef = useRef(false);
   const isImagePath = (path = "") => /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(String(path));
-  // console.log(chat, "messages++++++++++++++");
+  //// console.log(chat, "messages++++++++++++++");
   // Get current user ID from cookies
   const currentUserId = Cookies.get("userId");
   // Get current user avatar from cookies (ensure this is set at login)
   const currentUserAvatar = Cookies.get("userAvatar");
+  console.log(messages, " messagesss");
+  //#endregion
+
+  //#region Watch for DND state changes and broadcast them to backend
 
   useEffect(() => {
     useChatDndStore.getState().setSwitchOn(false);
   }, []);
 
-  // Watch for DND state changes and broadcast them to backend
   useEffect(() => {
     if (isDndSwitchOn !== undefined) {
-      console.log("[ChatWindow] DND state changed, broadcasting to backend", isDndSwitchOn);
+      // console.log("[ChatWindow] DND state changed, broadcasting to backend", isDndSwitchOn);
 
       // Emit DND state change to backend
       const socket = getChatSocket(currentUserId);
@@ -65,120 +70,125 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
             conversationId: chat?.conversationId,
             roomId: chat?.roomId
           });
-          console.log("[ChatWindow] DND state change emitted to backend");
+          // console.log("[ChatWindow] DND state change emitted to backend");
         } catch (e) {
           console.error("[ChatWindow] error emitting DND state change to backend", e);
         }
       }
     }
   }, [isDndSwitchOn, currentUserId, chat?.companyName, chat?.conversationId, chat?.roomId]);
+  //#endregion
 
-  // Debug: initial props/state
-  console.log("[ChatWindow] init", {
-    chat,
-    currentUserId,
-    currentUserAvatar,
-    isDndSwitchOn,
-    dndError,
-    companyName: chat?.companyName,
-    conversationId: chat?.conversationId,
-    isCompanyChat: chat && chat.companyName
-  });
+  //#region Debug: initial props/state
+  // console.log("[ChatWindow] init", {
+  //   chat,
+  //   currentUserId,
+  //   currentUserAvatar,
+  //   isDndSwitchOn,
+  //   dndError,
+  //   companyName: chat?.companyName,
+  //   conversationId: chat?.conversationId,
+  //   isCompanyChat: chat && chat.companyName
+  // });
 
   if (!chat || !chat.id) {
     return <div>{t("window.chatNotFound")}</div>;
   }
+  //#endregion
 
-  // Fetch messages when chat changes
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (!chat.roomId) return;
+  //#region Fetch messages when chat changes
+  const fetchMessages = async () => {
+    if (!chat.roomId) return;
 
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await getMessages(chat.roomId);
-        if (response.success) {
-          console.log("[ChatWindow] fetched messages (raw)", response.data.messages);
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getMessages(chat.roomId);
+      if (response.success) {
+        // console.log("[ChatWindow] fetched messages (raw)", response.data.messages);
 
-          // Transform API messages to match the expected format (simplified)
-          const transformedMessages = response.data.messages.map((msg) => {
-            const base = {
-              from: msg.sender === currentUserId ? "user" : "other",
-              text: msg.content,
-              timestamp: msg.createdAt,
-              _id: msg._id,
-              receiver: msg.receiver,
-              sender: msg.sender,
-              seen: msg.seen,
-            };
+        // Transform API messages to match the expected format (simplified)
+        const transformedMessages = response.data.messages.map((msg) => {
+          const base = {
+            from: msg.sender === currentUserId ? "user" : "other",
+            text: msg.content,
+            timestamp: msg.createdAt,
+            _id: msg._id,
+            receiver: msg.receiver,
+            sender: msg.sender,
+            seen: msg.seen,
+          };
 
-            if (msg?.file && typeof msg.file === "string") {
-              if (isImagePath(msg.file)) {
-                base.images = [getImg(msg.file)];
-              } else {
-                base.file = { name: (msg.file.split("/").pop() || "file"), url: getImg(msg.file) };
-              }
-            } else if (Array.isArray(msg.images) && msg.images.length) {
-              base.images = msg.images.map((p) => (typeof p === "string" ? getImg(p) : p));
+          if (msg?.file && typeof msg.file === "string") {
+            if (isImagePath(msg.file)) {
+              base.images = [getImg(msg.file)];
+            } else {
+              base.file = { name: (msg.file.split("/").pop() || "file"), url: getImg(msg.file) };
             }
+          } else if (Array.isArray(msg.images) && msg.images.length) {
+            base.images = msg.images.map((p) => (typeof p === "string" ? getImg(p) : p));
+          }
 
-            return base;
-          });
-          console.log("[ChatWindow] transformed messages", transformedMessages);
-          setMessages(transformedMessages);
-        } else {
-          setError("Failed to fetch messages");
-        }
-      } catch (err) {
-        console.error("[ChatWindow] error fetching messages", err);
-        setError(err.message || "Failed to fetch messages");
-      } finally {
-        setLoading(false);
+          return base;
+        });
+        // console.log("[ChatWindow] transformed messages", transformedMessages);
+        setMessages(transformedMessages);
+      } else {
+        setError("Failed to fetch messages");
       }
-    };
+    } catch (err) {
+      console.error("[ChatWindow] error fetching messages", err);
+      setError(err.message || "Failed to fetch messages");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
 
     fetchMessages();
   }, [chat.roomId, currentUserId]);
+  //#endregion
 
-  // Fetch DND mode
+  //#region Fetch DND mode
   useEffect(() => {
     // Check DND mode for ALL chats (both company and user chats)
     if (currentUserId && chat?.conversationId) {
-      console.log("[ChatWindow] checking DND", {
-        currentUserId,
-        conversationId: chat.conversationId,
-        isCompanyChat: chat && chat.companyName,
-        chat: chat,
-        companyName: chat?.companyName,
-        timestamp: new Date().toISOString()
-      });
+      //  // console.log("[ChatWindow] checking DND", {
+      //     currentUserId,
+      //     conversationId: chat.conversationId,
+      //     isCompanyChat: chat && chat.companyName,
+      //     chat: chat,
+      //     companyName: chat?.companyName,
+      //     timestamp: new Date().toISOString()
+      //   });
       checkDnd(currentUserId, chat.conversationId);
     } else {
-      console.log("[ChatWindow] DND check skipped", {
-        isDndSwitchOn,
-        currentUserId,
-        conversationId: chat?.conversationId,
-        hasChat: !!chat,
-        companyName: chat?.companyName,
-        timestamp: new Date().toISOString()
-      });
+      // console.log("[ChatWindow] DND check skipped", {
+      //   isDndSwitchOn,
+      //   currentUserId,
+      //   conversationId: chat?.conversationId,
+      //   hasChat: !!chat,
+      //   companyName: chat?.companyName,
+      //   timestamp: new Date().toISOString()
+      // });
     }
   }, [currentUserId, isDndSwitchOn, chat?.conversationId, checkDnd, chat]);
+  //#endregion
 
-  // Debug DND state
-  useEffect(() => {
-    console.log("[ChatWindow] DND state changed:", {
-      isDndSwitchOn,
-      dndError,
-      chat: chat?.companyName,
-      conversationId: chat?.conversationId,
-      currentUserId,
-      timestamp: new Date().toISOString()
-    });
-  }, [isDndSwitchOn, dndError, chat?.companyName, chat?.conversationId, currentUserId]);
+  //#region Debug DND state
+  // useEffect(() => {
+  //   console.log("[ChatWindow] DND state changed:", {
+  //     isDndSwitchOn,
+  //     dndError,
+  //     chat: chat?.companyName,
+  //     conversationId: chat?.conversationId,
+  //     currentUserId,
+  //     timestamp: new Date().toISOString()
+  //   });
+  // }, [isDndSwitchOn, dndError, chat?.companyName, chat?.conversationId, currentUserId]);
+  //#endregion
 
-  // Socket: connect and subscribe to incoming messages for this room
+  //#region Socket: connect and subscribe to incoming messages for this room
   useEffect(() => {
     if (!currentUserId || !chat?.roomId) return;
 
@@ -186,7 +196,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     let dndSyncInterval = null;
 
     try {
-      console.log("[ChatWindow] socket: connecting", { currentUserId, roomId: chat.roomId });
+      // console.log("[ChatWindow] socket: connecting", { currentUserId, roomId: chat.roomId });
       socket.connect();
     } catch (e) {
       console.error("[ChatWindow] socket: connect error", e);
@@ -194,7 +204,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     const onConnect = () => {
       try {
-        console.log("[ChatWindow] socket: connected, joining room", chat.roomId);
+        // console.log("[ChatWindow] socket: connected, joining room", chat.roomId);
         socket.emit("join", { roomId: chat.roomId });
       } catch (e) {
         console.error("[ChatWindow] socket: join error", e);
@@ -216,7 +226,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         if (!isForThisConversation) return;
       }
 
-      console.log("[ChatWindow] socket: message received", data);
+      // console.log("[ChatWindow] socket: message received", data);
       const content = data.text || data.content || data.message || "";
 
       const filePath = typeof data.file === "string" ? data.file : null;
@@ -244,23 +254,23 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     // Handle DND updates from socket for this specific chat
     const onDndUpdate = (data = {}) => {
-      console.log("[ChatWindow] socket: dnd_update received", data);
+      // console.log("[ChatWindow] socket: dnd_update received", data);
 
       // Check if this DND update is for the current chat
       const { companyId, dndEnabled } = data;
 
       // If this is a company chat and the companyId matches, update DND state
       if (chat?.companyName && companyId === chat?.conversationId) {
-        console.log("[ChatWindow] updating DND state for company chat", { companyId, dndEnabled });
+        // console.log("[ChatWindow] updating DND state for company chat", { companyId, dndEnabled });
         useChatDndStore.getState().setSwitchOn(dndEnabled);
-        console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
+        // console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
       }
       // If this is a user chat, we might need to check if the user is the one who updated DND
       // For now, we'll update if the current user is involved in the conversation
       else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
-        console.log("[ChatWindow] updating DND state for user chat", { companyId, dndEnabled });
+        // console.log("[ChatWindow] updating DND state for user chat", { companyId, dndEnabled });
         useChatDndStore.getState().setSwitchOn(dndEnabled);
-        console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
+        // console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
       }
 
       if (dndEnabled === true) {
@@ -278,7 +288,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     // Handle DND updates from backend (when other user changes DND state)
     const onBackendDndUpdate = (data = {}) => {
-      console.log("[ChatWindow] backend dnd_update received", data);
+      // console.log("[ChatWindow] backend dnd_update received", data);
 
       const { companyId, dndEnabled } = data;
 
@@ -286,13 +296,13 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       if (companyId) {
         // Check if this DND update affects the current chat
         if (chat?.companyName && companyId === chat?.conversationId) {
-          console.log("[ChatWindow] updating DND state from backend for company chat", { companyId, dndEnabled });
+          // console.log("[ChatWindow] updating DND state from backend for company chat", { companyId, dndEnabled });
           useChatDndStore.getState().setSwitchOn(dndEnabled);
-          console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
+          // console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
         } else if (!chat?.companyName && (companyId === currentUserId || companyId === chat?.conversationId)) {
-          console.log("[ChatWindow] updating DND state from backend for user chat", { companyId, dndEnabled });
+          // console.log("[ChatWindow] updating DND state from backend for user chat", { companyId, dndEnabled });
           useChatDndStore.getState().setSwitchOn(dndEnabled);
-          console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
+          // console.log(`[ChatWindow] DND is ${dndEnabled ? "ON" : "OFF"} for this chat`);
         }
       }
 
@@ -308,11 +318,11 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     // Handle DND state change acknowledgment from backend
     const onDndStateChangeAck = (data = {}) => {
-      console.log("[ChatWindow] DND state change acknowledged by backend", data);
+      // console.log("[ChatWindow] DND state change acknowledged by backend", data);
 
       // Backend has confirmed the DND state change
       if (data.success) {
-        console.log("[ChatWindow] DND state change confirmed by backend");
+        // console.log("[ChatWindow] DND state change confirmed by backend");
       } else {
         console.error("[ChatWindow] DND state change failed on backend", data.error);
       }
@@ -321,7 +331,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     // Request current DND state from backend when connecting
     const requestDndState = () => {
       try {
-        console.log("[ChatWindow] requesting current DND state from backend");
+        // console.log("[ChatWindow] requesting current DND state from backend");
         socket.emit("request_dnd_state", {
           userId: currentUserId,
           companyId: chat?.companyName ? chat?.conversationId : currentUserId,
@@ -335,12 +345,12 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     // Handle DND state response from backend
     const onDndStateResponse = (data = {}) => {
-      console.log("[ChatWindow] DND state response received from backend", data);
+      // console.log("[ChatWindow] DND state response received from backend", data);
 
       if (data.dndEnabled !== undefined) {
-        console.log("[ChatWindow] updating DND state from backend response 00000000000000000", data.dndEnabled);
+        // console.log("[ChatWindow] updating DND state from backend response 00000000000000000", data.dndEnabled);
         useChatDndStore.getState().setSwitchOn(data.dndEnabled);
-        console.log(`[ChatWindow] DND is ${data.dndEnabled ? "ON" : "OFF"} for this chat`);
+        // console.log(`[ChatWindow] DND is ${data.dndEnabled ? "ON" : "OFF"} for this chat`);
       }
     };
 
@@ -348,7 +358,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     const startDndSync = () => {
       dndSyncInterval = setInterval(() => {
         if (socket.connected) {
-          console.log("[ChatWindow] periodic DND state sync with backend");
+          // console.log("[ChatWindow] periodic DND state sync with backend");
           requestDndState();
         }
       }, 30000); // Sync every 30 seconds
@@ -370,7 +380,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     // If already connected (e.g., existing instance), join immediately
     if (socket.connected) {
-      console.log("[ChatWindow] socket already connected, joining room now", chat.roomId);
+      // console.log("[ChatWindow] socket already connected, joining room now", chat.roomId);
       onConnect();
       requestDndState(); // Request DND state when socket connects
       startDndSync(); // Start periodic sync
@@ -378,7 +388,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
 
     return () => {
       try {
-        console.log("[ChatWindow] socket: cleanup, leaving room", chat.roomId);
+        // console.log("[ChatWindow] socket: cleanup, leaving room", chat.roomId);
         socket.emit("leave", { roomId: chat.roomId });
       } catch (e) {
         console.error("[ChatWindow] socket: leave error", e);
@@ -397,14 +407,16 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       }
 
       try {
-        console.log("[ChatWindow] socket: disconnecting");
+        // console.log("[ChatWindow] socket: disconnecting");
         socket.disconnect();
       } catch (e) {
         console.error("[ChatWindow] socket: disconnect error", e);
       }
     };
   }, [currentUserId, chat?.roomId]);
+  //#endregion
 
+  //#region set scrollbehavior
   const scrollToBottom = (behavior = "smooth") => {
     const container = messagesContainerRef.current;
     if (!container) return;
@@ -414,13 +426,15 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       container.scrollTop = container.scrollHeight;
     }
   };
+  //#endregion
 
-  // Reset initial scroll flag when switching chats
+  //#region Reset initial scroll flag when switching chats
   useEffect(() => {
     hasInitialScrolledRef.current = false;
   }, [chat?.roomId]);
+  //#endregion
 
-  // On first load of messages for a chat, jump to bottom instantly.
+  //#region On first load of messages for a chat, jump to bottom instantly.
   // Afterwards, always auto-scroll to bottom for new messages
   useEffect(() => {
     const container = messagesContainerRef.current;
@@ -436,8 +450,9 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     scrollToBottom("smooth");
   }, [messages]);
 
+  //#endregion
 
-
+  //#region handle send message
   const handleSend = async () => {
     const contentToSend = newMessage;
     const hasText = contentToSend.replace(/\s+/g, "").length > 0;
@@ -472,11 +487,11 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       setPendingImagePreviews([]);
       setPendingDoc(null);
     }
-    console.log("[ChatWindow] sending message", {
-      content: contentToSend,
-      roomId: chat.roomId,
-      receiverId: chat?.conversationId,
-    });
+    // console.log("[ChatWindow] sending message", {
+    //   content: contentToSend,
+    //   roomId: chat.roomId,
+    //   receiverId: chat?.conversationId,
+    // });
 
     try {
       const MAX_ATTACHMENTS = 2;
@@ -484,19 +499,37 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       const docSlice = hasDoc && imagesSlice.length < MAX_ATTACHMENTS ? [pendingDoc] : [];
       const chatFiles = [...imagesSlice, ...docSlice];
 
-      await sendMessage({
+      const response = await sendMessage({
         senderId: currentUserId,
         receiverId: chat?.conversationId, // Update this if your chat object uses a different field for receiver
         content: hasText ? contentToSend : "",
         chatFiles,
       });
-      console.log("[ChatWindow] message sent via API");
+      // console.log("[ChatWindow] message sent via API", response);
+
+      //  If API returns the saved message with full file URL, update the last optimistic message
+      // if (response?.success && response.data) {
+      //   setMessages((prev) => {
+      //     const updated = [...prev];
+      //     updated[updated.length - 1] = {
+      //       ...updated[updated.length - 1],
+      //       ...response.data, // merge API response (should include file.url, _id, etc.)
+      //     };
+      //     return updated;
+      //   });
+      // }
+
       // Notify parent to refresh sidebar after a successful send
-      try { onActivity && onActivity(); } catch { }
+      if (lastReceiverRef.current !== chat?.conversationId) {
+        try {
+          onActivity && onActivity();
+        } catch { }
+        lastReceiverRef.current = chat?.conversationId;
+      }
       // Emit real-time event (ensure socket is connected)
       try {
         const socket = getChatSocket(currentUserId);
-        console.log(socket, "socketsocketsocketsocketsocketsocketsocketsocketsocket");
+        // console.log(socket, "socketsocketsocketsocketsocketsocketsocketsocketsocket");
 
         const payload = {
           roomId: chat.roomId,
@@ -506,12 +539,13 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         };
         if (socket?.connected) {
           // socket.emit("send_message", payload);
-          console.log("[ChatWindow] socket: emitted send_message (connected)", payload);
+          // console.log("[ChatWindow] socket: emitted send_message (connected)", payload);
+
         } else if (socket) {
           socket.once("connect", () => {
             try {
               // socket.emit("send_message", payload);
-              console.log("[ChatWindow] socket: emitted send_message after connect", payload);
+              // console.log("[ChatWindow] socket: emitted send_message after connect", payload);
             } catch (e) {
               console.error("[ChatWindow] socket: emit after connect error", e);
             }
@@ -530,15 +564,19 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
       setError("Failed to send message");
     }
   };
+  //#endregion
 
+  //#region handle key down for send
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      console.log("[ChatWindow] Enter key pressed -> send");
+      // console.log("[ChatWindow] Enter key pressed -> send");
       handleSend();
     }
   };
+  //#endregion
 
+  //#region Auto rsize text area
   const autoResizeTextarea = () => {
     const el = textareaRef.current;
     if (!el) return;
@@ -551,44 +589,43 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
   useEffect(() => {
     autoResizeTextarea();
   }, [newMessage]);
+  //#endregion
 
+  //#region handle Image Upload
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
+
+    // ❌ More than one file selected
+    if (files.length > 1) {
+      toast.error("Please upload only one image at a time.");
+      return;
+    }
+
+    const file = files[0];
 
     // Combined limit across images + doc is 2
     const currentCount = pendingImages.length + (pendingDoc ? 1 : 0);
     const availableSlots = Math.max(0, 2 - currentCount);
     if (availableSlots <= 0) return;
 
-    const toAdd = files
-      .filter((f) => {
-        if (!f.type?.startsWith("image/")) return false;
-        if (f.size > 1024 * 1024) {
-          toast.error(`Image is larger than 1MB. Please upload smaller images.`);
-          return false;
-        }
-        return true;
-      })
-      .slice(0, availableSlots);
-    if (!toAdd.length) return;
+    // validate file
+    if (!file.type?.startsWith("image/")) return;
+    if (file.size > 1024 * 1024) {
+      toast.error(`Image is larger than 1MB. Please upload smaller images.`);
+      return;
+    }
 
-    const newPreviews = [];
-    let processed = 0;
-    toAdd.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newPreviews.push(reader.result);
-        processed += 1;
-        if (processed === toAdd.length) {
-          setPendingImages((prev) => [...prev, ...toAdd]);
-          setPendingImagePreviews((prev) => [...prev, ...newPreviews]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPendingImages((prev) => [...prev, file]);
+      setPendingImagePreviews((prev) => [...prev, reader.result]);
+    };
+    reader.readAsDataURL(file);
   };
+  //#endregion
 
+  //#region handle document Upload
   const handleDocUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -603,15 +640,17 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
     if (availableSlots <= 0) return;
 
     setPendingDoc(file);
-    console.log("[ChatWindow] document selected", {
-      name: file.name,
-      type: file.type,
-      size: file.size,
-    });
+    // console.log("[ChatWindow] document selected", {
+    //   name: file.name,
+    //   type: file.type,
+    //   size: file.size,
+    // });
   };
+  //#endregion
 
-  // Preserve user's exact input (including Shift+Enter newlines and spaces)
+  //#region Preserve user's exact input (including Shift+Enter newlines and spaces)
   const renderRawText = (text) => text;
+  //#endregion
 
   return (
     <div className="relative flex h-full w-full flex-col bg-gray-50">
@@ -657,7 +696,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
           (() => {
             let lastDate = null;
             return messages.map((msg, idx) => {
-              // console.log(msg, "sdfsdkfhjksdhfksdfklsd;;;;;;;;;;");
+              //// console.log(msg, "sdfsdkfhjksdhfksdfklsd;;;;;;;;;;");
 
               const msgDate = msg.timestamp ? new Date(msg.timestamp) : new Date();
               if (isNaN(msgDate.getTime())) return null;
@@ -726,10 +765,11 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
                         )}
                         {msg.file && (
                           <div className="mt-2 flex max-w-xs items-center gap-2 rounded-md border bg-white p-2 text-sm">
+                            {console.log(msg.file, "fileeee")}
                             <span className="font-medium">{msg.file.name}</span>
-                            {msg.file.url ? (
+                            {msg.file ? (
                               <a
-                                href={msg.file.url}
+                                href={msg.file}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-xs text-blue-600 underline"
@@ -741,6 +781,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
                             )}
                           </div>
                         )}
+
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -785,7 +826,7 @@ export default function ChatWindow({ chat, onBack, onActivity }) {
         })() ? (
           <div className="flex items-center justify-center px-4 py-6">
             <div className="text-center">
-              <div className="flex  text-sm text-red-700 font-medium text-gray-600 mb-1">
+              <div className="flex  text-sm text-red-700 font-medium  mb-1">
                 <MdErrorOutline className="mx-2 text-xl" />  {dndError}
               </div>
               {/* <div className="text-xs text-gray-500">

@@ -37,9 +37,9 @@ const PaymentModal = ({
   const [activePlanModalOpen, setActivePlanModalOpen] = useState(false);
   const [activePlanModalError, setActivePlanModalError] = useState("");
 
-  console.log(stripeCustomerId, "stripeCustomerId");
+ // console.log(stripeCustomerId, "stripeCustomerId");
   // const { mutate, isPending, error } = useLogin();
-  // console.log(mutate, "mutate");
+  //// console.log(mutate, "mutate");
   // Store stripeCustomerId from OTP verification in paymentData.custId
   // useEffect(() => {
   //   if (otpData && otpData.data && otpData.data.stripeCustomerId) {

@@ -99,7 +99,7 @@ const ApplicantList = ({ applicants, selectedApplicant, handleApplicantClick }) 
         const translatedStatus = t(`statusLabels.${statusKeyMap[parseInt(applicant.status)] || "new"}`);
 
         // Debug the applicant data
-        console.log("Applicant Status:", applicant.status, "Status Text:", statusText);
+       // console.log("Applicant Status:", applicant.status, "Status Text:", statusText);
 
         return (
           <div

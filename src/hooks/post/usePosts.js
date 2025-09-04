@@ -39,9 +39,9 @@ export const useAllPosts = (page = 1) => {
       setPosts(mergedPosts);
 
       // Debug logging
-      console.log("API Response:", res);
-      console.log("Extracted data:", data);
-      console.log("Pagination object:", pagination);
+     // console.log("API Response:", res);
+     // console.log("Extracted data:", data);
+     // console.log("Pagination object:", pagination);
 
       // Calculate if we're on the last page based on pagination info
       const isLastPage = page >= pagination.totalPages;

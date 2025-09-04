@@ -14,9 +14,9 @@ const FeedPost = ({ isUser = false }) => {
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
   const resetPosts = usePostStore((s) => s.resetPosts);
-  console.log(pagination, "pagination||||||");
-  console.log("Current page:", page);
-  console.log("Posts length:", posts?.length);
+ // console.log(pagination, "pagination||||||");
+ // console.log("Current page:", page);
+ // console.log("Posts length:", posts?.length);
   const userType = Cookies.get("userRole");
 
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);

@@ -16,14 +16,14 @@ import ImageFallback from "./shared/ImageFallback";
 
 const MainCompanyProfile = ({ title }) => {
   const { user } = useAuthStore();
-  console.log(user, "fsdfsduser");
+ // console.log(user, "fsdfsduser");
   const router = useRouter();
   const pathname = usePathname(); // <-- Get current route
   const logout = useAuthStore((state) => state.logout);
   const t = useTranslations("CompanyProfile");
   const userId = user?._id;
   const { data: userData, isLoading, error } = useSingleCompany(userId);
-  console.log(userData, "ssdfsduserData");
+ // console.log(userData, "ssdfsduserData");
   const handleMenuClick = (item) => {
     if (item.isLogout) {
       logout();

@@ -11,18 +11,18 @@ import capitalize from "../lib/capitalize";
 
 function ReportModel({ isOpen, onClose, userData }) {
 
-  console.log(userData, "userData123456789123456789");
+ // console.log(userData, "userData123456789123456789");
   const reportedTypeRole = userData?.role === 'company' ? 'Company' : userData?.role === 'user' ? 'User' : userData?.role
   // console.log();
 
-  console.log(reportedTypeRole, "reportedTypeRolereportedTypeRolereportedTypeRole");
+ // console.log(reportedTypeRole, "reportedTypeRolereportedTypeRolereportedTypeRole");
   const t = useTranslations("Report");
   const userType = capitalize(Cookies.get("userRole"));
   const [selectedReason, setSelectedReason] = useState("");
   const [description, setDescription] = useState("");
 
   const params = useParams();
-  console.log(params, "params");
+ // console.log(params, "params");
   const reporterUserId = Cookies.get("userId");
   const reportedUserId = params?.id;
 

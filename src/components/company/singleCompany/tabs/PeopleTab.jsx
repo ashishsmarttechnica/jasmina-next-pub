@@ -13,7 +13,7 @@ import { FaBuilding, FaUser } from "react-icons/fa";
 
 const PeopleTab = () => {
   const userType = capitalize(Cookies.get("userRole"));
-  console.log(userType, "userType+++++++++++++++++");
+ // console.log(userType, "userType+++++++++++++++++");
 
   // Conditionally use the correct store and hook
   let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;

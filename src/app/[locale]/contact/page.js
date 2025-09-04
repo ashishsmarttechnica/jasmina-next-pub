@@ -17,7 +17,7 @@ const Contact = () => {
         // - Redirecting to a thank you page
         // - Sending analytics data
         // - Updating UI state
-        console.log("Contact form submitted successfully:", data);
+       // console.log("Contact form submitted successfully:", data);
 
         // Example: You could redirect to a thank you page
         // router.push('/contact/thank-you');

@@ -20,7 +20,7 @@ const SubscriptionCard = ({
   queryClient, // <-- add queryClient
   companyId, // <-- add companyId
 }) => {
-  console.log(suitable, "suitablesuitablesuitablesuitable");
+ // console.log(suitable, "suitablesuitablesuitablesuitable");
   const t = useTranslations("Subscription");
 
   // Add a handler for Request Admin
