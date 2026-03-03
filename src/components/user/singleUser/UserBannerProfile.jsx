@@ -6,7 +6,7 @@ import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useCreateConnection, useRemoveConnection } from "@/hooks/connections/useConnections";
 import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
-import EditProfileModal from "@/modal/EditProfile/EditProfileModal";
+import EditProfileModal from "@/modal/editProfile/EditProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
