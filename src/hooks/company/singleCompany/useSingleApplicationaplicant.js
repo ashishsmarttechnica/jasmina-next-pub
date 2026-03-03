@@ -2,16 +2,15 @@ import { getAllApplicants } from "@/api/company.api";
 import useSingleApplicationApplicantStore from "@/store/singleApplicationApplicant.store";
 import { useQuery } from "@tanstack/react-query";
 
-export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") => {
+export const useAllApplicants = (jobId, page = 1, limit = 10) => {
   const setApplicants = useSingleApplicationApplicantStore((s) => s.setApplicants);
   const applicants = useSingleApplicationApplicantStore((s) => s.applicants);
   const setPagination = useSingleApplicationApplicantStore((s) => s.setPagination);
 
   return useQuery({
-    queryKey: ["applicants", jobId, page, status],
+    queryKey: ["applicants", jobId, page],
     queryFn: async () => {
       if (!jobId) {
-        console.log("No job ID provided");
         return {
           newApplicants: [],
           pagination: { total: 0, page: 1, limit: 10, totalPages: 1 },
@@ -20,9 +19,7 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
       }
 
       try {
-        console.log(`Fetching applicants for job: ${jobId}, page: ${page}, status: ${status}`);
-        const res = await getAllApplicants(jobId, page, limit, status);
-        console.log("API Response:", res);
+        const res = await getAllApplicants(jobId, page, limit);
 
         // Check if the response indicates an error
         if (!res.success) {
@@ -31,8 +28,8 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
         }
 
         // Extract applications array and pagination from response
-        const applications = res?.applications || [];
-        const pagination = res?.pagination || {
+        const applications = res?.data?.applications || [];
+        const pagination = res?.data?.pagination || {
           total: 0,
           page: 1,
           limit: 10,
@@ -68,7 +65,7 @@ export const useAllApplicants = (jobId, page = 1, limit = 10, status = "all") =>
           };
         });
 
-        console.log("Processed applicants:", processedApplicants);
+       // console.log("Processed applicants:", processedApplicants);
 
         // If it's the first page, replace applicants, otherwise append
         const mergedApplicants =

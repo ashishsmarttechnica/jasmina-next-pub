@@ -7,8 +7,15 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
   images: {
-    domains: ["logo.clearbit.com", "jsmapi.smarttechnica.com", "192.168.1.29"],
+    domains: [
+      "logo.clearbit.com",
+      "jsmapi.smarttechnica.com",
+      "192.168.1.29",
+      "192.168.1.10",
+      "192.168.1.25",
+    ],
   },
 };
 
 export default withNextIntl(nextConfig);
+//

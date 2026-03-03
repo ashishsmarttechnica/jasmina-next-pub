@@ -1,19 +1,61 @@
-import { createConnection, getConnections, removeConnection } from "@/api/connection.api";
+import {
+  createConnection,
+  getCompanyConnections,
+  getConnections,
+  getOthersCompanyConnections,
+  getOthersUserConnections,
+  removeConnection,
+} from "@/api/connection.api";
 import capitalize from "@/lib/capitalize";
-import useConnectionsStore from "@/store/connections.store";
+import useConnectionsStore, { useCompanyConnectionsStore } from "@/store/connections.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 export const useConnections = (connectionType, page, limit, options = {}) => {
-  const userId = Cookies.get("userId");
-  const userType = capitalize(Cookies.get("userRole"));
+  const userId = options.userId || Cookies.get("userId");
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
   const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
 
   return useQuery({
     queryKey: ["connections", userId, userType, page],
     queryFn: async () => {
       const res = await getConnections({ userId, userType, page, limit, connectionType });
+
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+
+        // Append or replace based on page
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
+  });
+};
+export const useCompanyConnections = (connectionType, page, limit, options = {}) => {
+  const userId = options.userId || Cookies.get("userId");
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useCompanyConnectionsStore();
+
+  return useQuery({
+    queryKey: ["companyConnections", userId, userType, page],
+    queryFn: async () => {
+      const res = await getCompanyConnections({ userId, userType, page, limit, connectionType });
 
       if (res?.success) {
         const newData = res.data.results || [];
@@ -100,5 +142,69 @@ export const useRemoveConnection = () => {
       const errorMessage = error?.response?.data?.message || "Something went wrong!";
       toast.error(`Error: ${errorMessage}`);
     },
+  });
+};
+
+// New: useOthersUserConnections
+export const useOthersUserConnections = (page, limit, options = {}) => {
+  const userId = options.userId || Cookies.get("userId"); // viewer
+  const profileId = options.profileId;
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+
+  return useQuery({
+    queryKey: ["othersUserConnections", userId, profileId, userType, page],
+    queryFn: async () => {
+      const res = await getOthersUserConnections({ userId, profileId, userType, page, limit });
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!profileId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
+  });
+};
+
+// New: useOthersCompanyConnections
+export const useOthersCompanyConnections = (page, limit, options = {}) => {
+  const userId = options.userId || Cookies.get("userId"); // viewer
+  const profileId = options.profileId;
+  const userType = options.userType || capitalize(Cookies.get("userRole"));
+  const { connections, setConnections, setPagination, setHasMore } = useConnectionsStore();
+
+  return useQuery({
+    queryKey: ["othersCompanyConnections", userId, profileId, userType, page],
+    queryFn: async () => {
+      const res = await getOthersCompanyConnections({ userId, profileId, userType, page, limit });
+      if (res?.success) {
+        const newData = res.data.results || [];
+        const pagination = res.data.pagination;
+        const mergedConnections = page === 1 ? newData : [...connections, ...newData];
+        setConnections(mergedConnections);
+        setPagination(pagination);
+        setHasMore(pagination.currentPage < pagination.totalPages);
+        return {
+          connections: mergedConnections,
+          isLastPage: pagination.currentPage >= pagination.totalPages,
+        };
+      }
+      throw new Error(res?.message || "Failed to fetch connections");
+    },
+    enabled: !!userId && !!profileId && !!userType && !!page,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    ...options,
   });
 };

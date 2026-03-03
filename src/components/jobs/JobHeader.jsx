@@ -1,19 +1,46 @@
 "use client";
-import Bar from "@/assets/svg/jobs/Bar";
 import Colors from "@/assets/svg/jobs/colors";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
-const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
+const JobHeader = ({ filters, setFilters, onFindJob, showSaveJobsLink = true }) => {
+  const t = useTranslations("Jobs");
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("LGBTQ+");
+  const [selected, setSelected] = useState(t("all")); // Default to All
   const [searchInput, setSearchInput] = useState(filters.search || "");
   const [locationInput, setLocationInput] = useState(filters.location || "");
-  const t = useTranslations("Jobs");
-  const options = [t("lgbtqOption"), t("nonLgbtqOption")];
+  const options = [t("lgbtqOption"), t("all")];
+
+  // Trigger initial search with lgbtq=false when component mounts
+  useEffect(() => {
+    const initialFilters = {
+      search: searchInput,
+      location: locationInput,
+      lgbtq: false, // Default to false for "All" jobs
+    };
+    setFilters(initialFilters);
+    if (onFindJob) {
+      onFindJob(initialFilters);
+    }
+  }, []); // Empty dependency array means this runs once on mount
+
+  const handleFindJob = () => {
+    const newFilters = {
+      search: searchInput,
+      location: locationInput,
+      lgbtq: selected === t("all") ? false : true,
+    };
+   // console.log("Setting filters:", newFilters);
+    setFilters(newFilters);
+
+    // Call the onFindJob callback if provided
+    if (onFindJob) {
+      onFindJob(newFilters);
+    }
+  };
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-1 rounded-md bg-white px-2 py-1 shadow-sm sm:items-center sm:gap-1 lg:flex-row 2xl:mx-0">
@@ -32,7 +59,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <HiOutlineLocationMarker className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-            placeholder={t("Location")}
+            placeholder={t("location")}
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={locationInput}
             onChange={(e) => setLocationInput(e.target.value)}
@@ -44,7 +71,7 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
           <HiOutlineLocationMarker className="text-grayBlueText mr-2 text-2xl lg:text-3xl" />
           <input
             type="text"
-            placeholder="Location"
+            placeholder={t("location")}
             className="placeholder-grayBlueText w-full text-[16px] outline-none"
             value={locationInput}
             onChange={(e) => setLocationInput(e.target.value)}
@@ -57,14 +84,13 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
             className="bg-uiLight shadow-job-dropdown flex w-full items-center justify-between rounded-md px-3 py-1"
           >
             <div className="text-grayBlueText flex items-center gap-2 text-[16px]">
-              {selected === "LGBTQ+" && <Colors className="h-5 w-5" />}
-              {selected === "Non-LGBTQ+" && <Bar className="h-5 w-5" />}
+              {selected === t("all")}
+              {selected === t("lgbtqOption") && <Colors className="h-5 w-5" />}
               <span>{selected}</span>
             </div>
             <FaChevronDown
-              className={`text-grayBlueText text-base transition-transform duration-500 ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={`text-grayBlueText text-base transition-transform duration-500 ${isOpen ? "rotate-180" : ""
+                }`}
             />
           </button>
 
@@ -90,22 +116,15 @@ const JobHeader = ({ filters, setFilters, showSaveJobsLink = true }) => {
             <Link href="/jobs/save-jobs">
               <button className="flex items-center gap-1 rounded-sm border border-[#0F8200] bg-transparent px-2 py-1.5 text-[13px] !leading-[15px] font-medium whitespace-nowrap text-[#0F8200] transition-all duration-200 hover:bg-[#0F8200] hover:text-white">
                 <FaBookmark size={12} />
-                Saved
+                {t("saved")}
               </button>
             </Link>
           )} */}
           <button
             className="rounded-sm border border-white bg-[#0F8200] px-2 py-1.5 text-[13px] !leading-[15px] font-medium whitespace-nowrap text-white transition-all duration-200 hover:border hover:border-[#0F8200] hover:bg-transparent hover:text-[#0F8200]"
-            onClick={() => {
-              const filtersInput = {
-                search: searchInput,
-                location: locationInput,
-                lgbtq: selected === "LGBTQ+",
-              };
-              setFilters(filtersInput);
-            }}
+            onClick={handleFindJob}
           >
-            {t("FindJob")}
+            {t("findJob")}
           </button>
         </div>
       </div>

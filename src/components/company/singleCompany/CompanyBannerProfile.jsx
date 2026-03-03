@@ -8,21 +8,25 @@ import getImg from "@/lib/getImg";
 import EdicCompanyProfileModal from "@/modal/editCompanyProfile/EdicCompanyProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import Cookies from "js-cookie";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 // import { useParams } from "next/navigation";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
+import Share from "@/assets/svg/feed/Share";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import ReportModel from "@/modal/ReportModel";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAcceptConnection } from "../../../hooks/user/useNetworkInvites";
 
 const CompanyBannerProfile = ({ userData, isLoading }) => {
+
   const t = useTranslations("CompanyProfile.singleCompany");
   const params = useParams();
   const paramsUserId = params?.id;
-  console.log(userData,"paramsUserId");
-  
+  const locale = useLocale();
+
   const localUserId = Cookies.get("userId");
   const isCurrentUser = paramsUserId === localUserId;
   const [open, setOpen] = useState(false);
@@ -32,16 +36,48 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
   const [isRemoving, setIsRemoving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
+  const [isShareLoading, setIsShareLoading] = useState(false);
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
+
+
   // Check if user came from connections page
-  // const fromConnections =
-  //   searchParams?.get("fromConnections") === "true" || userData?.isConnected === true;
+  const fromConnections = searchParams?.get("fromConnections") === "true";
   const [showConnect, setShowConnect] = useState(
     !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
   );
   const { mutate: removeConnection } = useRemoveConnection();
 
   const handleConnectionClick = () => {
-    router.push("/en/connections");
+    if (userData?._id) {
+      router.push(`/connections?profileId=${userData._id}&type=Company&tab=company`);
+    } else {
+      router.push("/connections?tab=company");
+    }
+  };
+
+  const handleMessage = (target) => {
+    const currentUserId = Cookies.get("userId");
+    const profileId = target?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
+    }
   };
   const handleResentPassword = () => {
     setIsPasswordModalOpen(true);
@@ -63,17 +99,34 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
             // Refresh the page to update the UI
             setShowConnect(true);
           } else {
-            toast.error(res?.message || t('Failedtoremoveconnection'));
+            toast.error(res?.message || t("Failedtoremoveconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || t('Failedtoremoveconnection'));
+          toast.error(error?.message || t("Failedtoremoveconnection"));
         },
         onSettled: () => {
           setIsRemoving(false);
         },
       }
     );
+  };
+
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: userData?.companyName || "Check out this company!",
+          text: userData?.tagline || "Amazing company!",
+          url: `${window.location.origin}/${locale}/company/${id}`,
+        });
+        toast.success("Company shared successfully");
+      } catch (error) {
+        toast.error("Share cancelled or failed");
+      }
+    } else {
+      toast.info("Share unsupported");
+    }
   };
 
   const handleConnect = () => {
@@ -85,11 +138,11 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
           if (res.success) {
             setShowConnect(false);
           } else {
-            toast.error(res?.message || t('Failedtoacceptconnection'));
+            toast.error(res?.message || t("Failedtoacceptconnection"));
           }
         },
         onError: (error) => {
-          toast.error(error?.message || t('Failedtoacceptconnection'));
+          toast.error(error?.message || t("Failedtoacceptconnection"));
         },
       }
     );
@@ -130,7 +183,20 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
             <h2 className="text-lg font-bold text-black md:text-xl">
-              {`${userData?.companyName || "Company Name"}`}
+              <div className="flex items-center gap-2">
+                {`${userData?.companyName || "Company Name"}`}
+                <span className="px-2">
+                  {userData?.isLGBTQFriendly && <span className="text-primary text-sm">🌈</span>}
+                </span>
+                <button
+                  onClick={() => handleShare(userData?._id)}
+                  disabled={isShareLoading}
+                  className={`share-btn mt-1 px-2 text-xl ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                  title="Share"
+                >
+                  <Share width={18} height={18} className="text-[#888DA8]" />
+                </button>
+              </div>
             </h2>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.tagline || "Company Tagline"}
@@ -154,7 +220,7 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                     disabled={isRemoving}
                     className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isRemoving ? "Removing..." : "Remove"}
+                    {isRemoving ? t("removing") : t("remove")}
                   </button>
                 ) : (
                   <button className="connect-btn">{t("connect")}</button>
@@ -166,12 +232,13 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                 <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             )} */}
-             {isCurrentUser ? (
+
+            {isCurrentUser ? (
               <div className="flex gap-2">
-                <button className="profile-btn" onClick={() => handleDisc(userData)}>
+                <button className="profile-btn" onClick={() => setOpen(true)}>
                   {t("editProfile")}
                 </button>
-                <button className="profile-btn" onClick={() => handleResentPassword(userData)}>
+                <button className="profile-btn" onClick={() => handleResentPassword()}>
                   {t("resetPassword")}
                 </button>
               </div>
@@ -187,14 +254,20 @@ const CompanyBannerProfile = ({ userData, isLoading }) => {
                     disabled={isRemoving}
                     className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isRemoving ? "Removing..." : "Remove"}
+                    {isRemoving ? t("removing") : t("remove")}
                   </button>
                 )}
-                <button className="message-btn">{t("message")}</button>
+                <button
+                  className="message-btn"
+                  onClick={fromConnections ? () => handleMessage(userData) : undefined}
+                  disabled={!fromConnections || isGeneratingChat}
+                >
+                  {isGeneratingChat ? "Generating..." : t("message")}
+                </button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
-                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} userData={userData} />
               </div>
             )}
           </div>

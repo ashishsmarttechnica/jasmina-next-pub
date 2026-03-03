@@ -4,17 +4,27 @@ import PostSkeleton from "@/common/skeleton/PostSkeleton";
 import { useAllPosts } from "@/hooks/post/usePosts";
 import usePostStore from "@/store/post.store";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DynamicPost from "./DynamicPost";
 import RecentJobs from "./RecentJobs";
-
+import Cookies from "js-cookie";
 const FeedPost = ({ isUser = false }) => {
   const t = useTranslations("FeedComment");
   const [page, setPage] = useState(1);
   const posts = usePostStore((s) => s.posts);
   const pagination = usePostStore((s) => s.pagination);
+  const resetPosts = usePostStore((s) => s.resetPosts);
+ // console.log(pagination, "pagination||||||");
+ // console.log("Current page:", page);
+ // console.log("Posts length:", posts?.length);
+  const userType = Cookies.get("userRole");
 
   const { data, isLoading, isError, error, isFetching } = useAllPosts(page);
+
+  // Reset store when component mounts
+  useEffect(() => {
+    resetPosts();
+  }, [resetPosts]);
 
   // Function to render skeleton loaders
   const renderSkeletons = (count = 3) => {
@@ -45,14 +55,14 @@ const FeedPost = ({ isUser = false }) => {
       <div className="w-full xl:max-w-[547px]">
         {isUser && <CreatePost />}
         <div className="rounded-lg bg-white p-4 py-10 text-center text-red-500 shadow">
-          <p className="mb-2 font-bold">{t("errorposts")}</p>
-          <p>{error.message}</p>
-          <button
+          {/* <p className="mb-2 font-bold">{t("errorposts")}</p> */}
+          {/* <p>{error.message}</p> */}
+          {/* <button
             className="mt-4 rounded bg-blue-600 px-4 py-2 text-white"
             onClick={() => setPage(1)}
           >
             {t("tryagain")}
-          </button>
+          </button> */}
         </div>
       </div>
     );
@@ -79,7 +89,7 @@ const FeedPost = ({ isUser = false }) => {
       <div className="w-full space-y-6 xl:max-w-[547px]">
         {posts.map((post, index) => (
           <React.Fragment key={post._id + index}>
-            {index === 1 && <RecentJobs post={post} />}
+            {index === 1 && userType=="user" && <RecentJobs post={post} />}
             <DynamicPost post={post} />
           </React.Fragment>
         ))}
@@ -92,7 +102,7 @@ const FeedPost = ({ isUser = false }) => {
         )}
 
         {/* Load more button */}
-        {!isFetching && pagination.total > posts.length && (
+        {!isFetching && pagination?.total && page < pagination?.totalPages && (
           <div className="flex justify-center">
             <button
               className="bg-primary rounded px-4 py-1 text-center text-white"

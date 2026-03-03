@@ -65,7 +65,6 @@ body {
 
 .rs-modal-content {
   padding: 8px 20px;
-  margin: 10px;
 }
 
 /* Account Type Modal Styles */
@@ -105,6 +104,20 @@ body {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.rainbow-icon {
+  width: 40px;
+  height: 20px;
+  border-radius: 100px 100px 0 0;
+  background: conic-gradient(red 0deg 60deg,
+      orange 60deg 120deg,
+      yellow 120deg 180deg,
+      green 180deg 240deg,
+      blue 240deg 300deg,
+      violet 300deg 360deg);
+  border: 2px solid white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 ul,
@@ -255,10 +268,242 @@ button {
   /* Limit to approximately 8 words */
   max-width: calc(10ch * 1.5);
 }
+
 .truncate-12-words {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   /* Limit to approximately 8 words */
   max-width: calc(15ch * 1.5);
+}
+
+.customList ul,
+.customList li {
+  list-style: disc !important;
+  list-style-position: inside !important;
+  /* color: #1f5cd6 !important; */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px !important;
+}
+
+.customList ul {
+  padding-left: 20px !important;
+}
+
+.customList strong {
+  font-weight: 700;
+}
+
+.customList ul strong {
+  font-size: 18px;
+}
+
+.customList h1 {
+  font-size: 30px !important;
+  padding: 10px 0 !important;
+  font-weight: bold;
+  text-align: center;
+  color: #7c81eb;
+}
+
+.customList h2 {
+  font-size: 20px !important;
+  color: #7c81eb;
+  font-weight: 600;
+  /* margin-bottom: 5px;
+  padding: 10px 0 !important; */
+}
+
+.customList h3 {
+  font-size: 18px !important;
+  /* color:#7c81eb; */
+  font-weight: 600;
+  /* margin-bottom: 5px;
+    padding: 10px 0 !important; */
+}
+
+.customList p {
+  margin-left: 10px;
+  font-size: 16px !important;
+  margin-top: 0;
+  margin-bottom: 0;
+  /* color: #6b7280 !important; */
+}
+
+.customList a {
+  color: #7c81eb !important;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* Job Description Styling */
+.job-description strong {
+  font-weight: bold !important;
+  color: #1f2937 !important;
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  margin: 0 2px !important;
+  display: inline-block !important;
+}
+
+.job-description ul {
+  list-style-type: disc !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description ol {
+  list-style-type: decimal !important;
+  margin: 8px 0 !important;
+  padding-left: 20px !important;
+}
+
+.job-description li {
+  margin: 4px 0 !important;
+  line-height: 1.5 !important;
+}
+
+.job-description p {
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+}
+
+.job-description br {
+  margin: 4px 0 !important;
+}
+
+.job-description h1,
+.job-description h2,
+.job-description h3,
+.job-description h4,
+.job-description h5,
+.job-description h6 {
+  font-weight: bold !important;
+  margin: 12px 0 8px 0 !important;
+  color: #1f2937 !important;
+}
+
+.job-description h1 {
+  font-size: 1.5em !important;
+}
+
+.job-description h2 {
+  font-size: 1.3em !important;
+}
+
+.job-description h3 {
+  font-size: 1.1em !important;
+}
+
+.job-description a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+.job-description a:hover {
+  color: #1d4ed8 !important;
+}
+
+.job-description blockquote {
+  border-left: 4px solid #e5e7eb !important;
+  padding-left: 16px !important;
+  margin: 12px 0 !important;
+  font-style: italic !important;
+  color: #6b7280 !important;
+}
+
+.job-description code {
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: monospace !important;
+  font-size: 0.9em !important;
+}
+
+.job-description pre {
+  background-color: #f9fafb !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  overflow-x: auto !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.job-description table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 12px 0 !important;
+}
+
+.job-description th,
+.job-description td {
+  border: 1px solid #e5e7eb !important;
+  padding: 8px 12px !important;
+  text-align: left !important;
+}
+
+.job-description th {
+  background-color: #f9fafb !important;
+  font-weight: bold !important;
+}
+
+/* Privacy Policy and Terms & Conditions Styling */
+.customList {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 1rem 0;
+}
+
+.customList h1 {
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.customList h2 {
+  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  padding-left: 0.5rem;
+  border-left: 4px solid #e5e7eb;
+}
+
+.customList p {
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+.customList ul,
+.customList ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.customList li {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.customList a {
+  color: #3b82f6;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.customList a:hover {
+  color: #2563eb;
 }

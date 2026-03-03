@@ -1,9 +1,11 @@
 "use client";
+import { getUser } from "@/api/auth.api";
 import GoogleIcon from "@/assets/form/GoogleIcon.png";
 import { useRouter } from "@/i18n/navigation";
 import axios from "@/lib/axios";
 import { auth, googleProvider } from "@/lib/firebase";
 import useAuthStore from "@/store/auth.store";
+import useModalStore from "@/store/modal.store";
 import { signInWithPopup } from "firebase/auth";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -17,6 +19,7 @@ const GoogleLoginButton = () => {
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
+  const openUserBlockedModal = useModalStore((state) => state.openUserBlockedModal);
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
@@ -54,6 +57,19 @@ const GoogleLoginButton = () => {
           // Update Zustand store
           setToken(token);
           setUser(userData);
+
+          // Check if user is blocked immediately after login
+          try {
+            const userResponse = await getUser(userData._id, userData._id);
+            if (userResponse?.success && userResponse?.data?.isBlocked) {
+              // User is blocked, show the modal
+              openUserBlockedModal();
+              return; // Don't redirect, let the modal handle the flow
+            }
+          } catch (error) {
+            console.error("Error checking user block status:", error);
+            // Continue with normal flow if we can't check block status
+          }
 
           toast.success(t("LoginSuccess"));
 

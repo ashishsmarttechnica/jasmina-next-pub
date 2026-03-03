@@ -13,7 +13,7 @@ const Selecter = ({
   error,
   options = [],
   label = "",
-  placeholder = "Select an option",
+  placeholder = "",
   isLoading = false,
   disabled = false,
   isSearchable = false,
@@ -30,6 +30,7 @@ const Selecter = ({
   const searchInputRef = useRef(null);
   const otherInputRef = useRef(null);
   const t = useTranslations("UserProfile.userprofilemenu");
+  const tc = useTranslations("Common");
   // Generate storage key if not provided
   const actualStorageKey = storageKey || (name ? `selecter_other_${name}` : null);
 
@@ -235,12 +236,14 @@ const Selecter = ({
 
   // Render the selected value or placeholder
   const renderLabel = () => {
-    if (isLoading) return "Loading...";
+    if (isLoading) return tc("loading");
+
+    const effectivePlaceholder = placeholder || tc("selectOption");
 
     if (isMulti) {
       if (normalizedValue.length === 0) {
         // Return placeholder with proper text-gray-400 class
-        return <span className="text-gray-400">{placeholder}</span>;
+        return <span className="text-gray-400">{effectivePlaceholder}</span>;
       }
 
       // For multi-select with chips, show selected values
@@ -272,7 +275,7 @@ const Selecter = ({
     if (isCustomValue && typeof value === "string") return `${t("freetext")} : ${value}`;
 
     const matched = options.find((o) => o.value === value);
-    return matched?.label || <span className="text-gray-400">{placeholder}</span>;
+    return matched?.label || <span className="text-gray-400">{effectivePlaceholder}</span>;
   };
 
   return (
@@ -284,11 +287,10 @@ const Selecter = ({
       )}
 
       <div
-        className={`border-lightGray/75 flex w-full items-center justify-between rounded border p-2 transition-all duration-200 ease-in-out ${
-          disabled
-            ? "cursor-not-allowed bg-gray-100 opacity-70"
-            : "hover:border-primary hover:bg-primary/5 active:bg-primary/10 cursor-pointer"
-        } ${isMulti ? "min-h-[42px]" : ""}`}
+        className={`border-lightGray/75 flex w-full items-center justify-between rounded border p-2 transition-all duration-200 ease-in-out ${disabled
+          ? "cursor-not-allowed bg-gray-100 opacity-70"
+          : "hover:border-primary hover:bg-primary/5 active:bg-primary/10 cursor-pointer"
+          } ${isMulti ? "min-h-[42px]" : ""}`}
         onClick={toggleDropdown}
       >
         <div className={`flex-1 truncate`}>{renderLabel()}</div>
@@ -307,9 +309,8 @@ const Selecter = ({
               />
             )}
             <FiChevronDown
-              className={`transition-transform duration-200 ${
-                isOpen ? "rotate-180" : "rotate-0"
-              } ${isMulti ? (normalizedValue.length > 0 ? "text-black" : "text-gray-400") : value ? "text-black" : "text-gray-400"} ml-2 flex-shrink-0`}
+              className={`transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"
+                } ${isMulti ? (normalizedValue.length > 0 ? "text-black" : "text-gray-400") : value ? "text-black" : "text-gray-400"} ml-2 flex-shrink-0`}
             />
           </>
         )}
@@ -360,7 +361,7 @@ const Selecter = ({
                     className="bg-primary hover:bg-primary/90 active:bg-primary/80 rounded px-3 py-2 text-white transition-colors duration-200"
                     type="button"
                   >
-                    OK
+                    {tc("ok")}
                   </button>
                 </div>
               </div>
@@ -370,15 +371,14 @@ const Selecter = ({
                   <div
                     key={option.value}
                     onClick={() => handleSelect(option.value)}
-                    className={`hover:bg-primary/5 cursor-pointer px-4 py-2 transition-colors duration-200 ${
-                      isMulti
-                        ? normalizedValue.includes(option.value)
-                          ? "bg-primary/10 text-primary font-medium"
-                          : ""
-                        : value === option.value
-                          ? "bg-primary/10 text-primary font-medium"
-                          : ""
-                    }`}
+                    className={`hover:bg-primary/5 cursor-pointer px-4 py-2 transition-colors duration-200 ${isMulti
+                      ? normalizedValue.includes(option.value)
+                        ? "bg-primary/10 text-primary font-medium"
+                        : ""
+                      : value === option.value
+                        ? "bg-primary/10 text-primary font-medium"
+                        : ""
+                      }`}
                   >
                     {option.label}
                   </div>
@@ -387,33 +387,32 @@ const Selecter = ({
                 {isOther && (
                   <div
                     onClick={() => handleSelect(INTERNAL_OTHER_MARKER)}
-                    className={`hover:bg-primary/5 mx-2 mt-1 flex cursor-pointer items-center gap-2 border px-4 py-2.5 transition-colors duration-200 ${
-                      isMulti
-                        ? customValues.length > 0
-                          ? "bg-primary/10 text-primary font-medium"
-                          : "text-gray-600"
-                        : isCustomValue
-                          ? "bg-primary/10 text-primary font-medium"
-                          : "text-gray-600"
-                    }`}
+                    className={`hover:bg-primary/5 mx-2 mt-1 flex cursor-pointer items-center gap-2 border px-4 py-2.5 transition-colors duration-200 ${isMulti
+                      ? customValues.length > 0
+                        ? "bg-primary/10 text-primary font-medium"
+                        : "text-gray-600"
+                      : isCustomValue
+                        ? "bg-primary/10 text-primary font-medium"
+                        : "text-gray-600"
+                      }`}
                   >
                     <FiEdit className="text-sm" />
-                    <span>Custom Value</span>
+                    <span>{tc("customValue")}</span>
                   </div>
                 )}
 
                 {((isMulti && normalizedValue.length > 0) ||
                   (!isMulti && isClearable && value)) && (
-                  <div className="mt-1 border-t pt-1">
-                    <button
-                      onClick={handleClearAll}
-                      className="w-full px-4 py-2 text-sm text-red-500 transition-colors duration-200 hover:bg-red-50"
-                      type="button"
-                    >
-                      Clear All
-                    </button>
-                  </div>
-                )}
+                    <div className="mt-1 border-t pt-1">
+                      <button
+                        onClick={handleClearAll}
+                        className="w-full px-4 py-2 text-sm text-red-500 transition-colors duration-200 hover:bg-red-50"
+                        type="button"
+                      >
+                        {tc("clearAll")}
+                      </button>
+                    </div>
+                  )}
               </div>
             )}
           </motion.div>

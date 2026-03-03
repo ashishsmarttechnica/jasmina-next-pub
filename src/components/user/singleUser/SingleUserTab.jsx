@@ -3,9 +3,11 @@
 import SingleUserTabSkeleton from "@/common/skeleton/SingleUserTabSkeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import useAuthStore from "../../../store/auth.store";
 import EducationTab from "./tabs/EducationTab";
 import ExperienceTab from "./tabs/ExperienceTab";
+import PreferencesTab from "./tabs/PreferencesTab";
 import ResumeTab from "./tabs/ResumeTab";
 import SkillsTab from "./tabs/SkillsTab";
 
@@ -13,17 +15,38 @@ const SingleUserTab = ({ userData, isLoading }) => {
   const t = useTranslations("UserProfile.profile.singleprofileTab");
   const [isRTL, setIsRTL] = useState(false);
   const tabRefs = useRef({});
+  const { user } = useAuthStore();
+  // const userId = user?._id;
 
-  const tabs = [t("experience"), t("education"), t("skills"), t("resume")];
+  // const tabs = [ {user?.role === "user" ? t("jobpreferences") : ""} , t("experience"), t("education"), t("skills"), t("resume")];
+
+  const showJobPreferences = (user?.role === "company") || (userData?._id && user?._id && userData?._id === user?._id);
+
+  const tabs = [
+    showJobPreferences && t("jobpreferences"),
+    t("experience"),
+    t("education"),
+    t("skills"),
+    t("resume"),
+  ].filter(Boolean);
+
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   useEffect(() => {
-    
+
     setIsRTL(typeof document !== 'undefined' && document.documentElement.dir === 'rtl');
   }, []);
 
+  // Ensure default active tab updates when visibility of Job Preferences changes
+  useEffect(() => {
+    setActiveTab(tabs[0]);
+  }, [showJobPreferences]);
+
   const renderContent = () => {
     switch (activeTab) {
+
+      case t("jobpreferences"):
+        return <PreferencesTab preferences={userData?.preferences} />;
       case t("experience"):
         return <ExperienceTab experience={userData?.experience} />;
       case t("education"):

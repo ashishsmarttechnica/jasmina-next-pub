@@ -14,12 +14,12 @@ const AboutTab = ({ userData }) => {
         <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="space-y-4">
             <div>
-              <p className="text-[13px] font-medium">{t("Website")}</p>
+              <p className="max-w-[10px] text-[13px] font-medium">{t("Website")}</p>
               <a
                 href={userData?.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[13px] text-blue-500 hover:underline"
+                className="block max-w-[250px] truncate text-[13px] text-blue-500 hover:underline"
               >
                 {userData?.website || t("NotSpecified")}
               </a>
@@ -37,7 +37,7 @@ const AboutTab = ({ userData }) => {
                   href={userData?.socialLinks}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] text-blue-500 hover:underline"
+                  className="text-[13px] block max-w-[250px] truncate  text-blue-500 hover:underline"
                 >
                   {userData?.socialLinks || t("NotSpecified")}
                 </a>
@@ -92,7 +92,7 @@ const AboutTab = ({ userData }) => {
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">{t('Industry')}</p>
+              <p className="text-[13px] font-medium">{t("Industry")}</p>
               <div className="flex flex-wrap gap-2">
                 {userData?.industryType?.map((industry, index) => (
                   <span
@@ -101,17 +101,17 @@ const AboutTab = ({ userData }) => {
                   >
                     {industry}
                   </span>
-                )) || <span className="text-grayBlueText text-[13px]">{t('Notspecified')}</span>}
+                )) || <span className="text-grayBlueText text-[13px]">{t("Notspecified")}</span>}
               </div>
             </div>
             <div>
-              <p className="text-[13px] font-medium">{t('Employees')}</p>
+              <p className="text-[13px] font-medium">{t("Employees")}</p>
               <span className="text-grayBlueText text-[13px]">
                 {userData?.numberOfEmployees || t("NotSpecified")}
               </span>
             </div>
             <div>
-              <p className="text-[13px] font-medium">{t('Headquarters')}</p>
+              <p className="text-[13px] font-medium">{t("Headquarters")}</p>
               <span className="text-grayBlueText text-[13px]">
                 {userData?.fullAddress || t("NotSpecified")}
               </span>

@@ -71,6 +71,10 @@
       "popular2": {
         "title": "هامبورغ"
       }
+    },
+    "employeSteps": {
+      "title": "تمكين خطوتك المهنية القادمة",
+      "subtitle": "اكتشف الشركات الشاملة ، وظائف ذات مغزى ، وشبكة مهنية تدعمك."
     }
   },
   "Header": {
@@ -104,6 +108,30 @@
       "Instagram": "انستغرام"
     },
     "copyRightights": "© ٢٠٢٥ ياسمينا. جميع الحقوق محفوظة."
+  },
+  "contact": {
+    "title": "اتصل بنا",
+    "subtitle": "هل لديك سؤال أو ملاحظات؟ نود أن نتواصل معك!",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "namePlaceholder": "أدخل اسمك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "subjectPlaceholder": "أدخل موضوعك",
+    "messagePlaceholder": "اكتب رسالتك هنا...",
+    "submitButton": "إرسال الرسالة",
+    "sending": "جاري الإرسال...",
+    "successMessage": "تم إرسال رسالتك بنجاح!",
+    "errorMessage": "فشل في إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "nameRequired": "الاسم مطلوب",
+    "nameLength": "يجب أن يكون الاسم حرفتان على الأقل",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صالح",
+    "subjectRequired": "الموضوع مطلوب",
+    "subjectLength": "يجب أن يكون الموضوع 5 أحرف على الأقل",
+    "messageRequired": "الرسالة مطلوبة",
+    "messageLength": "يجب أن يكون طول الرسالة 10 أحرف على الأقل"
   },
   "auth": {
     "title": "مرحبًا بك مرة أخرى في ياسما!",
@@ -255,7 +283,14 @@
         "message": "رسالة",
         "noexperience": "لا توجد معلومات خبرة متاحة.",
         "Noresumedocumentavailable": "لا مستند استئناف متاح.",
-        "Failedtoremoveconnection": "فشل في إزالة الاتصال"
+        "Failedtoremoveconnection": "فشل في إزالة الاتصال",
+        "preferences": "التفضيلات",
+        "loadmore": "تحميل أكثر",
+        "noeducation": "لا مزيد من التعليم لتحميل.",
+        "nopreferences": "لا مزيد من التفضيلات.",
+        "noeducations": "لا توجد معلومات تعليمية متاحة.",
+        "jobpreferences": "تفضيلات العمل",
+        "Nodatafound": "لم يتم العثور على بيانات."
       },
       "personalInfo": "معلومات شخصية",
       "pronoun": "ضمير",
@@ -338,7 +373,8 @@
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "تنسيق بريد إلكتروني غير صالح",
       "cvRequired": "يرجى تحميل ملف السيرة الذاتية (PDF ، DOC ، DOCX ، TEX).",
-      "cvInvalidFormat": "تنسيق ملف غير صالح. \nمسموح به: PDF ، DOC ، DOCX ، TEX ، WebP"
+      "cvInvalidFormat": "تنسيق ملف غير صالح. \nمسموح به: PDF ، DOC ، DOCX ، TEX ، WebP",
+      "messageRequired": "مطلوب القياس"
     },
     "userprofilemenu": {
       "education": "تعليم",
@@ -561,7 +597,9 @@
       "Both": "كلاهما",
       "lgbtqFriendlyLabel": "عرض فقط للشركات الودية LGBTQ",
       "lgbtqFriendlyDescription": "سيبقى ملفك الشخصي مخفيًا عن الأماكن العامة. \nفقط الشركات الموجودة في البلدان الصديقة LGBTQ يمكنها الوصول إليها.",
-      "nextButton": "التالي"
+      "nextButton": "التالي",
+      "otheruser": "مستخدم آخر",
+      "lgbtqFriendlyLabels": "أظهر ملفي الشخصي فقط للشركات الودية LGBTQ"
     }
   },
   "RoleError": "الدور مطلوب.",
@@ -689,6 +727,7 @@
       "descriptionError": "الوصف مطلوب."
     },
     "singleCompany": {
+      "removing": "إزالة...",
       "views": "وجهات النظر",
       "connections": "الاتصالات",
       "message": "رسالة",
@@ -720,7 +759,8 @@
       "connectionfound": "وجدت الاتصال",
       "connecton": "متصلة على",
       "No": "لا",
-      "Failedtoremoveconnection": "فشل في إزالة الاتصال"
+      "Failedtoremoveconnection": "فشل في إزالة الاتصال",
+      "JobOpportunities": "فرص العمل"
     },
     "InvalidInstagramLinkError": "رابط Instagram غير صالح",
     "InvalidLinkError": "رابط غير صالح",
@@ -766,7 +806,10 @@
     "Failedtosharepost": "فشل مشاركة المنشور",
     "Sharecancelledorfailed": "مشاركة إلغاء أو فشل",
     "Shareunsupported": "مشاركة غير مدعومة على هذا الجهاز",
-    "PreviousPlans": "الخطط السابقة"
+    "PreviousPlans": "الخطط السابقة",
+    "Jobarea": "منطقة",
+    "fulladdress": "العنوان الكامل",
+    "ReviewApplications": "مراجعة التطبيقات"
   },
   "Next": "",
   "UserHeader": {
@@ -775,14 +818,17 @@
     "jobs": "وظائف",
     "connections": "الاتصالات",
     "logout": "تسجيل الخروج",
-    "logoutSuccess": "تسجيل الخروج ناجح!"
+    "logoutSuccess": "تسجيل الخروج ناجح!",
+    "viewProfile": "عرض الملف الشخصي",
+    "JobOpportunities": "فرص العمل"
   },
   "CompanyHeader": {
     "logout": "تسجيل الخروج",
     "connections": "الاتصالات",
     "home": "بيت",
     "jobs": "وظائف",
-    "logoutSuccess": "تسجيل الخروج ناجح!"
+    "logoutSuccess": "تسجيل الخروج ناجح!",
+    "viewProfile": "عرض الملف الشخصي"
   },
   "UserProfileLeft": {
     "connections": "الاتصالات",
@@ -792,7 +838,10 @@
   "UserMainFeed": {
     "connections": "الاتصالات",
     "networkInvites": "تدعو الشبكة",
-    "mightKnow": "الناس الذين قد تعرفهم"
+    "mightKnow": "الناس الذين قد تعرفهم",
+    "companyConnections": "اتصالات الشركة",
+    "userConnections": "اتصالات المستخدم",
+    "noNetworkInvites": "لا توجد شبكة تدعو المتاحة في الوقت الحالي"
   },
   "FeedPost": {
     "post": "بريد",
@@ -817,7 +866,9 @@
     "connections": "الاتصالات",
     "postjob": "انشر وظيفة",
     "loading": "تحميل",
-    "postJob": "انشر وظيفة"
+    "postJob": "انشر وظيفة",
+    "userConnections": "اتصالات المستخدم",
+    "companyConnections": "اتصالات الشركة"
   },
   "FeedProfileLeft": {
     "connections": "الاتصالات",
@@ -843,6 +894,10 @@
     "errorposts": "خطأ في تحميل المنشورات"
   },
   "Common": {
+    "loading": "جارٍ التحميل...",
+    "people": "الأشخاص",
+    "companies": "الشركات",
+    "jobs": "الوظائف",
     "country": "الدولة",
     "state": "الولاية",
     "city": "المدينة",
@@ -858,7 +913,12 @@
     "stateRequired": "الدولة مطلوبة",
     "cityRequired": "المدينة مطلوبة",
     "enterOtherValue": "أدخل قيمة أخرى",
-    "other": "آخر"
+    "other": "آخر",
+    "viewMore": "عرض المزيد",
+    "selectOption": "اختر خيارًا",
+    "clearAll": "مسح الكل",
+    "customValue": "قيمة مخصصة",
+    "ok": "حسناً"
   },
   "Validation": {
     "personal": {
@@ -952,11 +1012,11 @@
     "noJobsMatchingCriteria": "لم يتم العثور على وظائف مطابقة معاييرك.",
     "loadingMoreJobs": "تحميل المزيد من الوظائف ...",
     "noMoreJobsToLoad": "لا المزيد من الوظائف للتحميل",
-    "lgbtqOption": "LGBTQ",
+    "lgbtqOption": "LGBTQ+",
     "nonLgbtqOption": "غير المثليين",
     "jobTitleOrCompanyPlaceholder": "المسمى الوظيفي أو الشركة",
-    "Location": "موقع",
-    "FindJob": "ابحث عن الوظيفة",
+    "location": "موقع",
+    "findJob": "ابحث عن الوظيفة",
     "Loadingjobs": "تحميل الوظائف ...",
     "Errorloadingjobs": "خطأ في تحميل الوظائف.",
     "NoSavedjobsfound": "لم يتم العثور على وظائف محفوظة.",
@@ -972,7 +1032,16 @@
     "failedToRemoveJob": "فشل في إزالة الوظيفة.",
     "Errorfetchingsavedjob": "خطأ جلب الوظيفة المحفوظة:",
     "SavedJobFetched": "تم حفظ الوظيفة التي تم حفظها بنجاح",
-    "Failedtosavejob": "فشل في إزالة الوظيفة."
+    "Failedtosavejob": "فشل في إزالة الوظيفة.",
+    "all": "الكل",
+    "All": "الكل",
+    "saved": "محفوظ",
+    "ApplyLinkexternal": "تطبيق الرابط (عنوان URL الخارجي)",
+    "Applytocompany": "تقدم بطلب إلى موقع الشركة",
+    "ApplyOncompany": "تقدم بطلب على موقع الشركة",
+    "shareSuccess": "تمت المشاركة بنجاح",
+    "SubmittedApplications": "الطلبات المقدمة",
+    "savedjobs": "وظائف محفوظة"
   },
   "Usernotloggedin": "المستخدم لم يسجل الدخول",
   "Jobremoved": "تمت إزالة الوظيفة!",
@@ -989,5 +1058,360 @@
   "GoogleSignInFailed": "فشل المصادقة مع Google",
   "Auth": {
     "GoogleSignInSuccess": "قامت بتسجيل الدخول بنجاح مع Google!"
+  },
+  "Messaging": "المراسلة",
+  "Chat": {
+    "title": "المراسلة",
+    "dndLabel": "عدم الإزعاج",
+    "dndUpdateFailed": "فشل في تحديث وضع عدم الإزعاج",
+    "dndEnabled": "تم تمكين وضع عدم الإزعاج بنجاح",
+    "dndDisabled": "تم تعطيل وضع عدم الإزعاج بنجاح",
+    "sidebar": {
+      "searchPlaceholder": "ابحث في المحادثات",
+      "loading": "جارٍ تحميل المحادثات...",
+      "error": "خطأ",
+      "retry": "إعادة المحاولة",
+      "empty": "لا توجد محادثات."
+    },
+    "defaultView": {
+      "title": "مرحبًا بك في البريد الوارد",
+      "description": "حدد محادثة من اللوحة اليسرى لبدء المراسلة أو اختر جهة اتصال لبدء محادثة جديدة."
+    },
+    "window": {
+      "chatNotFound": "خطأ: لم يتم العثور على المحادثة.",
+      "loading": "جارٍ التحميل...",
+      "error": "خطأ",
+      "retry": "إعادة المحاولة",
+      "empty": "لا توجد رسائل بعد. ابدأ المحادثة!",
+      "inputPlaceholder": "اكتب رسالة...",
+      "send": "إرسال",
+      "open": "فتح",
+      "remove": "يزيل",
+      "you": "أنت",
+      "dndOnTitle": "قامت الشركة بتفعيل وضع عدم الإزعاج",
+      "dndOnSubtitle": "تم تعطيل المراسلة كما تم تمكينك لا تزعج."
+    },
+    "DoNotDisturb": "لا تخل"
+  },
+  "Applications": {
+    "search": {
+      "placeholder": "ابحث عن منشور وظيفة",
+      "button": "بحث",
+      "searching": "جارٍ البحث..."
+    },
+    "statusFilter": {
+      "all": "كل الحالات"
+    },
+    "jobStatus": {
+      "open": "مفتوح",
+      "closed": "مغلق"
+    },
+    "applicant": "المتقدم",
+    "viewJob": "عرض الوظيفة",
+    "noJobs": {
+      "titleWhenSearch": "لا توجد وظائف",
+      "titleNoData": "لا توجد وظائف متاحة",
+      "descWhenSearch": "لا توجد وظائف مطابقة لـ \"{query}\". جرّب عبارة بحث مختلفة.",
+      "descNoData": "لا توجد طلبات توظيف متاحة حاليًا."
+    },
+    "loading": "جارٍ التحميل...",
+    "loadMore": "تحميل المزيد",
+    "noApplicants": "لا يوجد متقدمون",
+    "common": {
+      "unknown": "غير معروف",
+      "notProvided": "غير متوفر",
+      "notSpecified": "غير محدد"
+    },
+    "statusLabels": {
+      "new": "جديد",
+      "interviewing": "قيد المقابلة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "hired": "تم التوظيف",
+      "reviewed": "تمت المراجعة"
+    },
+    "interviewFixed": "تم تحديد المقابلة",
+    "setInterview": "تحديد مقابلة",
+    "resumeSection": {
+      "title": "السيرة الذاتية",
+      "view": "عرض السيرة الذاتية"
+    },
+    "attachments": {
+      "title": "المرفقات",
+      "view": "عرض"
+    },
+    "applicationDetails": {
+      "title": "تفاصيل الطلب",
+      "personalInfo": "المعلومات الشخصية",
+      "email": "البريد الإلكتروني",
+      "salary": "الراتب",
+      "applicationInfo": "معلومات الطلب",
+      "startDate": "تاريخ البدء",
+      "availability": "التوفر",
+      "coverMessage": "رسالة الغلاف"
+    },
+    "tabs": {
+      "all": "الكل",
+      "new": "جديد",
+      "reviewed": "تمت المراجعة",
+      "interviewed": "تمت المقابلة",
+      "approved": "مقبول",
+      "rejected": "مرفوض",
+      "hired": "تم التوظيف"
+    },
+    "singleApplication": {
+      "loadingJob": "جارٍ تحميل تفاصيل الوظيفة...",
+      "noJobSelectedTitle": "لم يتم اختيار وظيفة",
+      "noJobSelectedDesc": "يرجى اختيار وظيفة من قائمة الطلبات.",
+      "totalApplicants": "إجمالي المتقدمين: {count}",
+      "loadingApplicants": "جارٍ تحميل المتقدمين...",
+      "errorLoadingApplicants": "خطأ في تحميل المتقدمين",
+      "unknownError": "خطأ غير معروف",
+      "noApplicantsForJob": "لا يوجد متقدمون لهذه الوظيفة",
+      "selectApplicantPlaceholder": "اختر متقدمًا لعرض التفاصيل"
+    },
+    "companyNamePlaceholder": "اسم الشركة",
+    "Notes": "ملحوظات"
+  },
+  "Interviews": {
+    "loading": "جارٍ تحميل المقابلات...",
+    "error": "حدث خطأ أثناء تحميل المقابلات. يرجى المحاولة لاحقًا.",
+    "tabs": {
+      "upcoming": "قادمة",
+      "past": "سابقة"
+    },
+    "reschedule": "إعادة الجدولة",
+    "cancel": "إلغاء",
+    "empty": "لا توجد مقابلات في هذه الفئة."
+  },
+  "PreviousPlans": {
+    "loading": "جارٍ التحميل...",
+    "emptyTitle": "لا توجد خطط سابقة متاحة",
+    "emptyDesc": "لم تقم بشراء أي خطط بعد. استكشف خياراتنا المرنة للبدء!",
+    "title": "الخطط السابقة",
+    "subtitle": "اشتراكات شهرية مرنة تلائم حجم شركتك واحتياجات التوظيف."
+  },
+  "Subscription": {
+    "loading": "جارٍ تحميل الاشتراكات...",
+    "error": "خطأ في تحميل الاشتراكات.",
+    "title": "اختر الخطة المناسبة",
+    "subtitle": "اشتراكات شهرية مرنة لشركتك.",
+    "noCompanyIdTitle": "لم يتم العثور على معرّف الشركة",
+    "noCompanyIdText": "يرجى تسجيل الدخول مرة أخرى.",
+    "requestAdminTitle": "طلب موافقة المسؤول",
+    "requestAdminReasonLabel": "سبب طلب الخطة",
+    "requestAdminReasonPlaceholder": "أدخل السبب هنا...",
+    "submit": "إرسال",
+    "requestSentTitle": "تم إرسال الطلب",
+    "requestSentText": "تم إرسال طلبك إلى المسؤول.",
+    "message": "رسالة",
+    "requestFailed": "فشل إرسال الطلب.",
+    "to": "إلى",
+    "employees": "موظفين",
+    "planActive": "هذه الخطة نشطة",
+    "upgrade": "ترقية",
+    "requestAdmin": "طلب من المسؤول",
+    "reason": "السبب"
+  },
+  "Payment": {
+    "planDetails": "تفاصيل خطة الاشتراك",
+    "employeeRange": "نطاق الموظفين",
+    "eligibility": "الأهلية",
+    "price": "السعر",
+    "cardDetails": "تفاصيل البطاقة",
+    "email": "عنوان البريد الإلكتروني",
+    "emailPlaceholder": "عنوان البريد الإلكتروني",
+    "processing": "جارٍ المعالجة...",
+    "payNow": "ادفع الآن",
+    "close": "إغلاق",
+    "success": {
+      "planUpgraded": "تم الدفع بنجاح! تم ترقية خطتك."
+    },
+    "errors": {
+      "emailRequired": "يرجى ملء حقل البريد الإلكتروني.",
+      "formNotInitialized": "نموذج الدفع لم تتم تهيئته بشكل صحيح.",
+      "stripeNotConfigured": "لم يتم تكوين Stripe بشكل صحيح.",
+      "stripeInitFailed": "فشل في تهيئة Stripe",
+      "paymentFailed": "فشل الدفع",
+      "paymentFailedGeneric": "فشل الدفع. يرجى المحاولة مرة أخرى.",
+      "activePlanExistsExact": "لديك بالفعل خطة نشطة. يرجى الانتظار حتى تنتهي قبل شراء خطة جديدة."
+    }
+  },
+  "Settings": {
+    "changePassword": "تغيير كلمة المرور",
+    "preference": "التفضيلات",
+    "billingInfo": "معلومات الفواتير",
+    "termsAndConditions": "الشروط والأحكام"
+  },
+  "SetInterviewModal": {
+    "candidateName": "اسم المرشح",
+    "jobRole": "دور الوظيفة",
+    "email": "البريد الإلكتروني",
+    "experienceYears": "{years} سنوات من الخبرة",
+    "experienceNotSpecified": "الخبرة غير محددة",
+    "opening": "جارٍ الفتح...",
+    "viewResume": "عرض السيرة الذاتية",
+    "date": "التاريخ",
+    "selectDate": "اختر التاريخ",
+    "startTime": "وقت البدء",
+    "timeZone": "المنطقة الزمنية",
+    "interviewAddress": "عنوان المقابلة",
+    "close": "إغلاق",
+    "rescheduling": "إعادة الجدولة...",
+    "scheduling": "الجدولة...",
+    "rescheduleInterview": "إعادة جدولة المقابلة",
+    "sendInterview": "إرسال المقابلة",
+    "interviewLink": "رابط عبر الإنترنت"
+  },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "يتطلب اشتراك",
+    "verificationRequired": "يتطلب التحقق",
+    "messages": {
+      "subscriptionLimit": "لقد استخدمت منشوري الوظائف المجانية. لنشر المزيد، يُرجى ترقية خطتك.",
+      "planExpired": "انتهت صلاحية خطتك. يُرجى الترقية للمتابعة.",
+      "companyNotVerified": "الملف قيد المراجعة – سيتم منح الوصول الكامل بعد الموافقة.",
+      "userblocked": "تم حظر المستخدم"
+    },
+    "buttons": {
+      "subscriptionPurchase": "شراء الاشتراك",
+      "logout": "تسجيل الخروج",
+      "close": "إغلاق"
+    },
+    "blocked": "تم حظر حسابك. \nيرجى الاتصال بالدعم."
+  },
+  "UserBlockedModal": {
+    "title": "محظور",
+    "message": "لا يمكنك المتابعة لأن هذا المستخدم محظور حاليًا",
+    "buttons": {
+      "logout": "تسجيل الخروج",
+      "close": "إغلاق"
+    }
+  },
+  "CreateJobForm": {
+    "common": {
+      "subtitle": "املأ التفاصيل أدناه وابحث عن المرشح المناسب.",
+      "back": "رجوع",
+      "next": "التالي",
+      "yes": "نعم",
+      "no": "لا"
+    },
+    "detailsStep": {
+      "jobTitleRequired": "مسمى الوظيفة مطلوب",
+      "jobTitleMax": "يجب ألا يتجاوز مسمى الوظيفة 50 حرفًا",
+      "jobTypeRequired": "نوع التوظيف مطلوب",
+      "departmentRequired": "القسم مطلوب",
+      "jobLocationRequired": "موقع الوظيفة مطلوب",
+      "jobLocationIncomplete": "يرجى اختيار الدولة والولاية والمدينة"
+    },
+    "requirementsStep": {
+      "title": "أضف تفاصيل الوظيفة",
+      "descriptionLabel": "الوصف",
+      "seniorityTitle": "المستوى الوظيفي",
+      "seniorityOptions": {
+        "intern": "متدرب",
+        "entryLevel": "مبتدئ",
+        "midLevel": "متوسط الخبرة",
+        "senior": "كبير",
+        "leadManager": "قائد / مدير",
+        "directorVp": "مدير / نائب رئيس",
+        "cLevel": "إداري تنفيذي (C‑Level)"
+      },
+      "descriptionRequired": "وصف الوظيفة مطلوب"
+    },
+    "skillsStep": {
+      "title": "المسؤوليات والمهارات",
+      "responsibilitiesLabel": "المسؤوليات",
+      "skillsLabel": "المهارات",
+      "skillPlaceholder": "أدخل مهارة",
+      "addButton": "إضافة",
+      "duplicateError": "تمت إضافة هذه المهارة بالفعل",
+      "responsibilitiesRequired": "المسؤوليات مطلوبة",
+      "skillsRequired": "مطلوب مهارة واحدة على الأقل"
+    },
+    "salaryStep": {
+      "title": "الراتب والمعلومات",
+      "negotiableLabel": "قابل للتفاوض",
+      "workModeLabel": "نمط العمل",
+      "workModePlaceholder": "اختر نمط العمل",
+      "contactNumber": "رقم التواصل",
+      "contactNumberPlaceholder": "أدخل رقم التواصل",
+      "applicationDeadline": "الموعد النهائي للتقديم",
+      "educationLabel": "التعليم",
+      "experienceLabel": "الخبرة",
+      "experiencePlaceholder": "اختر الخبرة المطلوبة",
+      "requiredLanguages": "اللغات المطلوبة",
+      "numOfOpenPositions": "عدد الوظائف المتاحة",
+      "numOfOpenPositionsPlaceholder": "أدخل العدد",
+      "jobTags": "وسوم/كلمات مفتاحية للوظيفة",
+      "jobTagsPlaceholder": "أدخل الوسوم أو الكلمات المفتاحية",
+      "salaryRangeLabel": "نطاق الراتب",
+      "formatTabs": {
+        "range": "نطاق",
+        "lpa": "تنسيق LPA"
+      },
+      "placeholder": {
+        "range": "مثال: 5000 - 8000 INR",
+        "lpa": "مثال: 5-7 LPA"
+      },
+      "help": {
+        "range": "الصيغة: المبلغ - العملة (مثال: 5000 - 8000 INR)",
+        "lpa": "الصيغة: رقم-رقم LPA (مثال: 5-7 LPA)"
+      },
+      "workModeRequired": "نمط العمل مطلوب",
+      "contactNumberRequired": "رقم التواصل مطلوب",
+      "contactNumberInvalid": "يرجى إدخال رقم هاتف صحيح (10-15 رقمًا)",
+      "salaryRangeRequired": "نطاق الراتب مطلوب",
+      "salaryRangeInvalid": "يرجى إدخال صيغة راتب صحيحة (مثال: 5000 - 8000 INR أو 5-7 LPA)",
+      "applicationDeadlineRequired": "الموعد النهائي للتقديم مطلوب",
+      "applicationDeadlinePast": "لا يمكن أن يكون الموعد النهائي في الماضي",
+      "workMode": {
+        "onSite": "في الموقع",
+        "hybrid": "هجين",
+        "remote": "عن بُعد"
+      },
+      "experience": {
+        "fresher": "حديث تخرج (0 سنوات)",
+        "one": "سنة واحدة",
+        "two": "سنتان",
+        "three": "3 سنوات",
+        "fivePlus": "5+ سنوات",
+        "tenPlus": "10+ سنوات"
+      },
+      "education": {
+        "highSchool": "ثانوية عامة",
+        "diploma": "دبلوم",
+        "bachelor": "بكالوريوس",
+        "master": "ماجستير",
+        "phd": "دكتوراه",
+        "any": "أي"
+      },
+      "languages": {
+        "english": "الإنجليزية",
+        "spanish": "الإسبانية",
+        "french": "الفرنسية",
+        "german": "الألمانية",
+        "chinese": "الصينية",
+        "japanese": "اليابانية",
+        "arabic": "العربية",
+        "hindi": "الهندية"
+      }
+    },
+    "submitStep": {
+      "title": "مراجعة وإرسال",
+      "subtitle": "راجع تفاصيل الوظيفة وقدّم معلومات التقديم.",
+      "applyEmailLabel": "التقديم عبر البريد الإلكتروني",
+      "applyEmailPlaceholder": "hr@company.com",
+      "applyLinkLabel": "رابط التقديم (رابط خارجي)",
+      "applyLinkPlaceholder": "https://company.com/careers",
+      "postJob": "نشر الوظيفة",
+      "submitting": "جارٍ الإرسال..."
+    }
+  },
+  "blocked": "تم حظر حسابك. \nيرجى الاتصال بالدعم.",
+  "messages": {
+    "userblocked": "تم حظر المستخدم"
+  },
+  "buttons": {
+    "logout": "تسجيل الخروج"
   }
 }

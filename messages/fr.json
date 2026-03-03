@@ -5,7 +5,7 @@
       "description": "Rejoignez Jasmina pour vous connecter avec des experts de l'industrie, trouver des emplois et développer votre carrière.",
       "postaJob": "Poster un emploi",
       "jobtitle": "Titre du poste ou mot-clé",
-      "location": "Surat, Gujarat",
+      "location": "Munich, Germany",
       "model": {
         "title": "Prêt à publier un emploi?",
         "description": "Si vous souhaitez publier un emploi, vous devez vous connecter avec le compte de l'entreprise. \nChoisissez donc l'option ci-dessous.",
@@ -71,6 +71,10 @@
       "popular2": {
         "title": "Hambourg"
       }
+    },
+    "employeSteps": {
+      "title": "Autoriser votre prochaine étape de carrière",
+      "subtitle": "Découvrez des entreprises inclusives, des emplois significatifs et un réseau professionnel qui vous soutient."
     }
   },
   "Header": {
@@ -98,12 +102,36 @@
       "ContactUs": "Contactez-nous"
     },
     "socialMenu": {
-      "LinkedIn": "Liendin",
-      "twitter": "gazouillement",
+      "LinkedIn": "LinkedIn",
+      "twitter": "twitter",
       "Facebook": "Facebook",
       "Instagram": "Instagram"
     },
     "copyRightights": "© 2025 Jasmina. \nTous droits réservés."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Vous avez une question ou un commentaire? Nous aimerions vous contacter!",
+    "name": "Nom",
+    "email": "E-mail",
+    "subject": "Sujet",
+    "message": "Message",
+    "namePlaceholder": "Entrez votre nom",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "subjectPlaceholder": "Entrez votre sujet",
+    "messagePlaceholder": "Écrivez votre message ici...",
+    "submitButton": "Envoyer le message",
+    "sending": "Envoi...",
+    "successMessage": "Votre message a été envoyé avec succès!",
+    "errorMessage": "Échec de l'envoi du message. Veuillez réessayer.",
+    "nameRequired": "Le nom est requis",
+    "nameLength": "Le nom doit comporter au moins 2 caractères",
+    "emailRequired": "Un e-mail est requis",
+    "emailInvalid": "S'il vous plaît, mettez une adresse email valide",
+    "subjectRequired": "Le sujet est requis",
+    "subjectLength": "Le sujet doit comporter au moins 5 caractères",
+    "messageRequired": "Un message est requis",
+    "messageLength": "Le message doit comporter au moins 10 caractères"
   },
   "auth": {
     "title": "Bienvenue à Jasmina!",
@@ -255,7 +283,14 @@
         "message": "Message",
         "noexperience": "Aucune expérience d'information disponible.",
         "Noresumedocumentavailable": "Aucun document de CV disponible.",
-        "Failedtoremoveconnection": "Impossible de supprimer la connexion"
+        "Failedtoremoveconnection": "Impossible de supprimer la connexion",
+        "preferences": "Préférences",
+        "loadmore": "Chargez plus",
+        "noeducation": "Plus d'éducation à charger.",
+        "nopreferences": "Plus de préférences avaliables.",
+        "noeducations": "Aucune information d'éducation disponible.",
+        "jobpreferences": "Préférences professionnelles",
+        "Nodatafound": "Aucune donnée trouvée."
       },
       "personalInfo": "Information personnelle",
       "pronoun": "Pronom",
@@ -337,7 +372,8 @@
       "emailRequired": "Un e-mail est requis",
       "emailInvalid": "Format de messagerie non valide",
       "cvRequired": "Veuillez télécharger un fichier de CV (PDF, DOC, DOCX, Tex).",
-      "cvInvalidFormat": "Format de fichier non valide. \nAutorisé: PDF, DOC, DOCX, Tex, Webp"
+      "cvInvalidFormat": "Format de fichier non valide. \nAutorisé: PDF, DOC, DOCX, Tex, Webp",
+      "messageRequired": "Une mesure est requise"
     },
     "userprofilemenu": {
       "education": "Éducation",
@@ -559,7 +595,9 @@
       "Both": "Les deux",
       "lgbtqFriendlyLabel": "Montrer uniquement aux entreprises amicales LGBTQ",
       "lgbtqFriendlyDescription": "Votre profil restera caché au public. \nSeules les sociétés situées dans des pays conviviaux LGBTQ peuvent y accéder.",
-      "nextButton": "Suivant"
+      "nextButton": "Suivant",
+      "otheruser": "Autre utilisateur",
+      "lgbtqFriendlyLabels": "Montrer mon profil uniquement aux entreprises amicales LGBTQ"
     }
   },
   "RoleError": "Un rôle requis.",
@@ -687,6 +725,7 @@
       "descriptionError": "Description est requise."
     },
     "singleCompany": {
+      "removing": "Suppression...",
       "views": "Vues",
       "connections": "Relations",
       "message": "Message",
@@ -718,7 +757,8 @@
       "connectionfound": "Connexion trouvée",
       "connecton": "Connecté sur",
       "No": "Non",
-      "Failedtoremoveconnection": "Impossible de supprimer la connexion"
+      "Failedtoremoveconnection": "Impossible de supprimer la connexion",
+      "JobOpportunities": "Opportunités d'emploi"
     },
     "InvalidInstagramLinkError": "Lien Instagram non valide",
     "InvalidLinkError": "Lien non valide",
@@ -741,7 +781,7 @@
     "Profile": "Profil",
     "PostaJob": "Poster un emploi",
     "ViewApplications": "Afficher les applications",
-    "Interview": "Interviews",
+    "Interview": "entretiens d’embauche",
     "Settings": "Paramètres",
     "Subscription": "Abonnement",
     "Logout": "Déconnexion",
@@ -764,23 +804,29 @@
     "Failedtosharepost": "Échec de partager le poste",
     "Sharecancelledorfailed": "Partager annulé ou échoué",
     "Shareunsupported": "Partager non pris en charge sur cet appareil",
-    "PreviousPlans": "Plans précédents"
+    "PreviousPlans": "Plans précédents",
+    "Jobarea": "Zone",
+    "fulladdress": "Adresse complète",
+    "ReviewApplications": "Examiner les demandes"
   },
   "Next": "",
   "UserHeader": {
     "searchPlaceholder": "Recherchez les gens, les emplois",
-    "home": "Maison",
+    "home": "Home",
     "jobs": "Emplois",
     "connections": "Relations",
     "logout": "Déconnexion",
-    "logoutSuccess": "Déconnexion réussie!"
+    "logoutSuccess": "Déconnexion réussie!",
+    "viewProfile": "Afficher le profil",
+    "JobOpportunities": "Opportunités d'emploi"
   },
   "CompanyHeader": {
     "logout": "Déconnexion",
     "connections": "Relations",
-    "home": "Maison",
+    "home": "Home",
     "jobs": "Emplois",
-    "logoutSuccess": "Déconnexion réussie!"
+    "logoutSuccess": "Déconnexion réussie!",
+    "viewProfile": "Afficher le profil"
   },
   "UserProfileLeft": {
     "connections": "Relations",
@@ -790,7 +836,10 @@
   "UserMainFeed": {
     "connections": "Relations",
     "networkInvites": "Invitations au réseau",
-    "mightKnow": "Les gens que vous pourriez connaître"
+    "mightKnow": "Les gens que vous pourriez connaître",
+    "companyConnections": "Connexions de l'entreprise",
+    "userConnections": "Connexions utilisateur",
+    "noNetworkInvites": "Aucune invitation au réseau disponible pour le moment"
   },
   "FeedPost": {
     "post": "Poste",
@@ -815,7 +864,9 @@
     "connections": "Relations",
     "postjob": "Poster un emploi",
     "loading": "Chargement",
-    "postJob": "Poster un emploi"
+    "postJob": "Poster un emploi",
+    "userConnections": "Connexions utilisateur",
+    "companyConnections": "Connexions de l'entreprise"
   },
   "FeedProfileLeft": {
     "connections": "Relations",
@@ -841,6 +892,10 @@
     "errorposts": "Erreur de chargement des messages"
   },
   "Common": {
+    "loading": "Chargement...",
+    "people": "Personnes",
+    "companies": "Entreprises",
+    "jobs": "Emplois",
     "country": "Pays",
     "state": "État",
     "city": "Ville",
@@ -856,7 +911,12 @@
     "stateRequired": "L'état est requis",
     "cityRequired": "La ville est requise",
     "enterOtherValue": "Entrez une autre valeur",
-    "other": "autre"
+    "other": "autre",
+    "viewMore": "Voir plus",
+    "selectOption": "Sélectionner une option",
+    "clearAll": "Tout effacer",
+    "customValue": "Valeur personnalisée",
+    "ok": "OK"
   },
   "Validation": {
     "personal": {
@@ -950,11 +1010,11 @@
     "noJobsMatchingCriteria": "Aucun travail trouvé correspondant à vos critères.",
     "loadingMoreJobs": "Chargement plus d'emplois ...",
     "noMoreJobsToLoad": "Plus d'emplois à charger",
-    "lgbtqOption": "LGBTQ",
+    "lgbtqOption": "LGBTQ+",
     "nonLgbtqOption": "Non LGBTQ",
     "jobTitleOrCompanyPlaceholder": "Titre ou entreprise",
-    "Location": "Emplacement",
-    "FindJob": "Trouver un emploi",
+    "location": "Emplacement",
+    "findJob": "Trouver un emploi",
     "Loadingjobs": "Chargement des emplois ...",
     "Errorloadingjobs": "Erreur de chargement des travaux.",
     "NoSavedjobsfound": "Aucun travail économisé trouvé.",
@@ -970,7 +1030,16 @@
     "failedToRemoveJob": "N'a pas réussi à supprimer le travail.",
     "Errorfetchingsavedjob": "Erreur récupérant le travail enregistré:",
     "SavedJobFetched": "Économiser le travail récupéré avec succès",
-    "Failedtosavejob": "N'a pas réussi à supprimer le travail."
+    "Failedtosavejob": "N'a pas réussi à supprimer le travail.",
+    "all": "Tous",
+    "All": "Tous",
+    "saved": "Enregistré",
+    "ApplyLinkexternal": "Appliquer le lien (URL externe)",
+    "Applytocompany": "Postuler sur le site Web de l'entreprise",
+    "ApplyOncompany": "Postuler sur le site Web de l'entreprise",
+    "shareSuccess": "Offre partagée avec succès",
+    "SubmittedApplications": "Demandes soumises",
+    "savedjobs": "Emplois sauvés"
   },
   "Usernotloggedin": "Utilisateur non connecté",
   "Jobremoved": "Travail supprimé!",
@@ -987,5 +1056,359 @@
   "GoogleSignInFailed": "Échec de l'authentification avec Google",
   "Auth": {
     "GoogleSignInSuccess": "Connecté avec succès avec Google!"
+  },
+  "Messaging": "Messagerie",
+  "Chat": {
+    "title": "Messagerie",
+    "dndLabel": "DND",
+    "dndUpdateFailed": "Échec de la mise à jour du mode Ne pas déranger",
+    "dndEnabled": "Mode Ne pas déranger activé avec succès",
+    "dndDisabled": "Mode Ne pas déranger désactivé avec succès",
+    "sidebar": {
+      "searchPlaceholder": "Rechercher des conversations",
+      "loading": "Chargement des conversations...",
+      "error": "Erreur",
+      "retry": "Réessayer",
+      "empty": "Aucune conversation trouvée."
+    },
+    "defaultView": {
+      "title": "Bienvenue dans votre boîte de réception",
+      "description": "Sélectionnez une discussion dans le panneau de gauche pour commencer à envoyer des messages ou choisissez un contact pour démarrer une nouvelle conversation."
+    },
+    "window": {
+      "chatNotFound": "Erreur : discussion introuvable.",
+      "loading": "Chargement...",
+      "error": "Erreur",
+      "retry": "Réessayer",
+      "empty": "Pas encore de messages. Commencez une conversation !",
+      "inputPlaceholder": "Écrire un message...",
+      "send": "Envoyer",
+      "open": "Ouvrir",
+      "remove": "Retirer",
+      "you": "Vous",
+      "dndOnTitle": "L'entreprise a activé le mode Ne pas déranger",
+      "dndOnSubtitle": "La messagerie est désactivée car vous avez permis de ne pas déranger."
+    },
+    "DoNotDisturb": "Ne pas déranger"
+  },
+  "Applications": {
+    "search": {
+      "placeholder": "Rechercher une offre d'emploi",
+      "button": "Rechercher",
+      "searching": "Recherche..."
+    },
+    "statusFilter": {
+      "all": "Tous les statuts"
+    },
+    "jobStatus": {
+      "open": "Ouvert",
+      "closed": "Fermé"
+    },
+    "applicant": "Candidat",
+    "viewJob": "Voir l'offre",
+    "noJobs": {
+      "titleWhenSearch": "Aucun emploi trouvé",
+      "titleNoData": "Aucun emploi disponible",
+      "descWhenSearch": "Aucun emploi correspondant à \"{query}\". Essayez un autre terme.",
+      "descNoData": "Aucune candidature n'est disponible pour le moment."
+    },
+    "loading": "Chargement...",
+    "loadMore": "Charger plus",
+    "noApplicants": "Aucun candidat trouvé",
+    "common": {
+      "unknown": "Inconnu",
+      "notProvided": "Non fourni",
+      "notSpecified": "Non spécifié"
+    },
+    "statusLabels": {
+      "new": "Nouveau",
+      "interviewing": "En entretien",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "hired": "Embauché",
+      "reviewed": "Examiné"
+    },
+    "interviewFixed": "Entretien fixé",
+    "setInterview": "Fixer un entretien",
+    "resumeSection": {
+      "title": "CV",
+      "view": "Voir le CV"
+    },
+    "attachments": {
+      "title": "Pièces jointes",
+      "view": "Voir"
+    },
+    "applicationDetails": {
+      "title": "Détails de la candidature",
+      "personalInfo": "Informations personnelles",
+      "email": "E-mail",
+      "salary": "Salaire",
+      "applicationInfo": "Informations sur la candidature",
+      "startDate": "Date de début",
+      "availability": "Disponibilité",
+      "coverMessage": "Lettre de motivation"
+    },
+    "tabs": {
+      "all": "Tous",
+      "new": "Nouveau",
+      "reviewed": "Examiné",
+      "interviewed": "En entretien",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "hired": "Embauché"
+    },
+    "singleApplication": {
+      "loadingJob": "Chargement des détails du poste...",
+      "noJobSelectedTitle": "Aucun poste sélectionné",
+      "noJobSelectedDesc": "Veuillez sélectionner un poste dans la liste des candidatures.",
+      "totalApplicants": "Nombre total de candidats : {count}",
+      "loadingApplicants": "Chargement des candidats...",
+      "errorLoadingApplicants": "Erreur de chargement des candidats",
+      "unknownError": "Erreur inconnue",
+      "noApplicantsForJob": "Aucun candidat pour ce poste",
+      "selectApplicantPlaceholder": "Sélectionnez un candidat pour voir les détails"
+    },
+    "companyNamePlaceholder": "Nom de l'entreprise",
+    "Notes": "Notes"
+  },
+  "Interviews": {
+    "loading": "Chargement des entretiens...",
+    "error": "Erreur lors du chargement des entretiens. Veuillez réessayer plus tard.",
+    "tabs": {
+      "upcoming": "À venir",
+      "past": "Passés"
+    },
+    "reschedule": "Reprogrammer",
+    "cancel": "Annuler",
+    "empty": "Aucun entretien dans cette catégorie."
+  },
+  "PreviousPlans": {
+    "loading": "Chargement...",
+    "emptyTitle": "Aucun plan précédent disponible",
+    "emptyDesc": "Vous n'avez pas encore acheté de plans. Découvrez nos options flexibles pour commencer !",
+    "title": "Plans précédents",
+    "subtitle": "Abonnements mensuels flexibles adaptés à la taille de votre entreprise et à vos besoins en recrutement."
+  },
+  "Subscription": {
+    "loading": "Chargement des abonnements...",
+    "error": "Erreur lors du chargement des abonnements.",
+    "title": "Choisissez le bon plan",
+    "subtitle": "Abonnements mensuels flexibles pour votre entreprise.",
+    "noCompanyIdTitle": "Aucun ID d'entreprise trouvé",
+    "noCompanyIdText": "Veuillez vous reconnecter.",
+    "requestAdminTitle": "Demander l'approbation de l'admin",
+    "requestAdminReasonLabel": "Raison de la demande de plan",
+    "requestAdminReasonPlaceholder": "Entrez votre raison ici...",
+    "submit": "Soumettre",
+    "requestSentTitle": "Demande envoyée",
+    "requestSentText": "Votre demande a été envoyée à l'administrateur.",
+    "message": "Message",
+    "requestFailed": "Échec de l'envoi de la demande.",
+    "to": "à",
+    "employees": "employés",
+    "planActive": "Ce plan est actif",
+    "upgrade": "Mettre à niveau",
+    "requestAdmin": "Demander à l'admin",
+    "reason": "Raison"
+  },
+  "Payment": {
+    "planDetails": "Détails du plan d'abonnement",
+    "employeeRange": "Plage d'employés",
+    "eligibility": "Éligibilité",
+    "price": "Prix",
+    "cardDetails": "Détails de la carte",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "Adresse e-mail",
+    "processing": "Traitement...",
+    "payNow": "Payer maintenant",
+    "close": "Fermer",
+    "success": {
+      "planUpgraded": "Paiement réussi ! Votre plan a été mis à niveau."
+    },
+    "errors": {
+      "emailRequired": "Veuillez remplir le champ e-mail.",
+      "formNotInitialized": "Le formulaire de paiement n'est pas correctement initialisé.",
+      "stripeNotConfigured": "Stripe n'est pas correctement configuré.",
+      "stripeInitFailed": "Échec de l'initialisation de Stripe",
+      "paymentFailed": "Paiement échoué",
+      "paymentFailedGeneric": "Le paiement a échoué. Veuillez réessayer.",
+      "activePlanExistsExact": "Vous avez déjà un plan actif. Veuillez attendre qu'il expire avant d'en acheter un nouveau."
+    }
+  },
+  "Settings": {
+    "changePassword": "Changer le mot de passe",
+    "preference": "Préférences",
+    "billingInfo": "Informations de facturation",
+    "termsAndConditions": "Conditions générales"
+  },
+  "SetInterviewModal": {
+    "candidateName": "Nom du candidat",
+    "jobRole": "Rôle du poste",
+    "email": "E-mail",
+    "experienceYears": "{years} années d'expérience",
+    "experienceNotSpecified": "Expérience non spécifiée",
+    "opening": "Ouverture...",
+    "viewResume": "Voir le CV",
+    "date": "Date",
+    "selectDate": "Sélectionner la date",
+    "startTime": "Heure de début",
+    "timeZone": "Fuseau horaire",
+    "interviewAddress": "Adresse de l'entretien",
+    "close": "Fermer",
+    "rescheduling": "Reprogrammation...",
+    "scheduling": "Planification...",
+    "rescheduleInterview": "Reprogrammer l'entretien",
+    "sendInterview": "Envoyer l'entretien",
+    "interviewLink": "Lien en ligne"
+  },
+  "CompanyVerificationModal": {
+    "subscriptionRequired": "Abonnement requis",
+    "verificationRequired": "Vérification requise",
+    "messages": {
+      "subscriptionLimit": "Vous avez utilisé vos 2 publications gratuites. Pour en publier plus, veuillez mettre à niveau votre forfait.",
+      "planExpired": "Votre forfait a expiré. Veuillez mettre à niveau pour continuer.",
+      "companyNotVerified": "Profil en cours d'examen – accès complet après approbation.",
+      "userblocked": "Utilisateur bloqué"
+    },
+    "buttons": {
+      "subscriptionPurchase": "Acheter un abonnement",
+      "logout": "Se déconnecter",
+      "close": "Fermer"
+    },
+    "blocked": "Votre compte a été bloqué. \nVeuillez contacter l'assistance."
+  },
+  "UserBlockedModal": {
+    "title": "Bloqué",
+    "message": "Vous ne pouvez pas continuer car cet utilisateur est actuellement bloqué",
+    "buttons": {
+      "logout": "Se déconnecter",
+      "close": "Fermer"
+    }
+  },
+  "CreateJobForm": {
+    "common": {
+      "subtitle": "Remplissez les détails ci-dessous et trouvez le bon candidat.",
+      "back": "Retour",
+      "next": "Suivant",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "detailsStep": {
+      "jobTitleRequired": "Le titre du poste est requis",
+      "jobTitleMax": "Le titre du poste doit comporter au maximum 50 caractères",
+      "jobTypeRequired": "Le type d'emploi est requis",
+      "departmentRequired": "Le département est requis",
+      "jobLocationRequired": "L'emplacement du poste est requis",
+      "jobLocationIncomplete": "Veuillez sélectionner le pays, l'état et la ville"
+    },
+    "requirementsStep": {
+      "title": "Ajouter les détails du poste",
+      "descriptionLabel": "Description",
+      "seniorityTitle": "Niveau d'ancienneté",
+      "seniorityOptions": {
+        "intern": "Stagiaire",
+        "entryLevel": "Débutant",
+        "midLevel": "Associé / Niveau intermédiaire",
+        "senior": "Senior",
+        "leadManager": "Lead / Manager",
+        "directorVp": "Directeur / VP",
+        "cLevel": "C‑Level / Direction"
+      }
+    },
+    "skillsStep": {
+      "title": "Responsabilités et compétences",
+      "responsibilitiesLabel": "Responsabilités",
+      "skillsLabel": "Compétences",
+      "skillPlaceholder": "Entrez une compétence",
+      "addButton": "Ajouter",
+      "duplicateError": "Cette compétence a déjà été ajoutée",
+      "responsibilitiesRequired": "Les responsabilités sont requises",
+      "skillsRequired": "Au moins une compétence est requise"
+    },
+    "salaryStep": {
+      "title": "Salaire et informations",
+      "negotiableLabel": "Négociable",
+      "workModeLabel": "Mode de travail",
+      "workModePlaceholder": "Sélectionner le mode de travail",
+      "contactNumber": "Numéro de contact",
+      "contactNumberPlaceholder": "Entrez le numéro de contact",
+      "applicationDeadline": "Date limite de candidature",
+      "educationLabel": "Niveau d'études",
+      "experienceLabel": "Expérience",
+      "experiencePlaceholder": "Sélectionner l'expérience requise",
+      "requiredLanguages": "Langues requises",
+      "numOfOpenPositions": "Nombre de postes ouverts",
+      "numOfOpenPositionsPlaceholder": "Saisir le nombre",
+      "jobTags": "Mots-clés/Tags du poste",
+      "jobTagsPlaceholder": "Saisir des mots-clés du poste",
+      "salaryRangeLabel": "Fourchette de salaire",
+      "formatTabs": {
+        "range": "Plage",
+        "lpa": "Format LPA"
+      },
+      "placeholder": {
+        "range": "ex. 5000 - 8000 INR",
+        "lpa": "ex. 5-7 LPA"
+      },
+      "help": {
+        "range": "Format : Montant - Montant Devise (ex. 5000 - 8000 INR)",
+        "lpa": "Format : Nombre-Nombre LPA (ex. 5-7 LPA)"
+      },
+      "workModeRequired": "Le mode de travail est requis",
+      "contactNumberRequired": "Le numéro de contact est requis",
+      "contactNumberInvalid": "Veuillez saisir un numéro de téléphone valide (10 à 15 chiffres)",
+      "salaryRangeRequired": "La fourchette de salaire est requise",
+      "salaryRangeInvalid": "Veuillez saisir un format de salaire valide (ex. 5000 - 8000 INR ou 5-7 LPA)",
+      "applicationDeadlineRequired": "La date limite de candidature est requise",
+      "applicationDeadlinePast": "La date limite ne peut pas être dans le passé",
+      "workMode": {
+        "onSite": "Sur site",
+        "hybrid": "Hybride",
+        "remote": "À distance"
+      },
+      "experience": {
+        "fresher": "Débutant (0 an)",
+        "one": "1 an",
+        "two": "2 ans",
+        "three": "3 ans",
+        "fivePlus": "5+ ans",
+        "tenPlus": "10+ ans"
+      },
+      "education": {
+        "highSchool": "Baccalauréat",
+        "diploma": "Diplôme",
+        "bachelor": "Licence",
+        "master": "Master",
+        "phd": "Doctorat",
+        "any": "Indifférent"
+      },
+      "languages": {
+        "english": "Anglais",
+        "spanish": "Espagnol",
+        "french": "Français",
+        "german": "Allemand",
+        "chinese": "Chinois",
+        "japanese": "Japonais",
+        "arabic": "Arabe",
+        "hindi": "Hindi"
+      }
+    },
+    "submitStep": {
+      "title": "Vérifier et publier",
+      "subtitle": "Vérifiez les détails de l'offre et fournissez les informations de candidature.",
+      "applyEmailLabel": "Postuler par e-mail",
+      "applyEmailPlaceholder": "hr@company.com",
+      "applyLinkLabel": "Lien de candidature (URL externe)",
+      "applyLinkPlaceholder": "https://company.com/careers",
+      "postJob": "Publier l'offre",
+      "submitting": "Envoi..."
+    }
+  },
+  "blocked": "Votre compte a été bloqué. \nVeuillez contacter l'assistance.",
+  "messages": {
+    "userblocked": "Utilisateur bloqué"
+  },
+  "buttons": {
+    "logout": "Déconnexion"
   }
 }

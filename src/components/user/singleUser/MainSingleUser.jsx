@@ -38,7 +38,7 @@ const MainSingleUser = () => {
     setOpens(false);
   };
 
-  if (error) return <div>Error loading user data: {error}</div>;
+  // if (error) return <div>Error loading user data: {error}</div>;
 
   return (
     <ConnectionsLayout RightComponents={[<UserMightKnow key="right1" />]}>

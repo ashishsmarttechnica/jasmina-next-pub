@@ -2,30 +2,33 @@
 import noImage2 from "@/assets/feed/no-img.png";
 import { usePathname, useRouter } from "@/i18n/navigation"; // <-- Add usePathname
 import useAuthStore from "@/store/auth.store";
+import { useTranslations } from "next-intl";
 import { BiLogOut } from "react-icons/bi";
-import { BsFileEarmarkText } from "react-icons/bs";
+import { BsCreditCard, BsFileEarmarkText } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
-import { MdSettings, MdWork } from "react-icons/md";
+import { MdHistory, MdSettings } from "react-icons/md";
 import { RiHandCoinLine } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { useSingleCompany } from "../hooks/company/useSingleCompany";
 import getImg from "../lib/getImg";
 import Card from "./card/Card";
 import ImageFallback from "./shared/ImageFallback";
-import { useTranslations } from "next-intl";
 
-const MainCompanyProfile = ({ title, userData }) => {
+const MainCompanyProfile = ({ title }) => {
   const { user } = useAuthStore();
+ // console.log(user, "fsdfsduser");
   const router = useRouter();
   const pathname = usePathname(); // <-- Get current route
   const logout = useAuthStore((state) => state.logout);
   const t = useTranslations("CompanyProfile");
   const userId = user?._id;
-
+  const { data: userData, isLoading, error } = useSingleCompany(userId);
+ // console.log(userData, "ssdfsduserData");
   const handleMenuClick = (item) => {
     if (item.isLogout) {
       logout();
       router.push("/login");
-      toast.success(t('LogoutSuccess'));
+      toast.success(t("LogoutSuccess"));
     } else if (pathname !== item.path) {
       router.push(item.path);
     }
@@ -36,31 +39,31 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <FiUser className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Profile'),
+      label: t("Profile"),
       path: `/company/single-company/${userId}`,
       count: null,
     },
-    {
-      icon: (isActive) => (
-        <MdWork className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
-      ),
-      label: t('PostaJob'),
-      path: `/company/single-company/${userId}/postjob`,
-      count: 3,
-    },
+    // {
+    //   icon: (isActive) => (
+    //     <MdWork className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+    //   ),
+    //   label: t('PostaJob'),
+    //   path: `/company/single-company/${userId}/postjob`,
+    //   // count: 3,
+    // },
     {
       icon: (isActive) => (
         <BsFileEarmarkText className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Interview'),
+      label: t("ReviewApplications"),
       path: `/company/single-company/${userId}/applications`,
-      count: 45,
+      // count: 45,
     },
     {
       icon: (isActive) => (
         <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('ViewApplications'),
+      label: t("Interview"),
       path: `/company/single-company/${userId}/interview`,
       count: null,
     },
@@ -68,31 +71,31 @@ const MainCompanyProfile = ({ title, userData }) => {
       icon: (isActive) => (
         <MdSettings className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Settings'),
+      label: t("Settings"),
       path: `/company/single-company/${userId}/settings`,
-      count: null,
+      // count: null,
     },
     {
       icon: (isActive) => (
-        <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+        <BsCreditCard className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Subscription'),
+      label: t("Subscription"),
       path: `/company/single-company/${userId}/subscription`,
       count: null,
     },
     {
       icon: (isActive) => (
-        <RiHandCoinLine className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
+        <MdHistory className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('PreviousPlans'),
+      label: t("PreviousPlans"),
       path: `/company/single-company/${userId}/previousplans`,
-      count: null,
+      // count: null,
     },
     {
       icon: (isActive) => (
         <BiLogOut className={`text-xl ${isActive ? "text-black" : "text-gray-500"}`} />
       ),
-      label: t('Logout'),
+      label: t("Logout"),
       isLogout: true,
       path: "/logout",
       count: null,
@@ -106,18 +109,18 @@ const MainCompanyProfile = ({ title, userData }) => {
         <div className="border-b border-slate-100 px-5 py-3">
           <div className="flex items-center gap-3">
             <ImageFallback
-              src={userData?.logoUrl && getImg(userData.logoUrl)}
+              src={user?.logoUrl && getImg(user.logoUrl)}
               loading="lazy"
               width={128}
               height={128}
               fallbackSrc={noImage2}
-              alt="Profile"
+              alt={user?.companyName ?? "Company"}
               className="h-8 w-8 rounded-full"
-              onError={(e) => {
-                e.currentTarget.src = "/default-company-logo.png";
-              }}
+            // onError={(e) => {
+            //   e.currentTarget.src = "/default-company-logo.png";
+            // }}
             />
-            <span className="text-lg font-semibold">{title}</span>
+            <span className="text-lg font-semibold">{user?.companyName}</span>
           </div>
         </div>
 
@@ -133,9 +136,7 @@ const MainCompanyProfile = ({ title, userData }) => {
               >
                 <div className="flex items-center gap-3">
                   {typeof item.icon === "function" ? item.icon(isActive) : item.icon}
-                  <span
-                    className={`text-[13px] ${isActive ? "text-black" : "text-gray-600"}`}
-                  >
+                  <span className={`text-[13px] ${isActive ? "text-black" : "text-gray-600"}`}>
                     {item.label}
                   </span>
                 </div>

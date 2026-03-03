@@ -3,12 +3,9 @@
 export const getStatusColor = (status) => {
   switch (status) {
     case "New":
-    case "0":
-      return "bg-blue-100 text-blue-800";
-    case "Reviewed":
     case "1":
       return "bg-purple-100 text-purple-800";
-    case "Interviewed":
+    case "Interviewing":
     case "2":
       return "bg-yellow-100 text-yellow-800";
     case "Approved":
@@ -20,8 +17,11 @@ export const getStatusColor = (status) => {
     case "Hired":
     case "5":
       return "bg-teal-100 text-teal-800";
+    case "Reviewed":
+    case "6":
+      return "bg-teal-100 text-teal-800";
     default:
-      return "bg-gray-100 text-gray-800";
+      return status || "New";
   }
 };
 
@@ -41,17 +41,18 @@ export const formatDate = (dateString) => {
 export const getStatusText = (status) => {
   switch (status) {
     case "0":
-      return "New";
     case "1":
-      return "Reviewed";
+      return "New";
     case "2":
-      return "Interviewed";
+      return "Interviewing";
     case "3":
       return "Approved";
     case "4":
       return "Rejected";
     case "5":
       return "Hired";
+    case "6":
+      return "Reviewed";
     default:
       return status || "New";
   }
@@ -60,7 +61,7 @@ export const getStatusText = (status) => {
 // Get job status label (different from application status)
 export const getJobStatusLabel = (status) => {
   if (typeof status === "number") {
-    return status === 0 ? "Open" : status === 1 ? "Closed" : "In Progress";
+    return status === 1 ? "Open" : status === 2 ? "Closed" : "In Progress";
   }
   return status || "Unknown";
 };

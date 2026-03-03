@@ -12,6 +12,10 @@ const publicRoutes = [
   "/verify-otp",
   "/post",
   "/post/:postId",
+  "/privacy-policy",
+  "/terms-conditions",
+  "/pagedetail/:slag",
+  "/contact",
 ];
 
 // Define profile creation routes
@@ -23,6 +27,7 @@ const profileCreationRoutes = {
 // Define shared routes accessible by both user and company
 const sharedRoutes = [
   "/chat",
+  "/addnotifi",
   "/connections",
   "/single-user",
   "/applicationjob/:id",
@@ -32,7 +37,7 @@ const sharedRoutes = [
   "/company/single-company/:id/subscription",
   "/company/single-company/:id/applications",
   "/company/single-company/:id/applications/:subid",
-  "/company/single-company/:id/previousplans"
+  "/company/single-company/:id/previousplans",
 ];
 // Define role-specific routes
 const roleBasedRoutes = {
@@ -42,7 +47,7 @@ const roleBasedRoutes = {
     "/profile",
     "/settings",
     "/jobs",
-    "/notifications",
+    "/addnotifi",
     "/messages",
     "/jobs/apply-now/:id/:name",
   ],
@@ -74,13 +79,21 @@ export default async function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get("isAuthenticated")?.value === "true";
   const safeLocale = locale || defLoc;
 
-  // Special handling for post/:postId and applicationjob/:id - always allow access
-  if (pathWithoutLocale.startsWith("post/")) {
+  // Special handling for public dynamic pages - always allow access
+  if (
+    pathWithoutLocale.startsWith("/post/") ||
+    pathWithoutLocale.startsWith("/pagedetail/")
+  ) {
     return response;
   }
 
   // Handle public routes
   if (publicRoutes.includes(pathWithoutLocale)) {
+    // Special case for contact page - allow access for both authenticated and unauthenticated users
+    if (pathWithoutLocale === "/contact") {
+      return response;
+    }
+
     // If user is already logged in, redirect to their role-specific home page
     if (isAuthenticated && userRole) {
       if (userRole === "user") {
@@ -124,6 +137,25 @@ export default async function middleware(request: NextRequest) {
 
   // If it's a shared route, allow access regardless of role
   if (isSharedRoute) {
+    // Special handling for connections route with tab parameter
+    if (currentPath === "/connections") {
+      const url = new URL(request.url);
+      const tab = url.searchParams.get("tab");
+      const type = url.searchParams.get("type");
+
+      // If company user is accessing connections without tab, redirect to company tab
+      if (userRole === "company" && !tab && type === "Company") {
+        url.searchParams.set("tab", "company");
+        return NextResponse.redirect(url);
+      }
+
+      // If user is accessing connections without tab, redirect to people tab
+      if (userRole === "user" && !tab) {
+        url.searchParams.set("tab", "people");
+        return NextResponse.redirect(url);
+      }
+    }
+
     return response;
   }
 

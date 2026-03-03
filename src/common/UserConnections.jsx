@@ -15,7 +15,15 @@ const UserConnections = ({ title }) => {
   const userType = Cookies.get("userRole");
   const router = useRouter();
   const { data, isLoading, isError, error } = useConnections("User", 1, 6);
+  console.log(data, "data@@@@@......");
+
   const displayData = connections?.length ? connections : data?.connections;
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
 
   const getItemConfig = (item) => {
     const type = item?.connectionType;
@@ -27,6 +35,7 @@ const UserConnections = ({ title }) => {
         image: item?.details?.profile?.photo,
         name: item?.details?.profile?.fullName,
         subtitle: item?.details?.preferences?.jobRole,
+        availabilty: item?.details?.profile?.availabilty,
         showOnline: true,
         online: item?.online,
         type: "User",
@@ -34,9 +43,11 @@ const UserConnections = ({ title }) => {
         icon: <FaUser className="h-3 w-3" />,
       },
       Company: {
-        image: item.details.logoUrl,
+        image: item.details && item.details.logoUrl ? item.details.logoUrl : undefined,
         name: item.details?.companyName,
         subtitle: item.details?.industryType,
+        availabilty: item?.details?.profile?.availabilty,
+        isLGBTQFriendly: item.details?.isLGBTQFriendly,
         showOnline: false,
         online: false,
         type: "Company",
@@ -98,7 +109,7 @@ const UserConnections = ({ title }) => {
                   onClick={() => handleUserProfile(user)}
                 >
                   <ImageFallback
-                    src={config.image && getImg(config.image)}
+                    src={config.image ? getImg(config.image) : undefined}
                     alt={config.name ?? "user"}
                     width={32}
                     height={32}
@@ -107,8 +118,18 @@ const UserConnections = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={user._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={user._id}
+                      onClick={() => handleUserProfile(user)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.availabilty && (
+                      <span className="text-primary text-[9px]">
+                        {availabilityIcons[config?.availabilty] || ""}
+                      </span>
+                    )}
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={user._id} />
                 </div>
@@ -116,6 +137,25 @@ const UserConnections = ({ title }) => {
             </div>
           );
         })}
+
+        {/* More button */}
+        {displayData.length > 5 && (
+          <div className="flex justify-center border-t border-gray-200 pt-2">
+            <button
+              onClick={() => {
+                const currentUserId = Cookies.get("userId");
+                if (userType === "company") {
+                  router.push(`/connections?profileId=${currentUserId}&type=Company&tab=people`);
+                } else {
+                  router.push("/connections?tab=people");
+                }
+              }}
+              className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+            >
+              View More
+            </button>
+          </div>
+        )}
       </div>
     </Card>
   );

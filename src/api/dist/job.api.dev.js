@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.applyJob = exports.getAppliedJobs = exports.getSavedJob = exports.getSavedJobs = exports.removeJob = exports.saveJob = exports.getJobs = exports.getRecentJobs = exports.createJob = void 0;
+exports.getSingleJob = exports.updateApplicationStatus = exports.updateJobStatus = exports.applyJob = exports.getAppliedJobs = exports.getSavedJob = exports.getSavedJobs = exports.removeJob = exports.saveJob = exports.getJobs = exports.getRecentJobs = exports.createJob = void 0;
 
 var _axios = _interopRequireDefault(require("@/lib/axios"));
 
@@ -32,14 +32,14 @@ var createJob = function createJob(data) {
 
 exports.createJob = createJob;
 
-var getRecentJobs = function getRecentJobs() {
+var getRecentJobs = function getRecentJobs(userId) {
   var res;
   return regeneratorRuntime.async(function getRecentJobs$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return regeneratorRuntime.awrap(_axios["default"].get("/recent/job"));
+          return regeneratorRuntime.awrap(_axios["default"].get("/recent/job?userId=".concat(userId)));
 
         case 2:
           res = _context2.sent;
@@ -67,6 +67,7 @@ var getJobs = function getJobs() {
       _ref$limit,
       limit,
       params,
+      url,
       res,
       _args3 = arguments;
 
@@ -74,21 +75,31 @@ var getJobs = function getJobs() {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _ref = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : {}, _ref$search = _ref.search, search = _ref$search === void 0 ? "" : _ref$search, _ref$location = _ref.location, location = _ref$location === void 0 ? "" : _ref$location, lgbtq = _ref.lgbtq, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$limit = _ref.limit, limit = _ref$limit === void 0 ? 10 : _ref$limit;
-          params = new URLSearchParams();
-          if (search) params.append("search", search);
-          if (location) params.append("location", location);
-          if (lgbtq === true || lgbtq === false) params.append("lgbtq", lgbtq);
+          _ref = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : {}, _ref$search = _ref.search, search = _ref$search === void 0 ? "" : _ref$search, _ref$location = _ref.location, location = _ref$location === void 0 ? "" : _ref$location, lgbtq = _ref.lgbtq, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$limit = _ref.limit, limit = _ref$limit === void 0 ? 100 : _ref$limit;
+          params = new URLSearchParams(); // Always add search parameter (even if empty)
+
+          params.append("search", search); // Always add location parameter (even if empty)
+
+          params.append("location", location); // Add lgbtq parameter if it's defined (true/false)
+
+          if (lgbtq !== undefined) {
+            params.append("lgbtq", lgbtq);
+          } // Always add page and limit
+
+
           params.append("page", page);
           params.append("limit", limit);
-          _context3.next = 9;
-          return regeneratorRuntime.awrap(_axios["default"].get("/search/job?".concat(params.toString())));
-
-        case 9:
-          res = _context3.sent;
-          return _context3.abrupt("return", res.data);
+          url = "/search/job?".concat(params.toString());
+         // console.log("API Call URL:", url);
+          _context3.next = 11;
+          return regeneratorRuntime.awrap(_axios["default"].get(url));
 
         case 11:
+          res = _context3.sent;
+         // console.log("API Response:", res.data);
+          return _context3.abrupt("return", res.data);
+
+        case 14:
         case "end":
           return _context3.stop();
       }
@@ -251,3 +262,87 @@ var applyJob = function applyJob(data) {
 };
 
 exports.applyJob = applyJob;
+
+var updateJobStatus = function updateJobStatus(_ref5) {
+  var jobId, status, res;
+  return regeneratorRuntime.async(function updateJobStatus$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          jobId = _ref5.jobId, status = _ref5.status;
+         // console.log("updateJobStatus API called with:", {
+          //   jobId: jobId,
+          //   status: status
+          // }); // Debug log
+
+          _context10.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].put("/update/job?jobId=".concat(jobId), {
+            status: status
+          }));
+
+        case 4:
+          res = _context10.sent;
+         // console.log("updateJobStatus API response:", res.data); // Debug log
+
+          return _context10.abrupt("return", res.data);
+
+        case 7:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  });
+};
+
+exports.updateJobStatus = updateJobStatus;
+
+var updateApplicationStatus = function updateApplicationStatus(_ref6) {
+  var userId, jobId, status, res;
+  return regeneratorRuntime.async(function updateApplicationStatus$(_context11) {
+    while (1) {
+      switch (_context11.prev = _context11.next) {
+        case 0:
+          userId = _ref6.userId, jobId = _ref6.jobId, status = _ref6.status;
+          _context11.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].post("/update-applied-job", {
+            userId: userId,
+            jobId: jobId,
+            status: status
+          }));
+
+        case 3:
+          res = _context11.sent;
+          return _context11.abrupt("return", res.data);
+
+        case 5:
+        case "end":
+          return _context11.stop();
+      }
+    }
+  });
+};
+
+exports.updateApplicationStatus = updateApplicationStatus;
+
+var getSingleJob = function getSingleJob(jobId) {
+  var res;
+  return regeneratorRuntime.async(function getSingleJob$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          _context12.next = 2;
+          return regeneratorRuntime.awrap(_axios["default"].get("/get/single/job?id=".concat(jobId)));
+
+        case 2:
+          res = _context12.sent;
+          return _context12.abrupt("return", res.data);
+
+        case 4:
+        case "end":
+          return _context12.stop();
+      }
+    }
+  });
+};
+
+exports.getSingleJob = getSingleJob;

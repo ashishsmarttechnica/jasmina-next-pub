@@ -2,14 +2,16 @@ import logo from "@/assets/form/Logo.png";
 import Flag from "@/assets/svg/user/Flag";
 import ImageFallback from "@/common/shared/ImageFallback";
 import UserBannerSkeleton from "@/common/skeleton/UserBannerSkeleton";
+import { useGenerateChatRoom } from "@/hooks/chat/useGenerateChatRoom";
 import { useCreateConnection, useRemoveConnection } from "@/hooks/connections/useConnections";
+import { useRouter } from "@/i18n/navigation";
 import getImg from "@/lib/getImg";
-import EditProfileModal from "@/modal/editProfile/EditProfileModal";
+import EditProfileModal from "@/modal/EditProfile/EditProfileModal";
 import PasswordResetModal from "@/modal/passwordReset/PasswordResetModal";
 import ReportModel from "@/modal/ReportModel";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -62,6 +64,13 @@ const FacebookIcon = () => (
   </svg>
 );
 
+const availabilityIcons = {
+  "Open to Work": "🟢",
+  "Available for Freelance": "🟡",
+  "Not Available": "🔴",
+  " Open for Remote Worldwide": "🌍",
+};
+
 const UserBannerProfile = ({
   userData,
   isLoading,
@@ -79,29 +88,36 @@ const UserBannerProfile = ({
   const isCurrentUser = paramsUserId === localUserId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isBioModalOpen, setIsBioModalOpen] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  // console.log(userData?.isConnected, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)");
   const [showConnect, setShowConnect] = useState(
-    !(searchParams?.get("fromConnections") === "true" || userData?.isConnected === true)
+    !(searchParams?.get("fromConnections") === "true")
   );
-  
+
   // const { mutate: acceptConnection, isPending } = useAcceptConnection();
   const {
     mutate: createConnection,
     isPending,
     isLoading: isCreateConnectionLoading,
-  } = useCreateConnection()
+  } = useCreateConnection();
   // Check if user came from connections page
   const fromConnections =
-    searchParams?.get("fromConnections") === "true" || userData?.isConnected === true ;
+    searchParams?.get("fromConnections") === "true";
 
   const { mutate: removeConnection } = useRemoveConnection();
+  const { mutate: generateChatRoom, isPending: isGeneratingChat } = useGenerateChatRoom();
 
   const handleResentPassword = () => {
     setIsPasswordModalOpen(true);
   };
 
   const handleConnectionClick = () => {
-    router.push("/en/connections");
+    if (userData?._id) {
+      router.push(`/connections?profileId=${userData._id}&type=User&tab=people`);
+    } else {
+      router.push("/connections?tab=people");
+    }
   };
 
   const handleRemoveConnection = () => {
@@ -151,6 +167,31 @@ const UserBannerProfile = ({
   //   );
   // };
 
+  const handleMessage = (userProfile) => {
+    const currentUserId = Cookies.get("userId");
+    const profileId = userProfile?._id;
+
+    if (currentUserId && profileId) {
+      generateChatRoom(
+        { userId: currentUserId, profileId: profileId },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              router.push(`/chat?roomId=${res.data?.roomId || ""}`);
+            } else {
+              toast.error("Failed to generate chat room");
+            }
+          },
+          onError: (error) => {
+            toast.error(error?.message || "Failed to generate chat room");
+          },
+        }
+      );
+    } else {
+      toast.error("Unable to start chat. User information not available.");
+    }
+  };
+
   const handleContactClick = (item) => {
     if (isCreateConnectionLoading) return;
     createConnection(
@@ -159,10 +200,9 @@ const UserBannerProfile = ({
         onSuccess: (res) => {
           if (res.success) {
             setShowConnect(false);
+          } else {
+            toast.error(res?.message || t("Failedtoconnect"));
           }
-          else {
-                      toast.error(res?.message || t("Failedtoconnect"));
-                    }
         },
       }
     );
@@ -170,7 +210,7 @@ const UserBannerProfile = ({
   if (isLoading) {
     return <UserBannerSkeleton />;
   }
-
+  //// console.log(userData.profile.availabilty, "userData.profile.availabilty");
   return (
     <div className="w-full overflow-hidden rounded-md xl:max-w-[829px]">
       <div className="flex h-40 items-center justify-between rounded-[5px] bg-[#CFE6CC]/[50%] px-4 py-6 sm:px-8 md:h-48 md:px-16 lg:h-56 lg:px-24">
@@ -189,9 +229,20 @@ const UserBannerProfile = ({
       <div className="relative bg-white px-4 py-6 md:px-8 md:py-6">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="flex w-full flex-col gap-0.5 px-2">
-            <h2 className="text-lg font-bold text-black md:text-xl">
-              {userData?.profile?.fullName || t("fullName")}
-            </h2>
+            <div className="flex gap-2">
+
+              <p className="text-lg font-bold text-black md:text-xl">
+                {userData?.profile?.fullName || t("fullName")}
+              </p>
+              {userData?.profile?.isPrivate === false &&
+                (
+                  <>
+
+                    <span className="text-slate-600 mt-0.5 "></span> <span className="text-xs font-medium text-slate-800 mt-1.5 ">||  {userData?.profile?.pronounce}</span>
+                  </>
+                )
+              }
+            </div>
             <p className="text-[13px] font-normal md:text-[15px]">
               {userData?.preferences?.jobRole || t("jobRole")}
             </p>
@@ -201,12 +252,46 @@ const UserBannerProfile = ({
             <div className="flex gap-2">
               <div className="mt-1 flex items-center gap-1 text-xs font-normal text-[#888DA8]">
                 <div className="font-bold"> Availability : </div>
-                <div> {userData?.profile?.availabilty || t("Availability")}</div>
+                <div>
+                  {userData?.profile?.availabilty ? (
+                    <>
+                      <span>{availabilityIcons[userData.profile.availabilty] || ""}</span>{" "}
+                      {userData.profile.availabilty}
+                    </>
+                  ) : (
+                    t("Availability")
+                  )}
+                </div>
               </div>
             </div>
-
+            <div>
+              {(() => {
+                const bio = userData?.profile?.short_bio || "";
+                const trimmedBio = bio.trim();
+                const isLong = trimmedBio.length > 30;
+                const preview = isLong ? trimmedBio.slice(0, 30) + "…" : trimmedBio;
+                return (
+                  <>
+                    <div className="flex">
+                      {userData?.profile?.short_bio && (
+                        <span className="text-xs  text-[#888DA8] font-medium flex"><div className="font-bold pr-2"> short bio  </div>{preview} </span>
+                      )}
+                      {isLong && (
+                        <button
+                          type="button"
+                          className="ml-1 text-primary text-[12px] "
+                          onClick={() => setIsBioModalOpen(true)}
+                        >
+                          Show More
+                        </button>
+                      )}
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
             {/* Social Media Links with Icons */}
-            <div className="mt-3 flex items-center gap-5">
+            <div className="flex items-center gap-5">
               {userData?.profile?.linkedin && (
                 <a
                   href={userData.profile.linkedin}
@@ -274,14 +359,20 @@ const UserBannerProfile = ({
                     disabled={isRemoving}
                     className="text-primary border-primary border px-4 py-2 text-sm font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isRemoving ? "Removing..." : "Remove"}
+                    {isRemoving ? t("removing") : t("remove")}
                   </button>
                 )}
-                <button className="message-btn">{t("message")}</button>
+                <button
+                  className="message-btn"
+                  onClick={fromConnections ? () => handleMessage(userData) : undefined}
+                  disabled={!fromConnections || isGeneratingChat}
+                >
+                  {isGeneratingChat ? "Generating..." : t("message")}
+                </button>
                 <button className="flag-btn group" onClick={() => setIsModalOpen(true)}>
                   <Flag className="stroke-grayBlueText group-hover:stroke-primary transition-all duration-200" />
                 </button>
-                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                <ReportModel isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} userData={userData} />
               </div>
             )}
           </div>
@@ -322,6 +413,23 @@ const UserBannerProfile = ({
         onClose={() => setIsPasswordModalOpen(false)}
         userData={userData}
       />
+      {isBioModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/[40%]">
+          <div className="relative w-[95%] max-w-[545px] max-h-[90vh] overflow-y-auto rounded-[10px] bg-white p-6 shadow-xl">
+            <button
+              type="button"
+              onClick={() => setIsBioModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-black"
+            >
+              ×
+            </button>
+            <div className="mb-4 text-lg font-semibold text-black">Short Bio</div>
+            <div className="text-[15px] text-[#2c2c2c] whitespace-pre-line">
+              {userData?.profile?.short_bio || ""}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

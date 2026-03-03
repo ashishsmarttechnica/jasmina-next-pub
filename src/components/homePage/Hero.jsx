@@ -1,20 +1,19 @@
 "use client";
 import leftImg from "@/assets/homePage/LeftBannerImage.png";
-import rightImg from "@/assets/homePage/rightBannerImage.png";
+import rightImg from "@/assets/homePage/p3.png";
 import Location from "@/assets/svg/homePage/Location";
 import Search from "@/assets/svg/homePage/Search";
 import PostJobModal from "@/modal/PostJobModal";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { Button } from "rsuite";
-
 const Hero = () => {
+  const router = useRouter();
   const [CompanyPostModalOpen, setCompanyPostModalOpen] = useState(false);
-  const handleCompanyPostJob = () => {
-    setCompanyPostModalOpen(true);
-  };
+  const [ArrowModalOpen, setArrowModalOpen] = useState(false);
   const t = useTranslations("HomePage");
   return (
     <section>
@@ -42,7 +41,7 @@ const Hero = () => {
 
             <div className="flex items-center justify-center gap-2">
               <Button
-                onClick={handleCompanyPostJob}
+                onClick={() => setCompanyPostModalOpen(true)}
                 className="!bg-secondary !text-primary text-decoration-none mb-3 rounded-md p-2 text-xl font-medium sm:px-[14px] sm:py-3"
               >
                 {t("hero.postaJob")}
@@ -70,8 +69,10 @@ const Hero = () => {
                     className="w-full border-none text-sm outline-none placeholder:text-[16px]"
                   />
                 </div>
-
-                <button className="bg-primary rounded-md p-3 text-white">
+                <button
+                  onClick={() => setArrowModalOpen(true)}
+                  className="bg-primary rounded-md p-3 text-white"
+                >
                   <FaArrowRight />
                 </button>
               </div>
@@ -88,7 +89,22 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <PostJobModal isOpen={CompanyPostModalOpen} onClose={() => setCompanyPostModalOpen(false)} />
+      <PostJobModal
+        isOpen={CompanyPostModalOpen}
+        onClose={() => setCompanyPostModalOpen(false)}
+        title={t("hero.model.title")}
+        signUpPath={t("hero.model.SignUpPath")}
+        cancelText={t("hero.model.Cancel")}
+        signUpText={t("hero.model.SignUp")}
+      />
+      <PostJobModal
+        isOpen={ArrowModalOpen}
+        onClose={() => setArrowModalOpen(false)}
+        title={t("hero.arrowModel.title")}
+        signUpPath={t("hero.arrowModel.SignUpPath")}
+        cancelText={t("hero.arrowModel.Cancel")}
+        signUpText={t("hero.arrowModel.SignUp")}
+      />
     </section>
   );
 };

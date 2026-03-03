@@ -33,9 +33,16 @@ const initialFormState = {
   genderPreference: "",
   education: "",
   experience: "",
-  applicants: "",
+  numOfEmployee: "",
   email: "",
   careerWebsite: "",
+  contactNumber: "",
+  contactEmail: "",
+  workMode: "",
+  negotiable: false,
+  requiredLanguages: [],
+  jobTags: [],
+  applyVia: "",
 };
 
 // Storage keys
@@ -133,12 +140,18 @@ const CreateJobTabMenu = () => {
         workHours: `${formData.workHoursFrom} - ${formData.workHoursTo}`,
         deadline: formData.applicationDeadline,
         experience: formData.experience,
-        applicants: formData.applicants,
+        numOfEmployee: formData.numOfEmployee,
         requiredSkills: formData.skills,
         responsibilities: formData.responsibilities,
         genderPrefereance: formData.genderPreference,
         applyVia: formData.applyVia,
         careerWebsite: formData.careerWebsite,
+        contactNumber: formData.contactNumber,
+        // contactEmail: formData.contactEmail,
+        ...(!formData.isRemote && { workMode: formData.workMode }),
+        negotiable: formData.negotiable,
+        requiredLanguages: formData.requiredLanguages,
+        jobTags: formData.jobTags,
       };
 
       // Submit the job data

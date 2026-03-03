@@ -1,9 +1,14 @@
 "use client";
 import ConnectionSkeleton from "@/common/skeleton/ConnectionSkeleton";
 import useTabUnderlineAnimation from "@/hooks/connections/animation/useTabUnderlineAnimation";
-import { useConnections } from "@/hooks/connections/useConnections";
+import {
+  useOthersCompanyConnections,
+  useOthersUserConnections,
+} from "@/hooks/connections/useConnections";
 import useConnectionsStore from "@/store/connections.store";
 import { AnimatePresence, motion } from "framer-motion";
+import Cookies from "js-cookie";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ConnectionHeader from "./ConnectionHeader";
 import ConnectionsList from "./ConnectionsList";
@@ -12,9 +17,25 @@ import ErrorDisplay from "./ErrorDisplay";
 import TabsWithUnderline from "./TabsWithUnderline";
 
 const ConnectionsContent = () => {
+  const searchParams = useSearchParams();
+  // userId = logged-in user, profileId = profile being viewed
+  const viewerId = Cookies.get("userId");
+  const profileId = searchParams.get("profileId") || viewerId;
+  const profileType = searchParams.get("type") || "User";
+  const tabParam = searchParams.get("tab");
   const peopleRef = useRef(null);
   const companyRef = useRef(null);
-  const [activeTab, setActiveTab] = useState("people");
+  const userRole = Cookies.get("userRole");
+
+  // Set default tab based on user role if no tab parameter is provided
+  const getDefaultTab = () => {
+    if (tabParam) return tabParam;
+    if (userRole === "company") return "company";
+    return "people";
+  };
+
+  const [activeTab, setActiveTab] = useState(getDefaultTab());
+  // console.log(activeTab, "activeTab");
   const [userPage, setUserPage] = useState(1);
   const [companyPage, setCompanyPage] = useState(1);
 
@@ -45,7 +66,12 @@ const ConnectionsContent = () => {
     error: userError,
     refetch: refetchUser,
     isFetching: isUserFetching,
-  } = useConnections("User", userPage, undefined, { enabled: activeTab === "people" });
+  } = useOthersUserConnections(userPage, undefined, {
+    enabled: activeTab === "people",
+    userId: viewerId,
+    profileId: profileId,
+    userType: profileType,
+  });
 
   const {
     data: companyData,
@@ -54,7 +80,12 @@ const ConnectionsContent = () => {
     error: companyError,
     refetch: refetchCompany,
     isFetching: isCompanyFetching,
-  } = useConnections("Company", companyPage, undefined, { enabled: activeTab === "company" });
+  } = useOthersCompanyConnections(companyPage, undefined, {
+    enabled: activeTab === "company",
+    userId: viewerId,
+    profileId: profileId,
+    userType: profileType,
+  });
 
   const currentConnections = activeTab === "people" ? userConnections : companyConnections;
   const currentPagination = activeTab === "people" ? userPagination : companyPagination;
@@ -80,6 +111,23 @@ const ConnectionsContent = () => {
       resetCompanyConnections();
     }
   }, [activeTab]);
+
+  // Handle tab parameter from URL
+  useEffect(() => {
+    if (tabParam) {
+      if (tabParam === "people" || tabParam === "company") {
+        setActiveTab(tabParam);
+      }
+    }
+  }, [tabParam]);
+
+  // Handle initial tab setting and role-based defaults
+  useEffect(() => {
+    const defaultTab = getDefaultTab();
+    if (defaultTab !== activeTab) {
+      setActiveTab(defaultTab);
+    }
+  }, []);
 
   const loadMore = () => {
     if (activeTab === "people") {
@@ -161,40 +209,46 @@ const ConnectionsContent = () => {
   }
 
   return (
-    <div className="rounded-md bg-white shadow">
-      <div className="z-10 bg-white">
-        <ConnectionHeader />
-        <TabsWithUnderline
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          peopleRef={peopleRef}
-          companyRef={companyRef}
-          hoverStyle={hoverStyle}
-          underlineStyle={underlineStyle}
-          handleHover={handleHover}
-          handleHoverLeave={handleHoverLeave}
-        />
+    <>
+
+      <div className="rounded-md bg-white shadow">
+        <div className="z-10 bg-white">
+          <ConnectionHeader />
+          <TabsWithUnderline
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            peopleRef={peopleRef}
+            companyRef={companyRef}
+            hoverStyle={hoverStyle}
+            underlineStyle={underlineStyle}
+            handleHover={handleHover}
+            handleHoverLeave={handleHoverLeave}
+          />
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto", minHeight: "500px" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
+          >
+            <ConnectionsList
+              profileId={profileId}
+              userData={userData}
+              activeTab={activeTab}
+              connections={currentConnections}
+              hasMore={currentHasMore}
+              isFetching={isFetching}
+              loadMore={loadMore}
+            />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto", minHeight: "500px" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="min-h-[500px] overflow-hidden px-4 !pt-0 sm:p-6"
-        >
-          <ConnectionsList
-            activeTab={activeTab}
-            connections={currentConnections}
-            hasMore={currentHasMore}
-            isFetching={isFetching}
-            loadMore={loadMore}
-          />
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.uselocationOptions = exports.usestatusOptions = exports.useDepartmentOptions = exports.useEmployeTypeOptions = exports.useCurrentyAvailabilityOptions = exports.useAvailabilityOptions = exports.usePositionOptions = exports.useCurrencyOptions = exports.useIndustryTypeOptions = exports.useSkillCategoryOptions = exports.useIndustryOptions = exports.useWorkLocationOptions = exports.useJobTypeOptions = exports.useRoleOptions = exports.useProficiencyOptions = exports.usePronounOptions = exports.useGenderOptions = void 0;
+exports.useTimeZonesOptions = exports.uselocationOptions = exports.usestatusOptions = exports.useDepartmentOptions = exports.useEmployeTypeOptions = exports.useCurrentyAvailabilityOptions = exports.useAvailabilityOptions = exports.usePositionOptions = exports.useCurrencyOptions = exports.useIndustryTypeOptions = exports.useSkillCategoryOptions = exports.useIndustryOptions = exports.useWorkLocationOptions = exports.useJobTypeOptions = exports.useRoleOptions = exports.useProficiencyOptions = exports.usePronounOptions = exports.useGenderOptions = void 0;
 
 var _nextIntl = require("next-intl");
 
@@ -445,16 +445,16 @@ exports.usePositionOptions = usePositionOptions;
 var useAvailabilityOptions = function useAvailabilityOptions() {
   var t = (0, _nextIntl.useTranslations)("UserProfile.profile");
   return [{
-    label: "".concat(t("availabilityOption.openToWork")),
+    label: "\uD83D\uDFE2 ".concat(t("availabilityOption.openToWork")),
     value: "Open to Work"
   }, {
-    label: "".concat(t("availabilityOption.freelance")),
+    label: "\uD83D\uDFE1 ".concat(t("availabilityOption.freelance")),
     value: "Available for Freelance"
   }, {
-    label: "".concat(t("availabilityOption.notavailable")),
+    label: "\uD83D\uDD34 ".concat(t("availabilityOption.notavailable")),
     value: "Not Available"
   }, {
-    label: "".concat(t("availabilityOption.worldwide")),
+    label: "\uD83C\uDF0D ".concat(t("availabilityOption.worldwide")),
     value: " Open for Remote Worldwide"
   }];
 };
@@ -599,3 +599,70 @@ var uselocationOptions = function uselocationOptions() {
 };
 
 exports.uselocationOptions = uselocationOptions;
+
+var useTimeZonesOptions = function useTimeZonesOptions() {
+  var t = (0, _nextIntl.useTranslations)("UserProfile");
+  return [{
+    label: "UTC (GMT)",
+    value: "UTC"
+  }, {
+    label: "Asia/Kolkata (IST)",
+    value: "Asia/Kolkata"
+  }, {
+    label: "US/Eastern (EST/EDT)",
+    value: "US/Eastern"
+  }, {
+    label: "US/Pacific (PST/PDT)",
+    value: "US/Pacific"
+  }, {
+    label: "US/Central (CST/CDT)",
+    value: "US/Central"
+  }, {
+    label: "Europe/London (GMT/BST)",
+    value: "Europe/London"
+  }, {
+    label: "Europe/Paris (CET/CEST)",
+    value: "Europe/Paris"
+  }, {
+    label: "Europe/Berlin (CET/CEST)",
+    value: "Europe/Berlin"
+  }, {
+    label: "Asia/Tokyo (JST)",
+    value: "Asia/Tokyo"
+  }, {
+    label: "Asia/Shanghai (CST)",
+    value: "Asia/Shanghai"
+  }, {
+    label: "Asia/Singapore (SGT)",
+    value: "Asia/Singapore"
+  }, {
+    label: "Asia/Dubai (GST)",
+    value: "Asia/Dubai"
+  }, {
+    label: "Australia/Sydney (AEST/AEDT)",
+    value: "Australia/Sydney"
+  }, {
+    label: "Pacific/Auckland (NZST/NZDT)",
+    value: "Pacific/Auckland"
+  }, {
+    label: "America/Sao_Paulo (BRT/BRST)",
+    value: "America/Sao_Paulo"
+  }, {
+    label: "Africa/Johannesburg (SAST)",
+    value: "Africa/Johannesburg"
+  }, {
+    label: "Africa/Cairo (EET/EEST)",
+    value: "Africa/Cairo"
+  }, {
+    label: "Asia/Seoul (KST)",
+    value: "Asia/Seoul"
+  }, {
+    label: "Asia/Jakarta (WIB)",
+    value: "Asia/Jakarta"
+  }, {
+    label: "Canada/Eastern (EST/EDT)",
+    value: "Canada/Eastern"
+  }];
+};
+
+exports.useTimeZonesOptions = useTimeZonesOptions;

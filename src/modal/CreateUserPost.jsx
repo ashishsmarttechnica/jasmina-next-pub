@@ -4,8 +4,8 @@ import getImg from "@/lib/getImg";
 import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { Modal } from "rsuite";
-
 const CreateUserPost = ({
   isOpen,
   formData,
@@ -28,6 +28,12 @@ const CreateUserPost = ({
     }));
 
     if (file) {
+      if (file.size > 1024 * 1024) {
+        toast.error("You can upload only images up to 1MB in size.");
+        e.target.value = "";
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData((prev) => ({
@@ -63,10 +69,10 @@ const CreateUserPost = ({
             className="h-10 w-10 flex-shrink-0 rounded-full sm:h-12 sm:w-12"
           />
           <div className="min-w-0">
-            <h3 className="truncate text-base font-bold text-gray-800 sm:text-lg">
+            <h3 className="truncate text-base font-bold text-gray-800 sm:text-lg leading-relaxed break-words">
               {user?.profile?.fullName}
             </h3>
-            <p className="mt-0.5 text-xs font-normal text-gray-600 sm:text-[13px]">
+            <p className="mt-0.5 text-xs font-normal text-gray-600 sm:text-[13px] leading-relaxed break-words">
               {user?.preferences?.jobRole}
             </p>
           </div>
@@ -113,7 +119,7 @@ const CreateUserPost = ({
           />
         </div>
 
-        <div className="mt-6 sm:mt-8">
+        {/* <div className="mt-6 sm:mt-8">
           <h4 className="text-grayBlueText mb-3 text-xs font-medium sm:text-sm">{t("whopost")}</h4>
           <div className="space-y-1">
             <label className="flex cursor-pointer items-center gap-2.5 rounded-md p-2 transition-colors hover:bg-gray-50">
@@ -156,7 +162,7 @@ const CreateUserPost = ({
               </span>
             </label>
           </div>
-        </div>
+        </div> */}
 
         <div className="my-4 w-full border-b border-gray-200"></div>
 

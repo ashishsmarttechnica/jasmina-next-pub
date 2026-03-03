@@ -1,10 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
 import ReusableForm from "@/components/form/ReusableForm";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
-import useAuthStore from "@/store/auth.store";
 import { useRouter } from "@/i18n/navigation";
+import useAuthStore from "@/store/auth.store";
 import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 import { Loader } from "rsuite";
 
 const ResumeUpload = ({ setActiveTab }) => {
@@ -29,6 +29,11 @@ const ResumeUpload = ({ setActiveTab }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (file.size > 1024 * 1024) {
+       setError(t("fileSizeError")); 
+        e.target.value = "";
+        return;
+      }
       setSelectedFile(file);
       setError("");
     }

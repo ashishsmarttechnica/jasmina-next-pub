@@ -10,6 +10,7 @@ import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
 import useNetworkInvitesStore from "@/store/networkInvites.store";
 import { NameWithTooltip, SubtitleWithTooltip } from "@/utils/tooltipUtils";
+import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -21,6 +22,7 @@ import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
 const isNameLong = (name, maxLength = 15) => name && name.length > maxLength;
 
 const UserNetworkInvites = ({ title }) => {
+  const t = useTranslations("UserMainFeed");
   const { data: networkInvitesData } = useNetworkInvitesStore();
   const { data, isLoading, isError, error, refetch } = useNetworkInvites();
   const { mutate: acceptConnection, isPending } = useAcceptConnection();
@@ -48,6 +50,7 @@ const UserNetworkInvites = ({ title }) => {
         image: item?.senderDetails?.logoUrl,
         name: item?.senderDetails?.companyName,
         subtitle: item?.senderDetails?.industryType,
+        isLGBTQFriendly: item?.senderDetails?.isLGBTQFriendly,
         showOnline: false,
         online: false,
         type: "Company",
@@ -96,7 +99,7 @@ const UserNetworkInvites = ({ title }) => {
         <CardHeading title={title} />
         <div className="w-full px-2 py-4">
           <p className="text-center text-red-500">
-            {error?.message || "Failed to load suggestions"}
+            {/* {error?.message || "Failed to load suggestions"} */}
           </p>
         </div>
       </Card>
@@ -108,21 +111,24 @@ const UserNetworkInvites = ({ title }) => {
       <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
         <CardHeading title={title} />
         <div className="w-full px-2 py-4">
-          <p className="text-center text-gray-500">No Network Invites available at the moment</p>
+          <p className="text-center text-gray-500">{t("noNetworkInvites")}</p>
         </div>
       </Card>
     );
   }
-//
+
   return (
     <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
       <CardHeading title={title} />
-      <div className="flex w-full flex-col gap-4 px-2 py-4">
-        {displayData.slice(0, 5).map((item) => {
+      <div
+        className={`flex w-full flex-col gap-4 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+          }`}
+      >
+        {displayData.map((item) => {
           const config = getItemConfig(item);
 
           return (
-            <div key={item._id} className="flex w-full items-center justify-between">
+            <div key={item?._id} className="flex w-full items-center justify-between">
               <div className="flex min-w-0 items-center gap-2">
                 <div
                   className="relative h-10 w-10 cursor-pointer"
@@ -141,10 +147,15 @@ const UserNetworkInvites = ({ title }) => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={item?._id}
+                      onClick={() => handleUserProfile(item)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
-                  <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
+                  <SubtitleWithTooltip subtitle={config?.subtitle} id={item?._id} />
                 </div>
               </div>
 

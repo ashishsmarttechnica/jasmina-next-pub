@@ -14,7 +14,7 @@ export default function useGoogleAuth() {
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
-   const t = useTranslations("Auth");
+  const t = useTranslations("Auth");
 
   // Function to handle Google sign-in with account type selection
   const handleGoogleSignIn = async (accountType) => {

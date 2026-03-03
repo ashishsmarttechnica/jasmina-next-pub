@@ -1,14 +1,13 @@
-import React from "react";
-
-function Share() {
+function Share({ className, width = 12, height = 12 }) {
   return (
     <>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="14"
-        height="14"
+        width={width}
+        height={height}
         viewBox="0 0 14 14"
         fill="none"
+        className={className}
       >
         <path
           d="M10.5 4.66602C11.4665 4.66602 12.25 3.88251 12.25 2.91602C12.25 1.94952 11.4665 1.16602 10.5 1.16602C9.5335 1.16602 8.75 1.94952 8.75 2.91602C8.75 3.88251 9.5335 4.66602 10.5 4.66602Z"

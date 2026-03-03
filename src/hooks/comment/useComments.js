@@ -1,15 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createComment, getAllComments } from "@/api/comment.api";
 import useCommentStore from "@/store/comments.store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 
 export const useCommentsByPostId = (postId, enabled = true, page) => {
   const setComments = useCommentStore((s) => s.setComments);
   const comments = useCommentStore((s) => s.comments);
   const setPagination = useCommentStore((s) => s.setPagination);
+  const viewerId = Cookies.get("userId"); // Get current user ID from cookies
+
   return useQuery({
-    queryKey: ["comments", postId, page],
+    queryKey: ["comments", postId, page, viewerId],
     queryFn: async () => {
-      const res = await getAllComments(postId, page);
+      const res = await getAllComments(postId, viewerId, page);
       // Your API directly returns the structure we need
       const data = res?.data || {};
 
@@ -18,11 +21,7 @@ export const useCommentsByPostId = (postId, enabled = true, page) => {
       const mergedComments =
         page === 1
           ? newComments
-          : [
-            ...new Map(
-              [...comments, ...newComments].map((c) => [c._id, c])
-            ).values(),
-          ];
+          : [...new Map([...comments, ...newComments].map((c) => [c._id, c])).values()];
 
       setPagination(pagination);
       setComments(mergedComments);
@@ -35,7 +34,7 @@ export const useCommentsByPostId = (postId, enabled = true, page) => {
         isLastPage,
       };
     },
-    enabled: !!postId && enabled, // only run if postId exists and comments are toggled on
+    enabled: !!postId && enabled && !!viewerId, // only run if postId exists, comments are toggled on, and viewerId exists
     refetchOnWindowFocus: false,
     retry: 1,
   });

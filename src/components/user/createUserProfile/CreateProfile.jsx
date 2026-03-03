@@ -194,59 +194,65 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
 
   return (
     <>
-      <ReusableForm title={t("title")} maxWidth="max-w-[698px]" subtitle={t("subTitle")}>
-        <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
-          <ImageUploader
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-            setSelectedImageFile={setSelectedUserImageFile}
-          />
-
-          <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
-            {/* Full Name */}
-            <InputField
-              label={`${t("name")} *`}
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder={t("namePlaceholder")}
-              error={errors.name}
+      <ReusableForm title={t("title")} maxWidth="max-w-[698px] lg:max-w-[800px] xl:max-w-[900px]" subtitle={t("subTitle")}>
+        <form className="mt-3 sm:mt-5 space-y-3 sm:space-y-4 px-2 sm:px-0" onSubmit={handleSubmit}>
+          {/* Image Uploader - Full width on mobile, centered on larger screens */}
+          <div className="flex justify-center sm:justify-start">
+            <ImageUploader
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              setSelectedImageFile={setSelectedUserImageFile}
             />
+          </div>
 
-            {/* User Name */}
-            <InputField
-              label={`${t("username")} *`}
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder={t("usernamePlaceholder")}
-              error={errors.username}
-            />
+          {/* Main Form Grid - Responsive layout */}
+          <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:gap-6">
+            {/* First Row - Name and Username */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <InputField
+                label={`${t("name")} *`}
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder={t("namePlaceholder")}
+                error={errors.name}
+              />
 
-            {/* Gender */}
-            <Selecter
-              name="gender"
-              label={`${t("gender")} `}
-              placeholder={t("genderPlaceholder")}
-              value={formData.gender}
-              onChange={handleChange}
-              options={genderOptions}
-              // error={errors.gender}
-              isOther={true}
-            />
+              <InputField
+                label={`${t("username")} *`}
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder={t("usernamePlaceholder")}
+                error={errors.username}
+              />
+            </div>
 
-            {/* Pronoun */}
-            <Selecter
-              name="pronoun"
-              label={`${t("pronoun")}`}
-              placeholder={t("pronounPlaceholder")}
-              value={formData.pronoun}
-              onChange={handleChange}
-              options={pronounOptions}
-              // error={errors.pronoun}
-              isOther={true}
-            />
-            <div className="col-span-2 flex items-center gap-2 text-sm text-gray-500">
+            {/* Second Row - Gender and Pronoun */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <Selecter
+                name="gender"
+                label={`${t("gender")} `}
+                placeholder={t("genderPlaceholder")}
+                value={formData.gender}
+                onChange={handleChange}
+                options={genderOptions}
+                isOther={true}
+              />
+
+              <Selecter
+                name="pronoun"
+                label={`${t("pronoun")}`}
+                placeholder={t("pronounPlaceholder")}
+                value={formData.pronoun}
+                onChange={handleChange}
+                options={pronounOptions}
+                isOther={true}
+              />
+            </div>
+
+            {/* Privacy Checkbox - Full width */}
+            <div className="flex items-center gap-2 text-sm text-gray-500 py-2">
               <div className="relative flex items-center">
                 <input
                   type="checkbox"
@@ -265,111 +271,112 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
               </label>
             </div>
 
-            {/* DOB */}
-            <CustomDatePicker
-              value={formData.dob}
-              onChange={handleDateChange}
-              error={errors.dob}
-              label={`${t("dob")} *`}
-              maxDate={new Date()}
-            />
+            {/* Third Row - DOB and Phone */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <CustomDatePicker
+                value={formData.dob}
+                onChange={handleDateChange}
+                error={errors.dob}
+                label={`${t("dob")} *`}
+                maxDate={new Date()}
+              />
 
-            {/* Phone */}
+              <InputField
+                label={`${t("phone")} `}
+                name="phone"
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                placeholder={t("phonePlaceholder")}
+                type="tel"
+              />
+            </div>
+
+            {/* Social Media Links - Responsive grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <InputField
+                label={`${t("LinkedInLink")} `}
+                name="LinkedInLink"
+                value={formData.LinkedInLink}
+                onChange={handleLinkedInChange}
+                placeholder={t("LinkedInLinkPlaceholder") || "Enter your LinkedIn Link"}
+                className="sm:col-span-1 lg:col-span-1"
+              />
+
+              <InputField
+                label={`${t("instagramLink") || "Instagram Link"} `}
+                name="instagramLink"
+                value={formData.instagramLink}
+                onChange={handleLinkChange}
+                placeholder={t("instagramLinkPlaceholder") || "Enter your Instagram Link"}
+                className="sm:col-span-1 lg:col-span-1"
+              />
+
+              <InputField
+                label={`${t("xLink") || "X Link"} `}
+                name="xLink"
+                value={formData.xLink}
+                onChange={handleLinkChange}
+                placeholder={t("xLinkPlaceholder") || "Enter your X Link"}
+                className="sm:col-span-1 lg:col-span-1"
+              />
+
+              <InputField
+                label={`${t("facebookLink") || "Facebook Link"} `}
+                name="facebookLink"
+                value={formData.facebookLink}
+                onChange={handleLinkChange}
+                placeholder={t("facebookLinkPlaceholder") || "Enter your Facebook Link"}
+                className="sm:col-span-1 lg:col-span-1"
+              />
+            </div>
+
+            {/* Availability - Full width on mobile, half width on larger screens */}
+            <div className="w-full sm:w-1/2">
+              <Selecter
+                name="availabilty"
+                label={`${t("availability")} `}
+                placeholder={t("availabilityPlaceholder") || "Select your availabilty"}
+                value={formData.availabilty}
+                onChange={handleChange}
+                options={availabilityOptions}
+                error={errors.availabilty}
+                isClearable={true}
+              />
+            </div>
+
+            {/* Short Bio - Full width */}
             <InputField
-              label={`${t("phone")} `}
-              name="phone"
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              placeholder={t("phonePlaceholder")}
-              // error={errors.phone}
-              type="tel"
-            />
-
-            {/* LinkedIn */}
-            <InputField
-              label={`${t("LinkedInLink")} `}
-              name="LinkedInLink"
-              value={formData.LinkedInLink}
-              onChange={handleLinkedInChange}
-              placeholder={t("LinkedInLinkPlaceholder") || "Enter your LinkedIn Link"}
-              // error={errors.LinkedInLink}
-            />
-
-            {/* Instagram */}
-            <InputField
-              label={`${t("instagramLink") || "Instagram Link"} `}
-              name="instagramLink"
-              value={formData.instagramLink}
-              onChange={handleLinkChange}
-              placeholder={t("instagramLinkPlaceholder") || "Enter your Instagram Link"}
-              // error={errors.instagramLink}
-            />
-
-            {/* X */}
-            <InputField
-              label={`${t("xLink") || "X Link"} `}
-              name="xLink"
-              value={formData.xLink}
-              onChange={handleLinkChange}
-              placeholder={t("xLinkPlaceholder") || "Enter your X Link"}
-              // error={errors.xLink}
-            />
-
-            {/* Facebook */}
-            <InputField
-              label={`${t("facebookLink") || "Facebook Link"} `}
-              name="facebookLink"
-              value={formData.facebookLink}
-              onChange={handleLinkChange}
-              placeholder={t("facebookLinkPlaceholder") || "Enter your Facebook Link"}
-              // error={errors.facebookLink}
-            />
-
-            {/* Availability */}
-            <Selecter
-              name="availabilty"
-              label={`${t("availability")} `}
-              placeholder={t("availabilityPlaceholder") || "Select your availabilty"}
-              value={formData.availabilty}
+              label={`${t("short_bio")}`}
+              name="short_bio"
+              value={formData.short_bio}
               onChange={handleChange}
-              options={availabilityOptions}
-              error={errors.availabilty}
-              // isOther={true}
-              isClearable={true}
+              placeholder={t("short_bioPlaceholder") || "Enter your short bio"}
             />
 
-            {/* Short Bio */}
-          </div>
-          <InputField
-            label={`${t("short_bio")}`}
-            name="short_bio"
-            value={formData.short_bio}
-            onChange={handleChange}
-            placeholder={t("short_bioPlaceholder") || "Enter your short bio"}
-            // error={errors.short_bio}
-          />
-
-          {/* Location Selector Component */}
-          <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              {`${t("location")} *`}
-            </label>
-            <LocationSelector
-              value={formData.location}
-              onChange={handleLocationChange}
-              error={errors.location}
-            />
+            {/* Location Selector - Full width */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                {`${t("location")} *`}
+              </label>
+              <LocationSelector
+                value={formData.location}
+                onChange={handleLocationChange}
+                error={errors.location}
+              />
+            </div>
           </div>
 
-          <div className="mt-6 block space-y-4">
+          {/* Submit Button */}
+          <div className="mt-6 sm:mt-8 space-y-4">
             <button
               type="submit"
               disabled={isPending}
-              className="btn-fill hover:bg-opacity-90 w-full py-3 text-base font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-fill hover:bg-opacity-90 w-full py-3 sm:py-4 text-base sm:text-lg font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50 rounded-lg"
             >
               {isPending ? (
-                <div>
-                  <Loader inverse />
+                <div className="flex items-center justify-center">
+                  <Loader inverse size="sm" />
+                  <span className="ml-2">Processing...</span>
                 </div>
               ) : (
                 `${t("Next")} >`
@@ -377,8 +384,9 @@ const CreateProfile = ({ isLoading, setActiveTab }) => {
             </button>
           </div>
 
+          {/* Error Message */}
           {error && (
-            <p className="text-center text-sm text-red-500">
+            <p className="text-center text-sm sm:text-base text-red-500 px-2">
               {error?.response?.data?.message || `${t("SomethingWentWrong")}`}
             </p>
           )}

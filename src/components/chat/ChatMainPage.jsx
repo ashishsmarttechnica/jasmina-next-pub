@@ -9,13 +9,13 @@ const ChatMainFeed = () => {
   return (
 
     <ConnectionsLayout RightComponents={[<UserMightKnow key="right1" />]}>
-    <div className="space-y-5">
-      <ChatConnection
-       key="left1" title="Meassage"
-      />
+      <div className="space-y-5">
+        <ChatConnection
+          key="left1" title="Meassage"
+        />
 
-    </div>
-  </ConnectionsLayout>
+      </div>
+    </ConnectionsLayout>
   );
 };
 

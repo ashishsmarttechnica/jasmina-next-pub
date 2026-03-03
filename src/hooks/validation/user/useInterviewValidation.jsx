@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const useInterviewValidation = () => {
   const [errors, setErrors] = useState({});
-  const t = useTranslations("Interview");
+  // const t = useTranslations("Interview");
 
   const validateForm = (formData) => {
     const newErrors = {};

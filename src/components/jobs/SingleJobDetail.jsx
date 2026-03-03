@@ -9,30 +9,39 @@ import useAppliedJobStore from "@/store/appliedJob.store";
 import useJobStore from "@/store/job.store";
 import Cookies from "js-cookie";
 // import { useRouter } from "next/navigation";
+import noPostImage from "@/assets/feed/no-post.svg";
 import { useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { IoClipboardOutline } from "react-icons/io5";
+import { IoClipboardOutline, IoMailOutline } from "react-icons/io5";
 import { LuBookmark } from "react-icons/lu";
 import { MdBookmark } from "react-icons/md";
 import { toast } from "react-toastify";
 import { removeJob } from "../../api/job.api";
+import Share from "../../assets/svg/feed/Share";
 import Bar from "../../assets/svg/jobs/Bar";
 import Colors from "../../assets/svg/jobs/colors";
 import ImageFallback from "../../common/shared/ImageFallback";
-//
+import getImg from "../../lib/getImg";
 
-const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
+const SingleJobDetail = ({ job, logoImage, onBack, hideApplyButton, searchFilters = {} }) => {
   // if (!job) return <div>Loading job details...</div>;
-  console.log(job, "job");
+
+
+
   const [bookmarked, setBookmarked] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const saveJob = useJobStore((s) => s.saveJob);
   const t = useTranslations("Jobs");
+  const locale = useLocale();
   const savedJobs = useJobStore((s) => s.savedJobs);
   const appliedJobs = useAppliedJobStore((s) => s.appliedJobs);
   const router = useRouter();
+  const [isShareLoading, setIsShareLoading] = useState(false);
+  const [totalShare, setTotalShare] = useState(job?.totalShare || 0);
+  const AppliedStatus = job?._raw?.application?.status;
+
   // Check if this job is already saved when component mounts or job changes
   useEffect(() => {
     if (job && savedJobs && Array.isArray(savedJobs)) {
@@ -56,6 +65,13 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
     }
   }, [job, appliedJobs]);
 
+  const handleApplyLink = () => {
+    if (job?._raw?.careerWebsite) {
+      window.open(job?._raw?.careerWebsite, "_blank");
+    } else {
+      toast.error("No career website link available");
+    }
+  };
   const toggleBookmark = () => {
     const userId = Cookies.get("userId");
     if (!userId) {
@@ -92,6 +108,25 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
   const handleApplyNow = () => {
     router.push(`/jobs/apply-now/${job?._id}/${job?.title}`);
   };
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: job?.title || "Check out this job!",
+          text:
+            job?.description?.replace(/<[^>]+>/g, "")?.slice(0, 100) || "Amazing job opportunity!",
+          url: `${window.location.origin}/${locale}/jobs/${id}`,
+        });
+        // If you have a shareJob mutation, call it here: shareJob(id);
+        setTotalShare((prev) => prev + 1);
+        toast.success("Job shared successfully");
+      } catch (error) {
+        toast.error("Share cancelled or failed");
+      }
+    } else {
+      toast.info("Share unsupported");
+    }
+  };
 
   return (
     <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 md:mt-0">
@@ -102,93 +137,178 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         ← Back to job list
       </button> */}
 
-      <h3 className="mb-2 flex justify-between text-lg font-semibold text-black">
-        {job?.title}
-        <span onClick={toggleBookmark} className="cursor-pointer">
-          {bookmarked ? (
-            <MdBookmark className="text-xl text-[#888DA8]" />
-          ) : (
-            <LuBookmark className="text-xl text-[#888DA8]" />
-          )}
-        </span>
+      <h3 className="mb-2 flex justify-between px-2 text-lg font-semibold text-black">
+        <div className="w-full max-w-[90%] text-lg break-words whitespace-normal">{job?.title}</div>
+        <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1">
+            <div className="block gap-2">
+              {AppliedStatus === "0" && (
+                <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                  New
+                </span>
+              )}
+              {AppliedStatus === "1" && (
+                <span className="inline-block rounded bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                  New
+                </span>
+              )}
+              {AppliedStatus === "2" && (
+                <span className="inline-block rounded bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
+                  Interviewing
+                </span>
+              )}
+              {AppliedStatus === "3" && (
+                <span className="inline-block rounded bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
+                  Approved
+                </span>
+              )}
+              {AppliedStatus === "4" && (
+                <span className="inline-block rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
+                  Rejected
+                </span>
+              )}
+              {AppliedStatus === "5" && (
+                <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
+                  Hired
+                </span>
+              )}
+              {AppliedStatus === "6" && (
+                <span className="inline-block rounded bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
+                  Reviewed
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => handleShare(job?._id)}
+              disabled={isShareLoading}
+              className={`share-btn px-2 text-xl ${isShareLoading ? "cursor-not-allowed opacity-50" : ""}`}
+              title="Share"
+            >
+              <Share width={18} height={18} className="text-[#888DA8]" />
+            </button>
+            {/* <div className="text-sm text-[#888DA8]">
+              {isShareLoading ? <LoaderIcon /> : totalShare}
+            </div> */}
+          </div>
+          <span onClick={toggleBookmark} className="cursor-pointer">
+            {bookmarked ? (
+              <MdBookmark className="text-xl text-[#888DA8]" />
+            ) : (
+              <LuBookmark className="text-xl text-[#888DA8]" />
+            )}
+          </span>
+        </div>
       </h3>
 
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         <IoClipboardOutline className="h-4 w-4" />
-        {job?.experience}
+        <span className="leading-relaxed break-words">{job?.experience}</span>
       </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         <HiOutlineLocationMarker className="h-4 w-4" />
-        {job?.location}
+        <span className="leading-relaxed break-words">{job?.location}</span>
+      </div>
+      <div>
+        {job?._raw?.applyVia && (
+          <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+            <IoMailOutline className="h-4 w-4" />
+            <a
+              href={`mailto:${job?._raw?.applyVia}`}
+              className="cursor-pointer text-blue-600 hover:text-blue-800 hover:underline leading-relaxed break-all"
+            >
+              {job?._raw?.applyVia}
+            </a>
+          </div>
+        )}
       </div>
       <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
         {/* <Colors width={13} height={13} /> */}
         <div className="mb-2 flex items-center gap-3 text-sm text-[#888DA8]">
           {job?.genderPrefereance === "lgbtq" && <Colors className="h-5 w-5" />}
           {job?.genderPrefereance === "nonlgbtq" && <Bar className="h-5 w-5" />}
-          <span>{job?.genderPrefereance}</span>
+          <span className="leading-relaxed break-words">{job?.genderPrefereance}</span>
         </div>
       </div>
-
-      {!hideApplyButton && (
-        <button
-          className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${
-            hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
-          }`}
-          onClick={handleApplyNow}
-          disabled={hasApplied}
-        >
-          {hasApplied ? t("alreadyApplied") : t("applyNow")}
-        </button>
-      )}
+      <div className="flex items-center gap-2">
+        {!hideApplyButton && (
+          <button
+            className={`mt-3 rounded px-4 py-1.5 text-sm font-medium text-white ${hasApplied ? "cursor-not-allowed bg-gray-400" : "bg-green-700 hover:bg-green-800"
+              }`}
+            onClick={handleApplyNow}
+            disabled={hasApplied}
+          >
+            {hasApplied ? t("alreadyApplied") : t("applyNow")}
+          </button>
+        )}
+        {job?._raw?.careerWebsite && (
+          <button
+            className="mt-3 rounded bg-green-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-green-800"
+            onClick={handleApplyLink}
+          >
+            {t("ApplyOncompany")}
+          </button>
+        )}
+      </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-gray-700">
         <h4 className="mb-2 font-medium">{t("QuickInfoSection")}</h4>
         <ul className="space-y-2 text-sm text-[#888DA8]">
           <li className="flex items-center gap-2">
             <ClockSvg />
-            {job?.type}
+            <span className="leading-relaxed break-words">{job?.type}</span>
           </li>
           <li className="flex items-center gap-2">
             <Experience />
-            {t("experience")}: {job?.experience}
+            <span className="leading-relaxed break-words">{t("experience")}: {job?.experience}</span>
           </li>
           <li className="flex items-center gap-2">
             <BookEducation />
-            {t("Education")}: {job?.education}
+            <span className="leading-relaxed break-words">{t("Education")}: {job?.education}</span>
           </li>
           <li className="flex items-center gap-2">
             <Dollar />
-            {t("Salary")}: {job?.salary}
+            <span className="leading-relaxed break-words">{t("Salary")}: {job?.salary}</span>
           </li>
           <li className="flex items-center gap-2">
             <Graph />
-            {t("Seniority")}: {job?.seniority}
+            <span className="leading-relaxed break-words">{t("Seniority")}: {job?.seniority}</span>
           </li>
           <li className="flex items-center gap-2">
             <PeopleSvg />
-            {t("Applicants")}: {job?.applicants}
+            <span className="leading-relaxed break-words">{t("Applicants")}: {job?.applicants}</span>
           </li>
         </ul>
       </div>
 
       <div className="mt-4 border-t border-slate-100 pt-3 text-sm text-[#888DA8]">
         <h4 className="mb-2 font-medium text-black">{t("JobDescription")}</h4>
-        <div
-          className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
-          dangerouslySetInnerHTML={{ __html: job?.description }}
-        />
-        <div
-          className="indesc mt-2 w-full max-w-full text-[13px] break-words whitespace-normal"
-          dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
-        />
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
-          <div
-            className="indesc w-full max-w-full text-[13px] break-words whitespace-normal"
-            dangerouslySetInnerHTML={{ __html: job?.responsibilities }}
-          />
+        <div className="leading-relaxed job-description text-gray-700">
+          {job.description ? (
+            <div className="w-full max-w-[100%] text-lg break-words whitespace-normal">
+              {job.description.includes('<') ? (
+                <div dangerouslySetInnerHTML={{ __html: job.description }} />
+              ) : (
+                <p className="w-full max-w-[100%] text-sm break-words whitespace-normal">{job.description}</p>
+              )}
+            </div>
+          ) : (
+            <p className="text-gray-500">No description available</p>
+          )}
         </div>
+        {job?.responsibilities && (
+          <div className="mt-4 border-t border-slate-100 pt-3">
+            <h4 className="mb-2 font-medium text-black">{t("JobResponsibilities")}</h4>
+
+            <div className="w-full max-w-[100%] text-lg break-words whitespace-normal">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: job?.responsibilities || "No content available",
+                }}
+                className="w-full max-w-[100%] text-sm break-words whitespace-normal"
+              ></div>
+            </div>
+          </div>
+        )}
         <div className="mt-4 border-t border-slate-100 pt-3">
           <h4 className="mb-2 font-medium text-black">{t("JobRequirements")}</h4>
           <ul className="mt-2 grid max-w-full list-disc grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -205,17 +325,16 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         <div>
           <div className="mt-3 flex flex-col items-start gap-2 border-t border-slate-100 pt-3 sm:flex-row">
             <ImageFallback
-              src={job.company.logoUrl}
+              src={job?.logoImage ? getImg(job?.logoImage) : undefined}
+              fallbackSrc={noPostImage}
               alt="logo"
               width={28}
               height={28}
               className="mt-1 rounded-md"
             />
             <div className="flex w-full flex-col">
-              <div className="text-sm text-gray-500">
-                {job.company?.companyName || "Unknown Company"}{" "}
-              </div>
-              <div className="w-full max-w-full text-[13px] break-words whitespace-normal">
+              <div className="text-sm text-gray-500 leading-relaxed break-words">{job.company || "Unknown Company"} </div>
+              <div className="w-full max-w-full text-[13px] break-words whitespace-normal leading-relaxed">
                 {job.website}
               </div>
             </div>
@@ -223,6 +342,7 @@ const SingleJobDetail = ({ job, onBack, hideApplyButton }) => {
         </div>
       </div>
     </div>
+    // </div >
   );
 };
 

@@ -5,9 +5,9 @@ import Selecter from "@/common/Selecter";
 import ReusableForm from "@/components/form/ReusableForm";
 import useJobDetailsValidation from "@/hooks/validation/job/useJobDetailsValidation";
 import useLocationStore from "@/store/location.store";
-import { useCallback, useEffect, useState } from "react";
 import { useDepartmentOptions, useEmployeTypeOptions } from "@/utils/selectOptions";
 import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
 
 const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => {
   const { errors, setErrors, validateForm, clearError, clearLocationErrors } =
@@ -15,11 +15,12 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
   const [locationComplete, setLocationComplete] = useState(false);
   const { resetLocation } = useLocationStore();
   const t = useTranslations("CompanyProfile");
+  const tj = useTranslations("CreateJobForm");
   // Check if location is complete with proper format (city, state, country)
   useEffect(() => {
     if (formData.jobLocation) {
       const parts = formData.jobLocation.split(",").map((part) => part.trim());
-      setLocationComplete(parts.length === 3 && parts[0] && parts[1] && parts[2]);
+      setLocationComplete(parts.length >= 1 && parts[0]); // Only country required
     } else {
       setLocationComplete(false);
     }
@@ -69,12 +70,10 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
       if (val) {
         onChange({ jobLocation: val });
 
-        // Check if the location has all three parts
+        // Only require country
         const parts = val.split(",").map((part) => part.trim());
-        if (parts.length === 3 && parts[0] && parts[1] && parts[2]) {
+        if (parts.length >= 1 && parts[0]) {
           setLocationComplete(true);
-
-          // Clear location error
           clearError("jobLocation");
         } else {
           setLocationComplete(false);
@@ -166,7 +165,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
                   />
                 </svg>
               </span>
-              {t('RemoteJob')}
+              {t("RemoteJob")}
             </label>
             <button
               type="button"
@@ -185,7 +184,7 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
           {!formData.isRemote && (
             <>
               <div className="col-span-2 space-y-1">
-                <label className="block text-sm font-medium text-gray-700">{t('JobLocation')}</label>
+                <label className="block text-sm font-medium text-gray-700">{t("JobLocation")}</label>
                 <LocationSelector
                   value={formData.jobLocation}
                   onChange={handleLocationChange}
@@ -196,19 +195,18 @@ const AddJobDetails = ({ formData, onChange, errors: parentErrors, onNext }) => 
 
               <InputField
                 name="jobArea"
-                label={t("JobArea")}
+                label={t("fulladdress")}
                 value={formData.jobArea}
                 onChange={handleChange}
                 placeholder={t("EnterJobArea")}
                 parentClassName="col-span-2"
-                error={errors.jobArea}
               />
             </>
           )}
 
           <div className="col-span-2">
             <button type="submit" className="btn-fill">
-              {t("Next")}
+              {tj("common.next")}
             </button>
           </div>
         </div>

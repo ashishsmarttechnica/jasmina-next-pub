@@ -1,10 +1,44 @@
-import React from "react";
+"use client";
+
+import { getFooterLink, getPages } from "@/api/pages.api";
 import footerLogo from "@/assets/footer/footerLogo.png";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 
 const Footer = () => {
   const t = useTranslations("footer");
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const { data: pagesResponse, isLoading: isLoadingPages } = useQuery({
+    queryKey: ["pages", "footer", locale],
+    queryFn: () => getPages(locale),
+  });
+  const { data: footerLinkResponse, isLoading: isLoadingFooterLink } = useQuery({
+    queryKey: ["footerLink", locale],
+    queryFn: () => getFooterLink(locale),
+  });
+ // console.log(footerLinkResponse?.data?.socialLinks, "footerLinkResponse?.data?.data?.socialLinks");
+
+
+ // console.log(footerLinkResponse, "footerLinkResponse-------");
+
+
+  //
+
+  const pages = Array.isArray(pagesResponse?.data)
+    ? pagesResponse.data
+    : [];
+  const isRTL = locale === "ar";
+
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
+
+  // No useEffect; fetching handled by React Query
+
   return (
     <footer>
       <div className="py-16 bg-white">
@@ -44,14 +78,45 @@ const Footer = () => {
                     {t("SupportHelp")}
                   </h3>
                   <ul className="text-grayBlueText text-base">
-                    <li className="pb-1.5">
-                      {t("SupportHelpMenu.HelpCenter")}
+                    {/* <li className="pb-1.5">
+                      {t("SupportHelpMenu.FAQ")}
+                    </li> */}
+                    <li
+                      className={`pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200 ${pathname === "/contact" ? "text-primary font-medium" : ""}`}
+                      onClick={() => handleNavigation("/contact")}
+                    >
+                      {t("SupportHelpMenu.ContactUs")}
                     </li>
-                    <li className="pb-1.5">{t("SupportHelpMenu.ContactUs")}</li>
-                    <li className="pb-1.5">
+                    {/* <li
+                      className="pb-1.5 cursor-pointer hover:text-primary transition-colors duration-200"
+                      onClick={() => handleNavigation("/privacy-policy")}
+                    >
                       {t("SupportHelpMenu.PrivacyPolicy")}
                     </li>
-                    <li className="">{t("SupportHelpMenu.TermsService")}</li>
+                    <li
+                      className="cursor-pointer hover:text-primary transition-colors duration-200"
+                      onClick={() => handleNavigation("/terms-conditions")}
+                    >
+                      {t("SupportHelpMenu.TermsService")}
+                    </li> */}
+                    {pages.map((val) => (
+                      <li className="pb-1.5" key={val?._id ?? val?.path}>
+                        <Link
+                          href={`/pagedetail/${val?.path}`}
+                          aria-current={
+                            pathname?.includes(`/pagedetail/${val?.path}`)
+                              ? "page"
+                              : undefined
+                          }
+                          className={`cursor-pointer transition-colors duration-200 hover:text-primary ${pathname?.includes(`/pagedetail/${val?.path}`)
+                            ? "text-primary font-medium"
+                            : "text-inherit"
+                            }`}
+                        >
+                          {val?.page_title || val?.information_name || val?.path}
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -62,10 +127,39 @@ const Footer = () => {
             <div>
               <div>
                 <ul className="text-grayBlueText sm:flex-row flex-col flex items-start justify-start sm:gap-6 text-base">
-                  <li>{t("socialMenu.LinkedIn")}</li>
+                  {/* <li>{t("socialMenu.LinkedIn")}</li>
                   <li>{t("socialMenu.twitter")}</li>
                   <li>{t("socialMenu.Facebook")}</li>
-                  <li>{t("socialMenu.Instagram")}</li>
+                  <li>{t("socialMenu.Instagram")}</li> */}
+                  {footerLinkResponse?.data?.socialLinks &&
+                    Object.entries(footerLinkResponse.data.socialLinks).map(([name, link], index) => {
+                      // if (name.toLowerCase() === "twitter") return null;
+                      // Check if both name and link exist and are valid
+                      const hasValidName = name && name.trim() !== "";
+                      const hasValidLink = link && link.trim() !== "";
+                      const shouldBeClickable = hasValidName && hasValidLink;
+                      const displayName =
+                        name.toLowerCase() === "twitter" ? "X" : name.charAt(0).toUpperCase() + name.slice(1);
+                      return (
+                        <li key={index}>
+                          {shouldBeClickable ? (
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:text-primary transition-colors duration-200 cursor-pointer"
+                            >
+                              {displayName}
+                            </a>
+                          ) : (
+                            <span className="text-gray-400 cursor-not-allowed">
+                              {hasValidName ? displayName : "Social Link"}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })
+                  }
                 </ul>
               </div>
             </div>

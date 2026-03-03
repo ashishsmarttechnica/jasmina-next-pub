@@ -1,13 +1,15 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const useRequirementsValidation = () => {
   const [errors, setErrors] = useState({});
+  const t = useTranslations("CreateJobForm");
 
   const validateForm = (formData) => {
     const newErrors = {};
 
     if (!formData.description?.trim()) {
-      newErrors.description = "Job description is required";
+      newErrors.description = t("requirementsStep.descriptionRequired");
     }
 
     // Not validating seniorityLevel since it has a default value

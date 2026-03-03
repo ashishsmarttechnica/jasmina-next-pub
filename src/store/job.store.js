@@ -18,7 +18,7 @@ const useJobStore = create((set, get) => ({
   setPagination: (pagination) => set({ pagination }),
   addJob: (job) => set((state) => ({ jobs: [job, ...state.jobs] })),
   clearJobs: () => set({ jobs: [], pagination: {} }),
-  setSelectedJob: (job) => set({ selectedJob: job }), 
+  setSelectedJob: (job) => set({ selectedJob: job }),
   getSavedJobs: async ({ userId, onSuccess, onError }) => {
     try {
       set({ isLoading: true, error: null });

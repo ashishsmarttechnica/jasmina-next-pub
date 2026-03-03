@@ -1,5 +1,6 @@
 "use client";
 
+import MobileCompanyProfile from "@/common/MobileCompanyProfile";
 import UserMightKnow from "@/common/UserMightKnow";
 import { useSingleCompany } from "@/hooks/company/useSingleCompany";
 import CompanyConnectionsLayout from "@/layout/CompanyConnectionsLayout";
@@ -19,9 +20,9 @@ const MainSingleCompany = () => {
 
   // Check if user came from network invites
   const fromNetworkInvites = searchParams?.get("fromNetworkInvites") === "true";
+  const fromConnections = searchParams?.get("fromConnections") === "true";
 
   const { data: userData, isLoading, error } = useSingleCompany(userId);
-  // console.log(userData);
   if (error) {
     return <div>Error loading user data</div>;
   }
@@ -32,8 +33,8 @@ const MainSingleCompany = () => {
 
   // Conditionally include MainCompanyProfile based on query parameter
   const rightComponents = [];
-  
-  if (!fromNetworkInvites) {
+
+  if (!fromNetworkInvites && !fromConnections) {
     rightComponents.push(
       <MainCompanyProfile
         key="right2"
@@ -43,14 +44,17 @@ const MainSingleCompany = () => {
       />
     );
   }
-  
+
   rightComponents.push(<UserMightKnow key="right1" />);
 
   return (
-    <CompanyConnectionsLayout
-      RightComponents={rightComponents}
-    >
+    <CompanyConnectionsLayout RightComponents={rightComponents}>
       <div className="space-y-5">
+        {/* Mobile Company Profile - Only visible on mobile */}
+        <div className="md:hidden">
+          <MobileCompanyProfile />
+        </div>
+
         {mainContent ? (
           mainContent
         ) : (

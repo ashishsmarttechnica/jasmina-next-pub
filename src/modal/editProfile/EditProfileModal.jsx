@@ -2,6 +2,7 @@
 
 import Uploadimg from "@/assets/form/Uploadimg.png";
 import ImageUploader from "@/common/ImageUploader";
+import WhoCanSeeYourProfileWrapper from "@/components/user/createUserProfile/WhoCanSeeYourProfileWrapper";
 import useUpdateProfile from "@/hooks/user/useUpdateProfile";
 import useEditProfileValidation from "@/hooks/validation/user/useEditProfileValidation";
 import getImg from "@/lib/getImg";
@@ -17,9 +18,10 @@ import PersonalInformationForm from "./PersonalInformationForm";
 
 const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const { user, setUser } = useAuthStore();
-
+  // console.log(descriptionData);
   const { mutate: updateProfile, isPending, error } = useUpdateProfile();
   const t = useTranslations("UserProfile.education");
+  const r = useTranslations("UserProfile.resume");
   const { resetLocation } = useLocationStore();
 
   // Use the centralized validation hook
@@ -29,19 +31,30 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
   const personalRef = useRef();
   const jobRef = useRef();
   const educationSkillsRef = useRef();
+  const whoCanSeeRef = useRef();
 
   // Image state
   const [selectedImage, setSelectedImage] = useState(Uploadimg);
   const [selectedUserImageFile, setSelectedUserImageFile] = useState(null);
   const [availability, setAvailability] = useState(descriptionData?.profile?.availabilty || "");
-
+  // console.log(descriptionData?.profile?.availabilty, "availabilit0---------y");
   // Proficiency options for skills/languages
   const proficiencyOptions = useProficiencyOptions();
   const categoryOptions = useSkillCategoryOptions();
+  const [selectedResumeFile, setSelectedResumeFile] = useState(null);
+  const [existingResume, setExistingResume] = useState(descriptionData?.resume || null);
+  const [resumeError, setResumeError] = useState("");
+  // console.log(selectedResumeFile, "selectedResumeFile");
 
   const handleAvailabilityChange = (newAvailability) => {
     setAvailability(newAvailability);
   };
+  useEffect(() => {
+    if (descriptionData?.resume) {
+      setExistingResume(user?.resume);
+      // console.log(existingResume, "existingResume");
+    }
+  }, [descriptionData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +69,7 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
 
     // If validation fails, stop form submission
     if (!isValid) {
-      console.log("Form validation failed:", errors);
+    // console.log("Form validation failed:", errors);
       return;
     }
 
@@ -80,16 +93,20 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
     formData.append("profile.x", personalData.x);
     formData.append("profile.facebook", personalData.facebook);
     formData.append("profile.email", personalData.email);
+    formData.append("profile.short_bio", personalData.short_bio);
 
     // Preferences fields - only append if availability is not "Not Available"
-    if (availability !== "Not Available") {
+    if (availability !== "Not Available" && availability !== "" && availability?.trim() !== "") {
       formData.append("preferences.jobRole", preferencesData.jobRole);
       formData.append("preferences.jobType", preferencesData.jobType);
       formData.append("preferences.expectedSalaryRange", preferencesData.salaryRange);
       formData.append("preferences.currency", preferencesData.currency);
       formData.append("preferences.availableFrom", preferencesData.joindate);
       formData.append("preferences.preferredLocation", preferencesData.workLocation);
-      formData.append("preferences.yearsOfExperience", preferencesData.experience);
+      // Experience field is optional - only send if it has a valid value
+      if (preferencesData?.experience && String(preferencesData?.experience).trim() !== "") {
+        formData.append("preferences.yearsOfExperience", preferencesData?.experience);
+      }
       if (preferencesData.industry)
         formData.append("preferences.preferredIndustry", preferencesData.industry);
     }
@@ -131,11 +148,24 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       formData.append("profile.photo", selectedUserImageFile);
     }
 
+    // Visibility (WhoCanSeeYourProfile)
+    const whoCanSeeData = whoCanSeeRef.current?.getData?.();
+    if (whoCanSeeData) {
+      formData.append("visibility.isPublic", whoCanSeeData.isPublic);
+      formData.append(
+        "visibility.onlyLGBTQFriendlyCompanies",
+        whoCanSeeData.onlyLGBTQFriendlyCompanies
+      );
+      formData.append("visibility.visibleTo", whoCanSeeData.visibleTo);
+    }
+
+    if (selectedResumeFile instanceof File) {
+      formData.append("resume", selectedResumeFile);
+    }
     updateProfile(formData, {
       onSuccess: (res) => {
         if (res.success) {
           onClose();
-          window.location.reload();
         }
       },
     });
@@ -150,6 +180,19 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
       setAvailability(descriptionData?.profile?.availabilty);
     }
   }, [descriptionData]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        setResumeError(r("fileSizeError"));
+        e.target.value = "";
+        return;
+      }
+      setSelectedResumeFile(file);
+      setResumeError("");
+    }
+  };
 
   return (
     <Modal
@@ -186,12 +229,13 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           />
         </div>
-        {availability !== "Not Available" && (
+        {availability !== "Not Available" && availability !== "" && availability?.trim() !== "" && (
           <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
             <JobPreferencesForm
               ref={jobRef}
               initialData={descriptionData?.preferences}
               errors={errors?.job || {}}
+              availability={availability}
               clearFieldError={clearError}
               className="grid grid-cols-1 gap-4 md:grid-cols-2"
             />
@@ -211,6 +255,55 @@ const EditProfileModal = ({ open, onClose, descriptionData }) => {
             clearFieldError={clearError}
             proficiencyOptions={proficiencyOptions}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          />
+        </div>
+        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+          <div className="my-2 flex flex-col gap-2">
+            <div className="text-lg font-semibold text-gray-800">{r("title")}</div>
+            {existingResume && !selectedResumeFile ? (
+              <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm">
+                <a
+                  href={getImg(existingResume)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" font-medium hover:underline"
+                >
+                  {r("viewExistingCv")}
+                </a>
+                <Button
+                  size="sm"
+                  onClick={() => setExistingResume(null)}
+                  className="ml-3 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100"
+                >
+                  {r("Replace")}
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <label for="cv" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 bg-white px-4 py-6 text-center shadow-sm hover:border-primary-500 hover:bg-gray-50">
+                  <span className="text-sm text-gray-600">
+                    {selectedResumeFile ? selectedResumeFile.name : `${r("ClickToUpload")}`}
+                  </span>
+                  <span className="mt-1 text-xs text-gray-400">{r("docType")}</span>
+                  <input
+                    id="cv"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </label>
+                {resumeError && (
+                  <p className="mt-2 text-xs text-red-500">{resumeError}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="rounded-xl bg-gray-50 p-4 shadow-sm">
+          <WhoCanSeeYourProfileWrapper
+            ref={whoCanSeeRef}
+            initialData={descriptionData?.visibility}
           />
         </div>
       </Modal.Body>

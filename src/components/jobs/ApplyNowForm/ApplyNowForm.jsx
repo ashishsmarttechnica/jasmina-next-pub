@@ -18,7 +18,7 @@ const ApplyNowForm = ({ jobId }) => {
     email: "",
     phone: "",
     linkedinUrl: "",
-    portfolioUrl: "",
+    // portfolioUrl: "",
     pronouns: "",
     location: "",
     preferredStartDate: "",
@@ -26,6 +26,7 @@ const ApplyNowForm = ({ jobId }) => {
     currentAvailability: "",
     salaryExpectation: "",
     salaryExpectationMax: "",
+    notes: "",
     message: "",
     expYears: "0",
     attachments: "",
@@ -40,8 +41,10 @@ const ApplyNowForm = ({ jobId }) => {
   const { user } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("UserProfile.profile");
+  const r = useTranslations("UserProfile.resume");
   const pronounOptions = usePronounOptions();
-
+  const [isChecked, setIsChecked] = useState(false);
+  const [fileError, setFileError] = useState("");
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -75,26 +78,13 @@ const ApplyNowForm = ({ jobId }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Validate file extension
-      const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
-      const fileExtension = file.name.split(".").pop().toLowerCase();
-      if (!validExtensions.includes(`.${fileExtension}`)) {
-        setErrors((prev) => ({
-          ...prev,
-          cv: t("InvalidFileFormatError"),
-        }));
-        setSelectedFile(null);
+      if (file.size > 1024 * 1024) {
+        setErrors((prev) => ({ ...prev, cv: r("fileSizeError") }));
+        e.target.value = "";
         return;
-      } else {
-        clearFieldError(t("cv"));
       }
       setSelectedFile(file);
-    } else {
-      setErrors((prev) => ({
-        ...prev,
-        cv: t("InvalidFileFormatErrorFile"),
-      }));
-      setSelectedFile(null);
+      clearFieldError(t("cv"));
     }
   };
 
@@ -108,7 +98,27 @@ const ApplyNowForm = ({ jobId }) => {
 
   const handleAdditionalFilesChange = (event) => {
     const files = Array.from(event.target.files);
-    setAdditionalFiles((prev) => [...prev, ...files]);
+    if (!files.length) return;
+
+    let hasError = false;
+
+    const validFiles = files.filter((file) => {
+      if (file.size > 1024 * 1024) {
+        hasError = true;
+        return false;
+      }
+      return true;
+    });
+
+    if (hasError) {
+      setFileError(r("eachFileSizeError"));
+    } else {
+      setFileError(""); // clear error when all valid
+    }
+
+    if (validFiles.length > 0) {
+      setAdditionalFiles((prev) => [...prev, ...validFiles]);
+    }
   };
 
   const removeAdditionalFile = (index) => {
@@ -117,15 +127,20 @@ const ApplyNowForm = ({ jobId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm({ ...formData, cv: selectedFile })) {
       return;
     }
 
-    const validExtensions = [t("pdf"), t("doc"), t("docx"), t("tex"), t("webp")];
+    if (!isChecked) {
+      toast.warning("Please check select the checkbox to apply for the job");
+      return;
+    }
+
+    // Validate file extension
+    const validExtensions = [".pdf", ".doc", ".docx", ".tex", ".webp"];
     const fileExtension = selectedFile?.name.split(".").pop();
 
-    if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
+    if (selectedFile && !validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
       setErrors({ ...errors, cv: t("InvalidFileFormatError") });
       return;
     }
@@ -146,7 +161,7 @@ const ApplyNowForm = ({ jobId }) => {
     // Optional fields - only append if they have values
     if (formData.phone) submitData.append("phone", formData.phone);
     if (formData.linkedinUrl) submitData.append("linkedinUrl", formData.linkedinUrl);
-    if (formData.portfolioUrl) submitData.append("portfolioUrl", formData.portfolioUrl);
+    // if (formData.portfolioUrl) submitData.append("portfolioUrl", formData.portfolioUrl);
     if (formData.pronouns) submitData.append("pronouns", formData.pronouns);
     if (formData.location) submitData.append("location", formData.location);
     if (formData.preferredStartDate)
@@ -157,7 +172,7 @@ const ApplyNowForm = ({ jobId }) => {
       submitData.append("salaryExpectation", formData.salaryExpectation);
 
     if (formData.message) submitData.append("message", formData.message);
-
+    if (formData.notes) submitData.append("notes", formData.notes);
     // Additional files
     additionalFiles.forEach((file) => {
       submitData.append("attechments", file);
@@ -172,7 +187,7 @@ const ApplyNowForm = ({ jobId }) => {
           email: "",
           phone: "",
           linkedinUrl: "",
-          portfolioUrl: "",
+          // portfolioUrl: "",
           pronouns: "",
           location: "",
           preferredStartDate: "",
@@ -183,6 +198,7 @@ const ApplyNowForm = ({ jobId }) => {
         });
         setSelectedFile(null);
         setAdditionalFiles([]);
+        setIsChecked(false);
 
         setTimeout(() => {
           router.push("/jobs/applied-jobs");
@@ -239,11 +255,11 @@ const ApplyNowForm = ({ jobId }) => {
                 type="file"
                 id="cv"
                 name="cv"
-                accept=".pdf,.doc,.docx,.tex,.webp"
+                accept=".pdf,.doc,.docx,.tex"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="absolute inset-0 cursor-pointer opacity-0"
-                // required
+              // required
               />
 
               <p className="mt-2 text-[12px] text-gray-600">
@@ -251,6 +267,18 @@ const ApplyNowForm = ({ jobId }) => {
               </p>
             </div>
             {errors.cv && <p className="mt-1 text-sm text-red-500">{errors.cv}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="text-grayBlueText mb-1 block text-[14px]">{`${t("CoverLetter")}*`}</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
+              rows="4"
+              placeholder={t("Writeyourmessage")}
+            />
+            {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
           </div>
 
           <h2 className="mt-2 mb-2 text-left text-[16px] font-medium text-black">
@@ -272,13 +300,13 @@ const ApplyNowForm = ({ jobId }) => {
             value={formData.linkedinUrl}
             onChange={handleChange}
           />
-
+          {/* 
           <InputField
             label={t("portfolioUrl")}
             name="portfolioUrl"
             value={formData.portfolioUrl}
             onChange={handleChange}
-          />
+          /> */}
 
           <Selecter
             name="pronoun"
@@ -348,6 +376,7 @@ const ApplyNowForm = ({ jobId }) => {
               <FiUpload className="text-2xl text-[#0F8200]" />
               <p className="mt-2 text-[12px] text-gray-600">{t("UploadAdditionalFiles")}</p>
             </div>
+            {fileError && <p className="mt-1 text-sm text-red-500">{fileError}</p>}
             {additionalFiles.length > 0 && (
               <div className="mt-2">
                 {additionalFiles.map((file, index) => (
@@ -366,10 +395,10 @@ const ApplyNowForm = ({ jobId }) => {
             )}
           </div>
           <div className="mb-4">
-            <label className="text-grayBlueText mb-1 block text-[14px]">{t("CoverLetter")}</label>
+            <label className="text-grayBlueText mb-1 block text-[14px]">Notes</label>
             <textarea
-              name="message"
-              value={formData.message}
+              name="notes"
+              value={formData.notes}
               onChange={handleChange}
               className="mt-1 w-full rounded-lg border-[0.78px] border-[#CAB7CC]/[75%] p-2 outline-none"
               rows="4"
@@ -379,7 +408,21 @@ const ApplyNowForm = ({ jobId }) => {
         </div>
 
         <div className="mt-6 mb-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
-          {t("Byapplyingjob")}
+          <div className="flex items-center gap-2">
+            <input
+              id="apply-checkbox"
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+              className="border-grayBlueText/[50%] focus:ring-primary h-4 w-4 border bg-gray-100 text-blue-600 focus:ring-1"
+            />
+            <label
+              htmlFor="apply-checkbox"
+              className="text-grayBlueText text-sm text-[13px] leading-[21px]"
+            >
+              {t("Byapplyingjob")}
+            </label>
+          </div>
         </div>
 
         <button

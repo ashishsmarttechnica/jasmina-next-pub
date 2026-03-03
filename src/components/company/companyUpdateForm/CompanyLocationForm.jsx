@@ -23,8 +23,8 @@ const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clea
         setFormData((prev) => ({
           ...prev,
           country: locationString,
-          // If countryData is provided, use its isLGBTQ property
-          ...(countryData && { isLGBTQ: countryData.isLGBTQ }),
+          // Update isLGBTQ based on country data
+          isLGBTQ: countryData?.isLGBTQ || false,
         }));
 
         clearFieldError("location");
@@ -66,8 +66,8 @@ const CompanyLocationForm = ({ formData, errors, setFormData, handleChange, clea
           value={formData.country}
           onChange={handleLocationChange}
           error={errors.country}
-          isLGBTQ={true}
           countryLabel={`${t("CountryHeadquarters")} *`}
+          isLGBTQ={true}
         />
       </div>
 

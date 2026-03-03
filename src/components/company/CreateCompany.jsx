@@ -6,23 +6,31 @@ import { useRouter } from "@/i18n/navigation";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { Loader } from "rsuite";
 import TermsCheckbox from "../auth/TermsCheckbox";
 import CompanyBasicInfo from "./companyUpdateForm/CompanyBasicInfo";
 import CompanyLocationForm from "./companyUpdateForm/CompanyLocationForm";
 import CompanyMediaForm from "./companyUpdateForm/CompanyMediaForm";
 import CompanySizeForm from "./companyUpdateForm/CompanySizeForm";
+import LGBTQCheckbox from "./LGBTQCheckbox";
+import { useParams } from "next/navigation";
+import { getAllMemberships } from "@/api/membership.api";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateCompany = () => {
   const t = useTranslations("CompanyProfile.industry");
   const { mutate: updateProfile, isPending, error } = useUpdateCompanyProfile();
   const router = useRouter();
 
+  
+
   const [selectedBannerimgImage, setSelectedBannerimgImage] = useState(Bannerimg);
   const [selectedCompanyImageFile, setSelectedCompanyImageFile] = useState(null);
   const [selectedBannerImageFile, setSelectedBannerImageFile] = useState(null);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isLGBTQChecked, setIsLGBTQChecked] = useState(false);
+  const [termsError, setTermsError] = useState("");
+  const [lgbtqError, setLgbtqError] = useState("");
   const [formData, setFormData] = useState({
     companyName: "",
     firstName: "",
@@ -63,11 +71,22 @@ const CreateCompany = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let hasError = false;
     if (!validateForm(formData)) return;
-    if (!isChecked) {
-      toast.warning(t("checkSingUp"));
-      return;
+    if (!isTermsChecked) {
+      setTermsError(t("checkSingUp"));
+      hasError = true;
+    } else {
+      setTermsError("");
     }
+    if (formData.isLGBTQ && !isLGBTQChecked) {
+      setLgbtqError("Please confirm your company's LGBTQ+ commitment to proceed.");
+      hasError = true;
+    } else {
+      setLgbtqError("");
+    }
+
+    if (hasError) return;
 
     const submitData = new FormData();
 
@@ -86,7 +105,7 @@ const CreateCompany = () => {
     } else {
       submitData.append("industryType", formData.industryType);
     }
-
+    // console.log(formData.isLGBTQ, "formData.isLGBTQ");
     submitData.append("companyType", formData.companyType);
     submitData.append("numberOfEmployees", formData.employees);
     submitData.append("tagline", formData.tagline);
@@ -110,7 +129,6 @@ const CreateCompany = () => {
     submitData.append("instagram", formData.instagramLink);
     submitData.append("x", formData.twitterLink);
     submitData.append("facebook", formData.facebookLink);
-
 
     if (selectedCompanyImageFile instanceof File) {
       submitData.append("logoUrl", selectedCompanyImageFile);
@@ -164,7 +182,24 @@ const CreateCompany = () => {
         setSelectedImage={setSelectedBannerimgImage}
         setSelectedBannerImageFile={setSelectedBannerImageFile}
       />
-      <TermsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
+      <TermsCheckbox
+        isChecked={isTermsChecked}
+        setIsChecked={(checked) => {
+          setIsTermsChecked(checked);
+          if (checked) setTermsError("");
+        }}
+        error={termsError}
+      />
+      {/* LGBTQ Checkbox Section */}
+      <LGBTQCheckbox
+        show={formData.country && formData.isLGBTQ === true}
+        isChecked={isLGBTQChecked}
+        setIsChecked={(checked) => {
+          setIsLGBTQChecked(checked);
+          if (checked) setLgbtqError("");
+        }}
+        lgbtqError={lgbtqError}
+      />
 
       <div className="grid grid-cols-1 gap-2">
         <div className="block space-y-4">
@@ -185,4 +220,3 @@ const CreateCompany = () => {
 };
 
 export default CreateCompany;
-

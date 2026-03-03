@@ -5,7 +5,7 @@ const useInterviewValidation = () => {
   const [errors, setErrors] = useState({});
   const t = useTranslations("Interview");
 
-  const validateForm = (formData) => {
+  const validateForm = (formData, isRemote = false) => {
     const newErrors = {};
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -22,9 +22,14 @@ const useInterviewValidation = () => {
       newErrors.startTime = "Start time is required";
     }
 
-    // Address validation
-    if (!formData.address?.trim()) {
+    // Address validation - only required if not remote
+    if (!isRemote && !formData.address?.trim()) {
       newErrors.address = "Address is required";
+    }
+
+    // Online link validation - only required if remote
+    if (isRemote && !formData.onlineLink?.trim()) {
+      newErrors.onlineLink = "Online link is required";
     }
 
     // Time zone validation
@@ -36,7 +41,7 @@ const useInterviewValidation = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const validateField = (name, value) => {
+  const validateField = (name, value, isRemote = false) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     let error = "";
@@ -53,7 +58,11 @@ const useInterviewValidation = () => {
         break;
 
       case "address":
-        if (!value?.trim()) error = "Address is required";
+        if (!isRemote && !value?.trim()) error = "Address is required";
+        break;
+
+      case "onlineLink":
+        if (isRemote && !value?.trim()) error = "Online link is required";
         break;
 
       case "timeZone":

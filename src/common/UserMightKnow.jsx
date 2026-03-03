@@ -3,36 +3,58 @@ import Contact from "@/assets/svg/feed/Contact";
 import Card from "@/common/card/Card";
 import CardHeading from "@/common/card/CardHeading";
 import { useCreateConnection } from "@/hooks/connections/useConnections";
-import { useUserSuggestions } from "@/hooks/user/useUserSuggestions";
+import { useCompanySuggestions, useUserSuggestions } from "@/hooks/user/useUserSuggestions";
 import { useRouter } from "@/i18n/navigation";
 import capitalize from "@/lib/capitalize";
 import getImg from "@/lib/getImg";
-import useUserMightKnowStore from "@/store/userMightKnow.store";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { FaBuilding, FaUser } from "react-icons/fa";
+import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
 import ImageFallback from "./shared/ImageFallback";
 import UserMightKnowSkeleton from "./skeleton/UserMightKnowSkeleton";
-import { NameWithTooltip, SubtitleWithTooltip } from "../utils/tooltipUtils";
+const UserMightKnow = ({ title }) => {
+  const userType = capitalize(Cookies.get("userRole"));
+  // console.log(userType, "userType+++++++++++++++++");
+  const availabilityIcons = {
+    "Open to Work": "🟢",
+    "Available for Freelance": "🟡",
+    "Not Available": "🔴",
+    " Open for Remote Worldwide": "🌍",
+  };
+  // Conditionally use the correct store and hook
+  let suggestions, setSuggestions, resetStore, data, isLoading, isError, error, refetch;
+  if (userType === "Company") {
+    // Only call company suggestions and store
+    const companyStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = companyStore.useCompanySuggestionsStore());
+    ({ data, isLoading, isError, error, refetch } = useCompanySuggestions());
+  } else {
+    // Only call user suggestions and store
+    const userStore = require("@/store/userMightKnow.store");
+    ({ suggestions, setSuggestions, resetStore } = userStore.default());
+    ({ data, isLoading, isError, error, refetch } = useUserSuggestions());
+  }
 
-const UserMightKnow = () => {
-  const { suggestions, setSuggestions, resetStore } = useUserMightKnowStore();
-  const { data, isLoading, isError, error, refetch } = useUserSuggestions();
   const {
     mutate: createConnection,
     isPending,
     isLoading: isCreateConnectionLoading,
   } = useCreateConnection();
   const t = useTranslations("UserMainFeed");
+
   const displayData = suggestions?.results || data?.results;
   const router = useRouter();
 
   const getItemConfig = (item) => {
+    //// console.log(item, "item+++++++++++++++++");
     const configs = {
       User: {
         image: item.profile?.photo,
         name: item.profile?.fullName,
         subtitle: item.preferences?.jobRole,
         showOnline: true,
+        availabilty: item.profile?.availabilty,
         online: item.online,
         type: "User",
         typeColor: "text-blue-600",
@@ -42,7 +64,9 @@ const UserMightKnow = () => {
         image: item.logoUrl,
         name: item.companyName,
         subtitle: item.industryType,
+        isLGBTQFriendly: item.isLGBTQFriendly,
         showOnline: false,
+        availabilty: item.profile?.availabilty,
         online: false,
         type: "Company",
         typeColor: "text-green-600",
@@ -105,11 +129,21 @@ const UserMightKnow = () => {
   }
 
   return (
-    <Card className="md:w-full md:max-w-full xl:max-w-[266px]">
+    <Card className="md:w-full md:max-w-full xl:max-w-[266px] ">
       <CardHeading title={t("mightKnow")} />
-      <div className="flex w-full flex-col gap-2 px-2 py-4">
+      <div
+        className={`flex w-full flex-col gap-2 px-2 py-4 ${displayData.length > 5 ? "max-h-80 overflow-y-auto" : ""
+          }`}
+      >
         {displayData?.map((item) => {
           const config = getItemConfig(item);
+          // console.log(config, "configconfig");
+
+          // console.log(config.image, "hello jkjkjksdjkfksdk00000");
+          // console.log(item?.profile?.fullName
+          // , "item");
+
+
           return (
             <div key={item._id} className="flex w-full items-center justify-between p-2">
               <div className="flex min-w-0 items-center gap-2">
@@ -131,8 +165,18 @@ const UserMightKnow = () => {
                 </div>
                 <div className="min-w-0 text-left">
                   <div className="flex items-center gap-1.5">
-                    <NameWithTooltip name={config.name} id={item._id} onClick={() => handleUserProfile(item)} />
+                    <NameWithTooltip
+                      name={config.name}
+                      id={item._id}
+                      onClick={() => handleUserProfile(item)}
+                    />
                     <span className={config.typeColor}>{config.icon}</span>
+                    {config.availabilty && (
+                      <span className="text-primary text-[9px]">
+                        {availabilityIcons[config?.availabilty] || ""}
+                      </span>
+                    )}
+                    {config.isLGBTQFriendly && <span className="text-primary text-xs">🌈</span>}
                   </div>
                   <SubtitleWithTooltip subtitle={config.subtitle} id={item._id} />
                 </div>
@@ -141,11 +185,10 @@ const UserMightKnow = () => {
               <button
                 onClick={() => handleContactClick(item)}
                 disabled={isCreateConnectionLoading}
-                className={`rounded-sm border p-1.5 transition-colors duration-300 ${
-                  isCreateConnectionLoading
-                    ? "cursor-not-allowed bg-gray-300 opacity-50"
-                    : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
-                }`}
+                className={`rounded-sm border p-1.5 transition-colors duration-300 ${isCreateConnectionLoading
+                  ? "cursor-not-allowed bg-gray-300 opacity-50"
+                  : "bg-secondary hover:border-primary border-transparent hover:bg-transparent"
+                  }`}
               >
                 <Contact className="h-4 w-4" />
               </button>

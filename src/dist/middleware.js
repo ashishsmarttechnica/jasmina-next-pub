@@ -58,6 +58,7 @@ var profileCreationRoutes = {
 // Define shared routes accessible by both user and company
 var sharedRoutes = [
     "/chat",
+    "/addnotifi",
     "/connections",
     "/single-user",
     "/applicationjob/:id",
@@ -67,7 +68,7 @@ var sharedRoutes = [
     "/company/single-company/:id/subscription",
     "/company/single-company/:id/applications",
     "/company/single-company/:id/applications/:subid",
-    "/company/single-company/:id/previousplans"
+    "/company/single-company/:id/previousplans",
 ];
 // Define role-specific routes
 var roleBasedRoutes = {
@@ -77,7 +78,7 @@ var roleBasedRoutes = {
         "/profile",
         "/settings",
         "/jobs",
-        "/notifications",
+        "/addnotifi",
         "/messages",
         "/jobs/apply-now/:id/:name",
     ],

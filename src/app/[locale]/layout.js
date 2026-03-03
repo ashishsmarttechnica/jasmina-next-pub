@@ -1,15 +1,20 @@
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { Ubuntu_Sans } from "next/font/google";
-import "rsuite/dist/rsuite-no-reset.min.css";
-import "@/styles/globals.css";
-import { CustomProvider } from "rsuite";
 import Footer from "@/components/footer/Footer";
+import MobileBottomNav from "@/components/header/MobileBottomNav";
+import { routing } from "@/i18n/routing";
+import AppInit from "@/lib/AppInit";
 import QueryProvider from "@/providers/QueryProvider";
+import "@/styles/globals.css";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { Ubuntu_Sans } from "next/font/google";
+import { notFound } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Add CSS for styling the toast
-import AppInit from "@/lib/AppInit";
+import { CustomProvider } from "rsuite";
+import "rsuite/dist/rsuite-no-reset.min.css";
+import BlockedUserModal from "../../modal/BlockedUserModal";
+import CompanyUnderReviewModal from "../../modal/CompanyUnderReviewModal";
+import UserBlockedModal from "../../modal/UserBlockedModal";
 
 const ubuntu = Ubuntu_Sans({
   variable: "--font-ubuntu",
@@ -27,14 +32,24 @@ export default async function LocaleLayout({ children, params }) {
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html lang={locale} dir={dir}>
       <body className={`${ubuntu.variable} antialiased`}>
         <CustomProvider>
           <QueryProvider>
-            <NextIntlClientProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
               <AppInit />
-              {children}
+              <BlockedUserModal />
+              <CompanyUnderReviewModal />
+              <UserBlockedModal />
+              {/* Spacer for mobile bottom nav so content isn't hidden */}
+              <div className="pb-8 md:pb-0">
+                {children}
+              </div>
+              {/* Mobile Bottom Navigation */}
+              <MobileBottomNav />
               <Footer />
             </NextIntlClientProvider>
           </QueryProvider>

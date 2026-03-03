@@ -4,19 +4,40 @@ export const createJob = async (data) => {
   const res = await axios.post("/create/job", data);
   return res.data;
 };
-export const getRecentJobs = async () => {
-  const res = await axios.get("/recent/job");
+export const getRecentJobs = async (userId) => {
+  const res = await axios.get(`/recent/job?userId=${userId}`);
   return res.data;
 };
 
-export const getJobs = async ({ search = "", location = "", lgbtq, page = 1, limit = 10 } = {}) => {
+export const getJobs = async ({
+  search = "",
+  location = "",
+  lgbtq,
+  page = 1,
+  limit = 100,
+} = {}) => {
   const params = new URLSearchParams();
-  if (search) params.append("search", search);
-  if (location) params.append("location", location);
-  if (lgbtq === true || lgbtq === false) params.append("lgbtq", lgbtq);
+
+  // Always add search parameter (even if empty)
+  params.append("search", search);
+
+  // Always add location parameter (even if empty)
+  params.append("location", location);
+
+  // Add lgbtq parameter if it's defined (true/false)
+  if (lgbtq !== undefined) {
+    params.append("lgbtq", lgbtq);
+  }
+
+  // Always add page and limit
   params.append("page", page);
   params.append("limit", limit);
-  const res = await axios.get(`/search/job?${params.toString()}`);
+
+  const url = `/search/job?${params.toString()}`;
+ // console.log("API Call URL:", url);
+
+  const res = await axios.get(url);
+ // console.log("API Response:", res.data);
   return res.data;
 };
 
@@ -52,5 +73,22 @@ export const getAppliedJobs = async ({ userId, page = 1, limit = 10 }) => {
 
 export const applyJob = async (data) => {
   const res = await axios.post("/apply/job", data);
+  return res.data;
+};
+
+export const updateJobStatus = async ({ jobId, status }) => {
+ // console.log("updateJobStatus API called with:", { jobId, status }); // Debug log
+  const res = await axios.put(`/update/job?jobId=${jobId}`, { status });
+ // console.log("updateJobStatus API response:", res.data); // Debug log
+  return res.data;
+};
+
+export const updateApplicationStatus = async ({ userId, jobId, status }) => {
+  const res = await axios.post("/update-applied-job", { userId, jobId, status });
+  return res.data;
+};
+
+export const getSingleJob = async (jobId) => {
+  const res = await axios.get(`/get/single/job?id=${jobId}`);
   return res.data;
 };

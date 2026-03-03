@@ -1,7 +1,9 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-const SkillsInput = ({ onSkillsChange, initialSkills = [] }) => {
+const SkillsInput = ({ onSkillsChange, initialSkills = [], placeholder = "" }) => {
+  const t = useTranslations("CreateJobForm");
   const [skills, setSkills] = useState(initialSkills);
   const [skillInput, setSkillInput] = useState("");
   const [error, setError] = useState("");
@@ -11,7 +13,7 @@ const SkillsInput = ({ onSkillsChange, initialSkills = [] }) => {
     if (trimmedSkill) {
       // Check for duplicate skill (case insensitive)
       if (skills.some((skill) => skill.toLowerCase() === trimmedSkill.toLowerCase())) {
-        setError("This skill has already been added");
+        setError(t("skillsStep.duplicateError"));
         return;
       }
       const newSkills = [...skills, trimmedSkill];
@@ -47,13 +49,13 @@ const SkillsInput = ({ onSkillsChange, initialSkills = [] }) => {
               setError("");
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Enter a skill"
+            placeholder={placeholder || t("skillsStep.skillPlaceholder")}
             className="border-lightGray/75 focus:ring-primary hover:border-primary hover:bg-primary/5 active:bg-primary/10 w-full rounded border p-2 transition-all duration-200 ease-in-out focus:border-transparent focus:ring-1 focus:outline-none"
           />
           {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
         </div>
         <button type="button" onClick={handleAddSkill} className="btn-small h-[42px]">
-          Add
+          {t("skillsStep.addButton")}
         </button>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">

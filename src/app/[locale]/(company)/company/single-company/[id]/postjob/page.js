@@ -5,7 +5,7 @@ import CreateJobTabMenu from "../../../../../../../components/createJob/CreateJo
 const page = () => {
   return (
     <div className="py-5">
-        <CreateJobTabMenu />
+      <CreateJobTabMenu />
     </div>
   );
 };

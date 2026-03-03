@@ -2,10 +2,12 @@ import RichTextEditor from "@/common/RichTextEditor";
 import ReusableForm from "@/components/form/ReusableForm";
 import SkillsInput from "@/components/form/SkillsInput";
 import useSkillsValidation from "@/hooks/validation/job/useSkillsValidation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect } from "react";
 
 const AddSkillsTab = ({ formData, onChange, errors: parentErrors, onNext, onBack }) => {
   const { errors, setErrors, validateForm, clearError } = useSkillsValidation();
+  const t = useTranslations("CreateJobForm");
 
   // Merge parent errors with local errors for display
   useEffect(() => {
@@ -51,13 +53,13 @@ const AddSkillsTab = ({ formData, onChange, errors: parentErrors, onNext, onBack
 
   return (
     <ReusableForm
-      title={"Responsibilities & Skills"}
+      title={t("skillsStep.title")}
       maxWidth="max-w-[698px]"
-      subtitle={"Fill in the details below and find the right candidate."}
+      subtitle={t("common.subtitle")}
     >
       <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
         <div>
-          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">Responsibilities</div>
+          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">{t("skillsStep.responsibilitiesLabel")}</div>
           <RichTextEditor
             defaultValue={formData.responsibilities}
             onChange={handleContentChange}
@@ -70,17 +72,17 @@ const AddSkillsTab = ({ formData, onChange, errors: parentErrors, onNext, onBack
         </div>
 
         <div>
-          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">Skills</div>
+          <div className="text-grayBlueText ms-1 mb-1.5 text-sm">{t("skillsStep.skillsLabel")}</div>
           <SkillsInput onSkillsChange={handleSkillsChange} initialSkills={formData.skills} />
           {errors.skills && <p className="mt-1 text-sm text-red-500">{errors.skills}</p>}
         </div>
 
         <div className="flex gap-4.5">
           <button type="button" className="btn-white-fill" onClick={onBack}>
-            Back
+            {t("common.back")}
           </button>
           <button type="submit" className="btn-fill">
-            Next
+            {t("common.next")}
           </button>
         </div>
       </form>

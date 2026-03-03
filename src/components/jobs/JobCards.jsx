@@ -1,4 +1,5 @@
 "use client";
+import noPostImage from "@/assets/feed/no-post.svg";
 import Card from "@/common/card/Card";
 import ImageFallback from "@/common/shared/ImageFallback";
 import { useAllJobs } from "@/hooks/job/useGetJobs";
@@ -6,17 +7,24 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoClipboardOutline } from "react-icons/io5";
+import { Button, Modal } from "rsuite";
+import getImg from "../../lib/getImg";
 import { getRelativeTime } from "../../utils/dateUtils";
 import SingleJobDetail from "./SingleJobDetail";
-
 const JobCards = ({ filters }) => {
   const [page, setPage] = useState(1);
+  const [selectedJob, setSelectedJob] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
   const t = useTranslations("Jobs");
-  const isDefaultFilters = !filters.search && !filters.location && filters.lgbtq === true;
-
-  // Use standard pagination with the API
-  const searchParams = isDefaultFilters ? { page, limit: 10 } : { ...filters, page, limit: 10 };
+  const [isMobile, setIsMobile] = useState(false);
+  // Always use filters for search, with default values
+  const searchParams = {
+    search: filters.search || "",
+    location: filters.location || "",
+    lgbtq: filters.lgbtq !== undefined ? filters.lgbtq : true,
+    page: page,
+    limit: 100, // Increased limit to 100 as requested
+  };
 
   const { data, isLoading, error } = useAllJobs(searchParams);
   const jobs = data?.jobs || [];
@@ -24,9 +32,7 @@ const JobCards = ({ filters }) => {
   const isLastPage = data?.isLastPage || false;
   const totalPages = pagination?.totalPages || 0;
   const totalJobs = pagination?.total || 0;
-  console.log(jobs, "dsfsdjobss");
 
-  const [selectedJob, setSelectedJob] = useState(null);
 
   // Reset to page 1 and visibleCount when filters change
   useEffect(() => {
@@ -41,6 +47,7 @@ const JobCards = ({ filters }) => {
     }
   }, [jobs, selectedJob]);
 
+
   // Map API job data to UI job shape
   const mappedJobs = jobs.map((job) => ({
     _id: job._id,
@@ -49,7 +56,7 @@ const JobCards = ({ filters }) => {
     location: job.jobLocation || job.location || "-",
     tag: job.company?.isLGBTQFriendly ? t("lgbtqFriendly") : "",
     skills: job.requiredSkills || [],
-    company: job.company?.companyName || "-",
+    company: job.companyId?.companyName || "-",
     url: job.company?.website || "",
     logo: job.company?.logoUrl
       ? job.company.logoUrl.startsWith("http")
@@ -67,26 +74,35 @@ const JobCards = ({ filters }) => {
       ? Array.isArray(job.responsibilities)
         ? job.responsibilities
         : job.responsibilities
-            .replace(/<[^>]+>/g, "")
-            .split("\n")
-            .filter(Boolean)
+          .replace(/<[^>]+>/g, "")
+          .split("\n")
+          .filter(Boolean)
       : [],
     requiredSkills: job.requiredSkills
       ? Array.isArray(job.requiredSkills)
         ? job.requiredSkills
         : job.requiredSkills.split(",")
       : [],
+
     posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "-",
-    website: job?.company?.website,
+    website: job?.companyId?.website,
+    logoImage: job?.companyId?.logoUrl,
     _raw: job,
   }));
 
   // Auto-select the first job by default when jobs are loaded or changed
   useEffect(() => {
-    if (mappedJobs.length > 0 && !selectedJob) {
+    if (!isMobile && mappedJobs.length > 0 && !selectedJob) {
       setSelectedJob(mappedJobs[0]);
     }
-  }, [mappedJobs, selectedJob]);
+  }, [mappedJobs, selectedJob, isMobile]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (isLoading && page === 1) return <div>{t("loadingJobs")}</div>;
   if (error)
@@ -99,89 +115,122 @@ const JobCards = ({ filters }) => {
   return (
     <div className="flex w-full flex-col gap-1 md:flex-row">
       <div className="mb-4 w-full md:mb-0 md:w-[35%] md:pr-2">
-        <div className="flex flex-col gap-4">
-          <div className="mb-2 text-sm text-gray-500">
-            {totalJobs > 0 ? (
-              <p>
-                {t("Showing")} {jobs.length} {t("of")} {totalJobs} {t("jobs")}
-              </p>
-            ) : (
-              <p>{t("Nojobsfound")}</p>
-            )}
-          </div>
+        {/* <div className="flex flex-col gap-4"> */}
+        <div className="text-sm text-gray-500">{totalJobs === 0 && <p>{t("Nojobsfound")}</p>}</div>
 
-          {mappedJobs.length > 0 ? (
-            mappedJobs.slice(0, visibleCount).map((job, index) => (
-              <Card
-                key={`${job._id}-${index}`}
-                className={`w-full cursor-pointer border transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${
-                  selectedJob?._id === job._id ? "border-green-700 bg-green-200" : "border-gray-300"
-                }`}
-                onClick={() => setSelectedJob(job)}
-              >
-                <div className="p-4">
-                  <h3 className="mb-2 text-lg font-semibold text-gray-800">{job.title}</h3>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <IoClipboardOutline className="h-4 w-4" />
-                    {job.experience}
-                  </p>
-                  <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                    <HiOutlineLocationMarker className="h-4 w-4" />
-                    {job.location}
-                  </p>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
-                  <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
-                    <p>
-                      {t("Posted")} {getRelativeTime(job.posted)}
+        {mappedJobs.length > 0 ? (
+          mappedJobs.slice(0, visibleCount).map(
+            (job, index) => (
+              (
+                <Card
+                  key={`${job._id}-${index}`}
+                  className={`mb-3 w-full sm:w-full md:w-full xl:w-full cursor-pointer border-2 transition-all duration-200 hover:border-green-700 hover:bg-green-50 ${selectedJob?._id === job._id
+                    ? "border-green-700 bg-green-200"
+                    : "border-gray-300"
+                    }`}
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className="p-4">
+                    <h3 className="mb-2 truncate text-lg font-semibold text-gray-800">
+                      {job.title}
+                    </h3>
+                    <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                      <IoClipboardOutline className="h-4 w-4" />
+                      <span className="leading-relaxed break-words">{job.experience}</span>
                     </p>
-                  </div>
-                  <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
-                    <ImageFallback
-                      src={job.company.logoUrl}
-                      alt="logo"
-                      width={28}
-                      height={28}
-                      className="mt-1 rounded-md"
-                    />
-                    <div className="flex w-full flex-col">
-                      <div className="text-sm text-gray-500">
-                        {job.company || t("unknownCompany")}
-                      </div>
-                      <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF]">
-                        {job.website}
+                    <p className="mb-1 flex items-center gap-2 text-sm text-gray-600">
+                      <HiOutlineLocationMarker className="h-4 w-4" />
+                      <span className="leading-relaxed break-words">{job.location}</span>
+                    </p>
+                    <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">{job?.createdAt}</div>
+                    <div className="mb-2 flex gap-3 text-sm text-[#888DA8]">
+                      <p>
+                        {t("Posted")} {getRelativeTime(job.posted)}
+                      </p>
+                    </div>
+                    <div className="mt-3 flex items-start gap-2 border-t border-slate-200 pt-3">
+                      <ImageFallback
+                        src={job?.logoImage ? getImg(job.logoImage) : undefined}
+                        fallbackSrc={noPostImage}
+                        alt="logo"
+                        width={28}
+                        height={28}
+                        className="mt-1 rounded-md"
+                      />
+                      <div className="flex w-full flex-col">
+                        <div className="text-sm text-gray-500 leading-relaxed break-words">
+                          {job?.company || t("unknownCompany")}
+                        </div>
+                        <div className="w-full max-w-full text-[13px] break-all whitespace-normal text-[#007BFF] leading-relaxed">
+                          {job?.website}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-            ))
-          ) : (
-            <div>{t("noJobsMatchingCriteria")}</div>
-          )}
+                </Card>
+              )
+            )
+          )
+        ) : (
+          <div>{t("noJobsMatchingCriteria")}</div>
+        )}
 
-          {visibleCount < mappedJobs.length && (
+        {visibleCount < mappedJobs.length && (
+          <div className="mt-2 text-center md:text-left">
             <button
               className="mt-2 rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800"
               onClick={() => setVisibleCount((prev) => prev + 3)}
             >
               {t("loadMore")}
             </button>
-          )}
+          </div>
+        )}
 
-          {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
-            <div className="mt-2 text-center text-gray-500">
-              <p>{t("noMoreJobsToLoad")}</p>
-            </div>
-          )}
-        </div>
+        {visibleCount >= mappedJobs.length && mappedJobs.length > 0 && (
+          <div className="mt-2 text-center text-gray-500">
+            <p>{t("noMoreJobsToLoad")}</p>
+          </div>
+        )}
       </div>
+      {/* </div> */}
       {/* Right Column: Job Detail */}
-      {selectedJob && (
+      {!isMobile && selectedJob && (
         <div className="w-full md:w-[65%]">
           <div className="sticky top-12 px-2">
-            <SingleJobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
+            <SingleJobDetail
+              job={selectedJob}
+              logoImage={selectedJob?.logoImage}
+              onBack={() => setSelectedJob(null)}
+              searchFilters={filters}
+            />
           </div>
         </div>
+      )}
+
+      {/* Modal for mobile */}
+      {isMobile && selectedJob && (
+        <Modal
+          open={!!selectedJob}
+          onClose={() => setSelectedJob(null)}
+          size="lg"
+          backdrop="static"
+        >
+          <Modal.Header closeButton className="p-[15px]">
+          </Modal.Header>
+          <Modal.Body>
+            <SingleJobDetail
+              job={selectedJob}
+              logoImage={selectedJob?.logoImage}
+              onBack={() => setSelectedJob(null)}
+              searchFilters={filters}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="bg-[#1D2F38] text-white mt-1" onClick={() => setSelectedJob(null)}>
+              {t("modalClose")}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import InputField from "@/common/InputField";
 import useLogin from "@/hooks/auth/useLogin";
 import useSignInValidationForm from "@/hooks/validation/auth/useSingInValidationForm";
 import { Link } from "@/i18n/navigation";
+import { getChatSocket } from "@/utils/socket";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import PasswordField from "../form/PasswordField";
@@ -26,7 +27,19 @@ const LoginForm = () => {
     e.preventDefault();
     if (!validateForm(formData)) return;
     // Handle actual sign in
-    mutate(formData);
+    mutate(formData, {
+      onSuccess: (data) => {
+        try {
+          if (data?.success && data?.data?._id) {
+            const socket = getChatSocket(data.data._id);
+            socket?.connect?.();
+          }
+        } catch (err) {
+          // swallow socket init errors to not block login flow
+          console.error("Socket init after login failed", err);
+        }
+      },
+    });
   };
 
   return (
